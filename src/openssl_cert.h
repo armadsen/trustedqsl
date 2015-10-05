@@ -63,7 +63,9 @@ typedef struct {
 	int value_buf_size;
 } TQSL_X509_NAME_ITEM;
 
+#ifdef __cplusplus
 namespace tqsllib {
+#endif //__cplusplus
 
 typedef enum { ROOTCERT = 0, CACERT, USERCERT } certtype;
 
@@ -71,7 +73,9 @@ int tqsl_import_cert(const char *cert, certtype type, int(*cb)(int, const char *
 
 int tqsl_get_pem_serial(const char *pem, long *serial);
 
-}  // namespace tqsllib
+#ifdef __cplusplus
+}	// namespace tqsllib
+#endif //__cplusplus
 
 #if defined(LOTW_SERVER) || defined(OPENSSL_CERT_SOURCE)
 

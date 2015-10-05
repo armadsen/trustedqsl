@@ -43,7 +43,9 @@ using std::string;
 
 static bool checkCallSign(const string& call);
 
+#ifdef __cplusplus
 namespace tqsllib {
+#endif //__cplusplus
 
 class TQSL_CONVERTER {
  public:
@@ -161,7 +163,9 @@ inline void TQSL_CONVERTER::clearRec() {
 
 #define CAST_TQSL_CONVERTER(x) ((tqsllib::TQSL_CONVERTER *)(x))
 
+#ifdef __cplusplus
 }	// namespace tqsllib
+#endif //__cplusplus
 
 using tqsllib::TQSL_CONVERTER;
 

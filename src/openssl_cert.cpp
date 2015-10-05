@@ -321,7 +321,9 @@ tqsl_static_alloc(size_t size) {
 	return tqsl_static_buf;
 }
 
+#ifdef __cplusplus
 namespace tqsllib {
+#endif //__cplusplus
 
 int
 tqsl_import_cert(const char *data, certtype type, int(*cb)(int, const char *, void *), void *userdata) {
@@ -405,7 +407,9 @@ tqsl_get_pem_serial(const char *pem, long *serial) {
 	return 0;
 }
 
-} // namespace tqsllib
+#ifdef __cplusplus
+}	// namespace tqsllib
+#endif //__cplusplus
 
 /********** PUBLIC API FUNCTIONS ***********/
 

@@ -27,7 +27,9 @@ using std::string;
 using std::ostream;
 using std::map;
 
+#ifdef __cplusplus
 namespace tqsllib {
+#endif //__cplusplus
 
 pair<string, bool>
 XMLElement::getAttribute(const string& key) {
@@ -193,4 +195,6 @@ operator<< (ostream& stream, XMLElement& el) {
 	return stream;
 }
 
+#ifdef __cplusplus
 }	// namespace tqsllib
+#endif //__cplusplus

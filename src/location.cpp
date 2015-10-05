@@ -52,7 +52,9 @@ using std::ios;
 using std::endl;
 using std::exception;
 
+#ifdef __cplusplus
 namespace tqsllib {
+#endif //__cplusplus
 
 class TQSL_LOCATION_ITEM {
  public:
@@ -224,7 +226,9 @@ operator< (const Mode& o1, const Mode& o2) {
 	return m1_g < m2_g;
 }
 
+#ifdef __cplusplus
 }	// namespace tqsllib
+#endif //__cplusplus
 
 using tqsllib::XMLElement;
 using tqsllib::XMLElementList;

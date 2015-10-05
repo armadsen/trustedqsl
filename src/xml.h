@@ -24,7 +24,9 @@ using std::map;
 using std::multimap;
 using std::vector;
 
+#ifdef __cplusplus
 namespace tqsllib {
+#endif //__cplusplus
 
 class XMLElement;
 
@@ -183,6 +185,8 @@ XMLElement::getNextAttribute(string& key, string& attr) {
 
 ostream& operator<< (ostream& stream, XMLElement& el);
 
+#ifdef __cplusplus
 }	// namespace tqsllib
+#endif //__cplusplus
 
 #endif // __xml_h
