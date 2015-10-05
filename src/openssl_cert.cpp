@@ -4208,12 +4208,16 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 	char issuer[256];
 	char name[256];
 	char value[256];
+	char scratch_buf[256];
+	int scratch_len = sizeof scratch_buf-1;
 	FILE *out;
 	BIGNUM *bserial, *oldserial;
 	string subjid, msg, callsign;
 	TQSL_X509_NAME_ITEM item;
 	int len, rval;
 	tQSL_Date newExpires;
+	tQSL_Date newQSONotBeforeDate;
+	tQSL_Date newQSONotAfterDate;
 	string stype = "Unknown";
 	ASN1_TIME *tm;
 
@@ -4244,10 +4248,20 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 		tm = X509_get_notAfter(cert);
 		if (tm) {
 			tqsl_get_asn1_date(tm, &newExpires);
+			tqsl_get_cert_ext(cert, "QSONotBeforeDate", (unsigned char *)scratch_buf, &scratch_len, NULL);
+			tqsl_initDate(&newQSONotBeforeDate, scratch_buf);
+			tqsl_get_cert_ext(cert, "QSONotBeforeDate", (unsigned char *)scratch_buf, &scratch_len, NULL);
+			tqsl_initDate(&newQSONotBeforeDate, scratch_buf);
 		} else {
 			newExpires.year = 9999;
 			newExpires.month = 1;
 			newExpires.day = 1;
+			newQSONotBeforeDate.year = 9999;
+			newQSONotBeforeDate.month = 1;
+			newQSONotBeforeDate.day = 1;
+			newQSONotAfterDate.year = 9999;
+			newQSONotAfterDate.month = 1;
+			newQSONotAfterDate.day = 1;
 		}
 		if (tqsl_cert_get_subject_name_entry(cert, "commonName", &item))
 			subjid += string(" (") + value + ")";
@@ -4282,6 +4296,8 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 	if (sk != NULL) {
 		int i, n;
 		tQSL_Date expires;
+		tQSL_Date existingQSONotBeforeDate;
+		tQSL_Date existingQSONotAfterDate;
 		bserial = BN_new();
 		ASN1_INTEGER_to_BN(X509_get_serialNumber(cert), bserial);
 
@@ -4312,7 +4328,34 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 						/*
 						 * If it's another cert for 
 						 * this call, is it older?
+						 *
+						 * Added by AC7CF on 20NOV2010
+						 * Before this was checking to see if the new certificate
+						 * had an expiration date earlier than an existing installed
+						 * certificate with the same callsign.
+						 * The problem with this was that even if the new cert
+						 * to be installed had a different, non-overlapping QSO date range,
+						 * than the existing certificate, it wouldn't be installed if it had
+						 * been requested earlier.  Generally this wasn't such a problem, since
+						 * certificates requested earlier were generally installed earlier.
+						 * The problem showed up if you exported .p12 files for all certs
+						 * and transferred them to a new machine.  In that case,
+						 * if (by chance) you tried to import the earlier-requested certificate's
+						 * p12 file second, the import would fail.
+						 *
+						 * I fix this by checking to see if the QSONotBeforeDate (start date)
+						 * for the new cert is later than the QSONotAfterDate (end date)
+						 * for the existing cert or the QSONotAfterDate for the new cert
+						 * is earlier than the QSONotBeforeDate for the existing cert.
+						 * If either is true, it means the QSO dates for the certs
+						 * are different, and the new one should be imported even if
+						 * it expires earlier than some other installed cert with the same
+						 * callsign. 
+						 * 
+						 * (Longwinded, but put here otherwise I'll forget.)
 						 */
+						
+						// Get the expiration date for this (currently installed) cert
 						tm = X509_get_notAfter(x);
 						if (tm) {
 							tqsl_get_asn1_date(tm, &expires);
@@ -4321,7 +4364,40 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 							expires.month = 0;
 							expires.day = 0;
 						}
-						if (tqsl_compareDates(&newExpires, &expires) < 0) {
+						bool newExpiresEarlier=false;
+						// if newExpires is earlier than expires
+						newExpiresEarlier = (tqsl_compareDates(&newExpires, &expires) < 0);
+						if (newExpiresEarlier == false)
+					 {
+						 break;
+					 }
+						
+						// Now get the QSO dates for it
+						tqsl_get_cert_ext(x, "QSONotBeforeDate", (unsigned char *)scratch_buf, &scratch_len, NULL);
+						tqsl_initDate(&existingQSONotBeforeDate, scratch_buf);
+						tqsl_get_cert_ext(x, "QSONotBeforeDate", (unsigned char *)scratch_buf, &scratch_len, NULL);
+						tqsl_initDate(&existingQSONotBeforeDate, scratch_buf);
+						
+						bool shouldInstallAnyway=true;
+						bool newStartAfterExistingStart = tqsl_compareDates(&newQSONotBeforeDate, &existingQSONotBeforeDate) > 0;
+						bool newEndAfterExistingEnd = tqsl_compareDates(&newQSONotAfterDate, &existingQSONotAfterDate) > 0;
+						
+						// If qso date range for new cert is completely contained by existing
+						// one, then don't install the new one.
+						if ((newStartAfterExistingStart && !newEndAfterExistingEnd))
+					 {
+						 shouldInstallAnyway = false;
+					 }
+						
+						// If date ranges are identical, don't install the new one
+						if ((tqsl_compareDates(&newQSONotBeforeDate, &existingQSONotBeforeDate) == 0) &&
+							(tqsl_compareDates(&newQSONotAfterDate, &existingQSONotAfterDate) == 0))
+					 {
+						 shouldInstallAnyway = false;
+					 }
+						
+						if (newExpiresEarlier && !shouldInstallAnyway)
+						{
 							tQSL_Error = TQSL_CUSTOM_ERROR;
 							strncpy(tQSL_CustomError, "A newer certificate for this callsign is already installed",
 								sizeof tQSL_CustomError);
