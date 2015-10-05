@@ -109,6 +109,8 @@ DLLEXPORT int CALLCONVENTION tqsl_converterRollBack(tQSL_Converter convp);
   * the presumption is that we are "done" with these QSOs.
   */
 DLLEXPORT int CALLCONVENTION tqsl_converterCommit(tQSL_Converter convp);
+	
+#ifdef USE_DUPLICATES_DB
 
 /** Bulk read the duplicate DB records
   *
@@ -127,6 +129,8 @@ tqsl_getDuplicateRecords(tQSL_Converter convp, char *key, char *data, int keylen
   */
 DLLEXPORT int CALLCONVENTION
 tqsl_putDuplicateRecord(tQSL_Converter convp, const char *key, const char *data, int keylen);
+	
+#endif // USE_DUPLICATES_DB
 
 /** Set QSO date filtering in the converter.
   *

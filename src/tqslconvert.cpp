@@ -455,6 +455,9 @@ static int isalive(DB_ENV *env, pid_t pid, db_threadid_t tid, uint32_t flags) {
 }
 #endif // _WIN32
 
+		
+#ifdef USE_DUPLICATES_DB
+
 // Open the duplicates database
 
 static bool open_db(TQSL_CONVERTER *conv, bool readonly) {
@@ -779,6 +782,8 @@ static bool open_db(TQSL_CONVERTER *conv, bool readonly) {
 	}
 	return true;
 }
+		
+#endif // USE_DUPLICATES_DB
 
 DLLEXPORT const char* CALLCONVENTION
 tqsl_getConverterGABBI(tQSL_Converter convp) {
@@ -812,11 +817,13 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		tqsl_getCertificateSerialExt(conv->certs[conv->cert_idx], conv->serial, sizeof(conv->serial));
 		return tStation;
 	}
+#ifdef USE_DUPLICATES_DB
 	if (!conv->allow_dupes && !conv->seendb) {
 		if (!open_db(conv, false)) {	// If can't open dupes DB
 			return 0;
 		}
 	}
+#endif // USE_DUPLICATES_DB
 
 	TQSL_ADIF_GET_FIELD_ERROR stat;
 
@@ -1104,6 +1111,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		conv->cert_idx + conv->base_idx, signdata, sizeof(signdata));
 	if (grec) {
 		conv->rec_done = true;
+#ifdef USE_DUPLICATES_DB
 		if (!conv->allow_dupes) {
 			// Lookup uses signdata and cert serial number
 			DBT dbkey, dbdata;
@@ -1137,6 +1145,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 				return 0;
 			}
 		}
+#endif // USE_DUPLICATES_DB
 	}
 	return grec;
 }
@@ -1240,6 +1249,8 @@ tqsl_converterCommit(tQSL_Converter convp) {
 	return 0;
 }
 
+#ifdef USE_DUPLICATES_DB
+
 DLLEXPORT int CALLCONVENTION
 tqsl_getDuplicateRecords(tQSL_Converter convp, char *key, char *data, int keylen) {
 	TQSL_CONVERTER *conv;
@@ -1320,6 +1331,8 @@ tqsl_putDuplicateRecord(tQSL_Converter convp, const char *key, const char *data,
 	}
 	return 0;
 }
+		
+#endif // USE_DUPLICATES_DB
 
 static bool
 hasValidCallSignChars(const string& call) {
