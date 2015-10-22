@@ -357,6 +357,16 @@ tqsl_load_xml_config() {
 	// Get path to config.xml resource from bundle
 	CFBundleRef tqslBundle = CFBundleGetMainBundle();
 	CFURLRef configXMLURL = CFBundleCopyResourceURL(tqslBundle, CFSTR("config"), CFSTR("xml"), NULL);
+	if (!configXMLURL) {
+		// Search in all bundles
+		CFArrayRef allBundles = CFBundleGetAllBundles();
+		CFIndex numBundles = CFArrayGetCount(allBundles);
+		for (CFIndex i=0; i<numBundles; i++) {
+			CFBundleRef bundle = (CFBundleRef)CFArrayGetValueAtIndex(allBundles, i);
+			configXMLURL = CFBundleCopyResourceURL(bundle, CFSTR("config"), CFSTR("xml"), NULL);
+			if (configXMLURL) break;
+		}
+	}
 	if (configXMLURL) {
 		CFStringRef pathString = CFURLCopyFileSystemPath(configXMLURL, kCFURLPOSIXPathStyle);
 		CFRelease(configXMLURL);
