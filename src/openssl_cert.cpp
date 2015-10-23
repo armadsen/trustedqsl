@@ -4369,13 +4369,11 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 							expires.month = 0;
 							expires.day = 0;
 						}
-						bool newExpiresEarlier=false;
 						// if newExpires is earlier than expires
-						newExpiresEarlier = (tqsl_compareDates(&newExpires, &expires) < 0);
-						if (newExpiresEarlier == false)
-					 {
-						 break;
-					 }
+						bool newExpiresEarlier = (tqsl_compareDates(&newExpires, &expires) < 0);
+						if (newExpiresEarlier) {
+							break;
+						}
 						
 						// Now get the QSO dates for it
 						tqsl_get_cert_ext(x, "QSONotBeforeDate", (unsigned char *)scratch_buf, &scratch_len, NULL);
@@ -4389,20 +4387,17 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 						
 						// If qso date range for new cert is completely contained by existing
 						// one, then don't install the new one.
-						if ((newStartAfterExistingStart && !newEndAfterExistingEnd))
-					 {
-						 shouldInstallAnyway = false;
-					 }
+						if ((newStartAfterExistingStart && !newEndAfterExistingEnd)) {
+							shouldInstallAnyway = false;
+						}
 						
 						// If date ranges are identical, don't install the new one
 						if ((tqsl_compareDates(&newQSONotBeforeDate, &existingQSONotBeforeDate) == 0) &&
-							(tqsl_compareDates(&newQSONotAfterDate, &existingQSONotAfterDate) == 0))
-					 {
-						 shouldInstallAnyway = false;
-					 }
+							(tqsl_compareDates(&newQSONotAfterDate, &existingQSONotAfterDate) == 0)) {
+							shouldInstallAnyway = false;
+						}
 						
-						if (newExpiresEarlier && !shouldInstallAnyway)
-						{
+						if (newExpiresEarlier && !shouldInstallAnyway) {
 							tQSL_Error = TQSL_CUSTOM_ERROR;
 							strncpy(tQSL_CustomError, "A newer certificate for this callsign is already installed",
 								sizeof tQSL_CustomError);
