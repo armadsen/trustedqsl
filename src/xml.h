@@ -30,7 +30,7 @@ namespace tqsllib {
 
 class XMLElement;
 
-typedef multimap<string, XMLElement> XMLElementList;
+typedef multimap<string, XMLElement*> XMLElementList;
 typedef map<string, string> XMLElementAttributeList;
 
 /** Encapsulates an XML element
@@ -64,7 +64,7 @@ class XMLElement {
       */
 	pair<string, bool> getAttribute(const string& key);
 	/// Add an element to the list of contained subelements
-	XMLElementList::iterator addElement(const XMLElement& element);
+	XMLElementList::iterator addElement(XMLElement* element);
 	XMLElementAttributeList& getAttributeList() { return _attributes; }
 	XMLElementList& getElementList() { return _elements; }
 	/// Parse an XML file and add its element tree to this element
@@ -136,8 +136,8 @@ XMLElement::setAttribute(const string& key, const string& value) {
 }
 
 inline XMLElementList::iterator
-XMLElement::addElement(const XMLElement& element) {
-	XMLElementList::iterator it = _elements.insert(make_pair(element.getElementName(), element));
+XMLElement::addElement(XMLElement* element) {
+	XMLElementList::iterator it = _elements.insert(make_pair(element->getElementName(), element));
 	return it;
 }
 
@@ -160,9 +160,9 @@ inline bool
 XMLElement::getNextElement(XMLElement& element) {
 	if (_iter == _elements.end())
 		return false;
-	if (_iterByName && _iter->second.getElementName() != _iterName)
+	if (_iterByName && _iter->second->getElementName() != _iterName)
 		return false;
-	element = _iter->second;
+	element = *_iter->second;
 	++_iter;
 	return true;
 }

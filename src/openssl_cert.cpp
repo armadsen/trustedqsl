@@ -313,6 +313,8 @@ static tqsl_adifFieldDefinitions tqsl_cert_file_fields[] = {
 
 static unsigned char tqsl_static_buf[2001];
 
+static char ImportCall[256];
+
 static unsigned char *
 tqsl_static_alloc(size_t size) {
 	if (size > sizeof tqsl_static_buf)
@@ -352,16 +354,16 @@ tqsl_import_cert(const char *data, certtype type, int(*cb)(int, const char *, vo
 	 * reported via the callback (if any) but will not be fatal unless
 	 * the callback says so.
 	 */
-	tQSL_ImportCall[0] = '\0';
+	ImportCall[0] = '\0';
 	tQSL_ImportSerial = 0;
 	stat = (*(handler->func))(data, cert, cb, userdata);
 	X509_free(cert);
 	if (stat) {
+		if (tQSL_Error == TQSL_CERT_ERROR) {
+			return 1;
+		}
 		if (cb != NULL) {
 			stat = (*cb)(handler->type | TQSL_CERT_CB_RESULT | TQSL_CERT_CB_ERROR, tqsl_getErrorString_v(tQSL_Error), userdata);
-			if (handler->type == tqsllib::USERCERT) {
-				tQSL_ImportCall[0] = '\0';
-			}
 			if (stat) {
 				tqslTrace("tqsl_import_cert", "import error %d", tQSL_Error);
 				return 1;
@@ -373,7 +375,9 @@ tqsl_import_cert(const char *data, certtype type, int(*cb)(int, const char *, vo
 			tqslTrace("tqsl_import_cert", "import error %d", tQSL_Error);
 			return 1;
 		}
+		return stat;
 	}
+	strncpy(tQSL_ImportCall, ImportCall, sizeof tQSL_ImportCall);
 	return 0;
 }
 
@@ -837,9 +841,9 @@ tqsl_isCertificateSuperceded(tQSL_Cert cert, int *status) {
 		return 1;
 	}
 
+	*status = false;
 	int keyonly;
 	if (tqsl_getCertificateKeyOnly(cert, &keyonly) == 0 && keyonly) {
-		*status = false;
 		return 0;
 	}
 
@@ -850,7 +854,6 @@ tqsl_isCertificateSuperceded(tQSL_Cert cert, int *status) {
 		tqslTrace("tqsl_isCertificateSuperceded", "returning true");
 		return 0;
 	}
-	*status = false;
 	/* Get the certs from the cert store */
 	tqsl_make_cert_path("user", path, sizeof path);
 	if (xcerts == NULL)
@@ -2592,6 +2595,9 @@ tqsl_importPKCS12(bool importB64, const char *filename, const char *base64, cons
 		return 1;
 	}
 
+	tQSL_ImportCall[0] = '\0';
+	tQSL_ImportSerial = 0;
+	ImportCall[0] = '\0';
 	tQSL_Error = TQSL_OPENSSL_ERROR;
 
 	/* Read in the PKCS#12 file */
@@ -2899,19 +2905,24 @@ tqsl_importPKCS12(bool importB64, const char *filename, const char *base64, cons
 		goto imp_end;
 	}
 	for (it = rootcerts.begin(); it != rootcerts.end(); it++) {
-		if (tqsl_import_cert(it->pem.c_str(), tqsllib::ROOTCERT, cb, userdata)) {
+		if (tqsl_import_cert(it->pem.c_str(), tqsllib::ROOTCERT, cb, userdata) && tQSL_Error != TQSL_CERT_ERROR) {
 			tqslTrace("tqsl_importPKCS12", "import root cert error %d", tQSL_Error);
 			goto imp_end;
 		}
 	}
 	for (it = cacerts.begin(); it != cacerts.end(); it++) {
-		if (tqsl_import_cert(it->pem.c_str(), tqsllib::CACERT, cb, userdata)) {
+		if (tqsl_import_cert(it->pem.c_str(), tqsllib::CACERT, cb, userdata) && tQSL_Error != TQSL_CERT_ERROR) {
 			tqslTrace("tqsl_importPKCS12", "import ca cert error %d", tQSL_Error);
 			goto imp_end;
 		}
 	}
-	for (it = usercerts.begin(); it != usercerts.end(); it++)
+	rval = 0;	// Assume no errors
+	for (it = usercerts.begin(); it != usercerts.end(); it++) {
 		if (tqsl_import_cert(it->pem.c_str(), tqsllib::USERCERT, cb, userdata)) {
+			if (tQSL_Error == TQSL_CERT_ERROR) {
+				rval = 1;		// Remember failure to import
+				continue;
+			}
 			char savepath[1024], badpath[1024];
 			strncpy(badpath, path, sizeof(badpath));
 			strncat(badpath, ".bad", sizeof(badpath)-strlen(badpath)-1);
@@ -2949,9 +2960,16 @@ tqsl_importPKCS12(bool importB64, const char *filename, const char *base64, cons
 			}
 			goto imp_end;
 		}
+	}
 
-	tQSL_Error = TQSL_NO_ERROR;
-	rval = 0;
+	if (rval == 0) {
+		tQSL_Error = TQSL_NO_ERROR;
+		strncpy(tQSL_ImportCall, ImportCall, sizeof tQSL_ImportCall);
+	} else {
+		if (tQSL_Error == 0) {
+			tQSL_Error = TQSL_CERT_ERROR;
+		}
+	}
  imp_end:
 	if (p12)
 		PKCS12_free(p12);
@@ -3339,18 +3357,18 @@ tqsl_restoreCallsignCertificate(const char *callsign) {
 	for (ep = ellist.find("UserCert"); ep != ellist.end(); ep++) {
 		if (ep->first != "UserCert")
 			break;
-		pair<string, bool> rval = ep->second.getAttribute("CallSign");
+		pair<string, bool> rval = ep->second->getAttribute("CallSign");
 		if (rval.second) call = rval.first;
-		rval = ep->second.getAttribute("serial");
+		rval = ep->second->getAttribute("serial");
 		if (rval.second) serial = strtol(rval.first.c_str(), NULL, 10);
-		rval = ep->second.getAttribute("dxcc");
+		rval = ep->second->getAttribute("dxcc");
 		if (rval.second) dxcc = strtol(rval.first.c_str(), NULL, 10);
 
 		XMLElement el;
-		if (ep->second.getFirstElement("SignedCert", el)) {
+		if (ep->second->getFirstElement("SignedCert", el)) {
 			publicKey = el.getText();
 		}
-		if (ep->second.getFirstElement("PrivateKey", el)) {
+		if (ep->second->getFirstElement("PrivateKey", el)) {
 			privateKey = el.getText();
 		}
 	}
@@ -4247,7 +4265,7 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 	if (tqsl_cert_get_subject_name_entry(cert, "AROcallsign", &item)) {
 		// Subject contains a call sign (probably a user cert)
 		callsign = value;
-		strncpy(tQSL_ImportCall, callsign.c_str(), sizeof(tQSL_ImportCall));
+		strncpy(ImportCall, callsign.c_str(), sizeof(tQSL_ImportCall));
 		tQSL_ImportSerial = ASN1_INTEGER_get(X509_get_serialNumber(cert));
 		subjid = string("  ") + value;
 		tm = X509_get_notAfter(cert);
@@ -4293,7 +4311,6 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 	if ((sk = tqsl_ssl_load_certs_from_file(path)) == NULL) {
 		if (!tqsl_ssl_error_is_nofile()) {
 			tqslTrace("tqsl_store_cert", "unexpected openssl err %s", tqsl_openssl_error());
-			tQSL_ImportCall[0] = '\0';
 			return 1;	/* Unexpected OpenSSL error */
 		}
 	}
@@ -4404,7 +4421,6 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 							tqslTrace("tqsl_load_cert", tQSL_CustomError);
 							BN_free(bserial);
 							sk_X509_free(sk);
-							tQSL_ImportCall[0] = '\0';
 							return 1;
 						}
 					}
@@ -4424,11 +4440,13 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 					strncpy(tQSL_CustomError, "Duplicate Callsign certificate",
 						sizeof tQSL_CustomError);
 					tqslTrace("tqsl_load_cert", tQSL_CustomError);
-					tQSL_ImportCall[0] = '\0';
 					return 1;
 				}
 			}
-			return 0;
+			if (tQSL_Error == 0) {
+				tQSL_Error = TQSL_CERT_ERROR;
+			}
+			return 1;
 		}
 	}
 	/* Cert is not a duplicate. Append it to the certificate file */
@@ -4440,7 +4458,6 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 		if (rval) {
 			tqslTrace("tqsl_load_cert", "operator aborted");
 			tQSL_Error = TQSL_OPERATOR_ABORT;
-			tQSL_ImportCall[0] = '\0';
 			return 1;
 		}
 	}
@@ -4455,7 +4472,6 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 		tQSL_Error = TQSL_SYSTEM_ERROR;
 		tQSL_Errno = errno;
 		tqslTrace("tqsl_load_cert", "opening file err %s", strerror(errno));
-		tQSL_ImportCall[0] = '\0';
 		return 1;
 	}
 #ifdef _WIN32
@@ -4467,7 +4483,6 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 		tQSL_Error = TQSL_SYSTEM_ERROR;
 		tQSL_Errno = errno;
 		tqslTrace("tqsl_load_cert", "writing file err %s", strerror(errno));
-		tQSL_ImportCall[0] = '\0';
 		return 1;
 	}
 	if (fclose(out) == EOF) {
@@ -4475,7 +4490,6 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 		tQSL_Error = TQSL_SYSTEM_ERROR;
 		tQSL_Errno = errno;
 		tqslTrace("tqsl_load_cert", "writing file err %s", strerror(errno));
-		tQSL_ImportCall[0] = '\0';
 		return 1;
 	}
 	msg = "Loaded: " + subjid;
@@ -4485,9 +4499,9 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 		rval = 0;
 	if (rval) {
 		tQSL_Error = TQSL_OPERATOR_ABORT;
-		tQSL_ImportCall[0] = '\0';
 		return 1;
 	}
+	strncpy(tQSL_ImportCall, ImportCall, sizeof tQSL_ImportCall);
 	return 0;
 }
 
@@ -4814,7 +4828,7 @@ tqsl_find_matching_key(X509 *cert, EVP_PKEY **keyp, TQSL_CERT_REQ **crq, const c
 		tqslTrace("tqsl_find_matching_key", "key path err %d", tQSL_Error);
 		goto end_nokey;
 	}
-	strncpy(tQSL_ImportCall, aro, sizeof tQSL_ImportCall);
+	strncpy(ImportCall, aro, sizeof ImportCall);
 	if (tqsl_open_key_file(path)) {
 		/* Friendly error for file not found */
 		if (tQSL_Error == TQSL_SYSTEM_ERROR) {
@@ -4829,7 +4843,6 @@ tqsl_find_matching_key(X509 *cert, EVP_PKEY **keyp, TQSL_CERT_REQ **crq, const c
 			tQSL_Error = TQSL_CUSTOM_ERROR;
 			tqslTrace("tqsl_find_matching_key", "opening file path err %s", tQSL_CustomError);
 		}
-		tQSL_ImportCall[0] = '\0';
 		return rval;
 	}
 	if ((cert_key = X509_get_pubkey(cert)) == NULL) {
@@ -4854,6 +4867,7 @@ tqsl_find_matching_key(X509 *cert, EVP_PKEY **keyp, TQSL_CERT_REQ **crq, const c
 		}
 		BIO_free(bio);
 		bio = NULL;
+		tqslTrace("tqsl_find_matching_key", "Matching pkey %ld/%ld with cert %ld/%ld", rsa->n, rsa->e, cert_key->pkey.rsa->n, cert_key->pkey.rsa->e);
 		if (BN_cmp(rsa->n, cert_key->pkey.rsa->n) == 0)
 			if (BN_cmp(rsa->e, cert_key->pkey.rsa->e) == 0)
 				match = 1;
@@ -4888,10 +4902,10 @@ tqsl_find_matching_key(X509 *cert, EVP_PKEY **keyp, TQSL_CERT_REQ **crq, const c
 			break;
 		}
 	}
+	tqslTrace("tqsl_find_matching_key", "No matching private key found");
 	tQSL_Error = TQSL_CERT_NOT_FOUND;
 	goto end;
  err:
-	tQSL_ImportCall[0] = '\0';
 	tQSL_Error = TQSL_OPENSSL_ERROR;
  end:
 	tqsl_close_key_file();
@@ -4906,6 +4920,9 @@ tqsl_find_matching_key(X509 *cert, EVP_PKEY **keyp, TQSL_CERT_REQ **crq, const c
 		EVP_PKEY_free(cert_key);
 //	if (in != NULL)
 //		fclose(in);
+	if (rval == 0) {
+		strncpy(tQSL_ImportCall, ImportCall, sizeof tQSL_ImportCall);
+	}
 	return rval;
 }
 
@@ -5268,23 +5285,23 @@ tqsl_setCertificateStatus(long serial, const char *status) {
 	for (ep = ellist.find("Cert"); ep != ellist.end(); ep++) {
 		if (ep->first != "Cert")
 			break;
-		pair<string, bool> rval = ep->second.getAttribute("serial");
+		pair<string, bool> rval = ep->second->getAttribute("serial");
 		if (rval.second && strtol(rval.first.c_str(), NULL, 10) == serial) {
 			exists = true;
 			break;
 		}
 	}
 
-	XMLElement cs("Cert");
-	cs.setPretext("\n  ");
-	XMLElement se;
-	se.setPretext(cs.getPretext() + "  ");
-	se.setElementName("status");
-	se.setText(status);
-	cs.addElement(se);
+	XMLElement *cs = new XMLElement("Cert");
+	cs->setPretext("\n  ");
+	XMLElement *se = new XMLElement;
+	se->setPretext(cs->getPretext() + "  ");
+	se->setElementName("status");
+	se->setText(status);
+	cs->addElement(se);
 
-	cs.setAttribute("serial", sstr);
-	cs.setText("\n  ");
+	cs->setAttribute("serial", sstr);
+	cs->setText("\n  ");
 
 	if (exists)
 		ellist.erase(ep);

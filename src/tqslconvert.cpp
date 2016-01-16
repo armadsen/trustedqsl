@@ -468,6 +468,7 @@ static bool open_db(TQSL_CONVERTER *conv, bool readonly) {
 	bool dbinit_cleanup = false;
 	int dbret;
 	bool triedRemove = false;
+	bool triedDelete = false;
 	int envflags = DB_INIT_TXN|DB_INIT_LOG|DB_INIT_MPOOL|DB_RECOVER|DB_REGISTER|DB_CREATE;
 	string fixedpath = tQSL_BaseDir; //must be first because of gotos
 	size_t found = fixedpath.find('\\');
@@ -578,12 +579,14 @@ static bool open_db(TQSL_CONVERTER *conv, bool readonly) {
 			if (conv->errfile) {
 				fprintf(conv->errfile, "Retry attempt after removing the environment failed.\n");
 			}
-			if (dbret == EINVAL || db_errno == EINVAL) {  // Something really wrong with the DB
-						// Remove it and try again.
+			// EINVAL means that the database is corrupted to the point
+			// where it can't be opened. Remove it and try again.
+			if ((dbret == EINVAL || db_errno == EINVAL) && !triedDelete) {
 				tqslTrace("open_db", "EINVAL. Removing db");
 				conv->dbenv->close(conv->dbenv, 0);
 				conv->dbenv = NULL;
 				remove_db(fixedpath.c_str());
+				triedDelete = true;
 				continue;
 			}
 
@@ -659,6 +662,9 @@ static bool open_db(TQSL_CONVERTER *conv, bool readonly) {
 			goto dbinit_end;
 		}
 		if (!conv->cursor) {
+#ifndef DB_CURSOR_BULK
+#define DB_CURSOR_BULK 0
+#endif
 			int err = conv->seendb->cursor(conv->seendb, conv->txn, &conv->cursor, DB_CURSOR_BULK);
 			if (err) {
 				strncpy(tQSL_CustomError, db_strerror(err), sizeof tQSL_CustomError);
@@ -761,6 +767,7 @@ static bool open_db(TQSL_CONVERTER *conv, bool readonly) {
 
  dbinit_end:
 	if (dbinit_cleanup) {
+		tqslTrace("open_db", "DB open failed, triedDelete=%d", triedDelete);
 		tQSL_Error = TQSL_DB_ERROR;
 		tQSL_Errno = errno;
 		strncpy(tQSL_CustomError, db_strerror(dbret), sizeof tQSL_CustomError);
@@ -782,6 +789,13 @@ static bool open_db(TQSL_CONVERTER *conv, bool readonly) {
 		conv->cursor = NULL;
 		conv->seendb = NULL;
 		conv->errfile = NULL;
+		// Handle case where the database is just broken
+		if (dbret == EINVAL && !triedDelete) {
+			tqslTrace("open_db", "EINVAL. Removing db");
+			remove_db(fixedpath.c_str());
+			triedDelete = true;
+			goto reopen;
+		}
 		return false;
 	}
 	return true;
@@ -1019,13 +1033,23 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 	tqsl_strtoupper(conv->rec.mode);
 	tqsl_strtoupper(conv->rec.submode);
 	char val[256] = "";
-	// Try the submode (if it's set), then the mode.
+	// Try to find the GABBI mode several ways.
+	val[0] = '\0';
 	if (conv->rec.submode[0] != '\0') {
-		tqsl_getADIFMode(conv->rec.submode, val, sizeof val);
-		if (val[0] == '\0') {
-			tqsl_getADIFMode(conv->rec.mode, val, sizeof val);
+		char modeSub[256];
+		strncpy(modeSub, conv->rec.mode, sizeof modeSub);
+		size_t left = sizeof modeSub - strlen(modeSub);
+		strncat(modeSub, "%", left);
+		left = sizeof modeSub - strlen(modeSub);
+		strncat(modeSub, conv->rec.submode, left);
+		if (tqsl_getADIFMode(modeSub, val, sizeof val)) {	// mode%submode lookup failed
+			// Try just the submode, then the mode.
+			if (tqsl_getADIFMode(conv->rec.submode, val, sizeof val)) { // bare submode failed
+				tqsl_getADIFMode(conv->rec.mode, val, sizeof val);
+			}
 		}
 	} else {
+		// Just a mode, no submode. Look that up.
 		tqsl_getADIFMode(conv->rec.mode, val, sizeof val);
 	}
 	if (val[0] != '\0')

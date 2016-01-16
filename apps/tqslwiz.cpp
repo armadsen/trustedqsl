@@ -135,7 +135,6 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 			continue;
 		if (in_type == TQSL_LOCATION_FIELD_DDLIST || in_type == TQSL_LOCATION_FIELD_LIST) {
 			// Update this list
-			int text_width = 0;
 			char gabbi_name[40];
 			tqsl_getLocationFieldDataGABBI(loc, i, gabbi_name, sizeof gabbi_name);
 			int selected;
@@ -152,14 +151,8 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 			int nitems;
 			tqsl_getNumLocationFieldListItems(loc, i, &nitems);
 			for (int j = 0; j < nitems && j < 2000; j++) {
-				char item[80];
+				char item[200];
 				tqsl_getLocationFieldListItem(loc, i, j, item, sizeof(item));
-				/* For Alaska counties, it's pseudo-county name
-				 * followed by a '|' then the real county name.
-			 	 */
-				char *p = strchr(item, '|');
-				if (p)
-					*p = '\0';
 				// Translate the first [None] entry if it exists
 #ifdef tqsltranslate
 				__("[None]");
@@ -170,23 +163,12 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 				if (j == 0)
 					item_text = wxGetTranslation(item_text);
 				(reinterpret_cast<wxComboBox *>(controls[i]))->Append(item_text);
-				wxCoord w, h;
-				(reinterpret_cast<wxComboBox *>(controls[i]))->GetTextExtent(item_text, &w, &h);
-				if (w > text_width)
-					text_width = w;
-			}
-			if (text_width > 0) {
-				int w, h;
-				(reinterpret_cast<wxComboBox *>(controls[i]))->GetSize(&w, &h);
-				(reinterpret_cast<wxComboBox *>(controls[i]))->SetSize(text_width + text_size.GetWidth()*4, h);
 			}
 			if (noupdate_field < 0 && !defaulted)
 				new_sel = selected;
 			if (nitems > new_sel)
 				(reinterpret_cast<wxComboBox *>(controls[i]))->SetSelection(new_sel);
 			tqsl_setLocationFieldIndex(loc, i, new_sel);
-			if (noupdate_field >= 0)
-				tqsl_updateStationLocationCapture(loc);
 			if (nitems > new_sel)
 				(reinterpret_cast<wxComboBox *>(controls[i]))->SetSelection(new_sel);
 			(reinterpret_cast<wxComboBox *>(controls[i]))->Enable(nitems > 1);
@@ -216,6 +198,8 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 			(reinterpret_cast<wxStaticText *>(controls[i]))->SetLabel(valMsg);
 		}
 	}
+	if (noupdate_field >= 0)
+		tqsl_updateStationLocationCapture(loc);
 }
 
 void
@@ -246,7 +230,7 @@ TQSLWizCertPage::TQSLWizCertPage(TQSLWizard *parent, tQSL_Location locp)
 	initialized = false;
 	errlbl = NULL;
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-	int control_width = getTextSize(this).GetWidth() * 20;
+	int control_width = getTextSize(this).GetWidth() * 40;
 
 	valMsg = wxT("");
 	tqsl_getStationLocationCapturePage(loc, &loc_page);
@@ -500,7 +484,7 @@ TQSLWizFinalPage::TQSLWizFinalPage(TQSLWizard *parent, tQSL_Location locp, TQSLW
 	errlbl = NULL;
 	valMsg = wxT("");
 	wxSize text_size = getTextSize(this);
-	int control_width = text_size.GetWidth()*30;
+	int control_width = text_size.GetWidth()*40;
 
 	int y = text_size.GetHeight();
 	sizer = new wxBoxSizer(wxVERTICAL);

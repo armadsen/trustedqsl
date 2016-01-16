@@ -1766,8 +1766,10 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 	bool allow_dupes = false;
 	bool restarting = false;
 	bool ignore_err = false;
+	bool show_dupes = false;
 
 	wxConfig *config = reinterpret_cast<wxConfig *>(wxConfig::Get());
+	config->Read(wxT("DispDupes"), &show_dupes, DEFAULT_DISP_DUPES);
 
 	try {
 		if (defcall) {
@@ -2022,14 +2024,18 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 				continue;
 			}
 			if (tQSL_Error == TQSL_DUPLICATE_QSO) {
-				processed++;
 				duplicates++;
-				continue;
+				if (!show_dupes) {
+					processed++;
+					continue;
+				}
 			}
 			bool has_error = (tQSL_Error != TQSL_NO_ERROR);
 			if (has_error) {
 				processed++;
-				errors++;
+				if (tQSL_Error != TQSL_DUPLICATE_QSO) {
+					errors++;
+				}
 				try {
 					check_tqsl_error(1);
 				} catch(TQSLException& x) {
@@ -2435,7 +2441,7 @@ int MyFrame::UploadLogFile(tQSL_Location loc, const wxString& infile, bool compr
 		string compressed;
 		size_t compressedSize = compressToBuf(compressed, (const char*)signedOutput.ToUTF8());
 		//ofstream f; f.open("testzip.tq8", ios::binary); f<<compressed; f.close(); //test of compression routine
-		if (compressedSize < 0) {
+		if (compressedSize == 0) {
 			wxLogMessage(_("Error compressing before upload"));
 			return TQSL_EXIT_TQSL_ERROR;
 		}
@@ -3428,7 +3434,7 @@ MyFrame::OnUpdateCheckDone(wxCommandEvent& event) {
 // The macro for declaring a hash map defines a couple of typedefs
 // that it never uses. Current GCC warns about those. The pragma
 // below suppresses those warnings for those.
-#if !defined(__APPLE__) && !defined(_WIN32)
+#if !defined(__APPLE__) && !defined(_WIN32) && !defined(__clang__)
 	#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #endif
 void
@@ -3632,7 +3638,7 @@ MyFrame::DoCheckForUpdates(bool silent, bool noGUI) {
 		DoCheckExpiringCerts(noGUI);
 	return;
 }
-#if !defined(__APPLE__) && !defined(_WIN32)
+#if !defined(__APPLE__) && !defined(_WIN32) && !defined(__clang__)
 	#pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #endif
 
@@ -4199,12 +4205,16 @@ restore_user_cert(TQSLConfig* loader) {
 
 void
 restore_root_cert(TQSLConfig* loader) {
-	check_tqsl_error(tqsl_importKeyPairEncoded(NULL, "root", NULL, loader->signedCert.ToUTF8()));
+	int rval = tqsl_importKeyPairEncoded(NULL, "root", NULL, loader->signedCert.ToUTF8());
+	if (rval && tQSL_Error != TQSL_CERT_ERROR)
+		check_tqsl_error(rval);
 }
 
 void
 restore_ca_cert(TQSLConfig* loader) {
-	check_tqsl_error(tqsl_importKeyPairEncoded(NULL, "authorities", NULL, loader->signedCert.ToUTF8()));
+	int rval = tqsl_importKeyPairEncoded(NULL, "authorities", NULL, loader->signedCert.ToUTF8());
+	if (rval && tQSL_Error != TQSL_CERT_ERROR)
+		check_tqsl_error(rval);
 }
 
 void
@@ -4297,18 +4307,19 @@ TQSLConfig::xml_restore_start(void *data, const XML_Char *name, const XML_Char *
 		loader->locstring = wxT("<StationDataFile>\n");
 	} else if (strcmp(name, "Location") == 0) {
 		for (i = 0; atts[i]; i+=2) {
-			wxString attname = wxString::FromUTF8(atts[i+1]);
+			wxString attval = wxString::FromUTF8(atts[i+1]);
 			if (strcmp(atts[i], "name") == 0) {
 				tqslTrace("TQSLConfig::xml_restore_start", "Restoring location %s", atts[i+1]);
-				loader->locstring += wxT("<StationData name=\"") + urlEncode(attname) + wxT("\">\n");
+				loader->locstring += wxT("<StationData name=\"") + urlEncode(attval) + wxT("\">\n");
 				break;
 			}
 		}
 		for (i = 0; atts[i]; i+=2) {
-			wxString attname = wxString::FromUTF8(atts[i+1]);
+			wxString attname = wxString::FromUTF8(atts[i]);
+			wxString attval = wxString::FromUTF8(atts[i+1]);
 			if (strcmp(atts[i], "name") != 0) {
-				loader->locstring += wxT("<") + wxString::FromUTF8(atts[i]) + wxT(">") +
-					urlEncode(attname) + wxT("</") + wxString::FromUTF8(atts[i]) + wxT(">\n");
+				loader->locstring += wxT("<") + attname + wxT(">") +
+					urlEncode(attval) + wxT("</") + attname + wxT(">\n");
 			}
 		}
 	} else if (strcmp(name, "DupeDb") == 0) {
@@ -4676,7 +4687,13 @@ QSLApp::OnInit() {
 	for (int i = 1; i < argc; i++) {
 		origCommandLine += wxT(" ");
 		origCommandLine += argv[i];
-		if (argv[i] && (argv[i][0] == wxT('-') || argv[i][0] == wxT('/')))
+		// clang loves the following.
+		// it will complain that arvg[i] may be a null pointer refererence for some versions.
+		// it will complain that argv[i] can't be converted to a boolean for others.
+		// Well, if it's a pointer and it might be null but it's also not a pointer
+		// and can't be null, then it's not possible to compile this without warning.
+		// Warnings ahoy!
+		if (argv[i][0] == wxT('-') || argv[i][0] == wxT('/'))
 			if (wxIsalpha(argv[i][1]) && wxIsupper(argv[i][1]))
 				argv[i][1] = wxTolower(argv[i][1]);
 	}
@@ -4868,25 +4885,27 @@ QSLApp::OnInit() {
 
 	// Handle "-i" (import cert), or bare cert file on command line
 
-	bool certFile = false;
+	bool tq6File = false;
 	if (!wxIsEmpty(infile)) {
-		if (ext.CmpNoCase(wxT("tq6")) == 0 || ext.CmpNoCase(wxT("p12")) == 0) {
-			certFile = true;
+		if (ext.CmpNoCase(wxT("tq6")) == 0) {
+			tq6File = true;
 		}
 	}
 	if (parser.Found(wxT("i"), &infile) && (!wxIsEmpty(infile))) {
-		certFile = true;
+		tq6File = true;
 	}
 
-	if (certFile) {
+	if (tq6File) {
 		infile.Trim(true).Trim(false);
 		notifyData nd;
 		if (tqsl_importTQSLFile(infile.ToUTF8(), notifyImport, &nd)) {
-			wxLogError(getLocalizedErrorString());
+			if (tQSL_Error != TQSL_CERT_ERROR) {
+				wxLogError(getLocalizedErrorString());
+			}
 		} else {
 			wxLogMessage(nd.Message());
 			if (tQSL_ImportCall[0] != '\0') {
-				get_certlist(tQSL_ImportCall, 0, false, true, true);	// Get any superceded ones for this call
+				get_certlist(tQSL_ImportCall, 0, true, true, true);	// Get any expired/superceded ones for this call
 				for (int i = 0; i < ncerts; i++) {
 					long serial = 0;
 					int keyonly = false;
@@ -4898,6 +4917,9 @@ QSLApp::OnInit() {
 						continue;
 					}
 					if (tqsl_getCertificateSerial(certlist[i], &serial)) {
+						continue;
+					}
+					if (serial == tQSL_ImportSerial) {
 						continue;
 					}
 					// This is not the one we just imported
@@ -4932,9 +4954,12 @@ QSLApp::OnInit() {
 		return true;
 	}
 
+	bool editAdif = DEFAULT_ADIF_EDIT;
+	wxConfig::Get()->Read(wxT("AdifEdit"), &editAdif, DEFAULT_ADIF_EDIT);
+
 	// If it's an ADIF file, invoke the editor if that's the only argument
 	// unless we're running in batch mode
-	if (!quiet && !wxIsEmpty(infile) && (ext.CmpNoCase(wxT("adi")) || ext.CmpNoCase(wxT("adif")))) {
+	if (editAdif && !quiet && !wxIsEmpty(infile) && (ext.CmpNoCase(wxT("adi")) || ext.CmpNoCase(wxT("adif")))) {
 		QSORecordList recs;
 		loadQSOfile(infile, recs);
 		wxMessageBox(_("Warning: The TQSL ADIF editor only processes a limited number of ADIF fields.\n\nUsing the editor on an ADIF file can cause QSO details to be lost!"), _("Warning"), wxOK | wxICON_EXCLAMATION, frame);
@@ -5206,8 +5231,8 @@ void MyFrame::OnLoadCertificateFile(wxCommandEvent& WXUNUSED(event)) {
 	tqslTrace("MyFrame::OnLoadCertificateFile");
 	LoadCertWiz lcw(this, help, _("Load Certificate File"));
 	lcw.RunWizard();
-	if (tQSL_ImportCall[0] != '\0') {			// If a user cert was imported
-		get_certlist(tQSL_ImportCall, 0, false, true, true);	// Get any superceded ones for this call
+	if (tQSL_ImportCall[0] != '\0') {				// If a user cert was imported
+		get_certlist(tQSL_ImportCall, 0, true, true, true);	// Get any superceded ones for this call
 		for (int i = 0; i < ncerts; i++) {
 			long serial = 0;
 			int keyonly = false;
@@ -5219,6 +5244,9 @@ void MyFrame::OnLoadCertificateFile(wxCommandEvent& WXUNUSED(event)) {
 				continue;
 			}
 			if (tqsl_getCertificateSerial(certlist[i], &serial)) {
+				continue;
+			}
+			if (serial == tQSL_ImportSerial) {	// Don't delete the one we just imported
 				continue;
 			}
 			// This is not the one we just imported
@@ -5295,6 +5323,7 @@ void MyFrame::CRQWizardRenew(wxCommandEvent& event) {
 
 // Delete an abandoned/failed cert request
 static void deleteRequest(const char *callsign, int dxccEntity) {
+	int savedError = tQSL_Error;
 	free_certlist();
 	tqsl_selectCertificates(&certlist, &ncerts, callsign, dxccEntity, 0, 0, TQSL_SELECT_CERT_WITHKEYS);
 	int ko;
@@ -5303,9 +5332,11 @@ static void deleteRequest(const char *callsign, int dxccEntity) {
 			if (tqsl_deleteCertificate(certlist[i])) {
 				wxLogError(getLocalizedErrorString());
 			}
+			tQSL_Error = savedError;
 			return;
 		}
 	}
+	tQSL_Error = savedError;
 	return;
 }
 
@@ -5403,14 +5434,16 @@ void MyFrame::CRQWizard(wxCommandEvent& event) {
 					deleteRequest(req.callSign, req.dxccEntity);
 					return;
 				}
-				if (tqsl_beginSigning(req.signer, unipwd, NULL, call)) {
-					deleteRequest(req.callSign, req.dxccEntity);
+				// Try signing with the unicode version of the password
+				if (tqsl_beginSigning(req.signer, unipwd, NULL, call) == 0) {
+					// If OK, signing is ready to go.
 					break;
 				}
 				if (tQSL_Error != TQSL_PASSWORD_ERROR) {
-					wxLogError(getLocalizedErrorString());
 					deleteRequest(req.callSign, req.dxccEntity);
 					return;
+				} else {
+					wxLogError(getLocalizedErrorString());
 				}
 			}
 		}
@@ -6097,10 +6130,13 @@ LocPropDial::LocPropDial(wxString locname, wxWindow *parent)
 				 "IOTA", __("IOTA Locator: "),
 				 "US_STATE", __("State: "),
 				 "US_COUNTY", __("County: "),
+				 "US_PARK", __("Park: "),
 				 "CA_PROVINCE", __("Province: "),
+				 "CA_US_PARK", __("Park: "),
 				 "RU_OBLAST", __("Oblast: "),
 				 "CN_PROVINCE", __("Province: "),
-				 "AU_STATE", __("State: ") };
+				 "AU_STATE", __("State: "),
+				 "DX_US_PARK", __("Park: ") };
 
 	tQSL_Location loc;
 	try {
@@ -6129,7 +6165,7 @@ LocPropDial::LocPropDial(wxString locname, wxWindow *parent)
 	char fieldbuf[512];
 	for (int i = 0; i < static_cast<int>(sizeof fields / sizeof fields[0]); i+=2) {
 		if (tqsl_getStationLocationField(loc, fields[i], fieldbuf, sizeof fieldbuf) == 0) {
-			if (strlen(fieldbuf) > 0) {
+			if (strlen(fieldbuf) > 0 && strcmp(fieldbuf, "[None]") != 0) {
 				wxString lbl = wxGetTranslation(wxString::FromUTF8(fields[i+1]));
 				while(1) {
 					mst->SetLabel(lbl);

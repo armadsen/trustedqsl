@@ -1,10 +1,14 @@
 # Find Berkeley DB
 
 # Look for the header file.
-if(APPLE) #exclude obsolete default OSX db
+if(APPLE OR CMAKE_HOST_SYSTEM_NAME STREQUAL "FreeBSD") #exclude obsolete default db
 FIND_PATH(BDB_INCLUDE_DIR db.h NO_DEFAULT_PATH PATHS
   "/usr/local/BerkeleyDB.6.0/include"
   "/usr/local/BerkeleyDB.5.3/include"
+  "/usr/local/include/db6"
+  "/usr/local/include/db5"
+  "${BDB_PREFIX}/include/db6"
+  "${BDB_PREFIX}/include/db5"
   "${BDB_PREFIX}/include"
 ) 
 else()
@@ -15,6 +19,10 @@ FIND_PATH(BDB_INCLUDE_DIR db.h
   "C:\\db-6.0.20\\build_windows"
   "C:\\db-6.0.20\\build_windows"
   "C:\\db-5.3.21\\build_windows"
+  #*nix dirs
+  "${BDB_PREFIX}/include"
+  "${BDB_PREFIX}/include/db6"
+  "${BDB_PREFIX}/include/db5"
 )
 endif()
 MARK_AS_ADVANCED(BDB_INCLUDE_DIR)
@@ -31,9 +39,11 @@ FIND_LIBRARY(BDB_LIBRARY NAMES
   libdb6-0.3
   libdb6-0.so
   libdb_small53s
+  libdb5
   libdb53s
   libdb5-5.3
   libdb5-5.so
+  libdb5
   PATHS
   "C:\\db-6.1.26.NC\\build_windows\\Win32\\Static Release\\"
   "C:\\db-6.1.19.NC\\build_windows\\Win32\\Static Release\\"
@@ -44,7 +54,10 @@ FIND_LIBRARY(BDB_LIBRARY NAMES
   #OSX (and probably other unix) src build
   "/usr/local/BerkeleyDB.6.0/lib"
   "/usr/local/BerkeleyDB.5.3/lib"
+  "/usr/local/lib/db6"
   "${BDB_PREFIX}/lib"
+  "${BDB_PREFIX}/lib/db6"
+  "${BDB_PREFIX}/lib/db5"
   "${BDB_PREFIX}"
 )
 MARK_AS_ADVANCED(BDB_LIBRARY)
