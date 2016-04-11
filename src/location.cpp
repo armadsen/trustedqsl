@@ -127,6 +127,8 @@ class TQSL_LOCATION {
 	TQSL_LOCATION_PAGELIST pagelist;
 	vector<TQSL_NAME> names;
 	string signdata;
+	string loc_details;
+	string qso_details;
 	bool sign_clean;
 	string tSTATION;
 	string tCONTACT;
@@ -529,6 +531,7 @@ make_sign_data(TQSL_LOCATION *loc) {
 	tqsl_setStationLocationCapturePage(loc, old_page);
 
 	loc->signdata = "";
+	loc->loc_details = "";
 	loc->sign_clean = false;
 	XMLElement sigspecs;
 	if (tqsl_get_xml_config_section("sigspecs", sigspecs)) {
@@ -604,6 +607,10 @@ make_sign_data(TQSL_LOCATION *loc) {
 			}
 		} else {
 			loc->signdata += value;
+			if (loc->loc_details != "") {
+				loc->loc_details += ", ";
+			}
+			loc->loc_details += specfield.getElementName() + ": " + value;
 		}
 		ok = tSTATION.getNextElement(specfield);
 	} while (ok);
@@ -1143,8 +1150,13 @@ tqsl_getADIFMode(const char *adif_item, char *mode, int nmode) {
 	string orig = adif_item;
 	orig = string_toupper(orig);
 	string amode;
-	if (tqsl_adif_map.find(orig) != tqsl_adif_map.end())
+	if (tqsl_adif_map.find(orig) != tqsl_adif_map.end()) {
 		amode = tqsl_adif_map[orig];
+	} else {
+		tQSL_Error = TQSL_NAME_NOT_FOUND;
+		return 1;
+	}
+
 	if (nmode < static_cast<int>(amode.length())+1) {
 		tqslTrace("tqsl_getAdifMode", "bufer error %s %s", nmode, amode.length());
 		tQSL_Error = TQSL_BUFFER_ERROR;
@@ -2176,6 +2188,7 @@ tqsl_getLocationFieldListItem(tQSL_Location locp, int field_num, int item_idx, c
 		? fl[field_num].items[item_idx].text
 		: fl[field_num].items[item_idx].label;
 	strncpy(buf, str.c_str(), bufsiz);
+	buf[bufsiz - 1] = '\0';
 	return 0;
 }
 
@@ -3069,6 +3082,7 @@ tqsl_getGABBItCONTACTData(tQSL_Cert cert, tQSL_Location locp, TQSL_QSO_RECORD *q
 	XMLElement specfield;
 	bool ok = tCONTACT_sign.getFirstElement(specfield);
 	string rec_sign_data = loc->signdata;
+	loc->qso_details = "";
 	while(ok) {
 		string en = specfield.getElementName();
 		const char *elname = en.c_str();
@@ -3115,6 +3129,7 @@ tqsl_getGABBItCONTACTData(tQSL_Cert cert, tQSL_Location locp, TQSL_QSO_RECORD *q
 		} else {
 			string v(value);
 			rec_sign_data += trim(v);
+			loc->qso_details += trim(v);
 		}
 		ok = tCONTACT_sign.getNextElement(specfield);
 	}
@@ -3388,6 +3403,11 @@ tqsl_importTQSLFile(const char *file, int(*cb)(int type, const char *, void *), 
 			cstat = section.getNextElement(cert);
 		}
 	}
+	// If any of the user certificates failed import, return the error status.
+	if (rval) {
+		return rval;
+	}
+
 	stat = tqsldata.getFirstElement("tqslconfig", section);
 	if (stat) {
 		// Check to make sure we aren't overwriting newer version
@@ -3396,13 +3416,7 @@ tqsl_importTQSLFile(const char *file, int(*cb)(int type, const char *, void *), 
 		int curmajor, curminor;
 		if (tqsl_getConfigVersion(&curmajor, &curminor)) {
 			tqslTrace("tqsl_importTQSLFile", "Get config ver error %d", tQSL_Error);
-			if (tQSL_Error == 0) {
-				tQSL_Error = TQSL_CERT_ERROR;
-			}
 			return 1;
-		}
-		if (rval && tQSL_Error == 0) {
-			tQSL_Error = TQSL_CERT_ERROR;
 		}
 		if (major < curmajor) {
 			if (foundcerts) {
@@ -3600,4 +3614,36 @@ tqsl_freeDeletedLocationList(char** list, int nloc) {
 	for (int i = 0; i < nloc; i++)
 		if (list[i]) free(list[i]);
 	if (list) free(list);
+}
+
+DLLEXPORT int CALLCONVENTION
+tqsl_getLocationQSODetails(tQSL_Location locp, char *buf, int buflen) {
+	TQSL_LOCATION *loc;
+	if (!(loc = check_loc(locp, false))) {
+		tqslTrace("tqsl_getLocationDXCCEntity", "loc error %d", tQSL_Error);
+		return 1;
+	}
+	if (buf == NULL) {
+		tqslTrace("tqsl_getLocationQSODetails", "Argument error, buf = 0x%lx", buf);
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+	strncpy(buf, loc->qso_details.c_str(), buflen);
+	return 0;
+}
+
+DLLEXPORT int CALLCONVENTION
+tqsl_getLocationStationDetails(tQSL_Location locp, char *buf, int buflen) {
+	TQSL_LOCATION *loc;
+	if (!(loc = check_loc(locp, false))) {
+		tqslTrace("tqsl_getLocationDXCCEntity", "loc error %d", tQSL_Error);
+		return 1;
+	}
+	if (buf == NULL) {
+		tqslTrace("tqsl_getLocationStationDetails", "Argument error, buf = 0x%lx", buf);
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+	strncpy(buf, loc->loc_details.c_str(), buflen);
+	return 0;
 }

@@ -163,7 +163,7 @@ DLLEXPORTDATA extern int tQSL_Errno;
 DLLEXPORTDATA extern char tQSL_ImportCall[256];
 /// Serial number of recent certificate import
 DLLEXPORTDATA extern long tQSL_ImportSerial;
-// Diagnostic log file
+/// Diagnostic log file
 DLLEXPORTDATA extern FILE* tQSL_DiagFile;
 
 /** Initialize the tQSL library
@@ -1155,6 +1155,12 @@ DLLEXPORT int CALLCONVENTION tqsl_setLocationCallSign(tQSL_Location loc, const c
 /** Get the DXCC entity from the station location. */
 DLLEXPORT int CALLCONVENTION tqsl_getLocationDXCCEntity(tQSL_Location loc, int *dxcc);
 
+/** Get the QSO details in canonical form. */
+DLLEXPORT int CALLCONVENTION tqsl_getLocationQSODetails(tQSL_Location locp, char *buf, int buflen);
+
+/** Get the station location details in canonical form. */
+DLLEXPORT int CALLCONVENTION tqsl_getLocationStationDetails(tQSL_Location locp, char *buf, int buflen);
+
 /** Get the number of DXCC entities in the master DXCC list.
   */
 DLLEXPORT int CALLCONVENTION tqsl_getNumDXCCEntity(int *number);
@@ -1321,9 +1327,20 @@ DLLEXPORT const char* CALLCONVENTION tqsl_getGABBItCONTACTData(tQSL_Cert cert, t
 
 /** @} */
 
+/** Output to a diagnostic trace file (if one is opened.
+ *
+ * \li \c name is the name of the function being executed
+ */
 DLLEXPORT void CALLCONVENTION tqslTrace(const char *name, const char *format, ...);
+/** Close the diagnostic trace file (if it is open)
+ */
 DLLEXPORT void CALLCONVENTION tqsl_closeDiagFile(void);
+/** Close the diagnostic trace file (if it is open)
+ */
 DLLEXPORT int  CALLCONVENTION tqsl_diagFileOpen(void);
+/** Returns true if the log file is open
+ *
+ */
 DLLEXPORT int  CALLCONVENTION tqsl_openDiagFile(const char* file);
 
 #ifdef _WIN32
