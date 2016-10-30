@@ -37,7 +37,7 @@ END_EVENT_TABLE()
 
 void
 TQSLWizard::OnPageChanged(wxWizardEvent& ev) {
-	tqslTrace("TQSLWizard::OnPageChanged");
+	tqslTrace("TQSLWizard::OnPageChanged", NULL);
 	(reinterpret_cast<TQSLWizPage *>(GetCurrentPage()))->SetFocus();
 	ExtWizard::OnPageChanged(ev);
 }
@@ -89,7 +89,7 @@ void TQSLWizCertPage::OnSize(wxSizeEvent& ev) {
 
 TQSLWizPage *
 TQSLWizCertPage::GetPrev() const {
-	tqslTrace("TQSLWizCertPage::GetPrev");
+	tqslTrace("TQSLWizCertPage::GetPrev", NULL);
 	int rval;
 
 	tqsl_setStationLocationCapturePage(loc, loc_page);
@@ -102,7 +102,7 @@ TQSLWizCertPage::GetPrev() const {
 
 TQSLWizPage *
 TQSLWizCertPage::GetNext() const {
-	tqslTrace("TQSLWizCertPage::GetNext");
+	tqslTrace("TQSLWizCertPage::GetNext", NULL);
 	TQSLWizPage *newp;
 	bool final = false;
 	int rval;
@@ -204,15 +204,15 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 
 void
 TQSLWizCertPage::OnComboBoxEvent(wxCommandEvent& event) {
-	tqslTrace("TQSLWizCertPage::OnComboBoxEvent");
+	tqslTrace("TQSLWizCertPage::OnComboBoxEvent", NULL);
 	int control_idx = event.GetId() - TQSL_ID_LOW;
 	if (control_idx < 0 || control_idx >= static_cast<int>(controls.size()))
 		return;
 	int in_type;
 	tqsl_getLocationFieldInputType(loc, control_idx, &in_type);
 	switch (in_type) {
-                case TQSL_LOCATION_FIELD_DDLIST:
-                case TQSL_LOCATION_FIELD_LIST:
+		case TQSL_LOCATION_FIELD_DDLIST:
+		case TQSL_LOCATION_FIELD_LIST:
 			tqsl_setLocationFieldIndex(loc, control_idx, event.GetInt());
 			UpdateFields(control_idx);
 			break;
@@ -269,8 +269,8 @@ TQSLWizCertPage::TQSLWizCertPage(TQSLWizard *parent, tQSL_Location locp)
 		tqsl_getLocationFieldDataGABBI(loc, i, gabbi_name, sizeof gabbi_name);
 		tqsl_getLocationFieldFlags(loc, i, &flags);
 		switch(in_type) {
-                        case TQSL_LOCATION_FIELD_DDLIST:
-                        case TQSL_LOCATION_FIELD_LIST:
+			case TQSL_LOCATION_FIELD_DDLIST:
+			case TQSL_LOCATION_FIELD_LIST:
 				control_p = new wxComboBox(this, TQSL_ID_LOW+i, wxT(""), wxDefaultPosition, wxSize(control_width, -1),
 					0, 0, wxCB_DROPDOWN|wxCB_READONLY);
 				if (flags & TQSL_LOCATION_FIELD_SELNXT) {
@@ -278,10 +278,10 @@ TQSLWizCertPage::TQSLWizCertPage(TQSLWizard *parent, tQSL_Location locp)
 					cbLabel = lbl;
 				}
 				break;
-                        case TQSL_LOCATION_FIELD_TEXT:
+			case TQSL_LOCATION_FIELD_TEXT:
 				control_p = new wxTextCtrl(this, TQSL_ID_LOW+i, wxT(""), wxDefaultPosition, wxSize(control_width, -1));
 				break;
-                        case TQSL_LOCATION_FIELD_BADZONE:
+			case TQSL_LOCATION_FIELD_BADZONE:
 				wxCoord w, h;
 				int tsize;
 				tqsl_getLocationFieldDataLength(loc, i, &tsize);
@@ -322,7 +322,7 @@ TQSLWizCertPage::~TQSLWizCertPage() {
 
 const char *
 TQSLWizCertPage::validate() {
-	tqslTrace("TQSLWizCertPage::validate");
+	tqslTrace("TQSLWizCertPage::validate", NULL);
 
 	if (!initialized) return 0;
 	valMsg = wxT("");
@@ -431,17 +431,17 @@ TQSLWizCertPage::validate() {
 
 bool
 TQSLWizCertPage::TransferDataFromWindow() {
-	tqslTrace("TQSLWizCertPage::TransferDataFromWindow");
+	tqslTrace("TQSLWizCertPage::TransferDataFromWindow", NULL);
 
 	tqsl_setStationLocationCapturePage(loc, loc_page);
 	for (int i = 0; i < static_cast<int>(controls.size()); i++) {
 		int in_type;
 		tqsl_getLocationFieldInputType(loc, i, &in_type);
 		switch(in_type) {
-                        case TQSL_LOCATION_FIELD_DDLIST:
-                        case TQSL_LOCATION_FIELD_LIST:
+			case TQSL_LOCATION_FIELD_DDLIST:
+			case TQSL_LOCATION_FIELD_LIST:
 				break;
-                        case TQSL_LOCATION_FIELD_TEXT:
+			case TQSL_LOCATION_FIELD_TEXT:
 				tqsl_setLocationFieldCharData(loc, i, (reinterpret_cast<wxTextCtrl *>(controls[i]))->GetValue().ToUTF8());
 				break;
 		}
@@ -469,7 +469,7 @@ END_EVENT_TABLE()
 
 void
 TQSLWizFinalPage::OnListbox(wxCommandEvent &) {
-	tqslTrace("TQSLWizFinalPage::OnListbox");
+	tqslTrace("TQSLWizFinalPage::OnListbox", NULL);
 	if (namelist->GetSelection() >= 0) {
 		const char *cp = (const char *)(namelist->GetClientData(namelist->GetSelection()));
 		if (cp)
@@ -530,7 +530,7 @@ TQSLWizFinalPage::TQSLWizFinalPage(TQSLWizard *parent, tQSL_Location locp, TQSLW
 
 bool
 TQSLWizFinalPage::TransferDataFromWindow() {
-	tqslTrace("TQSLWizFinalPage::TransferDataFromWindow");
+	tqslTrace("TQSLWizFinalPage::TransferDataFromWindow", NULL);
 	validate();
 	if (valMsg.Len() > 0) // Must be a "back"
 		return true;
@@ -552,7 +552,7 @@ TQSLWizFinalPage::OnPageChanging(wxWizardEvent& ev) {
 
 const char *
 TQSLWizFinalPage::validate() {
-	tqslTrace("TQSLWizFinalPage::validate");
+	tqslTrace("TQSLWizFinalPage::validate", NULL);
 	if (!initialized) return 0;
 	wxString val = newname->GetValue().Trim(true).Trim(false);
 	valMsg = wxT("");
@@ -565,7 +565,7 @@ TQSLWizFinalPage::validate() {
 }
 
 TQSLWizFinalPage::~TQSLWizFinalPage() {
-        for (int i = 0; i < static_cast<int>(item_data.size()); i++) {
-               	free(item_data[i]);
+	for (int i = 0; i < static_cast<int>(item_data.size()); i++) {
+		free(item_data[i]);
 	}
 }

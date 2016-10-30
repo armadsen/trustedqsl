@@ -121,6 +121,9 @@ class MyFrame : public wxFrame {
 	void CheckForUpdates(wxCommandEvent&);
 	void DoCheckForUpdates(bool quiet = false, bool noGUI = false);
 	void UpdateConfigFile(void);
+#ifdef _WIN32
+	void UpdateTQSL(wxString& url);
+#endif
 	void DoCheckExpiringCerts(bool noGUI = false);
 	void OnExpiredCertFound(wxCommandEvent& event);
 
@@ -194,26 +197,30 @@ class MyFrame : public wxFrame {
 // language data
 static const wxLanguage langIds[] = {
     wxLANGUAGE_DEFAULT,
+    wxLANGUAGE_CHINESE,
+    wxLANGUAGE_ENGLISH,
     wxLANGUAGE_FRENCH,
-    wxLANGUAGE_ITALIAN,
     wxLANGUAGE_GERMAN,
-    wxLANGUAGE_SPANISH,
-    wxLANGUAGE_PORTUGUESE,
+    wxLANGUAGE_ITALIAN,
     wxLANGUAGE_JAPANESE,
-    wxLANGUAGE_ENGLISH
+    wxLANGUAGE_PORTUGUESE,
+    wxLANGUAGE_RUSSIAN,
+    wxLANGUAGE_SPANISH,
 };
 
 // note that it makes no sense to translate these strings, they are
 // shown before we set the locale anyhow
 const wxString langNames[] = {
     wxT("System default"),
+    wxT("Chinese"),
+    wxT("English"),
     wxT("French"),
-    wxT("Italian"),
     wxT("German"),
-    wxT("Spanish"),
-    wxT("Portuguese"),
+    wxT("Italian"),
     wxT("Japanese"),
-    wxT("English")
+    wxT("Portuguese"),
+    wxT("Russian"),
+    wxT("Spanish"),
 };
 
 // the arrays must be in sync

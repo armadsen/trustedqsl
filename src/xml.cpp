@@ -21,6 +21,10 @@
 #include <fstream>
 #include <utility>
 #include <string>
+#include <algorithm>
+#include <functional>
+#include <cctype>
+#include <locale>
 
 using std::pair;
 using std::string;
@@ -30,6 +34,8 @@ using std::map;
 #ifdef __cplusplus
 namespace tqsllib {
 #endif //__cplusplus
+
+static inline std::string trimmed(std::string s);
 
 pair<string, bool>
 XMLElement::getAttribute(const string& key) {
@@ -134,15 +140,19 @@ XMLElement::parseFile(const char *filename) {
 	return (rval ? XML_PARSE_NO_ERROR : XML_PARSE_SYNTAX_ERROR);
 }
 
+string XMLElement::getText() const {
+	return trimmed(_text);
+}
+
 
 static struct {
 	char c;
 	const char *ent;
 } xml_entity_table[] = {
-        { '"', "&quot;" },
-        { '\'', "&apos;" },
-        { '>', "&gt;" },
-        { '<', "&lt;" }
+	{ '"', "&quot;" },
+	{ '\'', "&apos;" },
+	{ '>', "&gt;" },
+	{ '<', "&lt;" }
 };
 
 static string
@@ -195,6 +205,35 @@ operator<< (ostream& stream, XMLElement& el) {
 	return stream;
 }
 
+// isspace() called on extended chars in UTF-8 raises asserts in
+// the windows C++ libs. Don't call isspace() if out of range.
+
+static inline int isspc(int c) {
+	if (c < 0 || c > 255)
+		return 0;
+	return isspace(c);
+}
+
+// trim from start (in place)
+static inline void ltrim(std::string &s) {
+	s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(isspc))));
+}
+
+// trim from end (in place)
+static inline void rtrim(std::string &s) {
+	s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(isspc))).base(), s.end());
+}
+
+// trim from both ends (in place)
+static inline void trim(std::string &s) {
+	ltrim(s);
+	rtrim(s);
+}
+
+static inline std::string trimmed(std::string s) {
+	trim(s);
+	return s;
+}
 #ifdef __cplusplus
 }	// namespace tqsllib
 #endif //__cplusplus
