@@ -112,7 +112,7 @@ if(APPLE)
 	set(MACOSX_BUNDLE_GUI_IDENTIFIER "org.arrl.tqsl")
 	set(MACOSX_BUNDLE_LONG_VERSION_STRING "TQSL V ${TQSLVERSION} build ${BUILD}")
 	set(MACOSX_BUNDLE_SHORT_VERSION_STRING "${TQSLVERSION}")
-	set(MACOSX_BUNDLE_COPYRIGHT "Copyright 2001-2016 American Radio Relay League")
+	set(MACOSX_BUNDLE_COPYRIGHT "Copyright 2001-2017 American Radio Relay League")
 
 	set(MACOSX_BUNDLE_ICON_FILE ${OSX_ICONFILE})
 	SET_SOURCE_FILES_PROPERTIES(${OSX_ICONFILE} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
@@ -129,11 +129,13 @@ endif()
 
 set(TQSL_SRC tqsl.cpp extwizard.cpp tqslwiz.cpp dxcc.cpp stationdial.cpp
 qsodatadialog.cpp tqslvalidator.cpp tqsl_prefs.cpp wxutil.cpp tqslhelp.cpp
-crqwiz.cpp certtree.cpp getpassword.cpp loadcertwiz.cpp loctree.cpp)
+crqwiz.cpp certtree.cpp getpassword.cpp loadcertwiz.cpp loctree.cpp
+jsonreader.cpp  jsonval.cpp  jsonwriter.cpp)
 set(TQSL_HDR tqslapp.h tqslwiz.h qsodatadialog.h tqslexcept.h
 tqslpaths.h stationdial.h dxcc.h tqsl_prefs.h extwizard.h certtree.h
 tqslvalidator.h tqslbuild.h tqslhelp.h certtree.h tqslctrls.h util.h
-getpassword.h extwizard.h loadcertwiz.h wxutil.h loctree.h tqsltrace.h)
+getpassword.h extwizard.h loadcertwiz.h wxutil.h loctree.h tqsltrace.h
+json_defs.h  jsonreader.h  jsonval.h  jsonwriter.h)
 set(TQSL_XPM left.xpm right.xpm bottom.xpm top.xpm key.xpm cert.xpm nocert.xpm
 broken-cert.xpm folder.xpm replaced.xpm expired.xpm home.xpm delete.xpm edit.xpm
 loc_add_dis.xpm properties.xpm download_dis.xpm loc_add.xpm upload_dis.xpm
@@ -143,6 +145,12 @@ add_executable(tqsl WIN32 MACOSX_BUNDLE ${TQSL_SRC} ${TQSL_HDR} ${TQSL_XPM} ${TQ
 
 target_link_libraries(tqsl ${TQSLLIB_NAME}
   ${wxWidgets_LIBRARIES} ${ZLIB_LIBRARIES} ${CURL_LIBRARIES} ${CARBON_LIBRARY} ${EXPAT_LIBRARIES})
+
+if(WIN32)
+	set(UPDATER_SRC tqslupdater.cpp)
+	add_executable(tqslupdater WIN32 ${UPDATER_SRC} ${TQSL_HDR})
+	target_link_libraries(tqslupdater ${wxWidgets_LIBRARIES} ${CURL_LIBRARIES})
+endif()
 
 if(NOT APPLE AND NOT WIN32)
 	add_definitions("-DCONFDIR=\"${CMAKE_INSTALL_PREFIX}/share/TrustedQSL/\"")
@@ -156,6 +164,7 @@ if(NOT APPLE AND NOT WIN32)
 	install(FILES icons/key48.png DESTINATION share/pixmaps RENAME TrustedQSL.png)
 	install(FILES lang/de/tqslapp.mo DESTINATION share/locale/de/LC_MESSAGES)
 	install(FILES lang/es/tqslapp.mo DESTINATION share/locale/es/LC_MESSAGES)
+	install(FILES lang/fi/tqslapp.mo DESTINATION share/locale/fi/LC_MESSAGES)
 	install(FILES lang/fr/tqslapp.mo DESTINATION share/locale/fr/LC_MESSAGES)
 	install(FILES lang/it/tqslapp.mo DESTINATION share/locale/it/LC_MESSAGES)
 	install(FILES lang/ja/tqslapp.mo DESTINATION share/locale/ja/LC_MESSAGES)
