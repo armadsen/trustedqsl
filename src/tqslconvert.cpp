@@ -441,6 +441,7 @@ tqsl_setADIFConverterDateFilter(tQSL_Converter convp, tQSL_Date *start, tQSL_Dat
 	return 0;
 }
 
+#ifdef USE_DUPLICATES_DB
 // Remove the dupes db files
 static void
 remove_db(const char *path)  {
@@ -508,6 +509,7 @@ remove_db(const char *path)  {
 	}
 	return;
 }
+				
 #if !defined(_WIN32) && !defined(USE_LMDB)
 // Callback method for the dbenv->failchk() call
 // Used to determine if the given pid/tid is
@@ -526,7 +528,6 @@ static int isalive(DB_ENV *env, pid_t pid, db_threadid_t tid, uint32_t flags) {
 }
 #endif // _WIN32
 
-#ifdef USE_DUPLICATES_DB
 // Open the duplicates database
 
 #ifdef USE_LMDB
