@@ -8,3 +8,4 @@ msgmerge -N -U de/tqslapp.po ../tqslapp.pot
 msgmerge -N -U zh/tqslapp.po ../tqslapp.pot
 msgmerge -N -U ru/tqslapp.po ../tqslapp.pot
 msgmerge -N -U pl/tqslapp.po ../tqslapp.pot
+msgmerge -N -U hi/tqslapp.po ../tqslapp.pot

@@ -8,3 +8,4 @@ msgfmt de/tqslapp.po -o de/tqslapp.mo
 msgfmt zh/tqslapp.po -o zh/tqslapp.mo
 msgfmt ru/tqslapp.po -o ru/tqslapp.mo
 msgfmt pl/tqslapp.po -o pl/tqslapp.mo
+msgfmt hi/tqslapp.po -o hi/tqslapp.mo
