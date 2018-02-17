@@ -3,6 +3,13 @@ TQSLLIB changes
 
 2.5
 ---
+Fix error message for invalid receive band to reference the proper band
+information.
+
+Add functions for storing and retrieving station address data.
+
+Force character set for ADIF and Cabrillo files to UTF-8.
+
 Fix CMake config to use the right lib64 string on Linux.
 
 Allow 'LIGHT' in a Cabrillo file to represent 300G and higher.

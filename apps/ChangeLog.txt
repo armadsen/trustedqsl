@@ -3,6 +3,15 @@ TQSL changes
 
 2.4
 ----------
+Add Hindi translation.
+
+Pre-load callsign certificate requests from the ARRL address data when it
+is available for a given callsign.
+
+Provide default gridsquare, state, and county for station locations when
+available from the ARRL address data. Validate that gridsquares are 
+consistent with the station's address.
+
 Retain all certificate private keys. Mark as deleted and allow them to be
 recovered. This allows the .TQ6 file downloaded from LoTW to always be used
 to recover a user's callsign certificate.
