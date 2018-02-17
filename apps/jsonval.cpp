@@ -32,7 +32,8 @@ WX_DEFINE_OBJARRAY(wxJSONInternalArray);
 
 // the trace mask used in wxLogTrace() function
 // static const wxChar* traceMask = _T("jsonval");
-#if wxUSE_LOG && wxUSE_LOG_DEBUG
+#if defined(WXJSON_USE_VALUE_COUNTER)
+//#if wxUSE_LOG && wxUSE_LOG_DEBUG
 static const wxChar* traceMask = _T("jsonval");
 static const wxChar* compareTraceMask = _T("sameas");
 static const wxChar* cowTraceMask = _T("traceCOW");

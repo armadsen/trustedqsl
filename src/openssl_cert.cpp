@@ -5536,7 +5536,7 @@ tqsl_key_exists(const char *callsign, EVP_PKEY *cert_key) {
 	return rval;
 }
 /** Save the json results for a given callsign location Detail. */
-int
+DLLEXPORT int CALLCONVENTION
 tqsl_saveCallsignLocationInfo(const char *callsign, const char *json) {
 	FILE *out;
 
@@ -5594,7 +5594,7 @@ tqsl_saveCallsignLocationInfo(const char *callsign, const char *json) {
 }
 
 /** Retrieve the json results for a given callsign location Detail. */
-int
+DLLEXPORT int CALLCONVENTION
 tqsl_getCallsignLocationInfo(const char *callsign, char *buf, int buflen) {
 	FILE *in;
 
