@@ -5535,4 +5535,122 @@ tqsl_key_exists(const char *callsign, EVP_PKEY *cert_key) {
 		BIO_free(bio);
 	return rval;
 }
+/** Save the json results for a given callsign location Detail. */
+int
+tqsl_saveCallsignLocationInfo(const char *callsign, const char *json) {
+	FILE *out;
+
+	if (callsign == NULL || json == NULL) {
+		tqslTrace("tqsl_saveCallsinLocationInfo", "arg error callsign=0x%lx, json=0x%lx", callsign, json);
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+	char fixcall[256];
+	char path[PATH_MAX];
+	size_t size = sizeof path;
+
+	tqsl_clean_call(callsign, fixcall, sizeof fixcall);
+	strncpy(path, tQSL_BaseDir, size);
+#ifdef _WIN32
+	strncat(path, "\\", size - strlen(path));
+#else
+	strncat(path, "/", size - strlen(path));
+#endif
+	strncat(path, fixcall, size - strlen(path));
+	strncat(path, ".json", size - strlen(path));
+	/* Try opening the output stream */
+
+#ifdef _WIN32
+	wchar_t* wfilename = utf8_to_wchar(path);
+	if ((out = _wfopen(wfilename, TQSL_OPEN_WRITE)) == NULL) {
+		free_wchar(wfilename);
+#else
+	if ((out = fopen(path, TQSL_OPEN_WRITE)) == NULL) {
+#endif
+		strncpy(tQSL_ErrorFile, path, sizeof tQSL_ErrorFile);
+		tqslTrace("tqsl_saveCallsignLocationInfo", "Open file - system error %s", strerror(errno));
+		tQSL_Error = TQSL_SYSTEM_ERROR;
+		tQSL_Errno = errno;
+		return 1;
+	}
+#ifdef _WIN32
+	free_wchar(wfilename);
+#endif
+	if (fputs(json, out) == EOF) {
+		strncpy(tQSL_ErrorFile, path, sizeof tQSL_ErrorFile);
+		tqslTrace("tqsl_createCertRequest", "Write request file - system error %s", strerror(errno));
+		tQSL_Error = TQSL_SYSTEM_ERROR;
+		tQSL_Errno = errno;
+		return 1;
+	}
+	if (fclose(out) == EOF) {
+		strncpy(tQSL_ErrorFile, path, sizeof tQSL_ErrorFile);
+		tQSL_Error = TQSL_SYSTEM_ERROR;
+		tQSL_Errno = errno;
+		tqslTrace("tqsl_saveCallsignLocationInfo", "write error %d", errno);
+		return 1;
+	}
+	return 0;
+}
+
+/** Retrieve the json results for a given callsign location Detail. */
+int
+tqsl_getCallsignLocationInfo(const char *callsign, char *buf, int buflen) {
+	FILE *in;
+
+	if (callsign == NULL || buf == NULL || buflen < 1) {
+		tqslTrace("tqsl_getCallsinLocationInfo", "arg error callsign=0x%lx, buf=0x%lx", callsign, buf);
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+	char fixcall[256];
+	char path[PATH_MAX];
+	size_t size = sizeof path;
+
+	tqsl_clean_call(callsign, fixcall, sizeof fixcall);
+	strncpy(path, tQSL_BaseDir, size);
+#ifdef _WIN32
+	strncat(path, "\\", size - strlen(path));
+#else
+	strncat(path, "/", size - strlen(path));
+#endif
+	strncat(path, fixcall, size - strlen(path));
+	strncat(path, ".json", size - strlen(path));
+
+#ifdef _WIN32
+	wchar_t* wfilename = utf8_to_wchar(path);
+	if ((in = _wfopen(wfilename, TQSL_OPEN_READ)) == NULL) {
+		free_wchar(wfilename);
+#else
+	if ((in = fopen(path, TQSL_OPEN_READ)) == NULL) {
+#endif
+		strncpy(tQSL_ErrorFile, path, sizeof tQSL_ErrorFile);
+		tqslTrace("tqsl_getCallsignLocationInfo", "Open file - system error %s", strerror(errno));
+		tQSL_Error = TQSL_SYSTEM_ERROR;
+		tQSL_Errno = errno;
+		return 1;
+	}
+#ifdef _WIN32
+	free_wchar(wfilename);
+#endif
+	size_t len;
+	if ((len = fread(buf, 1, buflen, in)) == 0) {
+		strncpy(tQSL_ErrorFile, path, sizeof tQSL_ErrorFile);
+		tqslTrace("tqsl_getCallsignLocationInformation", "Write request file - system error %s", strerror(errno));
+		tQSL_Error = TQSL_SYSTEM_ERROR;
+		tQSL_Errno = errno;
+		return 1;
+	}
+	if (fclose(in) == EOF) {
+		strncpy(tQSL_ErrorFile, path, sizeof tQSL_ErrorFile);
+		tQSL_Error = TQSL_SYSTEM_ERROR;
+		tQSL_Errno = errno;
+		tqslTrace("tqsl_getCallsignLocationInformation", "write error %d", errno);
+		return 1;
+	}
+	if (len < (size_t)buflen)
+		buf[len] = '\0';
+	return 0;
+}
+
 

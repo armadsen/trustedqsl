@@ -2161,6 +2161,23 @@ tqsl_setLocationFieldCharData(tQSL_Location locp, int field_num, const char *buf
 	fl[field_num].cdata = string(buf).substr(0, fl[field_num].data_len);
 	if (fl[field_num].flags & TQSL_LOCATION_FIELD_UPPER)
 		fl[field_num].cdata = string_toupper(fl[field_num].cdata);
+
+
+	if (fl[field_num].input_type == TQSL_LOCATION_FIELD_DDLIST
+		|| fl[field_num].input_type == TQSL_LOCATION_FIELD_LIST) {
+		if (fl[field_num].cdata == "") {
+			fl[field_num].idx = 0;
+			fl[field_num].idata = fl[field_num].items[0].ivalue;
+		} else {
+			for (int i = 0; i < static_cast<int>(fl[field_num].items.size()); i++) {
+				if (fl[field_num].items[i].text == fl[field_num].cdata) {
+					fl[field_num].idx = i;
+					fl[field_num].idata = fl[field_num].items[i].ivalue;
+					break;
+				}
+			}
+		}
+	}
 	return 0;
 }
 
@@ -3707,7 +3724,7 @@ DLLEXPORT int CALLCONVENTION
 tqsl_getLocationStationDetails(tQSL_Location locp, char *buf, int buflen) {
 	TQSL_LOCATION *loc;
 	if (!(loc = check_loc(locp, false))) {
-		tqslTrace("tqsl_getLocationDXCCEntity", "loc error %d", tQSL_Error);
+		tqslTrace("tqsl_getLocationStationDetails", "loc error %d", tQSL_Error);
 		return 1;
 	}
 	if (buf == NULL) {
