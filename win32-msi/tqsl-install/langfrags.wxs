@@ -29,7 +29,6 @@
     </DirectoryRef>
   </Fragment>
   <Fragment>
-  <Fragment>
     <DirectoryRef Id="APPLICATIONFOLDER">
       <Directory Id="dir87830DC9C2DED45B7E26F428A1DA8251" Name="it" />
     </DirectoryRef>
