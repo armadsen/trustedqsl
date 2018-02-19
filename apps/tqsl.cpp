@@ -3387,7 +3387,7 @@ MyFrame::DoCheckExpiringCerts(bool noGUI) {
 	tQSL_Cert *clist;
 	int nc;
 
-	tqsl_selectCertificates(&clist, &nc, 0, 0, 0, 0, 0);
+	tqsl_selectCertificates(&clist, &nc, 0, 0, 0, 0, TQSL_SELECT_CERT_EXPIRED);
 	if (nc == 0) return;
 
 	expInfo *ei = new expInfo;
@@ -3422,6 +3422,10 @@ MyFrame::DoCheckExpiringCerts(bool noGUI) {
 
 		// Get the user detail info for this callsign from the ARRL server
 		save_address_info(callsign);
+
+		int expired = 0;
+		tqsl_isCertificateExpired(clist[i], &expired);
+		if (expired) continue;			// Don't check expired already
 
 		int keyonly, pending;
 		keyonly = pending = 0;
