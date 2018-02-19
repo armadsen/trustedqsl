@@ -122,6 +122,9 @@ TQSLWizCertPage::GetNext() const {
 		final = true;
 	}
 	newp = GetParent()->GetPage(final);
+	if (!final) {
+		((TQSLWizCertPage*) newp)->UpdateFields();
+	}
 	return newp;
 }
 
