@@ -1496,7 +1496,7 @@ tqsl_importKeyPairEncoded(const char *callsign, const char *type, const char *ke
 		size_t bloblen;
 		bloblen = BIO_read(in, biobuf, strlen(keybuf));
 
-// Now is there a private key already with this serial? foo
+// Now is there a private key already with this serial?
 		char *pubkey = strstr(biobuf, "-----BEGIN PUBLIC KEY-----");
 		char *endpub = strstr(biobuf, "-----END PUBLIC KEY-----");
 		int publen = endpub - pubkey + strlen("-----END PUBLIC KEY-----");
