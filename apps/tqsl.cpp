@@ -3418,7 +3418,6 @@ MyFrame::DoCheckExpiringCerts(bool noGUI) {
 		}
 		wxString county;
 		wxString grid;
-		wxString validGrids[10];
 
 		// Get the user detail info for this callsign from the ARRL server
 		save_address_info(callsign);
