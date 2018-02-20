@@ -14,6 +14,7 @@ find_package(ZLIB REQUIRED)
 # Prefer LMDB, fall back to BDB if that's not available
 find_package(LMDB)
 if(NOT LMDB_FOUND)
+	set (LMDB_LIBRARIES "")
 	find_package(BDB REQUIRED)
 else()
 	add_definitions(-DUSE_LMDB)
