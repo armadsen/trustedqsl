@@ -161,7 +161,6 @@ static bool verifyCA = true;
 static int lock_db(bool wait);
 static void unlock_db(void);
 int get_address_field(const char *callsign, const char *field, string& result);
-static int save_address_info(const char *callsign);
 
 static void exitNow(int status, bool quiet) {
 	const char *errors[] = { __("Success"),
@@ -2527,6 +2526,7 @@ int MyFrame::UploadLogFile(tQSL_Location loc, const wxString& infile, bool compr
 
 static CURL*
 tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool newFile) {
+	tqslTrace("tqsl_curl_init", "title=%s url=%s newFile=%d", logTitle, url, newFile);
 	CURL* curlReq = curl_easy_init();
 	if (!curlReq)
 		return NULL;
@@ -3221,7 +3221,13 @@ void MyFrame::UpdateConfigFile() {
 void MyFrame::UpdateTQSL(wxString& url) {
 	tqslTrace("MyFrame::UpdateTQSL", "url=%s", S(url));
  retry:
-	curlReq = tqsl_curl_init("TQSL Update Download Log", (const char *)url.ToUTF8(), &curlLogFile, false);
+	bool needToCleanUp = false;
+	if (curlReq) {
+		curl_easy_setopt(curlReq, CURLOPT_URL, (const char *)url.ToUTF8());
+	} else {
+		curlReq = tqsl_curl_init("TQSL Update Download Log", (const char *)url.ToUTF8(), &curlLogFile, false);
+		needToCleanUp = true;
+	}
 
 	wxString filename;
 #ifdef _WIN32
@@ -3280,6 +3286,10 @@ void MyFrame::UpdateTQSL(wxString& url) {
 			wxMessageBox(wxString::Format(fmt, errorbuf), _("Update"), wxOK | wxICON_EXCLAMATION, this);
 		}
 	}
+	if (needToCleanUp) {
+		curl_easy_cleanup(curlReq);
+		curlReq = NULL;
+	}
 }
 #endif /* _WIN32 */
 
@@ -3295,7 +3305,7 @@ bool MyFrame::CheckCertStatus(long serial, wxString& result) {
 
 	if (curlReq == NULL) {
 		needToCleanUp = true;
-		curlReq = tqsl_curl_init("checkCert", certCheckURL.ToUTF8(), &curlLogFile, true);
+		curlReq = tqsl_curl_init("checkCert", certCheckURL.ToUTF8(), &curlLogFile, false);
 	} else {
 		curl_easy_setopt(curlReq, CURLOPT_URL, (const char *)certCheckURL.ToUTF8());
 	}
@@ -3393,10 +3403,12 @@ MyFrame::DoCheckExpiringCerts(bool noGUI) {
 	expInfo *ei = new expInfo;
 	ei->noGUI = noGUI;
 
-	if (curlReq)
-		curl_easy_cleanup(curlReq);
+	bool needToCleanUp = false;
 
-	curlReq = tqsl_curl_init("Certificate Check Log", "https://lotw.arrl.org", &curlLogFile, false);
+        if (curlReq == NULL) {
+                needToCleanUp = true;
+		curlReq = tqsl_curl_init("Certificate Check Log", "https://lotw.arrl.org", &curlLogFile, false);
+        }
 
 	long expireDays = DEFAULT_CERT_WARNING;
 	wxConfig::Get()->Read(wxT("CertWarnDays"), &expireDays);
@@ -3420,7 +3432,7 @@ MyFrame::DoCheckExpiringCerts(bool noGUI) {
 		wxString grid;
 
 		// Get the user detail info for this callsign from the ARRL server
-		save_address_info(callsign);
+		SaveAddressInfo(callsign);
 
 		int expired = 0;
 		tqsl_isCertificateExpired(clist[i], &expired);
@@ -3483,11 +3495,13 @@ MyFrame::DoCheckExpiringCerts(bool noGUI) {
 	if (clist) {
 		tqsl_freeCertificateList(clist, nc);
 	}
-	curl_easy_cleanup(curlReq);
-	curlReq = NULL;
-	if (curlLogFile) {
-		fclose(curlLogFile);
-		curlLogFile = NULL;
+	if (needToCleanUp) {
+		curl_easy_cleanup(curlReq);
+		curlReq = NULL;
+		if (curlLogFile) {
+			fclose(curlLogFile);
+			curlLogFile = NULL;
+		}
 	}
 	return;
 }
@@ -3624,8 +3638,14 @@ MyFrame::DoCheckForUpdates(bool silent, bool noGUI) {
 
 	wxString updateURL = config->Read(wxT("UpdateURL"), DEFAULT_UPD_URL);
 
+	bool needToCleanUp = false;
  retry:
-	curlReq = tqsl_curl_init("Version Check Log", (const char*)updateURL.ToUTF8(), &curlLogFile, true);
+	if (curlReq) {
+		curl_easy_setopt(curlReq, CURLOPT_URL, (const char *)updateURL.ToUTF8());
+	} else {
+		needToCleanUp = true;
+		curlReq = tqsl_curl_init("Version Check Log", (const char*)updateURL.ToUTF8(), &curlLogFile, false);
+	}
 
 	//the following allow us to analyze our file
 
@@ -3778,10 +3798,12 @@ MyFrame::DoCheckForUpdates(bool silent, bool noGUI) {
 	ri->mutex->Unlock();
 	delete ri;
 	delete event;
-	if (curlReq) curl_easy_cleanup(curlReq);
-	if (curlLogFile) fclose(curlLogFile);
-	curlReq = NULL;
-	curlLogFile = NULL;
+	if (needToCleanUp) {
+		if (curlReq) curl_easy_cleanup(curlReq);
+		if (curlLogFile) fclose(curlLogFile);
+		curlReq = NULL;
+		curlLogFile = NULL;
+	}
 
 	// we checked today, and whatever the result, no need to (automatically) check again until the next interval
 
@@ -3812,17 +3834,21 @@ wx_tokens(const wxString& str, vector<wxString> &toks) {
 		toks.push_back(str.Mid(idx));
 }
 
-static int
-save_address_info(const char *callsign) {
-	CURL *curlReq;
-	FILE *curlLogFile;
-
+int
+MyFrame::SaveAddressInfo(const char *callsign) {
 	if (callsign == NULL) {
 		tQSL_Error = TQSL_ARGUMENT_ERROR;
 		return 1;
 	}
 
-	curlReq = tqsl_curl_init("checkLoc", wxString::Format(wxT("https://lotw.arrl.org/tqsl-setup.php?callsign=%hs"), callsign).ToUTF8(), &curlLogFile, true);
+	bool needToCleanUp = false;
+
+	if (curlReq) {
+		curl_easy_setopt(curlReq, CURLOPT_URL, (const char *)wxString::Format(wxT("https://lotw.arrl.org/tqsl-setup.php?callsign=%hs"), callsign).ToUTF8());
+	} else {
+		curlReq = tqsl_curl_init("checkLoc", wxString::Format(wxT("https://lotw.arrl.org/tqsl-setup.php?callsign=%hs"), callsign).ToUTF8(), &curlLogFile, false);
+		needToCleanUp = true;
+	}
 	FileUploadHandler handler;
 
 	curl_easy_setopt(curlReq, CURLOPT_WRITEFUNCTION, &FileUploadHandler::recv);
@@ -3836,9 +3862,12 @@ save_address_info(const char *callsign) {
 	int retval = curl_easy_perform(curlReq);
 	wxString checkresult = wxT("");
 
-	if (curlLogFile)
-		fclose(curlLogFile);
-	curl_easy_cleanup(curlReq);
+	if (needToCleanUp) {
+		if (curlLogFile)
+			fclose(curlLogFile);
+		curl_easy_cleanup(curlReq);
+		curlReq = NULL;
+	}
 
 	if (retval == CURLE_OK) {
 		if (handler.s != "null") {

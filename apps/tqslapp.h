@@ -153,6 +153,7 @@ class MyFrame : public wxFrame {
 	void FirstTime(void);
 	void BackupConfig(const wxString& event, bool quiet);
 	void SaveOldBackups(const wxString& directory, const wxString& filename, const wxString& ext);
+	int SaveAddressInfo(const char* callsign);
 
 	CertTree *cert_tree;
 	LocTree *loc_tree;

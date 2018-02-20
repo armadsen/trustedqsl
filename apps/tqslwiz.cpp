@@ -123,7 +123,7 @@ TQSLWizCertPage::GetNext() const {
 	}
 	newp = GetParent()->GetPage(final);
 	if (!final) {
-		((TQSLWizCertPage*) newp)->UpdateFields();
+		reinterpret_cast<TQSLWizCertPage*>(newp)->UpdateFields();
 	}
 	return newp;
 }
