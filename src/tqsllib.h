@@ -1165,7 +1165,7 @@ DLLEXPORT int CALLCONVENTION tqsl_getLocationStationDetails(tQSL_Location locp, 
 DLLEXPORT int CALLCONVENTION tqsl_saveCallsignLocationInfo(const char *callsign, const char *json);
 
 /** Retrieve the json results for a given callsign location Detail. */
-DLLEXPORT int CALLCONVENTION tqsl_getCallsignLocationInfo(const char *callsign, char *buf, int buflen);
+DLLEXPORT int CALLCONVENTION tqsl_getCallsignLocationInfo(const char *callsign, char **buf);
 
 /** Get the number of DXCC entities in the master DXCC list.
   */

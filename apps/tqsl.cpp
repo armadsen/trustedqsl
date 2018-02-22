@@ -3842,11 +3842,11 @@ MyFrame::SaveAddressInfo(const char *callsign) {
 	}
 
 	bool needToCleanUp = false;
-
+	const char *url = (const char *)wxString::Format(wxT("https://lotw.arrl.org/tqsl-setup.php?callsign=%hs"), callsign).ToUTF8();
 	if (curlReq) {
-		curl_easy_setopt(curlReq, CURLOPT_URL, (const char *)wxString::Format(wxT("https://lotw.arrl.org/tqsl-setup.php?callsign=%hs"), callsign).ToUTF8());
+		curl_easy_setopt(curlReq, CURLOPT_URL, url);
 	} else {
-		curlReq = tqsl_curl_init("checkLoc", wxString::Format(wxT("https://lotw.arrl.org/tqsl-setup.php?callsign=%hs"), callsign).ToUTF8(), &curlLogFile, false);
+		curlReq = tqsl_curl_init("checkLoc", url, &curlLogFile, false);
 		needToCleanUp = true;
 	}
 	FileUploadHandler handler;
@@ -3871,6 +3871,7 @@ MyFrame::SaveAddressInfo(const char *callsign) {
 
 	if (retval == CURLE_OK) {
 		if (handler.s != "null") {
+			tqslTrace("MyFrame::SaveAddressInfo", "callsign=%s, result = %s", callsign, handler.s.c_str());
 			tqsl_saveCallsignLocationInfo(callsign, handler.s.c_str());
 		}
 	} else {
@@ -3910,8 +3911,8 @@ get_address_field(const char *callsign, const char *field, string& result) {
 
 	locInfo.clear();
 
-	char buf[8192];
-	if (tqsl_getCallsignLocationInfo(callsign, buf, sizeof buf)) {
+	char *buf;
+	if (tqsl_getCallsignLocationInfo(callsign, &buf)) {
 		return 1;
 	}
 	wxString checkresult = wxString::FromUTF8(buf);

@@ -232,6 +232,7 @@ unsigned char *ASN1_seq_pack(void *safes, i2d_of_void *i2d,
 #endif
 
 #define tqsl_malloc malloc
+#define tqsl_realloc realloc
 #define tqsl_calloc calloc
 #define tqsl_free free
 
@@ -5595,10 +5596,16 @@ tqsl_saveCallsignLocationInfo(const char *callsign, const char *json) {
 
 /** Retrieve the json results for a given callsign location Detail. */
 DLLEXPORT int CALLCONVENTION
-tqsl_getCallsignLocationInfo(const char *callsign, char *buf, int buflen) {
+tqsl_getCallsignLocationInfo(const char *callsign, char **buf) {
 	FILE *in;
+	static void* mybuf = NULL;
+	static size_t bufsize = 0;
 
-	if (callsign == NULL || buf == NULL || buflen < 1) {
+	if (bufsize == 0) {
+		bufsize = 4096;
+		mybuf = tqsl_malloc(bufsize);
+	}
+	if (callsign == NULL || buf == NULL) {
 		tqslTrace("tqsl_getCallsinLocationInfo", "arg error callsign=0x%lx, buf=0x%lx", callsign, buf);
 		tQSL_Error = TQSL_ARGUMENT_ERROR;
 		return 1;
@@ -5617,11 +5624,19 @@ tqsl_getCallsignLocationInfo(const char *callsign, char *buf, int buflen) {
 	strncat(path, fixcall, size - strlen(path));
 	strncat(path, ".json", size - strlen(path));
 
+	size_t buflen = bufsize;
 #ifdef _WIN32
-	wchar_t* wfilename = utf8_to_wchar(path);
+	struct _stat32 s;
+	if (_wstat32(wfilename, &s) == 0) {
+		buflen = s.st_size + 512;
+	}
 	if ((in = _wfopen(wfilename, TQSL_OPEN_READ)) == NULL) {
 		free_wchar(wfilename);
 #else
+	struct stat s;
+	if (stat(path, &s) == 0) {
+		buflen = s.st_size + 512;
+	}
 	if ((in = fopen(path, TQSL_OPEN_READ)) == NULL) {
 #endif
 		strncpy(tQSL_ErrorFile, path, sizeof tQSL_ErrorFile);
@@ -5633,10 +5648,15 @@ tqsl_getCallsignLocationInfo(const char *callsign, char *buf, int buflen) {
 #ifdef _WIN32
 	free_wchar(wfilename);
 #endif
+	if (buflen > bufsize) {
+		bufsize = buflen;
+		mybuf = tqsl_realloc(mybuf, bufsize);
+	}
+	*buf = reinterpret_cast<char *>(mybuf);
 	size_t len;
-	if ((len = fread(buf, 1, buflen, in)) == 0) {
+	if ((len = fread(*buf, 1, buflen, in)) == 0) {
 		strncpy(tQSL_ErrorFile, path, sizeof tQSL_ErrorFile);
-		tqslTrace("tqsl_getCallsignLocationInformation", "Write request file - system error %s", strerror(errno));
+		tqslTrace("tqsl_getCallsignLocationInformation", "Read file - system error %s", strerror(errno));
 		tQSL_Error = TQSL_SYSTEM_ERROR;
 		tQSL_Errno = errno;
 		return 1;
@@ -5645,11 +5665,11 @@ tqsl_getCallsignLocationInfo(const char *callsign, char *buf, int buflen) {
 		strncpy(tQSL_ErrorFile, path, sizeof tQSL_ErrorFile);
 		tQSL_Error = TQSL_SYSTEM_ERROR;
 		tQSL_Errno = errno;
-		tqslTrace("tqsl_getCallsignLocationInformation", "write error %d", errno);
+		tqslTrace("tqsl_getCallsignLocationInformation", "read error %d", errno);
 		return 1;
 	}
 	if (len < (size_t)buflen)
-		buf[len] = '\0';
+		*buf[len] = '\0';
 	return 0;
 }
 
