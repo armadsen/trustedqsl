@@ -306,6 +306,7 @@ TQSLWizCertPage::TQSLWizCertPage(TQSLWizard *parent, tQSL_Location locp)
 
 	valMsg = wxT("");
 	invalidGrid = false;
+	allowBadGrid = false;
 	tqsl_getStationLocationCapturePage(loc, &loc_page);
 	wxScreenDC sdc;
 	int label_w = 0;
@@ -481,12 +482,10 @@ TQSLWizCertPage::validate() {
 				if (valMsg.IsEmpty() && !gridlist.empty()) {
 					string probe = string(grid.Left(4).mb_str());
 					if (gridlist.find(probe) == string::npos) {
-						if (!invalidGrid) {
-							valMsg = wxString::Format(_("Grid %s is not correct for your QTH. Click 'Next' again to use it anyway."), grid.c_str());
-							invalidGrid = true;
-						} else {
-							invalidGrid = false;
-						}
+						valMsg = wxString::Format(_("Grid %s is not correct for your QTH. Click 'Next' again to use it anyway."), grid.c_str());
+						invalidGrid = true;
+					} else {
+						invalidGrid = false;
 					}
 				}
 				if (!editedGrids.IsEmpty())
@@ -542,7 +541,12 @@ TQSLWizCertPage::OnPageChanging(wxWizardEvent& ev) {
 
 	validate();
 	if (valMsg.Len() > 0 && ev.GetDirection()) {
-		ev.Veto();
+		if (!allowBadGrid) {
+			ev.Veto();
+			allowBadGrid = true;		// Don't allow going forward once
+		} else {
+			allowBadGrid = false;
+		}
 		if (!invalidGrid) {
 			wxMessageBox(valMsg, _("Error"), wxOK | wxICON_ERROR, this);
 		}

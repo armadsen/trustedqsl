@@ -92,6 +92,7 @@ class TQSLWizCertPage : public TQSLWizPage {
 	void OnCheckBoxEvent(wxCommandEvent&);
 	int loc_page;
 	bool invalidGrid;
+	bool allowBadGrid;
 	void UpdateFields(int noupdate_field = -1);
 	virtual const char *validate();
 	virtual TQSLWizPage *GetPrev() const;
