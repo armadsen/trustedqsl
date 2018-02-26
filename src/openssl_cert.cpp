@@ -803,7 +803,7 @@ tqsl_isCertificateExpired(tQSL_Cert cert, int *status) {
 	if (cert == NULL || status == NULL || !tqsl_cert_check(TQSL_API_TO_CERT(cert), false)) {
 		tqslTrace("tqsl_isCertificateExpired", "arg error cert=0x%lx status=0x%lx", cert, status);
 		tQSL_Error = TQSL_ARGUMENT_ERROR;
-		*status = false;
+		if (status) *status = false;
 		return 1;
 	}
 
