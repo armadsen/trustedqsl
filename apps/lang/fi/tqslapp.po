@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: TQSL v2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-21 07:48-0500\n"
-"PO-Revision-Date: 2017-02-21 22:49+0200\n"
+"PO-Revision-Date: 2018-02-22 19:24+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -2018,7 +2018,7 @@ msgstr "Tallennetaan TQSL-asetuksia"
 
 #: tqsl.cpp:4440
 msgid "Saving QSOs"
-msgstr ""
+msgstr "Tallennetaan QSO:ja"
 
 #: tqsl.cpp:4484
 msgid "Save operation complete."
@@ -2811,6 +2811,8 @@ msgstr "%s: Virheellinen alilokaattori"
 msgid ""
 "Grid %s is not correct for your QTH. Click 'Next' again to use it anyway."
 msgstr ""
+"Lokaattori %s ei ole oikea nykyiselle QTH:llesi. Jos haluat silti käyttää "
+"sitä, napsauta uudestaan \"Seuraava\"."
 
 #: tqslwiz.cpp:502
 msgid "Invalid zone selections for state"

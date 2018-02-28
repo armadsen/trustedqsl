@@ -5,17 +5,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: V2.3\n"
+"Project-Id-Version: V2.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-21 07:48-0500\n"
-"PO-Revision-Date: 2016-08-22 11:16+0200\n"
+"PO-Revision-Date: 2018-02-24 00:55+0100\n"
 "Last-Translator: Rick Murphy <k1mu@arrl.net>\n"
 "Language-Team: I4FYV Salvatore Besso <salvatore.besso@alice.it>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: it\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #: certtree.cpp:104
 msgid "tQSL Certificates"
@@ -124,7 +124,7 @@ msgstr "URL: "
 
 #: crqwiz.cpp:207
 msgid "DXCC entity:"
-msgstr "Entità DXCC"
+msgstr "Entità DXCC:"
 
 #: crqwiz.cpp:211 tqsl.cpp:1911 tqsl.cpp:4105
 msgid "Call sign:"
@@ -232,7 +232,7 @@ msgid ""
 "validate your request."
 msgstr ""
 "Seleziona un certificato del nominativo per il tuo nominativo personale "
-"attuale per convalidare la tua richiesta"
+"attuale per convalidare la tua richiesta."
 
 #: crqwiz.cpp:695 crqwiz.cpp:700 crqwiz.cpp:702
 msgid "Please select a Callsign Certificate to validate your request."
@@ -741,7 +741,7 @@ msgstr ""
 
 #: qsodatadialog.cpp:604 tqsl.cpp:1800
 msgid "ADIF files (*.adi;*.adif)|*.adi;*.adif|All files (*.*)|*.*"
-msgstr "File ADIF (*.adi;*.adif)|*.adi;*.adif|Tutti i file (*.*)|*.*."
+msgstr "File ADIF (*.adi;*.adif)|*.adi;*.adif|Tutti i file (*.*)|*.*"
 
 #: qsodatadialog.cpp:664
 #, c-format
@@ -928,8 +928,8 @@ msgid ""
 "(This is the password you made up when you installed the callsign "
 "certificate.)"
 msgstr ""
-"Immetti la password per sbloccare il certificato del nominativo per %hs - %"
-"hs\n"
+"Immetti la password per sbloccare il certificato del nominativo per %hs - "
+"%hs\n"
 " (Questa è la password che hai definito quando hai installato il certificato "
 "del nominativo.)"
 
@@ -1684,12 +1684,12 @@ msgstr ""
 #: tqsl.cpp:2746
 #, c-format
 msgid "%s: Log uploaded successfully"
-msgstr "%s: Log caricato con successo!"
+msgstr "%s: Log caricato con successo"
 
 #: tqsl.cpp:2749
 #, c-format
 msgid "%s uploaded successfully"
-msgstr "%s caricato con successo!"
+msgstr "%s caricato con successo"
 
 #: tqsl.cpp:2756
 #, c-format
@@ -1699,7 +1699,7 @@ msgstr "%s: Il caricamento %s è stato rifiutato con esito \"%s\""
 #: tqsl.cpp:2760
 #, c-format
 msgid "%s: %s upload was rejected"
-msgstr "%s: Il %s di caricamento è stato rifiutato!"
+msgstr "%s: Il %s di caricamento è stato rifiutato"
 
 #: tqsl.cpp:2766
 #, c-format
@@ -2034,7 +2034,7 @@ msgstr "Salvataggio preferenze di TQSL"
 
 #: tqsl.cpp:4440
 msgid "Saving QSOs"
-msgstr ""
+msgstr "Salvataggio QSO"
 
 #: tqsl.cpp:4484
 msgid "Save operation complete."
@@ -2311,8 +2311,8 @@ msgstr "Richiesta annullata"
 #, c-format
 msgid "Error creating callsign certificate request: %hs"
 msgstr ""
-"Errore durante la creazione della richiesta del certificato del nominativo: %"
-"hs"
+"Errore durante la creazione della richiesta del certificato del nominativo: "
+"%hs"
 
 #: tqsl.cpp:5841
 msgid "Error creating Callsign Certificate Request"
@@ -2835,6 +2835,8 @@ msgstr "%s: Sub quadratino non valido"
 msgid ""
 "Grid %s is not correct for your QTH. Click 'Next' again to use it anyway."
 msgstr ""
+"La griglia %s non è corretta per il tuo QTH. Fai clic di nuovo su "
+"'Successivo' per usarla comunque."
 
 #: tqslwiz.cpp:502
 msgid "Invalid zone selections for state"
@@ -2987,7 +2989,7 @@ msgstr "Il formato di questo file non è corretto."
 
 #: wxutil.cpp:159
 msgid "Callsign certificate could not be installed"
-msgstr ""
+msgstr "Il certificato del nominativo non può essere installato"
 
 #: wxutil.cpp:168
 msgid "NO ERROR"

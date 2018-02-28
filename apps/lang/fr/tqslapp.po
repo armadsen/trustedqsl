@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: V2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-21 07:48-0500\n"
-"PO-Revision-Date: 2016-08-20 18:47-0400\n"
+"PO-Revision-Date: 2018-02-22 18:48-0500\n"
 "Last-Translator: Rick Murphy <k1mu@arrl.net>\n"
 "Language-Team: TQSL Developers\n"
 "MIME-Version: 1.0\n"
@@ -1777,8 +1777,9 @@ msgid ""
 "There are no current callsign certificates for callsign %hs. This station "
 "location cannot be used to sign a log file."
 msgstr ""
-"Il n'y a aucun certificat d'indicatif d'appel actuel pour indicatif d'appel %"
-"hs. Cet emplacement de la station ne peut servir à signer un fichier journal."
+"Il n'y a aucun certificat d'indicatif d'appel actuel pour indicatif d'appel "
+"%hs. Cet emplacement de la station ne peut servir à signer un fichier "
+"journal."
 
 #: tqsl.cpp:2882 tqsl.cpp:2902 tqsl.cpp:6271
 msgid "Station Location data error"
@@ -2041,7 +2042,7 @@ msgstr "Sauvegardant les préférences TQSL"
 
 #: tqsl.cpp:4440
 msgid "Saving QSOs"
-msgstr ""
+msgstr "Sauver quelques QSOs"
 
 #: tqsl.cpp:4484
 msgid "Save operation complete."
@@ -2843,6 +2844,8 @@ msgstr "%s: Invalid Subsquare"
 msgid ""
 "Grid %s is not correct for your QTH. Click 'Next' again to use it anyway."
 msgstr ""
+"La grille %s n'est pas correcte pour votre QTH. Cliquez à nouveau sur "
+"\"Suivant\" pour l'utiliser quand même."
 
 #: tqslwiz.cpp:502
 msgid "Invalid zone selections for state"
@@ -2995,7 +2998,7 @@ msgstr "Le format de ce fichier est incorrect."
 
 #: wxutil.cpp:159
 msgid "Callsign certificate could not be installed"
-msgstr ""
+msgstr "Ce certificat d’indicatif d’appel est déjà installé"
 
 #: wxutil.cpp:168
 msgid "NO ERROR"

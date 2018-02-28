@@ -2014,7 +2014,7 @@ msgstr "TQSL　環境設定を保存"
 
 #: tqsl.cpp:4440
 msgid "Saving QSOs"
-msgstr ""
+msgstr "QSO を保存"
 
 #: tqsl.cpp:4484
 msgid "Save operation complete."
@@ -2803,7 +2803,7 @@ msgstr "%s： 無効なサブ・スクエア"
 #, c-format
 msgid ""
 "Grid %s is not correct for your QTH. Click 'Next' again to use it anyway."
-msgstr ""
+msgstr "グリッド %s はあなたの QTH に対して正しくありません。それでも、この値を使うというのなら、もう一度、「次へ」をクリックしてください。"
 
 #: tqslwiz.cpp:502
 msgid "Invalid zone selections for state"
@@ -2952,7 +2952,7 @@ msgstr "このファイルのフォーマットは正しくない"
 
 #: wxutil.cpp:159
 msgid "Callsign certificate could not be installed"
-msgstr ""
+msgstr "コールサイン証明書をインストールできない"
 
 #: wxutil.cpp:168
 msgid "NO ERROR"
