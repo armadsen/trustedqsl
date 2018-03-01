@@ -5627,6 +5627,7 @@ tqsl_getCallsignLocationInfo(const char *callsign, char **buf) {
 	size_t buflen = bufsize;
 #ifdef _WIN32
 	struct _stat32 s;
+	wchar_t* wfilename = utf8_to_wchar(path);
 	if (_wstat32(wfilename, &s) == 0) {
 		buflen = s.st_size + 512;
 	}
