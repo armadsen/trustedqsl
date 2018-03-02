@@ -20,7 +20,9 @@
 #include <wx/debug.h>
 #include <wx/log.h>
 
+#if defined(JSONDEBUG)
 static const wxChar* writerTraceMask = _T("traceWriter");
+#endif
 
 /*! \class wxJSONWriter
  \brief The JSON document writer
@@ -819,8 +821,10 @@ wxJSONWriter::WriteStringValue(wxOutputStream& os, const wxString& str) {
 */
 int
 wxJSONWriter::WriteString(wxOutputStream& os, const wxString& str) {
+#if defined(JSONDEBUG)
     wxLogTrace(writerTraceMask, _T("(%s) string to write=%s"),
                   __PRETTY_FUNCTION__, str.c_str());
+#endif
     int lastChar = 0;
     char* writeBuff = 0;
 
@@ -853,8 +857,10 @@ wxJSONWriter::WriteString(wxOutputStream& os, const wxString& str) {
         return -1;
     }
 
+#if defined(JSONDEBUG)
     wxLogTrace(writerTraceMask, _T("(%s) result=%d"),
                   __PRETTY_FUNCTION__, lastChar);
+#endif
     return lastChar;
 }
 
@@ -1033,9 +1039,10 @@ wxJSONWriter::WriteBoolValue(wxOutputStream& os, const wxJSONValue& value) {
 //! Write the key of a key/value element to the output stream.
 int
 wxJSONWriter::WriteKey(wxOutputStream& os, const wxString& key) {
+#if defined(JSONDEBUG)
     wxLogTrace(writerTraceMask, _T("(%s) key write=%s"),
                   __PRETTY_FUNCTION__, key.c_str());
-
+#endif
     int lastChar = WriteStringValue(os, key);
     os.Write(" : ", 3);
     return lastChar;

@@ -64,7 +64,11 @@
 #endif
 #include <zlib.h>
 #include <openssl/opensslv.h> // only for version info!
+#ifdef USE_LMDB
+#include <lmdb.h> //only for version info!
+#else
 #include <db.h> //only for version info!
+#endif
 
 #include <iostream>
 #include <fstream>
@@ -1531,7 +1535,11 @@ static wxString getAbout() {
 	msg+=wxString::Format(wxT("\nlibcurl V%hs\n"), LIBCURL_VERSION);
 	msg+=wxString::Format(wxT("%hs\n"), OPENSSL_VERSION_TEXT);
 	msg+=wxString::Format(wxT("zlib V%hs\n"), ZLIB_VERSION);
+#ifdef USE_LMDB
+	msg+=wxString::Format(wxT("%hs"), MDB_VERSION_STRING);
+#else
 	msg+=wxString::Format(wxT("%hs"), DB_VERSION_STRING);
+#endif
 	msg+=wxT("\n\n\nTranslators:\n"
 		"German: Andreas Rehberg, DF4WC\n"
 		"Spanish: Jordi Quintero, EA3GCV\n"
