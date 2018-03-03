@@ -3850,7 +3850,9 @@ MyFrame::SaveAddressInfo(const char *callsign) {
 	}
 
 	bool needToCleanUp = false;
-	const char *url = (const char *)wxString::Format(wxT("https://lotw.arrl.org/tqsl-setup.php?callsign=%hs"), callsign).ToUTF8();
+	char url[512];
+	strncpy(url, (wxString::Format(wxT("https://lotw.arrl.org/tqsl-setup.php?callsign=%hs"), callsign)).ToUTF8(), sizeof url);
+	tqslTrace("MyFrame::SaveAddressInfo", "Call = %s, url = %s", callsign, url);
 	if (curlReq) {
 		curl_easy_setopt(curlReq, CURLOPT_URL, url);
 	} else {
@@ -3901,6 +3903,10 @@ get_address_field(const char *callsign, const char *field, string& result) {
 	}
 
 	result = "";
+
+	if (strcmp(callsign, "[None]") == 0) {
+		return 1;
+	}
 
 	if (locInfo["call"] ==  callsign) { // Already got data for this call
 		LocMap::iterator it;
@@ -5060,9 +5066,7 @@ QSLApp::OnInit() {
 	for (int i = 1; i < argc; i++) {
 		origCommandLine += wxT(" ");
 		origCommandLine += argv[i];
-		//  The following causes an false positive "null pointer
-		//  dereference" from the clang static analyzer. Hide it.
-#ifndef __clang_analyzer__
+#ifdef _WIN32
 		if ((const wxChar *)argv[i])
 			if (argv[i][0] == wxT('-') || argv[i][0] == wxT('/'))
 				if (wxIsalpha(argv[i][1]) && wxIsupper(argv[i][1]))

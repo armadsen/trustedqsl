@@ -3069,6 +3069,9 @@ tqsl_backup_cert(tQSL_Cert cert) {
 		tqsl_getCertificateSerial(cert, &serial);
 	tqsl_getCertificateDXCCEntity(cert, &dxcc);
 
+#ifndef PATH_MAX
+#define PATH_MAX 1024
+#endif
 	char backupPath[PATH_MAX];
 	tqsl_make_backup_path(callsign, backupPath, sizeof backupPath);
 
@@ -5650,12 +5653,12 @@ tqsl_getCallsignLocationInfo(const char *callsign, char **buf) {
 	free_wchar(wfilename);
 #endif
 	if (buflen > bufsize) {
-		bufsize = buflen;
+		bufsize = buflen + 512;
 		mybuf = tqsl_realloc(mybuf, bufsize);
 	}
 	*buf = reinterpret_cast<char *>(mybuf);
 	size_t len;
-	if ((len = fread(*buf, 1, buflen, in)) == 0) {
+	if ((len = fread(mybuf, 1, buflen, in)) == 0) {
 		strncpy(tQSL_ErrorFile, path, sizeof tQSL_ErrorFile);
 		tqslTrace("tqsl_getCallsignLocationInformation", "Read file - system error %s", strerror(errno));
 		tQSL_Error = TQSL_SYSTEM_ERROR;
@@ -5669,8 +5672,10 @@ tqsl_getCallsignLocationInfo(const char *callsign, char **buf) {
 		tqslTrace("tqsl_getCallsignLocationInformation", "read error %d", errno);
 		return 1;
 	}
-	if (len < (size_t)buflen)
-		*buf[len] = '\0';
+	if (len < (size_t)buflen) {
+		char *t = reinterpret_cast<char *>(mybuf);
+		t[len] = '\0';
+	}
 	return 0;
 }
 

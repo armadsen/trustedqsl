@@ -2951,16 +2951,16 @@ wxJSONValue::CreateRefData() const {
 wxJSONRefData*
 wxJSONValue::COW() {
 #if wxUSE_LOG && wxUSE_LOG_DEBUG
-    wxJSONRefData* data = GetRefData();
 #if defined(JSONDEBUG)
+    wxJSONRefData* data = GetRefData();
     wxLogTrace(cowTraceMask, _T("(%s) COW() START data=%p data->m_count=%d"),
              __PRETTY_FUNCTION__, data, data->GetRefCount());
 #endif
 #endif
     UnShare();
 #if wxUSE_LOG && wxUSE_LOG_DEBUG
-    data = GetRefData();
 #if defined(JSONDEBUG)
+    data = GetRefData();
     wxLogTrace(cowTraceMask, _T("(%s) COW() END data=%p data->m_count=%d"),
              __PRETTY_FUNCTION__, data, data->GetRefCount());
 #endif
