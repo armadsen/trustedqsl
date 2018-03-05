@@ -3405,7 +3405,7 @@ MyFrame::DoCheckExpiringCerts(bool noGUI) {
 	tQSL_Cert *clist;
 	int nc;
 
-	tqsl_selectCertificates(&clist, &nc, 0, 0, 0, 0, TQSL_SELECT_CERT_EXPIRED);
+	tqsl_selectCertificates(&clist, &nc, 0, 0, 0, 0, TQSL_SELECT_CERT_WITHKEYS | TQSL_SELECT_CERT_EXPIRED);
 	if (nc == 0) return;
 
 	expInfo *ei = new expInfo;
