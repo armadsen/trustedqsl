@@ -4887,6 +4887,7 @@ MyFrame::OnLoadConfig(wxCommandEvent& WXUNUSED(event)) {
 
 QSLApp::QSLApp() : wxApp() {
 	lang = wxLANGUAGE_UNKNOWN;
+	locale = NULL;
 #ifdef __WXMAC__	// Tell wx to put these items on the proper menu
 	wxApp::s_macAboutMenuItemId = long(tm_h_about);
 	wxApp::s_macPreferencesMenuItemId = long(tm_f_preferences);
@@ -4983,7 +4984,10 @@ QSLApp::OnInit() {
 	locale->AddCatalogLookupPathPrefix(wxT("/usr/local/share/locale"));
 #endif
 	if (wxLocale::IsAvailable(lang)) {
+		if (locale) delete locale;
 		locale = new wxLocale(lang);
+		if (!locale)
+			locale = new wxLocale(wxLANGUAGE_DEFAULT);
 	} else {
 		wxLogError(wxT("This language is not supported by the system."));
 		locale = new wxLocale(wxLANGUAGE_DEFAULT);
@@ -6319,7 +6323,9 @@ void MyFrame::OnChooseLanguage(wxCommandEvent& WXUNUSED(event)) {
 	wxConfig::Get()->Flush();
 
 	if (wxLocale::IsAvailable(langIds[lng])) {
+		if (locale) delete locale;
 		locale = new wxLocale(langIds[lng]);
+		if (!locale) locale = new wxLocale(wxLANGUAGE_DEFAULT);
 	} else {
 		wxLogError(wxT("This language is not supported by the system."));
 		locale = new wxLocale(wxLANGUAGE_DEFAULT);
