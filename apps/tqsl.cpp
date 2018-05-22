@@ -2684,7 +2684,7 @@ int MyFrame::UploadFile(const wxString& infile, const char* filename, int numrec
 		wxLogMessage(_("Attempting to upload %s"), fileType.c_str());
 	}
 
-	if(this && !quiet) {
+	if (frame && !quiet) {
 		if (fileType == wxT("Log")) {
 			upload = new UploadDialog(this);
 		} else {
@@ -2804,7 +2804,7 @@ int MyFrame::UploadFile(const wxString& infile, const char* filename, int numrec
 			retval = TQSL_EXIT_TQSL_ERROR;
 		}
 	}
-	if (this && upload) upload->Destroy();
+	if (frame && upload) upload->Destroy();
 
 	curl_formfree(post);
 	curl_easy_cleanup(curlReq);
@@ -2812,7 +2812,7 @@ int MyFrame::UploadFile(const wxString& infile, const char* filename, int numrec
 
 	// If there's a GUI and we didn't successfully upload and weren't cancelled,
 	// ask the user if we should retry the upload.
-	if (this && retval != TQSL_EXIT_CANCEL && retval != TQSL_EXIT_SUCCESS) {
+	if (frame && retval != TQSL_EXIT_CANCEL && retval != TQSL_EXIT_SUCCESS) {
 		if (wxMessageBox(_("Your upload appears to have failed. Should TQSL try again?"), _("Retry?"), wxYES_NO | wxICON_QUESTION, this) == wxYES)
 			goto retry_upload;
 	}
@@ -3969,15 +3969,18 @@ get_address_field(const char *callsign, const char *field, string& result) {
 	}
 	locInfo["grids"] = grids;
 	wxString first = root[wxT("Source_address_components")][wxT("first_name")].AsString();
+	if (first == wxT("null")) first = wxT("");
 	wxString middle = root[wxT("Source_address_components")][wxT("middle_name")].AsString();
+	if (middle == wxT("null")) middle = wxT("");
 	wxString last = root[wxT("Source_address_components")][wxT("last_name")].AsString();
+	if (last == wxT("null")) last = wxT("");
 
 	wxString name;
 	if (middle == wxT(""))
 		name = first + wxT(" ") + last;
 	else
 		name = first + wxT(" ") + middle + wxT(" ") + last;
-	if (!name.IsEmpty())
+	if (!name.IsEmpty() || name == wxT(" "))
 		locInfo["name"] = ((string)name.ToUTF8());
 
 	locInfo["addr1"] = root[wxT("Source_address_components")][wxT("addr1")].AsString().ToUTF8();
@@ -4993,11 +4996,16 @@ QSLApp::OnInit() {
 		locale = new wxLocale(wxLANGUAGE_DEFAULT);
 	}
 
+	const wxLanguageInfo* pinfo = wxLocale::GetLanguageInfo(lang);
+
 	// Add a subdirectory for language files
 	locale->AddCatalogLookupPathPrefix(wxT("lang"));
 
 	// Initialize the catalogs we'll be using
-	locale->AddCatalog(wxT("tqslapp"));
+	if (!locale->AddCatalog(wxT("tqslapp"))) {
+		wxLogError(wxT("Can't find the tqslappp catalog for locale '%s'."), 
+				pinfo ? pinfo->CanonicalName : wxT("Unknown"));
+	}
 	locale->AddCatalog(wxT("wxstd"));
 
 	// this catalog is installed in standard location on Linux systems and

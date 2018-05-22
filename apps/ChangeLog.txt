@@ -1,6 +1,12 @@
 TQSL changes
 ============
 
+2.4.1
+----------
+Fix defect that was causing callsign certificate renewals to have "null null
+null" as the Name in some conditions.
+
+
 2.4
 ----------
 Add Hindi translation.
