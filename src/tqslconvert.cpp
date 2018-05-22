@@ -1308,13 +1308,13 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		tQSL_Error = TQSL_CUSTOM_ERROR;
 		return 0;
 	}
-	if (conv->rec.freq[0] && strcmp(conv->rec.band, tqsl_infer_band(conv->rec.freq))) {
+	if (conv->rec.freq[0] && strcmp(conv->rec.band, "SUBMM") && strcmp(conv->rec.band, tqsl_infer_band(conv->rec.freq))) {
 		conv->rec_done = true;
 		snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Frequency %s is out of range for band %s", conv->rec.freq, conv->rec.band);
 		tQSL_Error = TQSL_CUSTOM_ERROR;
 		return 0;
 	}
-	if (conv->rec.rxfreq[0] && strcmp(conv->rec.rxband, tqsl_infer_band(conv->rec.rxfreq))) {
+	if (conv->rec.rxfreq[0] && strcmp(conv->rec.rxband, "SUBMM") && strcmp(conv->rec.rxband, tqsl_infer_band(conv->rec.rxfreq))) {
 		conv->rec_done = true;
 		snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "RX Frequency %s is out of range for band %s", conv->rec.rxfreq, conv->rec.rxband);
 		tQSL_Error = TQSL_CUSTOM_ERROR;
