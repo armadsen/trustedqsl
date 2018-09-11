@@ -286,7 +286,7 @@ static int tqsl_check_crq_field(tQSL_Cert cert, char *buf, int bufsiz);
 static bool safe_strncpy(char *dest, const char *src, int size);
 static int tqsl_ssl_error_is_nofile();
 static int tqsl_unlock_key(const char *pem, EVP_PKEY **keyp, const char *password, int (*cb)(char *, int, void *), void *);
-static int tqsl_replace_key(const char *callsign, const char *path, map<string, string>& newfields, int (*cb)(int, const char *, void *), void *);
+static int tqsl_replace_key(const char *callsign, const char *path, map<string, string>& newfields, int (*cb)(int, const char *, void *), void *userdata, bool markdelete);
 static int tqsl_self_signed_is_ok(int ok, X509_STORE_CTX *ctx);
 static int tqsl_expired_is_ok(int ok, X509_STORE_CTX *ctx);
 static int tqsl_clear_deleted(const char *callsign, const char *path, EVP_PKEY *cert_key);
@@ -2951,7 +2951,7 @@ tqsl_importPKCS12(bool importB64, const char *filename, const char *base64, cons
 	for (mit = key_attr.begin(); mit != key_attr.end(); mit++)
 		newrecord[mit->first] = mit->second;
 
-	if (tqsl_replace_key(key_callsign.c_str(), path, newrecord, cb, userdata)) {
+	if (tqsl_replace_key(key_callsign.c_str(), path, newrecord, cb, userdata, false)) {
 		tqslTrace("tqsl_importPKCS12", "replace key error %d", tQSL_Error);
 		goto imp_end;
 	}
@@ -3260,7 +3260,7 @@ tqsl_deleteCertificate(tQSL_Cert cert) {
 	}
 	// Since there is no private key in "rec," tqsl_replace_key will just remove the
 	// existing private key.
-	tqsl_replace_key(callsign, path, rec, 0, 0);
+	tqsl_replace_key(callsign, path, rec, 0, 0, true);
 
 	if (TQSL_API_TO_CERT(cert)->keyonly) {
 		tqslTrace("tqsl_deleteCertificate", "key only");
@@ -4613,7 +4613,7 @@ tqsl_close_key_file(void) {
 }
 
 static int
-tqsl_replace_key(const char *callsign, const char *path, map<string, string>& newfields, int (*cb)(int, const char *, void *), void *userdata) {
+tqsl_replace_key(const char *callsign, const char *path, map<string, string>& newfields, int (*cb)(int, const char *, void *), void *userdata, bool markdelete) {
 	char newpath[300];
 	char savepath[300];
 #ifdef _WIN32
@@ -4659,7 +4659,9 @@ tqsl_replace_key(const char *callsign, const char *path, map<string, string>& ne
 		BIO_free(bio);
 		bio = NULL;
 		if (EVP_PKEY_cmp(key, new_key) == 1) {
-			fields["DELETED"] = "True";
+			if (!markdelete)
+				continue;		// Skip record with matching public key
+			fields["DELETED"] = "True";	// Else mark as deleted
 		}
 		bool seenbefore = false;
 		for (size_t i = 0; i < seen.size(); i++) {

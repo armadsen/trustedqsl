@@ -2358,6 +2358,8 @@ MyFrame::ConvertLogFile(tQSL_Location loc, const wxString& infile, const wxStrin
 		else
 			return TQSL_EXIT_NO_QSOS;
 	} else {
+		if (status == TQSL_EXIT_CANCEL)
+			return status;
 		if(compressed) {
 			if (gzwrite(gout, output.ToUTF8(), output.size()) <= 0) {
 				tqsl_converterRollBack(logConv);
@@ -2482,6 +2484,8 @@ int MyFrame::UploadLogFile(tQSL_Location loc, const wxString& infile, bool compr
 		else
 			return TQSL_EXIT_NO_QSOS;
 	} else {
+		if (status == TQSL_EXIT_CANCEL)
+			return status;
 		//compress the upload
 		tqslTrace("MyFrame::UploadLogFile", "Compressing");
 		string compressed;
@@ -5003,7 +5007,7 @@ QSLApp::OnInit() {
 
 	// Initialize the catalogs we'll be using
 	if (!locale->AddCatalog(wxT("tqslapp"))) {
-		wxLogError(wxT("Can't find the tqslappp catalog for locale '%s'."), 
+		wxLogError(wxT("Can't find the tqslappp catalog for locale '%s'."),
 				pinfo ? pinfo->CanonicalName : wxT("Unknown"));
 	}
 	locale->AddCatalog(wxT("wxstd"));
