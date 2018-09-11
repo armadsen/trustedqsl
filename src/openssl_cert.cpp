@@ -286,7 +286,7 @@ static int tqsl_check_crq_field(tQSL_Cert cert, char *buf, int bufsiz);
 static bool safe_strncpy(char *dest, const char *src, int size);
 static int tqsl_ssl_error_is_nofile();
 static int tqsl_unlock_key(const char *pem, EVP_PKEY **keyp, const char *password, int (*cb)(char *, int, void *), void *);
-static int tqsl_replace_key(const char *callsign, const char *path, map<string, string>& newfields, int (*cb)(int, const char *, void *), void *userdata, bool markdelete);
+static int tqsl_replace_key(const char *callsign, const char *path, map<string, string>& newfields, int (*cb)(int, const char *, void *), void *userdata);
 static int tqsl_self_signed_is_ok(int ok, X509_STORE_CTX *ctx);
 static int tqsl_expired_is_ok(int ok, X509_STORE_CTX *ctx);
 static int tqsl_clear_deleted(const char *callsign, const char *path, EVP_PKEY *cert_key);
@@ -2951,7 +2951,7 @@ tqsl_importPKCS12(bool importB64, const char *filename, const char *base64, cons
 	for (mit = key_attr.begin(); mit != key_attr.end(); mit++)
 		newrecord[mit->first] = mit->second;
 
-	if (tqsl_replace_key(key_callsign.c_str(), path, newrecord, cb, userdata, false)) {
+	if (tqsl_replace_key(key_callsign.c_str(), path, newrecord, cb, userdata)) {
 		tqslTrace("tqsl_importPKCS12", "replace key error %d", tQSL_Error);
 		goto imp_end;
 	}
@@ -3260,7 +3260,7 @@ tqsl_deleteCertificate(tQSL_Cert cert) {
 	}
 	// Since there is no private key in "rec," tqsl_replace_key will just remove the
 	// existing private key.
-	tqsl_replace_key(callsign, path, rec, 0, 0, true);
+	tqsl_replace_key(callsign, path, rec, 0, 0);
 
 	if (TQSL_API_TO_CERT(cert)->keyonly) {
 		tqslTrace("tqsl_deleteCertificate", "key only");
@@ -4613,7 +4613,7 @@ tqsl_close_key_file(void) {
 }
 
 static int
-tqsl_replace_key(const char *callsign, const char *path, map<string, string>& newfields, int (*cb)(int, const char *, void *), void *userdata, bool markdelete) {
+tqsl_replace_key(const char *callsign, const char *path, map<string, string>& newfields, int (*cb)(int, const char *, void *), void *userdata) {
 	char newpath[300];
 	char savepath[300];
 #ifdef _WIN32
@@ -4622,7 +4622,6 @@ tqsl_replace_key(const char *callsign, const char *path, map<string, string>& ne
 	map<string, string> fields;
 	vector< map<string, string> > records;
 	vector< map<string, string> >::iterator it;
-	vector<string>seen;
 	EVP_PKEY *new_key = NULL, *key = NULL;
 	BIO *bio = 0;
 	FILE *out = 0;
@@ -4659,21 +4658,9 @@ tqsl_replace_key(const char *callsign, const char *path, map<string, string>& ne
 		BIO_free(bio);
 		bio = NULL;
 		if (EVP_PKEY_cmp(key, new_key) == 1) {
-			if (!markdelete)
-				continue;		// Skip record with matching public key
-			fields["DELETED"] = "True";	// Else mark as deleted
+			fields["DELETED"] = "True";	// Mark as deleted
 		}
-		bool seenbefore = false;
-		for (size_t i = 0; i < seen.size(); i++) {
-			if (seen[i] == fields["PUBLIC_KEY"]) {
-				seenbefore = true;
-				break;
-			}
-		}
-		if (!seenbefore) {
-			records.push_back(fields);
-			seen.push_back(fields["PUBLIC_KEY"]);
-		}
+		records.push_back(fields);
 	}
 	tqsl_close_key_file();
 	if (newfields["PRIVATE_KEY"] != "")
@@ -4849,6 +4836,7 @@ tqsl_find_matching_key(X509 *cert, EVP_PKEY **keyp, TQSL_CERT_REQ **crq, const c
 	int deleted = 0;
 	BIO *bio = NULL;
 	map<string, string> fields;
+	bool finddeleted = false;
 
 	if (keyp != NULL)
 		*keyp = NULL;
@@ -4864,6 +4852,7 @@ tqsl_find_matching_key(X509 *cert, EVP_PKEY **keyp, TQSL_CERT_REQ **crq, const c
 		goto end_nokey;
 	}
 	strncpy(ImportCall, aro, sizeof ImportCall);
+ again:
 	if (tqsl_open_key_file(path)) {
 		/* Friendly error for file not found */
 		if (tQSL_Error == TQSL_SYSTEM_ERROR) {
@@ -4904,9 +4893,13 @@ tqsl_find_matching_key(X509 *cert, EVP_PKEY **keyp, TQSL_CERT_REQ **crq, const c
 		bio = NULL;
 		if (EVP_PKEY_cmp(curkey, cert_key) == 1) {
 			if (fields["DELETED"] == "True") {
-				deleted = 1;
+				if (finddeleted) {
+					match = 1;
+					deleted = 1;
+				}
+			} else {
+				match = 1;
 			}
-			match = 1;
 		}
 		if (match) {
 			/* We have a winner */
@@ -4941,6 +4934,11 @@ tqsl_find_matching_key(X509 *cert, EVP_PKEY **keyp, TQSL_CERT_REQ **crq, const c
 	}
 	if (match)
 		goto end;
+	if (!finddeleted) {
+		finddeleted = true;
+		tqsl_close_key_file();
+		goto again;
+	}
 	tqslTrace("tqsl_find_matching_key", "No matching private key found");
 	rval = 1;
 	tQSL_Error = TQSL_CERT_NOT_FOUND;
