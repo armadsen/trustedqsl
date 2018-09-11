@@ -6,6 +6,9 @@ TQSL changes
 Fix defect that was causing callsign certificate renewals to have "null null
 null" as the Name in some conditions.
 
+Fix defect that was required deleting an existing callsign certificate before
+importing a replacement .P12 file
+
 
 2.4
 ----------

@@ -17,6 +17,8 @@ msgstr ""
 "X-Generator: Poedit 2.0.4\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "Language: hi_IN\n"
+"X-Poedit-Language: Hindi\n"
+"X-Poedit-Country: INDIA\n"
 
 #: certtree.cpp:104
 msgid "tQSL Certificates"

@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: V2.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-21 07:48-0500\n"
-"PO-Revision-Date: 2018-02-22 18:48-0500\n"
+"PO-Revision-Date: 2018-06-06 19:18-0400\n"
 "Last-Translator: Rick Murphy <k1mu@arrl.net>\n"
 "Language-Team: TQSL Developers\n"
 "MIME-Version: 1.0\n"
@@ -849,7 +849,7 @@ msgstr "Oblast"
 
 #: stationdial.cpp:361
 msgid "County"
-msgstr "Pays"
+msgstr "Comté"
 
 #: stationdial.cpp:363
 msgid "WPX Prefix"
@@ -2592,7 +2592,7 @@ msgstr "Etat: "
 
 #: tqsl.cpp:6544
 msgid "County: "
-msgstr "Pays: "
+msgstr "Comté: "
 
 #: tqsl.cpp:6545 tqsl.cpp:6547 tqsl.cpp:6551
 msgid "Park: "
