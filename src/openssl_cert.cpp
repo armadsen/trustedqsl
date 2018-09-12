@@ -4646,6 +4646,16 @@ tqsl_replace_key(const char *callsign, const char *path, map<string, string>& ne
 		tQSL_Error = TQSL_NO_ERROR;
 	}
 	while (tqsl_read_key(fields) == 0) {
+		vector<string>seen;
+		bool match = false;
+		for (size_t i = 0; i < seen.size(); i++) {
+			if (seen[i] == fields["PUBLIC_KEY"]) {
+				match = true;
+				break;
+			}
+		}
+		if (match) continue;			// Drop dupes
+		seen.push_back(fields["PUBLIC_KEY"]);
 		if ((bio = BIO_new_mem_buf(reinterpret_cast<void *>(const_cast<char *>(fields["PUBLIC_KEY"].c_str())),
 					   fields["PUBLIC_KEY"].length())) == NULL) {
 			tqslTrace("tqsl_replace_key", "BIO_new_mem_buf error %s", tqsl_openssl_error());
@@ -5040,10 +5050,20 @@ tqsl_make_key_list(vector< map<string, string> > & keys) {
 		}
 #endif
 		if (!tqsl_open_key_file(filename.c_str())) {
+			vector<string>seen;
 			map<string, string> fields;
 			while (!tqsl_read_key(fields)) {
 				if (fields["DELETED"] == "True")
 					continue;		// Skip this one
+				bool match = false;
+				for (size_t i = 0; i < seen.size(); i++) {
+					if (seen[i] == fields["PUBLIC_KEY"]) {
+						match = true;
+						break;
+					}
+				}
+				if (match) continue;
+				seen.push_back(fields["PUBLIC_KEY"]);
 				if (tqsl_clean_call(fields["CALLSIGN"].c_str(), fixcall, sizeof fixcall)) {
 					rval = 1;
 					savedError = tQSL_Error;
