@@ -3,6 +3,12 @@ TQSL changes
 
 2.4.1
 ----------
+Display "No Private Key" versus an error message when displaying a callsign
+certificate with no installed private key.
+
+Fix defect that meant that some callsign certificates (those with missing
+private keys) could not be restored from a .TBK file containing a good copy.
+
 Fix defect that was causing callsign certificate renewals to have "null null
 null" as the Name in some conditions.
 

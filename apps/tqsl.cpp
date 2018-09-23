@@ -4551,6 +4551,12 @@ restore_user_cert(TQSLConfig* loader) {
 		if (!keyonly) {
 			check_tqsl_error(tqsl_getCertificateSerial(certlist[i], &serial));
 			if (serial == loader->serial && dxcc == loader->dxcc) {
+				// Is there a good private key as well?
+				int pktype;
+				pktype = tqsl_getCertificatePrivateKeyType(certlist[i]);
+				if (pktype == TQSL_PK_TYPE_ERR || pktype == TQSL_PK_TYPE_NONE) {
+					break;
+				}
 				return;			// This certificate is already installed.
 			}
 		} else {
@@ -6482,6 +6488,10 @@ CertPropDial::CertPropDial(tQSL_Cert cert, wxWindow *parent)
 			case 10:
 				switch (tqsl_getCertificatePrivateKeyType(cert)) {
 					case TQSL_PK_TYPE_ERR:
+						if (tQSL_Error == TQSL_CERT_NOT_FOUND) {
+							strncpy(buf, __("No Private Key"), sizeof buf);
+							break;
+						}
 						if (tQSL_Error == TQSL_CUSTOM_ERROR && (tQSL_Errno == ENOENT || tQSL_Errno == EPERM)) {
 							snprintf(tQSL_CustomError, sizeof tQSL_CustomError,
 								"Can't open the private key file for %s: %s", callsign, strerror(tQSL_Errno));
@@ -6490,7 +6500,7 @@ CertPropDial::CertPropDial(tQSL_Cert cert, wxWindow *parent)
 						strncpy(buf, __("<ERROR>"), sizeof buf);
 						break;
 					case TQSL_PK_TYPE_NONE:
-						strncpy(buf, __("None"), sizeof buf);
+						strncpy(buf, __("No Private Key"), sizeof buf);
 						break;
 					case TQSL_PK_TYPE_UNENC:
 						strncpy(buf, __("None"), sizeof buf);
