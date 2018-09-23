@@ -681,8 +681,11 @@ static bool open_db(TQSL_CONVERTER *conv, bool readonly) {
 		conv->cursor = NULL;
 		conv->errfile = NULL;
 		// Handle case where the database is just broken
-		if (dbret == EINVAL && !triedDelete) {
-			tqslTrace("open_db", "EINVAL. Removing db");
+#ifndef DB_RUNRECOVERY
+#define DB_RUNRECOVERY -30973
+#endif
+		if ((dbret == EINVAL || dbret == DB_RUNRECOVERY) && !triedDelete) {
+			tqslTrace("open_db", "EINVAL/RUNRECOVERY. Removing db");
 			remove_db(fixedpath.c_str());
 			triedDelete = true;
 			goto reopen;
