@@ -1508,9 +1508,9 @@ tqsl_importKeyPairEncoded(const char *callsign, const char *type, const char *ke
 		FILE *temp = NULL;
 #ifdef _WIN32
 		strncat(temppath, "\\pk.tmp", sizeof temppath - strlen(temppath));
-		wchar_t* wpath = utf8_to_whchar(temppath);
+		wchar_t* wpath = utf8_to_wchar(temppath);
 		if ((temp = _wfopen(wpath, TQSL_OPEN_WRITE)) == NULL) {
-			free_wchar(wfilename);
+			free_wchar(wpath);
 #else
 		strncat(temppath, "/pk.tmp", sizeof temppath - strlen(temppath));
 		if ((temp = fopen(temppath, TQSL_OPEN_WRITE)) == NULL) {
