@@ -292,6 +292,8 @@ static int tqsl_expired_is_ok(int ok, X509_STORE_CTX *ctx);
 static int tqsl_clear_deleted(const char *callsign, const char *path, EVP_PKEY *cert_key);
 static int tqsl_key_exists(const char *callsign, EVP_PKEY *cert_key);
 static int tqsl_open_key_file(const char *path);
+static int tqsl_read_key(map<string, string>& fields);
+static void tqsl_close_key_file(void);
 
 extern const char* tqsl_openssl_error(void);
 
@@ -1450,12 +1452,15 @@ DLLEXPORT int CALLCONVENTION
 tqsl_importKeyPairEncoded(const char *callsign, const char *type, const char *keybuf, const char *certbuf) {
 	BIO *in = NULL;
 	BIO *b64 = NULL;
-	BIO *out = NULL;
 	BIO *pub = NULL;
 	X509 *cert;
-	char path[256];
+	char path[TQSL_MAX_PATH_LEN];
+	char temppath[TQSL_MAX_PATH_LEN];
 	char biobuf[4096];
 	int cb = 0;
+	map<string, string> fields;
+	void* userdata = NULL;
+
 	tqslTrace("tqsl_importKeyPairEncoded", NULL);
 
 	if (tqsl_init())
@@ -1496,6 +1501,43 @@ tqsl_importKeyPairEncoded(const char *callsign, const char *type, const char *ke
 
 		size_t bloblen;
 		bloblen = BIO_read(in, biobuf, strlen(keybuf));
+		if (bloblen >= 0)
+			biobuf[bloblen] = '\0';
+
+		strncpy(temppath, tQSL_BaseDir, sizeof temppath);
+		FILE *temp = NULL;
+#ifdef _WIN32
+		strncat(temppath, "\\pk.tmp", sizeof temppath - strlen(temppath));
+		wchar_t* wpath = utf8_to_whchar(temppath);
+		if ((temp = _wfopen(wpath, TQSL_OPEN_WRITE)) == NULL) {
+			free_wchar(wfilename);
+#else
+		strncat(temppath, "/pk.tmp", sizeof temppath - strlen(temppath));
+		if ((temp = fopen(temppath, TQSL_OPEN_WRITE)) == NULL) {
+#endif
+			strncpy(tQSL_ErrorFile, temppath, sizeof tQSL_ErrorFile);
+			tqslTrace("tqsl_importKeyPairEncoded", "Open file - system error %s", strerror(errno));
+			tQSL_Error = TQSL_SYSTEM_ERROR;
+			tQSL_Errno = errno;
+			return 1;
+		}
+#ifdef _WIN32
+		free_wchar(wpath);
+#endif
+		if (fputs(biobuf, temp) == EOF) {
+			strncpy(tQSL_ErrorFile, temppath, sizeof tQSL_ErrorFile);
+			tqslTrace("tqsl_importKeyPairEncoded", "Write request file - system error %s", strerror(errno));
+			tQSL_Error = TQSL_SYSTEM_ERROR;
+			tQSL_Errno = errno;
+			return 1;
+		}
+		if (fclose(temp) == EOF) {
+			strncpy(tQSL_ErrorFile, temppath, sizeof tQSL_ErrorFile);
+			tQSL_Error = TQSL_SYSTEM_ERROR;
+			tQSL_Errno = errno;
+			tqslTrace("tqsl_importKeyPairEncoded", "write error %d", errno);
+			return 1;
+		}
 
 // Now is there a private key already with this serial?
 		char *pubkey = strstr(biobuf, "-----BEGIN PUBLIC KEY-----");
@@ -1512,21 +1554,15 @@ tqsl_importKeyPairEncoded(const char *callsign, const char *type, const char *ke
 			BIO_free(pub);
 			pub = 0;
 			if (!tqsl_key_exists(callsign, new_key)) {
-				if (tqsl_open_key_file(path)) {
-					out = BIO_new_file(path, "a");
-					if (!out) {
-						tQSL_Error = TQSL_SYSTEM_ERROR;
-						tQSL_Errno = errno;
-						snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Unable to open private key %s: %s",
-							path, strerror(errno));
-						tqslTrace("tqsl_importKeyPairEncoded", "new_file err %s", tQSL_CustomError);
-						goto noprv;
+				// Populate fields from the temp file
+				if (!tqsl_open_key_file(temppath)) {
+					if (!tqsl_read_key(fields)) {
+						tqsl_replace_key(callsign, path, fields, NULL, userdata);
 					}
-					BIO_write(out, biobuf, bloblen);
-					BIO_free_all(out);
+					tqsl_close_key_file();
 				}
-				BIO_free_all(in);
 			}
+			BIO_free_all(in);
 		}
 	} // Import of private key
 
@@ -1548,7 +1584,12 @@ tqsl_importKeyPairEncoded(const char *callsign, const char *type, const char *ke
 		tQSL_Error = TQSL_OPENSSL_ERROR;
 		return 1;
 	}
-	return tqsl_store_cert(certbuf, cert, type, cb, true, NULL, NULL);
+	int ret = tqsl_store_cert(certbuf, cert, type, cb, true, NULL, NULL);
+	// it's OK if installing the cert gets a dupe
+	if (ret != 0 && tQSL_Error == TQSL_CERT_ERROR) {
+		ret = 0;
+	}
+	return ret;
 }
 
 DLLEXPORT int CALLCONVENTION
