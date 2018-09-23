@@ -5013,8 +5013,8 @@ QSLApp::OnInit() {
 
 	// Initialize the catalogs we'll be using
 	if (!locale->AddCatalog(wxT("tqslapp"))) {
-		wxLogError(wxT("Can't find the tqslappp catalog for locale '%s'."),
-				pinfo ? pinfo->CanonicalName : wxT("Unknown"));
+		const char* cname = pinfo->CanonicalName.ToUTF8();
+		wxLogError(wxT("Can't find the tqslappp catalog for locale '%s'."), cname);
 	}
 	locale->AddCatalog(wxT("wxstd"));
 
