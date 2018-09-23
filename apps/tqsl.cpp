@@ -6489,7 +6489,7 @@ CertPropDial::CertPropDial(tQSL_Cert cert, wxWindow *parent)
 				switch (tqsl_getCertificatePrivateKeyType(cert)) {
 					case TQSL_PK_TYPE_ERR:
 						if (tQSL_Error == TQSL_CERT_NOT_FOUND) {
-							strncpy(buf, __("No Private Key"), sizeof buf);
+							strncpy(buf, __("Missing from this computer"), sizeof buf);
 							break;
 						}
 						if (tQSL_Error == TQSL_CUSTOM_ERROR && (tQSL_Errno == ENOENT || tQSL_Errno == EPERM)) {
