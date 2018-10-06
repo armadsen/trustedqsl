@@ -4969,6 +4969,9 @@ QSLApp::OnRun() {
 	return 0;
 }
 
+static vector<wxLanguage> langIds;
+static wxArrayString langNames;
+
 bool
 QSLApp::OnInit() {
 	frame = 0;
@@ -4980,6 +4983,70 @@ QSLApp::OnInit() {
 		exitNow(TQSL_EXIT_TQSL_ERROR, quiet);
 	}
 
+	if (langIds.size() == 0) {
+		char langfile[1024];
+		FILE *lfp;
+#ifdef _WIN32
+		snprintf(langfile, sizeof langfile, "%s\\languages.dat", tQSL_RsrcDir);
+		wchar_t *wfilename = utf8_to_wchar(langfile);
+		if ((lfp = _wfopen(wfilename, L"rb, ccs=UTF-8")) == NULL) {
+			free_wchar(wfilename);
+#else
+		snprintf(langfile, sizeof langfile, "%s/languages.dat", tQSL_RsrcDir);
+		if ((lfp = fopen(langfile, "rb")) == NULL) {
+#endif
+			goto nosyslang;
+		}
+#ifdef _WIN32
+		free_wchar(wfilename);
+#endif
+
+		char lBuf[128];
+		while (fgets(lBuf, sizeof lBuf, lfp)) {
+			wxStringTokenizer langData(wxString::FromUTF8(lBuf), wxT(","));
+			langNames.Add(langData.GetNextToken());
+			langIds.push_back(static_cast<wxLanguage>(strtol(langData.GetNextToken().ToUTF8(), NULL, 10)));
+		}
+
+		fclose(lfp);
+
+ nosyslang:
+		// Now merge in the user directory copy
+#ifdef _WIN32
+		snprintf(langfile, sizeof langfile, "%s\\languages.dat", tQSL_BaseDir);
+		wchar_t *wfilename = utf8_to_wchar(langfile);
+		if ((lfp = _wfopen(wfilename, L"rb, ccs=UTF-8")) == NULL) {
+			free_wchar(wfilename);
+#else
+		snprintf(langfile, sizeof langfile, "%s/languages.dat", tQSL_BaseDir);
+		if ((lfp = fopen(langfile, "rb")) == NULL) {
+#endif
+			goto nousrlang;
+		}
+#ifdef _WIN32
+		free_wchar(wfilename);
+#endif
+
+		while (fgets(lBuf, sizeof lBuf, lfp)) {
+			wxStringTokenizer langData(wxString::FromUTF8(lBuf), wxT(","));
+			wxString ln = langData.GetNextToken();
+			bool found = false;
+			for (size_t i = 0; i < langIds.size(); i++) {
+				if (langNames[i] == ln) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				langNames.Add(ln);
+				langIds.push_back(static_cast<wxLanguage>(strtol(langData.GetNextToken().ToUTF8(), NULL, 10)));
+			}
+		}
+		fclose(lfp);
+	}
+
+ nousrlang:
+
 	wxConfig::Get()->Read(wxT("Language"), &lng, wxLANGUAGE_UNKNOWN);
 	lang = (wxLanguage) lng;
 
@@ -4987,7 +5054,7 @@ QSLApp::OnInit() {
 		lang = wxLANGUAGE_DEFAULT;
 	}
 
-	for (lng = 0; (unsigned) lng < sizeof (langNames); lng++) {
+	for (lng = 0; (unsigned) lng < langIds.size(); lng++) {
 		if (lang == langIds[lng])
 			break;
 	}
@@ -6331,8 +6398,7 @@ void MyFrame::OnChooseLanguage(wxCommandEvent& WXUNUSED(event)) {
 
 	wxLanguage lang = wxGetApp().GetLang();
 	long lng = wxGetSingleChoiceIndex(_("Please choose language:"),
-					 _("Language"),
-					WXSIZEOF(langNames), langNames, this);
+					 _("Language"), langNames, this);
 	tqslTrace("MyFrame::OnChooseLanguage", "Language chosen: %d", lng);
 	if (lng == -1 || langIds[lng] == lang)		// Cancel or No change
 		return;

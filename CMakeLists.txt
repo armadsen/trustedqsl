@@ -65,6 +65,10 @@ else()
 	set (BDB_INCLUDE_DIR "")
 endif()
 
+if(NOT APPLE AND NOT WIN32)
+	add_definitions("-DCONFDIR=\"${CMAKE_INSTALL_PREFIX}/share/TrustedQSL/\"")
+endif()
+
 add_subdirectory(src) #tqsllib
 add_subdirectory(apps)
 macro_optional_add_subdirectory(tests)

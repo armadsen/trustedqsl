@@ -22,6 +22,9 @@
     #include <direct.h>
     #include <Shlobj.h>
 #endif
+#include <string>
+using std::string;
+
 #include <openssl/err.h>
 #include <openssl/objects.h>
 #include <openssl/evp.h>
@@ -40,6 +43,7 @@ DLLEXPORTDATA int tQSL_Error = 0;
 DLLEXPORTDATA int tQSL_Errno = 0;
 DLLEXPORTDATA TQSL_ADIF_GET_FIELD_ERROR tQSL_ADIF_Error;
 DLLEXPORTDATA const char *tQSL_BaseDir = 0;
+DLLEXPORTDATA const char *tQSL_RsrcDir = 0;
 DLLEXPORTDATA char tQSL_ErrorFile[256];
 DLLEXPORTDATA char tQSL_CustomError[256];
 DLLEXPORTDATA char tQSL_ImportCall[256];
@@ -175,6 +179,54 @@ static int pmkdir(const char *path, int perm) {
 }
 #endif // defined(_WIN32)
 
+static void
+tqsl_get_rsrc_dir() {
+	tqslTrace("tqsl_get_rsrc_dir", NULL);
+
+#ifdef _WIN32
+	HKEY hkey;
+	DWORD dtype;
+	char wpath[TQSL_MAX_PATH_LEN];
+	DWORD bsize = sizeof wpath;
+	int wval;
+	if ((wval = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
+		"Software\\TrustedQSL", 0, KEY_READ, &hkey)) == ERROR_SUCCESS) {
+		wval = RegQueryValueEx(hkey, "InstallPath", 0, &dtype, (LPBYTE)wpath, &bsize);
+		RegCloseKey(hkey);
+		if (wval == ERROR_SUCCESS) {
+			string p = string(wpath);
+			if (p.back() == '\\')
+				p.pop_back();
+			tQSL_RsrcDir = strdup(p.c_str());
+		}
+	}
+#elif defined(__APPLE__)
+	// Get path to config.xml resource from bundle
+	CFBundleRef tqslBundle = CFBundleGetMainBundle();
+	CFURLRef configXMLURL = CFBundleCopyResourceURL(tqslBundle, CFSTR("config"), CFSTR("xml"), NULL);
+	if (configXMLURL) {
+		CFStringRef pathString = CFURLCopyFileSystemPath(configXMLURL, kCFURLPOSIXPathStyle);
+		CFRelease(configXMLURL);
+
+		// Convert CFString path to config.xml to string object
+		CFIndex maxStringLengthInBytes = CFStringGetMaximumSizeForEncoding(CFStringGetLength(pathString), kCFStringEncodingUTF8);
+		char *pathCString = static_cast<char *>(malloc(maxStringLengthInBytes));
+		if (pathCString) {
+			CFStringGetCString(pathString, pathCString, maxStringLengthInBytes, kCFStringEncodingASCII);
+			CFRelease(pathString);
+			tQSL_RsrcDir = strdup((string(pathCString) - "/config.xml").c_str());
+			free(pathCString);
+		}
+	}
+#else
+	string p = CONFDIR;
+	if (p.back() == '/')
+		p.pop_back();
+	tQSL_RsrcDir = strdup(p.c_str());
+#endif
+	tqslTrace("tqsl_get_rsrc_dir", "rsrc_path=%s", tQSL_RsrcDir);
+
+}
 DLLEXPORT int CALLCONVENTION
 tqsl_init() {
 	static char semaphore = 0;
@@ -231,6 +283,9 @@ tqsl_init() {
 			tQSL_Error = TQSL_OPENSSL_ERROR;
 			return 1;
 		}
+	}
+	if (tQSL_RsrcDir == NULL) {
+		tqsl_get_rsrc_dir();
 	}
 	if (tQSL_BaseDir == NULL) {
 #if defined(_WIN32)

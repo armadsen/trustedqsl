@@ -195,6 +195,7 @@ class MyFrame : public wxFrame {
 	bool _quiet;
 };
 
+#if 0
 // language data
 static const wxLanguage langIds[] = {
     wxLANGUAGE_DEFAULT,
@@ -210,6 +211,7 @@ static const wxLanguage langIds[] = {
     wxLANGUAGE_RUSSIAN,
     wxLANGUAGE_SPANISH,
 };
+
 
 // note that it makes no sense to translate these strings, they are
 // shown before we set the locale anyhow
@@ -232,4 +234,5 @@ const wxString langNames[] = {
 wxCOMPILE_TIME_ASSERT(WXSIZEOF(langNames) == WXSIZEOF(langIds),
                        LangArraysMismatch);
 
+#endif
 #endif // __tqslapp_h

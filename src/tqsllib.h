@@ -136,6 +136,7 @@ typedef struct {
 
 /// Base directory for tQSL library working files.
 DLLEXPORTDATA extern const char *tQSL_BaseDir;
+DLLEXPORTDATA extern const char *tQSL_RsrcDir;
 
 #ifdef __cplusplus
 extern "C" {

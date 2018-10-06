@@ -338,50 +338,13 @@ tqsl_load_xml_config() {
 		return 0;
 	XMLElement default_config;
 	XMLElement user_config;
-	string default_path;
 	tqslTrace("tqsl_load_xml_config", NULL);
 
 #ifdef _WIN32
-	HKEY hkey;
-	DWORD dtype;
-	char wpath[TQSL_MAX_PATH_LEN];
-	DWORD bsize = sizeof wpath;
-	int wval;
-	if ((wval = RegOpenKeyEx(HKEY_LOCAL_MACHINE,
-		"Software\\TrustedQSL", 0, KEY_READ, &hkey)) == ERROR_SUCCESS) {
-		wval = RegQueryValueEx(hkey, "InstallPath", 0, &dtype, (LPBYTE)wpath, &bsize);
-		RegCloseKey(hkey);
-		if (wval == ERROR_SUCCESS)
-			default_path = string(wpath) + "\\config.xml";
-		tqslTrace("tqsl_load_xml_config", "default_path=%s", default_path.c_str());
-	}
-#elif defined(__APPLE__)
-	// Get path to config.xml resource from bundle
-	CFBundleRef tqslBundle = CFBundleGetMainBundle();
-	CFURLRef configXMLURL = CFBundleCopyResourceURL(tqslBundle, CFSTR("config"), CFSTR("xml"), NULL);
-	if (configXMLURL) {
-		CFStringRef pathString = CFURLCopyFileSystemPath(configXMLURL, kCFURLPOSIXPathStyle);
-		CFRelease(configXMLURL);
-
-		// Convert CFString path to config.xml to string object
-		CFIndex maxStringLengthInBytes = CFStringGetMaximumSizeForEncoding(CFStringGetLength(pathString), kCFStringEncodingUTF8);
-		char *pathCString = static_cast<char *>(malloc(maxStringLengthInBytes));
-		if (pathCString) {
-			CFStringGetCString(pathString, pathCString, maxStringLengthInBytes, kCFStringEncodingASCII);
-			CFRelease(pathString);
-			default_path = string(pathCString);
-			free(pathCString);
-			tqslTrace("tqsl_load_xml_config", "default_path=%s", default_path.c_str());
-		}
-	}
-#else
-	default_path = CONFDIR "config.xml"; //KC2YWE: Removed temporarily. There's got to be a better way to do this
-	tqslTrace("tqsl_load_xml_config", "default_path=%s", default_path.c_str());
-#endif
-
-#ifdef _WIN32
+	string default_path = string(tQSL_RsrcDir) + "\\config.xml";
 	string user_path = string(tQSL_BaseDir) + "\\config.xml";
 #else
+	string default_path = string(tQSL_RsrcDir) + "/config.xml";
 	string user_path = string(tQSL_BaseDir) + "/config.xml";
 #endif
 
