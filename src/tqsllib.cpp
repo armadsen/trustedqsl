@@ -195,8 +195,8 @@ tqsl_get_rsrc_dir() {
 		RegCloseKey(hkey);
 		if (wval == ERROR_SUCCESS) {
 			string p = string(wpath);
-			if (p.back() == '\\')
-				p.pop_back();
+			if (p[p.length() -1] == '\\')
+				p = p.substr(0, p.length() - 1);
 			tQSL_RsrcDir = strdup(p.c_str());
 		}
 	}

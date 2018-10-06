@@ -30,7 +30,7 @@
             <File Id="configXML" Name="config.xml" Source="config.xml" KeyPath="yes"/>
           </Component>
           <Component Id="langDatComp" Guid="1C8A8FCA-3409-4F0D-B021-A3907ED271FD">
-            <File Id="langDat" Name="language.dat" Source="language.dat" KeyPath="yes"/>
+            <File Id="langDat" Name="languages.dat" Source="languages.dat" KeyPath="yes"/>
           </Component>
           <Component Id="MachineRegKeys" Guid="1A582184-DC79-470D-B322-1D18D1391603">
             <RegistryKey Root="HKLM" Key="Software\TrustedQSL">

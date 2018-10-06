@@ -5014,7 +5014,7 @@ QSLApp::OnInit() {
 		// Now merge in the user directory copy
 #ifdef _WIN32
 		snprintf(langfile, sizeof langfile, "%s\\languages.dat", tQSL_BaseDir);
-		wchar_t *wfilename = utf8_to_wchar(langfile);
+		wfilename = utf8_to_wchar(langfile);
 		if ((lfp = _wfopen(wfilename, L"rb, ccs=UTF-8")) == NULL) {
 			free_wchar(wfilename);
 #else
