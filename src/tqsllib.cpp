@@ -22,6 +22,9 @@
     #include <direct.h>
     #include <Shlobj.h>
 #endif
+#ifdef __APPLE__
+#include <CoreFoundation/CFBundle.h>
+#endif
 #include <string>
 using std::string;
 
@@ -214,7 +217,12 @@ tqsl_get_rsrc_dir() {
 		if (pathCString) {
 			CFStringGetCString(pathString, pathCString, maxStringLengthInBytes, kCFStringEncodingASCII);
 			CFRelease(pathString);
-			tQSL_RsrcDir = strdup((string(pathCString) - "/config.xml").c_str());
+			size_t p;
+			string path = string(pathCString);
+			if ((p = path.find("/config.xml")) != string::npos) {
+				path = path.substr(0, p);
+			}
+			tQSL_RsrcDir = strdup(path.c_str());
 			free(pathCString);
 		}
 	}
