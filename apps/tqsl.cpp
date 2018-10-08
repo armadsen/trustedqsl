@@ -5073,13 +5073,12 @@ QSLApp::OnInit() {
 		locale = new wxLocale(wxLANGUAGE_DEFAULT);
 	}
 
-	const wxLanguageInfo* pinfo = wxLocale::GetLanguageInfo(lang);
-
 	// Add a subdirectory for language files
 	locale->AddCatalogLookupPathPrefix(wxT("lang"));
 
 	// Initialize the catalogs we'll be using
 #if defined(TQSL_TESTING)
+	const wxLanguageInfo* pinfo = wxLocale::GetLanguageInfo(lang);
 	// Enabling this causes the error to pop up for any locale where we don't have a translation.
 	// This should not be used in production.
 	if (!locale->AddCatalog(wxT("tqslapp"))) {
@@ -6564,7 +6563,15 @@ CertPropDial::CertPropDial(tQSL_Cert cert, wxWindow *parent)
 							strncpy(buf, __("Missing from this computer"), sizeof buf);
 							break;
 						}
-						if (tQSL_Error == TQSL_CUSTOM_ERROR && (tQSL_Errno == ENOENT || tQSL_Errno == EPERM)) {
+						if (tQSL_Error == TQSL_CUSTOM_ERROR && tQSL_Errno == ENOENT) {
+							strncpy(buf, __("Private Key not found"), sizeof buf);
+							break;
+						}
+						if (tQSL_Error == TQSL_CUSTOM_ERROR && tQSL_Errno == EPERM) {
+							strncpy(buf, __("Unable to read - no permission"), sizeof buf);
+							break;
+						}
+						if (tQSL_Error == TQSL_CUSTOM_ERROR) {
 							snprintf(tQSL_CustomError, sizeof tQSL_CustomError,
 								"Can't open the private key file for %s: %s", callsign, strerror(tQSL_Errno));
 						}

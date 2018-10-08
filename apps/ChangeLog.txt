@@ -1,6 +1,18 @@
 TQSL changes
 ============
 
+2.4.2
+----------
+Language fixes:
+Remove spurious error message when run on a system where the local
+language is not supported. 
+Allow adding translations without making code changes.
+
+When displaying a callsign certificate where the private key is missing
+from the local system, specifically state that the private key is not
+found. Add a specific message for keys that cannot be opened.
+
+
 2.4.1
 ----------
 Display "No Private Key" versus an error message when displaying a callsign

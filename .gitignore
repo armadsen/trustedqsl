@@ -24,6 +24,7 @@ bin/
 lib/
 _UpgradeReport_Files/
 addlang.sh
+MOVE-TAG.txt
 
 #linux-specific products
 Makefile
