@@ -225,8 +225,8 @@ tqsl_get_rsrc_dir() {
 	tQSL_RsrcDir = strdup(p.c_str());
 #endif
 	tqslTrace("tqsl_get_rsrc_dir", "rsrc_path=%s", tQSL_RsrcDir);
-
 }
+
 DLLEXPORT int CALLCONVENTION
 tqsl_init() {
 	static char semaphore = 0;

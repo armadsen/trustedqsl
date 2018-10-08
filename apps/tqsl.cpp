@@ -5079,10 +5079,16 @@ QSLApp::OnInit() {
 	locale->AddCatalogLookupPathPrefix(wxT("lang"));
 
 	// Initialize the catalogs we'll be using
+#if defined(TQSL_TESTING)
+	// Enabling this causes the error to pop up for any locale where we don't have a translation.
+	// This should not be used in production.
 	if (!locale->AddCatalog(wxT("tqslapp"))) {
 		const char* cname = pinfo->CanonicalName.ToUTF8();
 		wxLogError(wxT("Can't find the tqslappp catalog for locale '%s'."), cname);
 	}
+#else
+	locale->AddCatalog(wxT("tqslapp"));
+#endif
 	locale->AddCatalog(wxT("wxstd"));
 
 	// this catalog is installed in standard location on Linux systems and
