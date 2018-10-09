@@ -3271,7 +3271,9 @@ void MyFrame::UpdateTQSL(wxString& url) {
 			wxMessageBox(wxString::Format(_("Error writing new configuration file %s: %hs"), filename.c_str(), strerror(errno)), _("Error"), wxOK | wxICON_ERROR, this);
 			return;
 		}
-		wxExecute(wxT("msiexec /i ") + filename, wxEXEC_ASYNC);
+		wxString command;
+		commandf.Printf(wxT("msiexec /i \"%hs/tqslupdate.msi\""), tQSL_BaseDir);
+		wxExecute(command, wxEXEC_ASYNC);
 		wxExit();
 	} else {
 		tqslTrace("MyFrame::UpdateTQSL", "cURL Error during file download: %s (%s)\n", curl_easy_strerror((CURLcode)retval), errorbuf);
