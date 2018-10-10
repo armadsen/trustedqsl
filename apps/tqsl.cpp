@@ -3272,7 +3272,7 @@ void MyFrame::UpdateTQSL(wxString& url) {
 			return;
 		}
 		wxString command;
-		commandf.Printf(wxT("msiexec /i \"%hs/tqslupdate.msi\""), tQSL_BaseDir);
+		command.Printf(wxT("msiexec /i \"%hs/tqslupdate.msi\""), tQSL_BaseDir);
 		wxExecute(command, wxEXEC_ASYNC);
 		wxExit();
 	} else {
