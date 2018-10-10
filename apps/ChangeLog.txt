@@ -3,6 +3,9 @@ TQSL changes
 
 2.4.2
 ----------
+Fix issue with Windows updates of TQSL failing when the user's directory
+has a space embedded.
+
 Language fixes:
 Remove spurious error message when run on a system where the local
 language is not supported. 
