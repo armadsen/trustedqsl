@@ -105,7 +105,8 @@ static const char *error_strings[] = {
 	"Certificate provider not found",			/* TQSL_PROVIDER_NOT_FOUND */
 	"No callsign certificate for key",			/* TQSL_CERT_KEY_ONLY */
 	"Configuration file cannot be opened",			/* TQSL_CONFIG_ERROR */
-	"Callsign Certificate or Certificate Request not found",/* TQSL_CERT_NOT_FOUND */
+	"The private key for this Callsign Certificate is not present on this computer; you can obtain it by loading a .tbk or .p12 file",
+								/* TQSL_CERT_NOT_FOUND */
 	"PKCS#12 file not TQSL compatible",			/* TQSL_PKCS12_ERROR */
 	"Callsign Certificate not TQSL compatible",		/* TQSL_CERT_TYPE_ERROR */
 	"Date out of range",					/* TQSL_DATE_OUT_OF_RANGE */
@@ -455,7 +456,7 @@ tqsl_getErrorString_v(int err) {
 	}
 	if (err == TQSL_CERT_NOT_FOUND && tQSL_ImportCall[0] != '\0') {
 		snprintf(buf, sizeof buf,
-			"Callsign Certificate or Certificate Request not found for callsign %s serial %ld",
+			"The private key for callsign %s serial %ld is not present on this computer; you can obtain it by loading a .tbk or .p12 file",
 			tQSL_ImportCall, tQSL_ImportSerial);
 		tQSL_ImportCall[0] = '\0';
 		return buf;
