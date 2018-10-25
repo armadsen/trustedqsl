@@ -3,6 +3,8 @@ TQSLLIB changes
 
 2.5
 ---
+Add the ability to map Cabrillo "DG" mode QSOs to an ADIF mode.
+
 Correct spurious error when "LIGHT" is used in Cabrillo files.
 
 Fix error message for invalid receive band to reference the proper band

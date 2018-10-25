@@ -1965,6 +1965,11 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 	init_modes();
 	init_contests();
 
+	wxString dgMap;
+
+	config->Read(wxT("CabrilloDGMap"), &dgMap, DEFAULT_CABRILLO_DG_MAP);
+	tqsl_setCabrilloDGMap(dgMap.ToUTF8());
+
 	if (lock_db(false) < 0) {
 		if (quiet) {			// If the database is locked, don't stall if in batch mode.
 			return TQSL_EXIT_BUSY;

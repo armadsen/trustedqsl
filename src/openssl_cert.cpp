@@ -583,6 +583,7 @@ tqsl_createCertRequest(const char *filename, TQSL_CERT_REQ *userreq,
 	tqsl_write_adif_field(out, "TQSL_CRQ_PROVIDER", 0, (unsigned char *)req->providerName, -1);
 	tqsl_write_adif_field(out, "TQSL_CRQ_PROVIDER_UNIT", 0, (unsigned char *)req->providerUnit, -1);
 	tqsl_write_adif_field(out, "TQSL_CRQ_EMAIL", 0, (unsigned char *)req->emailAddress, -1);
+	tqsl_write_adif_field(out, "TQSL_CRQ_NAME", 0, (unsigned char *)req->name, -1);
 	tqsl_write_adif_field(out, "TQSL_CRQ_ADDRESS1", 0, (unsigned char *)req->address1, -1);
 	tqsl_write_adif_field(out, "TQSL_CRQ_ADDRESS2", 0, (unsigned char *)req->address2, -1);
 	tqsl_write_adif_field(out, "TQSL_CRQ_CITY", 0, (unsigned char *)req->city, -1);
@@ -1079,6 +1080,8 @@ tqsl_selectCertificates(tQSL_Cert **certlist, int *ncerts,
 			if (!safe_strncpy(crq->providerUnit, (*it)["TQSL_CRQ_PROVIDER_UNIT"].c_str(), sizeof crq->providerUnit))
 				goto end;
 			if (!safe_strncpy(crq->callSign, (*it)["CALLSIGN"].c_str(), sizeof crq->callSign))
+				goto end;
+			if (!safe_strncpy(crq->name, (*it)["TQSL_CRQ_NAME"].c_str(), sizeof crq->name))
 				goto end;
 			if (!safe_strncpy(crq->emailAddress, (*it)["TQSL_CRQ_EMAIL"].c_str(), sizeof crq->emailAddress))
 				goto end;

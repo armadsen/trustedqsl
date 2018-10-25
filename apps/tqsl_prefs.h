@@ -39,11 +39,14 @@
 #include "tqslctrls.h"
 
 #include <map>
+#include <vector>
 
 using std::map;
 using std::pair;
+using std::vector;
 
 #define DEFAULT_CABRILLO_FILES wxT("log cbr")
+#define DEFAULT_CABRILLO_DG_MAP wxT("FT8")
 #if !defined(__APPLE__) && !defined(_WIN32)
 #define DEFAULT_ADIF_FILES wxT("adi adif ADI ADIF")
 #else
@@ -96,6 +99,7 @@ enum {		// Window IDs
 	ID_PREF_CAB_DELETE,
 	ID_PREF_CAB_ADD,
 	ID_PREF_CAB_EDIT,
+	ID_PREF_CAB_MODEMAP,
 	ID_PREF_ONLINE_DEFAULT,
 	ID_PREF_ONLINE_URL,
 	ID_PREF_ONLINE_FIELD,
@@ -182,9 +186,13 @@ class ContestMap : public PrefsPanel {
 	void OnAdd(wxCommandEvent &);
 	void OnEdit(wxCommandEvent &);
 	void Buttons();
+	void DoUpdateInfo(wxCommandEvent &);
 
 	wxButton *delete_but, *edit_but;
 	wxGrid *grid;
+	wxComboBox *dgmodes;
+	int numModes;
+	vector <const char *> modes;
 	ContestSet contestmap;
 	DECLARE_EVENT_TABLE()
 };

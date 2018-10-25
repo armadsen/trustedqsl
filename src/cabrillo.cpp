@@ -322,17 +322,39 @@ freq_to_mhz(TQSL_CABRILLO *cab, tqsl_cabrilloField *fp) {
 	return 0;
 }
 
+static char *cabDGMode = NULL;
+
+DLLEXPORT int CALLCONVENTION tqsl_setCabrilloDGMap(const char *newmode) {
+	if (newmode == NULL) {
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+	if (cabDGMode)
+		free(cabDGMode);
+	cabDGMode = strdup(newmode);
+	return 0;
+}
+
+
 static int
 mode_xlat(TQSL_CABRILLO *cab, tqsl_cabrilloField *fp) {
 	static struct {
 		const char *cmode;
 		const char *gmode;
 	} modes[] = {
-		 { "CW", "CW"}, {"PH", "SSB"}, {"FM", "FM"}, {"RY", "RTTY" }
+		 { "CW", "CW"}, {"PH", "SSB"}, {"FM", "FM"}, {"RY", "RTTY" }, {"DG", NULL}
 	};
 	for (int i = 0; i < static_cast<int>(sizeof modes / sizeof modes[0]); i++) {
 		if (!strcasecmp(fp->value, modes[i].cmode)) {
-			strncpy(fp->value, modes[i].gmode, sizeof fp->value);
+			if (modes[i].gmode) {
+				strncpy(fp->value, modes[i].gmode, sizeof fp->value);
+			} else {
+				if (cabDGMode) {
+					strncpy(fp->value, cabDGMode, sizeof fp->value);
+				} else {
+					strncpy(fp->value, "FT8", sizeof fp->value);
+				}
+			}
 			return 0;
 		}
 	}
