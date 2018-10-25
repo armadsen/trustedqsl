@@ -10,6 +10,7 @@
 
 #include "tqsl_prefs.h"
 #include <stdlib.h>
+#include <strings.h>
 #include <algorithm>
 #include <utility>
 #include <curl/curl.h>
