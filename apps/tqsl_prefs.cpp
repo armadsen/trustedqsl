@@ -707,8 +707,7 @@ ContestMap::ContestMap(wxWindow *parent) : PrefsPanel(parent, wxT("pref-cab.htm"
 
 	sizer->Add(new wxStaticText(this, -1, _("Cabrillo CONTEST definitions:")), 0, wxTOP|wxLEFT|wxRIGHT, 10);
 
-	wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
-        hsizer = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer *subsizer = new wxBoxSizer(wxHORIZONTAL);
 	grid = new wxGrid(this, -1, wxDefaultPosition, wxDefaultSize);
 
 	grid->CreateGrid(10, 3);
@@ -724,7 +723,7 @@ ContestMap::ContestMap(wxWindow *parent) : PrefsPanel(parent, wxT("pref-cab.htm"
 	grid->SetDividerPen(wxNullPen);
 
 	grid->SetSize(1, grid->GetRowHeight(0) * grid->GetRows());
-	hsizer->Add(grid, 1, wxLEFT|wxRIGHT|wxEXPAND, 10);
+	subsizer->Add(grid, 1, wxLEFT|wxRIGHT|wxEXPAND, 10);
 
 	wxBoxSizer *vsizer = new wxBoxSizer(wxVERTICAL);
 	vsizer->Add(new wxButton(this, ID_PREF_CAB_ADD, _("Add...")), 0, wxBOTTOM, 10);
@@ -733,17 +732,17 @@ ContestMap::ContestMap(wxWindow *parent) : PrefsPanel(parent, wxT("pref-cab.htm"
 	delete_but = new wxButton(this, ID_PREF_CAB_DELETE, _("Delete"));
 	vsizer->Add(delete_but, 0);
 
-	hsizer->Add(vsizer, 0, wxRIGHT, 10);
+	subsizer->Add(vsizer, 0, wxRIGHT, 10);
 
-	sizer->Add(hsizer, 1, wxBOTTOM|wxEXPAND, 10);
+	sizer->Add(subsizer, 1, wxBOTTOM|wxEXPAND, 10);
 
-        hsizer = new wxBoxSizer(wxHORIZONTAL);
+        subsizer = new wxBoxSizer(wxVERTICAL);
 	wxStaticText *st = new wxStaticText(this, -1, _("Mode translation for \"DG\" contacts: "));
-        hsizer->Add(st, 0, wxRIGHT, 5);
+        subsizer->Add(st, 0, wxTOP|wxLEFT|wxRIGHT, 10);
         dgmodes = new wxComboBox(this, ID_PREF_CAB_MODEMAP, wxT(""), wxDefaultPosition,
                 wxSize(char_width*25, -1), 0, 0, wxCB_DROPDOWN|wxCB_READONLY);
-        hsizer->Add(dgmodes, 1, 0, 0);
-        sizer->Add(hsizer, 0, wxALL, 10);
+        subsizer->Add(dgmodes, 1, 0, 0);
+        sizer->Add(subsizer, 0, wxALL, 10);
 
 	if (tqsl_getNumMode(&numModes) == 0) {
 		for (int i = 0; i < numModes; i++) {
