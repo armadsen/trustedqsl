@@ -10,7 +10,6 @@
 
 #include "tqsl_prefs.h"
 #include <stdlib.h>
-#include <strings.h>
 #include <algorithm>
 #include <utility>
 #include <curl/curl.h>
@@ -25,6 +24,7 @@
 #include "tqsllib.h"
 #include "tqsltrace.h"
 #include "tqslapp.h"
+#include "winstrdefs.h"
 
 using std::make_pair;
 
