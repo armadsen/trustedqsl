@@ -387,7 +387,7 @@ mode_xlat(TQSL_CABRILLO *cab, tqsl_cabrilloField *fp) {
 		free(wfilename);
 #endif
 #ifdef _WIN32
-		wchar_t* wfilename = utf8_to_wchar(user_path.c_str());
+		wfilename = utf8_to_wchar(user_path.c_str());
 		if ((cfile = _wfopen(wfilename, L"r")) == NULL) {
 #else
 		if ((cfile = fopen(user_path.c_str(), "r")) == NULL) {

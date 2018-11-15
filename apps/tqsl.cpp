@@ -3974,9 +3974,9 @@ get_address_field(const char *callsign, const char *field, string& result) {
 	}
 	locInfo["grid"] = root[wxT("GRID")].AsString().ToUTF8();
 	locInfo["cqzone"] = root[wxT("CQ Zone")].AsString().ToUTF8();
-	if (locInfo["cqzone"].front() == '0') locInfo["cqzone"].erase(0, 1);
+	if (locInfo["cqzone"].substr(0, 1) == "0") locInfo["cqzone"].erase(0, 1);
 	locInfo["ituzone"] = root[wxT("ITU Zone")].AsString().ToUTF8();
-	if (locInfo["ituzone"].front() == '0') locInfo["ituzone"].erase(0, 1);
+	if (locInfo["ituzone"].substr(0, 1) == "0") locInfo["ituzone"].erase(0, 1);
 	locInfo["pas"] = root[wxT("Primary_Admnistrative_Subdivision")].AsString().ToUTF8();
 	locInfo["sas"] = root[wxT("Secondary_Admnistrative_Subdivision")].AsString().ToUTF8();
 	locInfo["address"] = root[wxT("Address_In")].AsString().ToUTF8();
