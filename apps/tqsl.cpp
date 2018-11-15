@@ -184,13 +184,18 @@ static void exitNow(int status, bool quiet) {
 				};
 	int stat = status;
 	if (stat > TQSL_EXIT_UNKNOWN || stat < 0) stat = TQSL_EXIT_UNKNOWN;
-	wxString msg = wxGetTranslation(wxString::FromUTF8(errors[stat]));
-	char emsg[512];
-	strncpy(emsg, msg.ToUTF8(), sizeof emsg);
-	if (quiet)
-		wxLogMessage(_("Final Status: %hs (%d)"), emsg, status);
-	else
-		cerr << "Final Status: " << emsg << "(" << status << ")" << endl;
+	wxString msg = wxString::Format(wxT("Final Status: %hs (%d)"), errors[stat], status);
+	wxString err = wxGetTranslation(wxString::FromUTF8(errors[stat]));
+	wxString localmsg = wxString::Format(_("Final Status: %hs (%d)"), err.ToUTF8(), status);
+
+	if (quiet) {
+		if (msg != localmsg) {
+			wxLogMessage(localmsg);
+		}
+		wxLogMessage(msg);
+	} else {
+		cerr << "Final Status: " << errors[stat] << "(" << status << ")" << endl;
+	}
 	exit(status);
 }
 
@@ -1967,9 +1972,10 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 
 	wxString dgMap;
 
+#ifdef MAP_CABRILLO_MODE
 	config->Read(wxT("CabrilloDGMap"), &dgMap, DEFAULT_CABRILLO_DG_MAP);
 	tqsl_setCabrilloDGMap(dgMap.ToUTF8());
-
+#endif
 	if (lock_db(false) < 0) {
 		if (quiet) {			// If the database is locked, don't stall if in batch mode.
 			return TQSL_EXIT_BUSY;
@@ -3967,6 +3973,10 @@ get_address_field(const char *callsign, const char *field, string& result) {
 		locInfo["state"] = state.ToUTF8();
 	}
 	locInfo["grid"] = root[wxT("GRID")].AsString().ToUTF8();
+	locInfo["cqzone"] = root[wxT("CQ Zone")].AsString().ToUTF8();
+	if (locInfo["cqzone"].front() == '0') locInfo["cqzone"].erase(0, 1);
+	locInfo["ituzone"] = root[wxT("ITU Zone")].AsString().ToUTF8();
+	if (locInfo["ituzone"].front() == '0') locInfo["ituzone"].erase(0, 1);
 	locInfo["pas"] = root[wxT("Primary_Admnistrative_Subdivision")].AsString().ToUTF8();
 	locInfo["sas"] = root[wxT("Secondary_Admnistrative_Subdivision")].AsString().ToUTF8();
 	locInfo["address"] = root[wxT("Address_In")].AsString().ToUTF8();
@@ -5071,7 +5081,6 @@ QSLApp::OnInit() {
 	locale->AddCatalogLookupPathPrefix(wxT("/usr/local/share/locale"));
 #endif
 	if (wxLocale::IsAvailable(lang)) {
-		if (locale) delete locale;
 		locale = new wxLocale(lang);
 		if (!locale)
 			locale = new wxLocale(wxLANGUAGE_DEFAULT);
@@ -5082,6 +5091,11 @@ QSLApp::OnInit() {
 
 	// Add a subdirectory for language files
 	locale->AddCatalogLookupPathPrefix(wxT("lang"));
+#ifdef _WIN32
+	locale->AddCatalogLookupPathPrefix(wxString::FromUTF8(tQSL_BaseDir) + wxT("\\lang"));
+#else
+	locale->AddCatalogLookupPathPrefix(wxString::FromUTF8(tQSL_BaseDir) + wxT("/lang"));
+#endif
 
 	// Initialize the catalogs we'll be using
 #if defined(TQSL_TESTING)
@@ -6419,7 +6433,6 @@ void MyFrame::OnChooseLanguage(wxCommandEvent& WXUNUSED(event)) {
 	wxConfig::Get()->Flush();
 
 	if (wxLocale::IsAvailable(langIds[lng])) {
-		if (locale) delete locale;
 		locale = new wxLocale(langIds[lng]);
 		if (!locale) locale = new wxLocale(wxLANGUAGE_DEFAULT);
 	} else {
@@ -6428,6 +6441,11 @@ void MyFrame::OnChooseLanguage(wxCommandEvent& WXUNUSED(event)) {
 	}
 	// Add a subdirectory for language files
 	locale->AddCatalogLookupPathPrefix(wxT("lang"));
+#ifdef _WIN32
+	locale->AddCatalogLookupPathPrefix(wxString::FromUTF8(tQSL_BaseDir) + wxT("\\lang"));
+#else
+	locale->AddCatalogLookupPathPrefix(wxString::FromUTF8(tQSL_BaseDir) + wxT("/lang"));
+#endif
 
 	// Initialize the catalogs we'll be using
 	locale->AddCatalog(wxT("tqslapp"));
