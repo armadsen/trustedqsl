@@ -3,12 +3,19 @@ TQSL changes
 
 2.4.2
 ----------
+Ensure that the exit status message emitted by TQSL appears in English
+so logging programs can use that to detect exit status.
+
+Improve setting of ITU and CQ zones when defining a Station Location. There
+were many cases where these were left empty.
+
 Fix issue with Windows updates of TQSL failing when the user's directory
 has a space embedded.
 
 Language fixes:
 Remove spurious error message when run on a system where the local
 language is not supported. 
+
 Allow adding translations without making code changes.
 
 When displaying a callsign certificate where the private key is missing

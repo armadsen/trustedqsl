@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Name="Trusted QSL v2.4.2-rc1" Id="*" UpgradeCode="BA40FA93-F9D6-44E2-BB81-82B0A676E731" Version="2.4.2" Manufacturer="The TrustedQSL Developers" Language="1033">
+  <Product Name="Trusted QSL v2.4.2-rc2" Id="*" UpgradeCode="BA40FA93-F9D6-44E2-BB81-82B0A676E731" Version="2.4.2" Manufacturer="The TrustedQSL Developers" Language="1033">
     <Package Id="*" Description="Installer for TrustedQSL 2.4.2" Compressed="yes"/>
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." AllowSameVersionUpgrades="yes" MigrateFeatures="yes"/>
     <Condition Message="This application requires Windows 2000 or newer">
@@ -31,6 +31,9 @@
           </Component>
           <Component Id="langDatComp" Guid="1C8A8FCA-3409-4F0D-B021-A3907ED271FD">
             <File Id="langDat" Name="languages.dat" Source="languages.dat" KeyPath="yes"/>
+          </Component>
+          <Component Id="cabDatComp" Guid="60e0425e-7c0b-432e-92cb-6c187a9da851">
+            <File Id="cabDat" Name="cab_modes.dat" Source="cab_modes.dat" KeyPath="yes"/>
           </Component>
           <Component Id="MachineRegKeys" Guid="1A582184-DC79-470D-B322-1D18D1391603">
             <RegistryKey Root="HKLM" Key="Software\TrustedQSL">
