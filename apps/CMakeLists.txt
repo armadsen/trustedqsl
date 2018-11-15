@@ -172,5 +172,6 @@ if(NOT APPLE AND NOT WIN32)
 	install(FILES lang/zh/tqslapp.mo DESTINATION share/locale/zh/LC_MESSAGES)
 	install(FILES lang/ru/tqslapp.mo DESTINATION share/locale/ru/LC_MESSAGES)
 	install(FILES languages.dat DESTINATION share/TrustedQSL)
+	install(FILES cab_modes.dat DESTINATION share/TrustedQSL)
 
 endif()

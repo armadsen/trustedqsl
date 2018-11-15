@@ -683,11 +683,6 @@ bool ProxyPrefs::TransferDataFromWindow() {
 	return true;
 }
 
-static bool
-mode_cmp(const char *p1, const char *p2) {
-	return strcasecmp(p1, p2) < 0;
-}
-
 BEGIN_EVENT_TABLE(ContestMap, PrefsPanel)
 	EVT_BUTTON(ID_PREF_CAB_DELETE, ContestMap::OnDelete)
 	EVT_BUTTON(ID_PREF_CAB_ADD, ContestMap::OnAdd)
@@ -735,37 +730,6 @@ ContestMap::ContestMap(wxWindow *parent) : PrefsPanel(parent, wxT("pref-cab.htm"
 	subsizer->Add(vsizer, 0, wxRIGHT, 10);
 
 	sizer->Add(subsizer, 1, wxBOTTOM|wxEXPAND, 10);
-
-        subsizer = new wxBoxSizer(wxVERTICAL);
-	wxStaticText *st = new wxStaticText(this, -1, _("Mode translation for \"DG\" contacts: "));
-        subsizer->Add(st, 0, wxTOP|wxLEFT|wxRIGHT, 10);
-        dgmodes = new wxComboBox(this, ID_PREF_CAB_MODEMAP, wxT(""), wxDefaultPosition,
-                wxSize(char_width*25, -1), 0, 0, wxCB_DROPDOWN|wxCB_READONLY);
-        subsizer->Add(dgmodes, 1, 0, 0);
-        sizer->Add(subsizer, 0, wxALL, 10);
-
-	if (tqsl_getNumMode(&numModes) == 0) {
-		for (int i = 0; i < numModes; i++) {
-			const char *modestr;
-			if (tqsl_getMode(i, &modestr, NULL) == 0) {
-				modes.push_back(modestr);
-			}
-                }
-	}
-	sort(modes.begin(), modes.end(), mode_cmp);
-
-	int selected = -1;
-	wxConfig *config = reinterpret_cast<wxConfig *>(wxConfig::Get());
-
-	wxString dgMap = config->Read(wxT("CabrilloDGMap"), DEFAULT_CABRILLO_DG_MAP);
-	for (unsigned i = 0; i < modes.size(); i++) {
-		wxString m = wxString::FromUTF8(modes[i]);
-		if (m == dgMap) {
-			selected = i;
-		}
-		dgmodes->Append(wxString::FromUTF8(modes[i]), reinterpret_cast<void *>(i));
-	}
-	dgmodes->SetSelection((selected < 0) ? 0 : selected);
 
 	SetSizer(sizer);
 	sizer->Fit(this);

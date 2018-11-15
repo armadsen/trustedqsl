@@ -46,7 +46,6 @@ using std::pair;
 using std::vector;
 
 #define DEFAULT_CABRILLO_FILES wxT("log cbr")
-#define DEFAULT_CABRILLO_DG_MAP wxT("FT8")
 #if !defined(__APPLE__) && !defined(_WIN32)
 #define DEFAULT_ADIF_FILES wxT("adi adif ADI ADIF")
 #else

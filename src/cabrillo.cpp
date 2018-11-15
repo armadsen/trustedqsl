@@ -16,10 +16,15 @@
 #include <stdlib.h>
 #include <cstdio>
 #include <cstring>
+#include <map>
+#include <string>
 #include "tqsllib.h"
 #include "tqslerrno.h"
 
 #include "winstrdefs.h"
+
+using std::map;
+using std::string;
 
 #define TQSL_CABRILLO_MAX_RECORD_LENGTH 120
 
@@ -322,43 +327,96 @@ freq_to_mhz(TQSL_CABRILLO *cab, tqsl_cabrilloField *fp) {
 	return 0;
 }
 
-static char *cabDGMode = NULL;
-
-DLLEXPORT int CALLCONVENTION tqsl_setCabrilloDGMap(const char *newmode) {
-	if (newmode == NULL) {
-		tQSL_Error = TQSL_ARGUMENT_ERROR;
-		return 1;
-	}
-	if (cabDGMode)
-		free(cabDGMode);
-	cabDGMode = strdup(newmode);
-	return 0;
+static char *
+tqsl_strtoupper(char *str) {
+        for (char *cp = str; *cp != '\0'; cp++)
+                *cp = toupper(*cp);
+        return str;
 }
 
 
 static int
 mode_xlat(TQSL_CABRILLO *cab, tqsl_cabrilloField *fp) {
-	static struct {
-		const char *cmode;
-		const char *gmode;
-	} modes[] = {
-		 { "CW", "CW"}, {"PH", "SSB"}, {"FM", "FM"}, {"RY", "RTTY" }, {"DG", NULL}
-	};
-	for (int i = 0; i < static_cast<int>(sizeof modes / sizeof modes[0]); i++) {
-		if (!strcasecmp(fp->value, modes[i].cmode)) {
-			if (modes[i].gmode) {
-				strncpy(fp->value, modes[i].gmode, sizeof fp->value);
-			} else {
-				if (cabDGMode) {
-					strncpy(fp->value, cabDGMode, sizeof fp->value);
-				} else {
-					strncpy(fp->value, "FT8", sizeof fp->value);
+	static map<string, string> modes;
+	static bool modes_loaded = false;
+
+	if (!modes_loaded) {
+		tqslTrace("mode_xlat", "Loading Cab modes");
+		modes_loaded = true;
+
+		// Set default modes
+		modes["CW"] = "CW";
+		modes["PH"] = "SSB";
+		modes["FM"] = "FM";
+		modes["RY"] = "RTTY";
+		modes["DG"] = "DATA";
+
+		FILE *cfile;
+		char modebuf[80];
+#ifdef _WIN32
+        	string default_path = string(tQSL_RsrcDir) + "\\cab_modes.dat";
+        	string user_path = string(tQSL_BaseDir) + "\\cab_modes.dat";
+#else
+        	string default_path = string(tQSL_RsrcDir) + "/cab_modes.dat";
+        	string user_path = string(tQSL_BaseDir) + "/cab_modes.dat";
+#endif
+
+#ifdef _WIN32
+		wchar_t* wfilename = utf8_to_wchar(default_path.c_str());
+		if ((cfile = _wfopen(wfilename, L"r")) == NULL) {
+#else
+		if ((cfile = fopen(default_path.c_str(), "r")) == NULL) {
+#endif
+			tqslTrace("mode_xlat", "Can't open def mode file %s: %m", default_path.c_str());
+		} else {
+			while(fgets(modebuf, sizeof modebuf, cfile)) {
+				for (char *p = modebuf + (strlen(modebuf) - 1); p >= modebuf; p--) {
+					if (*p == '\n' || *p == '\r') {
+						*p = '\0';
+					} else {
+						break;
+					}
 				}
+				char *mode = strtok(modebuf, ",");
+				char *map = strtok(NULL, ",");
+				if (mode && map)
+					modes[tqsl_strtoupper(mode)] = tqsl_strtoupper(map);
 			}
-			return 0;
+		}
+#ifdef _WIN32
+		free(wfilename);
+#endif
+#ifdef _WIN32
+		wchar_t* wfilename = utf8_to_wchar(user_path.c_str());
+		if ((cfile = _wfopen(wfilename, L"r")) == NULL) {
+#else
+		if ((cfile = fopen(user_path.c_str(), "r")) == NULL) {
+#endif
+			tqslTrace("mode_xlat", "Can't open user mode file %s: %m", user_path.c_str());
+		} else {
+			while(fgets(modebuf, sizeof modebuf, cfile)) {
+				for (char *p = modebuf + (strlen(modebuf) - 1); p >= modebuf; p--) {
+					if (*p == '\n' || *p == '\r') {
+						*p = '\0';
+					} else {
+						break;
+					}
+				}
+				char *mode = strtok(modebuf, ",");
+				char *map = strtok(NULL, ",");
+				if (mode && map)
+					modes[tqsl_strtoupper(mode)] = tqsl_strtoupper(map);
+			}
 		}
 	}
-	return 1;
+
+	map<string, string>::iterator it;
+	it = modes.find(tqsl_strtoupper(fp->value));
+	if (it != modes.end()) {
+		strncpy(fp->value, it->second.c_str(), sizeof fp->value);
+		return 0;
+	}
+	return 1;	// not found
 }
 
 static int

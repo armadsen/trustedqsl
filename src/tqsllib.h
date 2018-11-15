@@ -1274,10 +1274,6 @@ DLLEXPORT int CALLCONVENTION tqsl_setCabrilloMapEntry(const char *contest, int f
   */
 DLLEXPORT int CALLCONVENTION tqsl_getCabrilloMapEntry(const char *contest, int *fieldnum, int *contest_type);
 
-/** Set the mode mapped for "DG" QSOs in Cabrillo files.
-  */
-DLLEXPORT int CALLCONVENTION tqsl_setCabrilloDGMap(const char *newmode);
-
 /** Clear the map of ADIF modes
   */
 DLLEXPORT int CALLCONVENTION tqsl_clearADIFModes();
