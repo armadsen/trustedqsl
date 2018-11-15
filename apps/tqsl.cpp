@@ -186,7 +186,7 @@ static void exitNow(int status, bool quiet) {
 	if (stat > TQSL_EXIT_UNKNOWN || stat < 0) stat = TQSL_EXIT_UNKNOWN;
 	wxString msg = wxString::Format(wxT("Final Status: %hs (%d)"), errors[stat], status);
 	wxString err = wxGetTranslation(wxString::FromUTF8(errors[stat]));
-	wxString localmsg = wxString::Format(_("Final Status: %hs (%d)"), err.ToUTF8(), status);
+	wxString localmsg = wxString::Format(_("Final Status: %hs (%d)"), (const char *)err.ToUTF8(), status);
 
 	if (quiet) {
 		if (msg != localmsg) {
