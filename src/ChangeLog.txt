@@ -3,6 +3,8 @@ TQSLLIB changes
 
 2.5
 ---
+Improve the error message for missing private keys to be more descriptive.
+
 Add the ability to map Cabrillo modes to user-specified ADIF modes
 using the cab_modes.dat file in the TQSL user directory. File has Cabrillo
 modes (two characters), then an ADIF mode, comma delimited. Default file is
