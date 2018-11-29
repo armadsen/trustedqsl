@@ -203,7 +203,9 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 					int new_sel;
 					tqsl_getLocationFieldIndex(loc, i, &new_sel);
 					(reinterpret_cast<wxComboBox *>(controls[i]))->SetSelection(new_sel);
-					forced[gabbi_name] = callsign;
+					if (strlen(callsign) == 0) {
+						forced[gabbi_name] = callsign;
+					}
 				}
 			}
 
@@ -214,7 +216,9 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 					int new_sel;
 					tqsl_getLocationFieldIndex(loc, i, &new_sel);
 					(reinterpret_cast<wxComboBox *>(controls[i]))->SetSelection(new_sel);
-					forced[gabbi_name] = callsign;
+					if (strlen(callsign) == 0) {
+						forced[gabbi_name] = callsign;
+					}
 				}
 			}
 		}

@@ -3253,15 +3253,10 @@ void MyFrame::UpdateTQSL(wxString& url) {
 	}
 
 	wxString filename;
-#ifdef _WIN32
 	filename.Printf(wxT("%hs\\tqslupdate.msi"), wxString::FromUTF8(tQSL_BaseDir));
 	wchar_t* lfn = utf8_to_wchar(filename.ToUTF8());
 	FILE *updateFile = _wfopen(lfn, L"wb");
 	free_wchar(lfn);
-#else
-	filename.Printf(wxT("%hs/tqslupdate.msi"), tQSL_BaseDir);
-	FILE *updateFile = fopen(filename.ToUTF8(), "wb");
-#endif
 	if (!updateFile) {
 		tqslTrace("UpdateTQSL", "Can't open new file %s: %s", static_cast<const char *>(filename.ToUTF8()), strerror(errno));
 		wxMessageBox(wxString::Format(_("Can't open TQSL update file %s: %hs"), filename.c_str(), strerror(errno)), _("Error"), wxOK | wxICON_ERROR, this);
@@ -3282,9 +3277,8 @@ void MyFrame::UpdateTQSL(wxString& url) {
 			wxMessageBox(wxString::Format(_("Error writing new configuration file %s: %hs"), filename.c_str(), strerror(errno)), _("Error"), wxOK | wxICON_ERROR, this);
 			return;
 		}
-		wxString command;
-		command.Printf(wxT("msiexec /i \"%hs/tqslupdate.msi\""), tQSL_BaseDir);
-		wxExecute(command, wxEXEC_ASYNC);
+		tqslTrace("MyFrame::UpdateTQSL", "Executing msiexec \"%s\"", wxString::ToUTF8(filename));
+		wxExecute(wxString::Format(wxT("msiexec /i \"%s\""), filename), wxEXEC_ASYNC);
 		wxExit();
 	} else {
 		tqslTrace("MyFrame::UpdateTQSL", "cURL Error during file download: %s (%s)\n", curl_easy_strerror((CURLcode)retval), errorbuf);

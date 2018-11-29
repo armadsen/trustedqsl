@@ -1,6 +1,11 @@
 TQSL changes
 ============
 
+2.4.3
+----------
+Fix defect that was causing steate/province/oblast to be reset to "None" when
+editing a station location.
+
 2.4.2
 ----------
 Ensure that the exit status message emitted by TQSL appears in English
