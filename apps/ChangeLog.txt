@@ -4,7 +4,9 @@ TQSL changes
 2.4.3
 ----------
 Fix defect that was causing steate/province/oblast to be reset to "None" when
-editing a station location.
+editing a station location. This defect could also cause station location
+details to be forced to be the default location data for the callsign, making
+remote locations more difficult to edit.
 
 2.4.2
 ----------

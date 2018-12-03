@@ -171,6 +171,7 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 					tqsl_setLocationFieldCharData(loc, i, s.c_str());
 					 (reinterpret_cast<wxTextCtrl *>(controls[i]))->SetValue(wxString::FromUTF8(s.c_str()));
 					forced[gabbi_name] = callsign;
+					UpdateFields(i);
 				}
 			}
 			if (strcmp(gabbi_name, "ITUZ") == 0) {
@@ -180,6 +181,7 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 					tqsl_getLocationFieldIndex(loc, i, &new_sel);
 					(reinterpret_cast<wxComboBox *>(controls[i]))->SetSelection(new_sel);
 					forced[gabbi_name] = callsign;
+					UpdateFields(i);
 				}
 			}
 			if (strcmp(gabbi_name, "CQZ") == 0) {
@@ -189,6 +191,7 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 					tqsl_getLocationFieldIndex(loc, i, &new_sel);
 					(reinterpret_cast<wxComboBox *>(controls[i]))->SetSelection(new_sel);
 					forced[gabbi_name] = callsign;
+					UpdateFields(i);
 				}
 			}
 			if (strcmp(gabbi_name, "US_STATE") == 0 ||
@@ -206,6 +209,7 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 					if (strlen(callsign) == 0) {
 						forced[gabbi_name] = callsign;
 					}
+					UpdateFields(i);
 				}
 			}
 
@@ -219,6 +223,7 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 					if (strlen(callsign) == 0) {
 						forced[gabbi_name] = callsign;
 					}
+					UpdateFields(i);
 				}
 			}
 		}
@@ -238,7 +243,9 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 				if (!old_sel.IsEmpty())
 					defaulted = true;		// Set from default
 			}
-			if (forced[gabbi_name] == callsign) {
+			ForcedMap::iterator it;
+			it = forced.find(gabbi_name);
+			if (it != forced.end() && forced[gabbi_name] == callsign) {
 				char buf[256];
 				tqsl_getLocationFieldCharData(loc, i, buf, sizeof buf);
 				old_sel = wxString::FromUTF8(buf);
