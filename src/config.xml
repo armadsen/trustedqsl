@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
-<tqslconfig majorversion="11" minorversion="5">
+<tqslconfig majorversion="11" minorversion="6">
      <adifmap>
-       <adifmode adif-mode="C4FM" mode="C4FM">C4FM</adifmode>
        <adifmode adif-mode="AM" mode="AM">AM</adifmode>
        <adifmode adif-mode="ARDOP" mode="ARDOP">ARDOP</adifmode>
        <adifmode adif-mode="ATV" mode="ATV">ATV</adifmode>
+       <adifmode adif-mode="C4FM" mode="C4FM">C4FM</adifmode>
        <adifmode adif-mode="CHIP" adif-submode="CHIP128" mode="CHIP">CHIP128</adifmode>
        <adifmode adif-mode="CHIP" adif-submode="CHIP64" mode="CHIP">CHIP64</adifmode>
        <adifmode adif-mode="CHIP" mode="CHIP">CHIP</adifmode>
@@ -22,6 +22,7 @@
        <adifmode adif-mode="FSK441" mode="FSK441">FSK441</adifmode>
        <adifmode adif-mode="FT8" mode="FT8">FT8</adifmode>
        <adifmode adif-mode="HELL" adif-submode="FMHELL" mode="HELL">FMHELL</adifmode>
+       <adifmode adif-mode="HELL" adif-submode="FSKHELL" mode="HELL">FSKHELL</adifmode>
        <adifmode adif-mode="HELL" adif-submode="HELL80" mode="HELL">HELL80</adifmode>
        <adifmode adif-mode="HELL" adif-submode="HFSK" mode="HFSK">HFSK</adifmode>
        <adifmode adif-mode="HELL" adif-submode="PSKHELL" mode="HELL">PSKHELL</adifmode>
@@ -49,7 +50,21 @@
        <adifmode adif-mode="JT9" adif-submode="JT9-2" mode="JT9">JT9-2</adifmode>
        <adifmode adif-mode="JT9" adif-submode="JT9-30" mode="JT9">JT9-30</adifmode>
        <adifmode adif-mode="JT9" adif-submode="JT9-5" mode="JT9">JT9-5</adifmode>
+       <adifmode adif-mode="JT9" adif-submode="JT9A" mode="JT9">JT9A</adifmode>
+       <adifmode adif-mode="JT9" adif-submode="JT9B" mode="JT9">JT9B</adifmode>
+       <adifmode adif-mode="JT9" adif-submode="JT9C" mode="JT9">JT9C</adifmode>
+       <adifmode adif-mode="JT9" adif-submode="JT9D" mode="JT9">JT9D</adifmode>
+       <adifmode adif-mode="JT9" adif-submode="JT9E" mode="JT9">JT9E</adifmode>
+       <adifmode adif-mode="JT9" adif-submode="JT9E FAST" mode="JT9">JT9E FAST</adifmode>
+       <adifmode adif-mode="JT9" adif-submode="JT9F" mode="JT9">JT9F</adifmode>
+       <adifmode adif-mode="JT9" adif-submode="JT9F FAST" mode="JT9">JT9F FAST</adifmode>
+       <adifmode adif-mode="JT9" adif-submode="JT9G" mode="JT9">JT9G</adifmode>
+       <adifmode adif-mode="JT9" adif-submode="JT9G FAST" mode="JT9">JT9G FAST</adifmode>
+       <adifmode adif-mode="JT9" adif-submode="JT9H" mode="JT9">JT9H</adifmode>
+       <adifmode adif-mode="JT9" adif-submode="JT9H FAST" mode="JT9">JT9H FAST</adifmode>
        <adifmode adif-mode="JT9" mode="JT9">JT9</adifmode>
+       <adifmode adif-mode="MFSK" adif-submode="FSQCALL" mode="DATA">FSQCALL</adifmode>
+       <adifmode adif-mode="MFSK" adif-submode="JS8" mode="DATA">JS8</adifmode>
        <adifmode adif-mode="MFSK" adif-submode="MFSK11" mode="DATA">MFSK11</adifmode>
        <adifmode adif-mode="MFSK" adif-submode="MFSK128" mode="DATA">MFSK128</adifmode>
        <adifmode adif-mode="MFSK" adif-submode="MFSK16" mode="MFSK16">MFSK16</adifmode>
@@ -101,6 +116,7 @@
        <adifmode adif-mode="PSK" adif-submode="QPSK31" mode="PSK31">QPSK31</adifmode>
        <adifmode adif-mode="PSK" adif-submode="QPSK500" mode="DATA">QPSK500</adifmode>
        <adifmode adif-mode="PSK" adif-submode="QPSK63" mode="PSK63">QPSK63</adifmode>
+       <adifmode adif-mode="PSK" adif-submode="SIM31" mode="DATA">SIM31</adifmode>
        <adifmode adif-mode="PSK" mode="DATA">PSK</adifmode>
        <adifmode adif-mode="PSK2K" adif-submode="PSK2K" mode="PSK2K">PSK2K</adifmode>
        <adifmode adif-mode="Q15" mode="Q15">Q15</adifmode>
@@ -718,7 +734,7 @@
        </field>
        <field Id="CN_PROVINCE" flags="0" intype="2" label="Province" len="2" type="C">
          <enums>
-           <enum value="AH" zonemap="43:24">Anhui</enum>
+           <enum value="AH" zonemap="44:24">Anhui</enum>
            <enum value="BJ" zonemap="44:24">Beijing</enum>
            <enum value="CQ" zonemap="43:24">Chongqing</enum>
            <enum value="FJ" zonemap="44:24">Fujian</enum>
@@ -3165,22 +3181,22 @@
          </enums>
          <enums dependency="15">
            <enum value="AB" zonemap="33:18">Aginsky Buryatsky avtonomny okrug (Agin-Buryat Autonomous Okrug) [DELETED]</enum>
-           <enum value="AL" zonemap="31:18">Altaysky kray (Altai Krai)</enum>
+           <enum value="AL" zonemap="31:18">Altayskiy kray (Altai Krai)</enum>
            <enum value="AM" zonemap="33:19,34:19">Amurskaya oblast&apos; (Amur Oblast)</enum>
-           <enum value="BA" zonemap="30:16">Respublika Bashkortostan (Bashkortostan Republic)</enum>
+           <enum value="BA" zonemap="30:16">Respublika Bashkortostan (Republic of Bashkortostan) (Bashkortostan Republic)</enum>
            <enum value="BU" zonemap="32:18,33:18">Respublika Buryatiya (Republic of Buryatia)</enum>
            <enum value="CB" zonemap="30:17">Chelyabinskaya oblast&apos; (Chelyabinsk Oblast)</enum>
            <enum value="CK" zonemap="25:19,26:19">Chukotsky avtonomny okrug (Chukotka Autonomous Okrug)</enum>
            <enum value="CT" zonemap="32:18,33:18">Zabaykalsky kray (Zabaykalsky Krai)</enum>
            <enum value="EA" zonemap="33:19">Yevreyskaya avtonomnaya oblast&apos; (Jewish Autonomous Oblast)</enum>
            <enum value="EW" zonemap="22:18,32:18">Evenkiysky avtonomny okrug (Evenk Autonomous Okrug) [DELETED]</enum>
-           <enum value="GA" zonemap="31:18">Respublika Altay (Altai Republic) (Republic Gorny Altay)</enum>
-           <enum value="HA" zonemap="31:18,32:18">VRespúblika Khakásiya (Khakassia)</enum>
-           <enum value="HK" zonemap="24:19,33:19,34:19">Khabarovsky kray (Khabarovsk Krai)</enum>
-           <enum value="HM" zonemap="20:17,21:17,30:17,31:17">Khanty-Mansiysky avtonomny okrug (Khanty-Mansi Autonomous Okrug)</enum>
+           <enum value="GA" zonemap="31:18">Respublika Altay (Altai Republic) (Altay Republits)</enum>
+           <enum value="HA" zonemap="31:18,32:18">Respublika Khakasiya (Khakasiya Republits) (Republic of Khakassia)</enum>
+           <enum value="HK" zonemap="24:19,33:19,34:19">Khabarovskiy kray (Khabarovsk Krai)</enum>
+           <enum value="HM" zonemap="20:17,21:17,30:17,31:17">Khanty-Mansiyskiy avtonomnyy okrug (Khanty-Mansi Autonomous Okrug)</enum>
            <enum value="IR" zonemap="22:18,23:18,32:18,33:18">Irkutskaya oblast&apos; (Irkutsk Oblast)</enum>
-           <enum value="JN" zonemap="20:17,21:17">Yamalo-Nenetsky avtonomny okrug (Yamalo-Nenetsky Autonomous Okrug)</enum>
-           <enum value="KE" zonemap="31:18">Kemerovo oblast&apos; (Kemerovo Oblast)</enum>
+           <enum value="JN" zonemap="20:17,21:17">Yamalo-Nenetsky avtonomny okrug (Yamalo-Nenets Autonomous Okrug)</enum>
+           <enum value="KE" zonemap="31:18">Kemerovskaya oblast&apos; (Kemerovo Oblast)</enum>
            <enum value="KJ" zonemap="25:19,35:19">Koryaksky avtonomny okrug (Koryak Autonomous Okrug) [DELETED]</enum>
            <enum value="KK" zonemap="21:18,22:18,23:18,31:18,32:18">Krasnoyarskiy kray (Krasnoyarsk Krai)</enum>
            <enum value="KN" zonemap="30:17">Kurganskaya oblast&apos; (Kurgan Oblast)</enum>
@@ -3189,22 +3205,22 @@
            <enum value="NS" zonemap="31:18">Novosibirskaya oblast&apos; (Novosibirsk Oblast)</enum>
            <enum value="OB" zonemap="30:16">Orenburgskaya oblast&apos; (Orenburg Oblast)</enum>
            <enum value="OM" zonemap="30:17,31:17">Omskaya oblast&apos; (Omsk Oblast)</enum>
-           <enum value="PK" zonemap="33:19,34:19">Primorsky kray (Primorsky Krai)</enum>
+           <enum value="PK" zonemap="33:19,34:19">Primorskiy kray (Primorsky Krai)</enum>
            <enum value="SL" zonemap="34:19">Sakhalinskaya oblast&apos; (Sakhalin Oblast)</enum>
            <enum value="SV" zonemap="20:17,30:17">Sverdlovskaya oblast&apos; (Sverdlovsk Oblast)</enum>
            <enum value="TM" zonemap="21:18,22:18">Taymyrsky Dolgano-Nenetsky avtonomny okru (Taymyr Autonomous Okrug) (Taymyria) [DELETED]</enum>
            <enum value="TN" zonemap="30:17">Tyumenskaya oblast&apos; (Tyumen Oblast)</enum>
            <enum value="TO" zonemap="21:18,31:18">Tomskaya oblast&apos; (Tomsk Oblast)</enum>
-           <enum value="TU" zonemap="31:23,32:23">Respublika Tyva (Tyva Republic)</enum>
+           <enum value="TU" zonemap="31:23,32:23">Respublika Tyva (Tyva Republic) (Tyva Republits)</enum>
            <enum value="UO" zonemap="32:18">Ust-Ordynsky avtonomny okrug (Ust-Orda Buryat Autonomous Okrug) [DELETED]</enum>
            <enum value="YA" zonemap="22:19,23:19,24:19,25:19,32:19,33:19">Respublika Sakha (Yakutiya)</enum>
          </enums>
          <enums dependency="151">
-           <enum value="LO" zonemap="29:16">Leningradskaya oblast? (Leningrad Oblast)</enum>
+           <enum value="LO" zonemap="29:16">Leningradskaya oblast&apos; (Leningrad Oblast)</enum>
          </enums>
          <enums dependency="54">
            <enum value="AD" zonemap="29:16">Adygea (Adygea Republic}</enum>
-           <enum value="AO" zonemap="29:16">Astrakhanskaya oblast&apos; (Astrakhan oBLAST)</enum>
+           <enum value="AO" zonemap="29:16">Astrakhanskaya oblast&apos; (Astrakhan Oblast)</enum>
            <enum value="AR" zonemap="19:16,20:16">Arkhangelskaya oblast&apos; (Arkhangelsk Oblast)</enum>
            <enum value="BO" zonemap="29:16">Belgorodskaya oblast&apos; (Belgorod Oblast)</enum>
            <enum value="BR" zonemap="29:16">Bryanskaya oblast&apos; (Bryansk Oblast)</enum>
@@ -3218,20 +3234,20 @@
            <enum value="KC" zonemap="29:16">Karachay-Cherkessia (Karachay-Cherkess Republic)</enum>
            <enum value="KG" zonemap="29:16">Kaluzhskaya oblast&apos; (Kaluga Oblast)</enum>
            <enum value="KI" zonemap="19:16,20:16,29:16,30:16">Kirovskaya oblast&apos; (Kirov Oblast)</enum>
-           <enum value="KL" zonemap="19:16">Republic of Karelia (Karelia Republic)</enum>
-           <enum value="KM" zonemap="29:16">Respublika Kalmykiya (Kalmykia Republic)</enum>
-           <enum value="KO" zonemap="19:16,20:16,29:16,30:16">Respúblika Kómi (Komi Republic)</enum>
+           <enum value="KL" zonemap="19:16">Respublika Karelia (Karelia Republic)</enum>
+           <enum value="KM" zonemap="29:16">Respublika Kalmykiya (Kalmykia Republic) (Kalmykia)</enum>
+           <enum value="KO" zonemap="19:17,20:17,29:17,30:17">Respúblika Komi (Komi Republic)</enum>
            <enum value="KP" zonemap="20:17,30:17">Komi-Permyatsky avtonomny okrug (Komi-Permyak Autonomous Okrug) [DELETED]</enum>
-           <enum value="KR" zonemap="29:16">Krasnodarskiy kray (Krasnodar Kra)i</enum>
+           <enum value="KR" zonemap="29:16">Krasnodarskiy kray (Krasnodar Krai)</enum>
            <enum value="KS" zonemap="29:16">Kostromskaya oblast&apos; (Kostroma Oblast)</enum>
            <enum value="KU" zonemap="29:16">Kurskaya oblast&apos; (Kursk Oblast)</enum>
-           <enum value="LO" zonemap="19:16,29:16">Leningradskaya oblast? (Leningrad Oblast)</enum>
+           <enum value="LO" zonemap="19:16,29:16">Leningradskaya oblast&apos; (Leningrad Oblast)</enum>
            <enum value="LP" zonemap="29:16">Liptesk Oblast (Lipetskaya oblast&apos;)</enum>
            <enum value="MA" zonemap="29:16">Moskva (Moscow)</enum>
            <enum value="MD" zonemap="29:16">Respublika Mordoviya (Republic of Mordovia)</enum>
            <enum value="MO" zonemap="29:16">Moskovskaya oblast&apos; (Moscow Oblast)</enum>
            <enum value="MR" zonemap="29:16,30:16">Respublika Mariy El (Mari El Republic)</enum>
-           <enum value="MU" zonemap="19:16">Murmanskaya oblast&apos;\ (Murmansk Oblast)</enum>
+           <enum value="MU" zonemap="19:16">Murmanskaya oblast&apos; (Murmansk Oblast)</enum>
            <enum value="NN" zonemap="29:16">Nizhegorodskaya oblast&apos; (Nizhny Novgorod Oblast)</enum>
            <enum value="NO" zonemap="19:16,20:16">Nenetsky avtonomny okrug (Nenets Autonomous Okrug)</enum>
            <enum value="NV" zonemap="29:16">Novgorodskaya oblast&apos; (Novgorod Oblast)</enum>
@@ -3247,7 +3263,7 @@
            <enum value="SP" zonemap="29:16">Sankt-Peterburg (Saint Petersburg)</enum>
            <enum value="SR" zonemap="29:16,30:16">Samarskaya oblast&apos; (Samara Oblast)</enum>
            <enum value="ST" zonemap="29:16">Stavropolskiy kray (Stavropol Krai)</enum>
-           <enum value="TA" zonemap="29:16,30:16">Tatarstan (Tatarstan Republic)</enum>
+           <enum value="TA" zonemap="29:16,30:16">Respublika Tatarstan (Tatarstan) (Tatarstan Republic)</enum>
            <enum value="TB" zonemap="29:16">Tambovskaya oblast&apos; (Tambov Oblast)</enum>
            <enum value="TL" zonemap="29:16">Tulskaya oblast&apos; (Tula Oblast)</enum>
            <enum value="TV" zonemap="29:16">Tverskaya oblast&apos;  (Tver Oblast)</enum>
@@ -7648,16 +7664,15 @@
        <mode group="DATA">WSPR</mode>
      </modes>
      <propmodes>
+       <propmode name="AS">Aircraft Scatter</propmode>
        <propmode name="AUE">Aurora-E</propmode>
        <propmode name="AUR">Aurora</propmode>
        <propmode name="BS">Back scatter</propmode>
-       <propmode name="ECH">EchoLink</propmode>
        <propmode name="EME">Earth-Moon-Earth</propmode>
        <propmode name="ES">Sporadic E</propmode>
        <propmode name="F2">F2 Reflection</propmode>
        <propmode name="FAI">Field Aligned Irregularities</propmode>
        <propmode name="ION">Ionoscatter</propmode>
-       <propmode name="IRL">IRLP</propmode>
        <propmode name="MS">Meteor scatter</propmode>
        <propmode name="RS">Rain scatter</propmode>
        <propmode name="SAT">Satellite</propmode>
