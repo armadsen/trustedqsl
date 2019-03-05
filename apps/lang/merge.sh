@@ -7,5 +7,5 @@ msgmerge -N -U es/tqslapp.po ../tqslapp.pot
 msgmerge -N -U de/tqslapp.po ../tqslapp.pot
 msgmerge -N -U zh/tqslapp.po ../tqslapp.pot
 msgmerge -N -U ru/tqslapp.po ../tqslapp.pot
-msgmerge -N -U pl/tqslapp.po ../tqslapp.pot
+msgmerge -N -U pl_PL/tqslapp.po ../tqslapp.pot
 msgmerge -N -U hi_IN/tqslapp.po ../tqslapp.pot

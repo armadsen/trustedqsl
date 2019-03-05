@@ -1551,6 +1551,7 @@ static wxString getAbout() {
 		"Italian: Salvatore Besso, I4FYV\n"
 		"Japanese: Akihiro KODA, JL3OXR\n"
 		"Finnish: Juhani Tapaninen, OH8MXL\n"
+		"Polish: Roman Bagiński, SP4JEU\n"
 		"Portuguese: Nuno Lopes, CT2IRY\n"
 		"Russian: Vic Goncharsky, US5WE\n"
 		"Chinese: Caros, BH4TXN\n"
@@ -2456,7 +2457,7 @@ long compressToBuf(string& buf, const char* input) {
 	buf.insert(buf.end(), tbuf, tbuf+TBUFSIZ-stream.avail_out);
 	deflateEnd(&stream);
 
-	delete tbuf;
+	delete[] tbuf;
 
 	return buf.length();
 }
@@ -3696,7 +3697,14 @@ MyFrame::DoCheckForUpdates(bool silent, bool noGUI) {
 			tqslTrace("MyFrame::DoCheckForUpdates", "Prog + Config rev returns %d chars, %s", handler.s.size(), handler.s.c_str());
 			wxString result = wxString::FromAscii(handler.s.c_str());
 			wxString url;
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-local-typedef"
+#endif
 			WX_DECLARE_STRING_HASH_MAP(wxString, URLHashMap);
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 			URLHashMap map;
 			ri->newProgramRev = NULL;
 			ri->newConfigRev = NULL;
@@ -5098,7 +5106,7 @@ QSLApp::OnInit() {
 	// This should not be used in production.
 	if (!locale->AddCatalog(wxT("tqslapp"))) {
 		const char* cname = pinfo->CanonicalName.ToUTF8();
-		wxLogError(wxT("Can't find the tqslappp catalog for locale '%s'."), cname);
+		wxLogError(wxT("Can't find the tqslapp catalog for locale '%s'."), cname);
 	}
 #else
 	locale->AddCatalog(wxT("tqslapp"));
