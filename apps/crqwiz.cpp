@@ -31,6 +31,7 @@ extern int get_address_field(const char *callsign, const char *field, string& re
 
 static wxString callTypeChoices[] = {
 	 _("My current personal callsign"),
+	 _("My new personal callsign (I have a Callsign Certificate for my former callsign)"),
 	 _("My former personal callsign or a portable modifier for my current callsign"),
 	 _("A primary club callsign"),
 	 _("A secondary club callsign (I have a Callsign Certificate for the primary club callsign)"),
@@ -41,6 +42,23 @@ static wxString callTypeChoices[] = {
 	 _("A special event callsign with multiple operators"),
 	 _("A special event callsign where I am the only operator")
 };
+
+static bool signThisType[] = {
+	false,	// Current personal
+	true,	// new call
+	true,	// former personal
+	false,	// Primary club
+	true,	// Secondary club
+	false,	// dxpedition multi-op
+	true,	// dxpedition single-op
+	false,	// QSL Manager
+	true,	// 1x1 callsign
+	false,	// spec event multi-op
+	true	// spec event single-op
+};
+
+wxCOMPILE_TIME_ASSERT(WXSIZEOF(callTypeChoices) == WXSIZEOF(signThisType),
+                       CertTypesArraysMismatch);
 
 CRQWiz::CRQWiz(TQSL_CERT_REQ *crq, tQSL_Cert xcert, wxWindow *parent, wxHtmlHelpController *help,
 	const wxString& title)
@@ -215,12 +233,12 @@ CRQ_IntroPage::CRQ_IntroPage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(par
 	wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
 	hsizer->Add(st, 0, wxRIGHT, 5);
 	wxString cs;
-	if (crq && crq->callSign)
+	if (crq && crq->callSign[0])
 		cs = wxString::FromUTF8(crq->callSign);
 	tc_call = new wxTextCtrl(this, ID_CRQ_CALL, cs, wxDefaultPosition, wxSize(em_w*15, -1));
 	hsizer->Add(tc_call, 0, wxEXPAND, 0);
 	sizer->Add(hsizer, 0, wxLEFT|wxRIGHT|wxTOP|wxEXPAND, 10);
-	if (crq && crq->callSign)
+	if (crq && crq->callSign[0])
 		tc_call->Enable(false);
 
 	hsizer = new wxBoxSizer(wxHORIZONTAL);
@@ -390,7 +408,7 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 	wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
 	hsizer->Add(st, 0, wxRIGHT, 5);
 	wxString s;
-	if (crq && crq->name)
+	if (crq && crq->name[0])
 		s = wxString::FromUTF8(crq->name);
 	else if (config->Read(wxT("Name"), &val))
 		s = val;
@@ -400,7 +418,7 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 	tc_name->SetMaxLength(TQSL_CRQ_NAME_MAX);
 
 	s = wxT("");
-	if (crq && crq->address1)
+	if (crq && crq->address1[0])
 		s = wxString::FromUTF8(crq->address1);
 	else if (config->Read(wxT("Addr1"), &val))
 		s = val;
@@ -413,7 +431,7 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 	tc_addr1->SetMaxLength(TQSL_CRQ_ADDR_MAX);
 
 	s = wxT("");
-	if (crq && crq->address2)
+	if (crq && crq->address2[0])
 		s = wxString::FromUTF8(crq->address2);
 	else if (config->Read(wxT("Addr2"), &val))
 		s = val;
@@ -426,7 +444,7 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 	tc_addr2->SetMaxLength(TQSL_CRQ_ADDR_MAX);
 
 	s = wxT("");
-	if (crq && crq->city)
+	if (crq && crq->city[0])
 		s = wxString::FromUTF8(crq->city);
 	else if (config->Read(wxT("City"), &val))
 		s = val;
@@ -439,7 +457,7 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 	tc_city->SetMaxLength(TQSL_CRQ_CITY_MAX);
 
 	s = wxT("");
-	if (crq && crq->state)
+	if (crq && crq->state[0])
 		s = wxString::FromUTF8(crq->state);
 	else if (config->Read(wxT("State"), &val))
 		s = val;
@@ -452,7 +470,7 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 	tc_state->SetMaxLength(TQSL_CRQ_STATE_MAX);
 
 	s = wxT("");
-	if (crq && crq->postalCode)
+	if (crq && crq->postalCode[0])
 		s = wxString::FromUTF8(crq->postalCode);
 	else if (config->Read(wxT("ZIP"), &val))
 		s = val;
@@ -464,7 +482,7 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 	tc_zip->SetMaxLength(TQSL_CRQ_POSTAL_MAX);
 
 	s = wxT("");
-	if (crq && crq->country)
+	if (crq && crq->country[0])
 		s = wxString::FromUTF8(crq->country);
 	else if (config->Read(_("Country"), &val))
 		s = val;
@@ -550,7 +568,7 @@ CRQ_EmailPage::CRQ_EmailPage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(par
 	wxConfig *config = reinterpret_cast<wxConfig *>(wxConfig::Get());
 	wxString val;
 	wxString s;
-	if (crq && crq->emailAddress)
+	if (crq && crq->emailAddress[0])
 		s = wxString::FromUTF8(crq->emailAddress);
 	else if (config->Read(wxT("Email"), &val))
 		s = val;
@@ -677,18 +695,6 @@ CRQ_TypePage::CRQ_TypePage(CRQWiz *parent)
 
 bool
 CRQ_TypePage::TransferDataFromWindow() {
-	bool signThisType[] = {
-				false,	// Current personal
-				true,	// former personal
-				false,	// Primary club
-				true,	// Secondary club
-				false,	// dxpedition multi-op
-				true,	// dxpedition single-op
-				false,	// QSL Manager
-				true,	// 1x1 callsign
-				false,	// spec event multi-op
-				true	// spec event single-op
-				};
 	wxString signPrompts[] = {
 				wxT("sign error"),	// Current personal
 				_("Please select the Callsign Certificate for your current personal callsign to validate your request."),	// former personal
