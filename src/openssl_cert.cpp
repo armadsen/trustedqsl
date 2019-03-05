@@ -1504,18 +1504,17 @@ tqsl_importKeyPairEncoded(const char *callsign, const char *type, const char *ke
 
 		size_t bloblen;
 		bloblen = BIO_read(in, biobuf, strlen(keybuf));
-		if (bloblen >= 0)
-			biobuf[bloblen] = '\0';
+		biobuf[bloblen] = '\0';
 
 		strncpy(temppath, tQSL_BaseDir, sizeof temppath);
 		FILE *temp = NULL;
 #ifdef _WIN32
-		strncat(temppath, "\\pk.tmp", sizeof temppath - strlen(temppath));
+		strncat(temppath, "\\pk.tmp", sizeof temppath - strlen(temppath) -1);
 		wchar_t* wpath = utf8_to_wchar(temppath);
 		if ((temp = _wfopen(wpath, TQSL_OPEN_WRITE)) == NULL) {
 			free_wchar(wpath);
 #else
-		strncat(temppath, "/pk.tmp", sizeof temppath - strlen(temppath));
+		strncat(temppath, "/pk.tmp", sizeof temppath - strlen(temppath) -1);
 		if ((temp = fopen(temppath, TQSL_OPEN_WRITE)) == NULL) {
 #endif
 			strncpy(tQSL_ErrorFile, temppath, sizeof tQSL_ErrorFile);
