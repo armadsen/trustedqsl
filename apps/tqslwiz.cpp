@@ -200,10 +200,29 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 				}
 			}
 
+			if (strcmp(gabbi_name, "US_STATE") == 0 ||
+			    strcmp(gabbi_name, "JA_PREFECTURE") == 0 ||
+			    strcmp(gabbi_name, "RU_OBAST") == 0 ||
+			    strcmp(gabbi_name, "CA_PROVINCE") == 0 ||
+			    strcmp(gabbi_name, "CN_PROVINCE") == 0 ||
+			    strcmp(gabbi_name, "FI_KUNTA") == 0 ||
+			    strcmp(gabbi_name, "AU_STATE") == 0) {
+				if (get_address_field(callsign, "state", s) == 0 || get_address_field(callsign, "pas", s) == 0) {
+					tqsl_setLocationFieldCharData(loc, i, s.c_str());
+					int new_sel;
+					tqsl_getLocationFieldIndex(loc, i, &new_sel);
+					if (new_sel >= 0 && new_sel < static_cast<int>(cb->GetCount()))
+						cb->SetSelection(new_sel);
+					if (strlen(callsign) != 0) {
+						forced[gabbi_name] = callsign;
+					}
+					UpdateFields(i);
+				}
+			}
+
 			if (strcmp(gabbi_name, "US_COUNTY") == 0 ||
 			    strcmp(gabbi_name, "JA_CITY_GUN_KU") == 0) {
 				if (get_address_field(callsign, "county", s) == 0 || get_address_field(callsign, "sas", s) == 0) {
-					if (cb->GetCount() < 1)
 					tqsl_setLocationFieldCharData(loc, i, s.c_str());
 					int new_sel;
 					tqsl_getLocationFieldIndex(loc, i, &new_sel);
