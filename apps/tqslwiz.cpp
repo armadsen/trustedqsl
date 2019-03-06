@@ -376,7 +376,7 @@ TQSLWizCertPage::TQSLWizCertPage(TQSLWizard *parent, tQSL_Location locp)
 		tqsl_getLocationFieldInputType(loc, i, &in_type);
 		if (in_type != TQSL_LOCATION_FIELD_BADZONE) {
 			hsizer = new wxBoxSizer(wxHORIZONTAL);
-			hsizer->Add(new wxStaticText(this, -1, lbl, wxDefaultPosition, 
+			hsizer->Add(new wxStaticText(this, -1, lbl, wxDefaultPosition,
 				wxSize(label_w, -1), wxALIGN_RIGHT/*|wxST_NO_AUTORESIZE*/), 0, wxTOP, 5);
 		}
 		wxWindow *control_p = 0;
