@@ -1,5 +1,15 @@
 TQSL changes
 ============
+2.4.4
+----------
+Add support for a 64-bit build for MacOS.
+
+Fix error that was keeping the 
+
+Add another callsign certificate request type - one for a new callsign for
+the primary user.
+
+Add language support for Polish.
 
 2.4.3
 ----------
