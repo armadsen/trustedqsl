@@ -1206,6 +1206,7 @@ MyFrame::MyFrame(const wxString& title, int x, int y, int w, int h, bool checkUp
 	b1sizer->Add(up, 0, wxALL, 1);
 	wxString b1lbl = wxT("\n");
 	b1lbl += _("Sign a log and upload it automatically to LoTW");
+	b1lbl += wxT("\n");
 	b1sizer->Add(new wxStaticText(b1Panel, -1, b1lbl), 1, wxALL, 1);
 	bsizer->Add(b1Panel, 0, wxALL, 1);
 
