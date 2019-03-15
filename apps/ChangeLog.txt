@@ -4,7 +4,8 @@ TQSL changes
 ----------
 Add support for a 64-bit build for MacOS.
 
-Fix error that was keeping the 
+Fix error that was keeping the State and County from being defaulted when
+creating a new Station Location.
 
 Add another callsign certificate request type - one for a new callsign for
 the primary user.
