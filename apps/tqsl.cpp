@@ -236,7 +236,7 @@ getCertPassword(char *buf, int bufsiz, tQSL_Cert cert) {
 
 	// TRANSLATORS: this is followed by the callsign and entity name
 	wxString fmt = _("Enter the password to unlock the callsign certificate for %hs -- %hs\n"
-		"(This is the password you made up when you installed the callsign certificate.)");
+		L"(This is the password you made up when you installed the callsign certificate.)");
 	wxString message = wxString::Format(fmt, call, dx.name());
 
 	wxWindow* top = wxGetApp().GetTopWindow();
@@ -388,11 +388,9 @@ END_EVENT_TABLE()
 DateRangeDialog::DateRangeDialog(wxWindow *parent) : wxDialog(parent, -1, wxString(_("QSO Date Range"))) {
 	tqslTrace("DateRangeDialog::DateRangeDialog", NULL);
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-	wxString msgstr = _("You may set the starting and/or ending QSO dates "
-		  "in order to select QSOs from the input file.");
+	wxString msgstr = _("You may set the starting and/or ending QSO dates in order to select QSOs from the input file.");
 		msgstr += wxT("\n\n");
-		msgstr += _("QSOs prior to the starting date or after the ending "
-		  "date will not be signed or included in the output file.");
+		msgstr += _("QSOs prior to the starting date or after the ending date will not be signed or included in the output file.");
 		msgstr += wxT("\n\n");
 		msgstr += _("You may leave either date (or both dates) blank.");
 	wxSize sz = getTextSize(this);
@@ -486,36 +484,33 @@ DupesDialog::DupesDialog(wxWindow *parent, int qso_count, int dupes, int action)
 	wxString message;
 
 	if (qso_count == dupes) {
-		wxString fmt = _("This log contains %d QSO(s) which appear "
-		"to have already been signed for upload to LoTW, and no new QSOs.");
+		wxString fmt = _("This log contains %d QSO(s) which appear \
+to have already been signed for upload to LoTW, and no new QSOs.");
 		fmt += wxT("\n\n");
 		fmt += _("Click 'Cancel' to abandon processing this log file (Recommended).");
 		fmt += wxT("\n");
-		fmt += _("Click 'Allow Duplicates' to re-process this "
-		"log while allowing duplicate QSOs.");
+		fmt += _("Click 'Allow Duplicates' to re-process this log while allowing duplicate QSOs.");
 		message = wxString::Format(fmt, qso_count);
 	} else {
 		int newq = qso_count - dupes;
-		wxString fmt = _("This log contains %d QSO(s) which appear "
-			"to have already been signed for upload to LoTW, and "
-			"%d QSOs which are new.");
+		wxString fmt = _("This log contains %d QSO(s) which appear \
+to have already been signed for upload to LoTW, and \
+%d QSOs which are new.");
 			fmt += wxT("\n\n");
 		  	fmt += _("Click 'Exclude duplicates' to sign normally, without the duplicate QSOs (Recommended).");
 			fmt += wxT("\n");
 			fmt += _("Click 'Cancel' to abandon processing this log file.");
 			fmt += wxT("\n");
-			fmt += _("Click 'Allow duplicates' to re-process this log "
-			"while allowing duplicate QSOs.");
-		wxString fmt1 = _("This log contains %d QSO(s) which appear "
-			"to have already been signed for upload to LoTW, and "
-			"one QSO which is new.");
+			fmt += _("Click 'Allow duplicates' to re-process this log while allowing duplicate QSOs.");
+		wxString fmt1 = _("This log contains %d QSO(s) which appear \
+to have already been signed for upload to LoTW, and \
+one QSO which is new.");
 			fmt1 += wxT("\n\n");
 		  	fmt1 += _("Click 'Exclude duplicates' to sign normally, without the duplicate QSOs (Recommended).");
 			fmt1 += wxT("\n");
 			fmt1 += _("Click 'Cancel' to abandon processing this log file.");
 			fmt1 += wxT("\n");
-			fmt1 += _("Click 'Allow duplicates' to re-process this log "
-			"while allowing duplicate QSOs.");
+			fmt1 += _("Click 'Allow duplicates' to re-process this log while allowing duplicate QSOs.");
 		if (newq == 1) {
 			message = wxString::Format(fmt1, dupes);
 		} else {
@@ -526,27 +521,27 @@ DupesDialog::DupesDialog(wxWindow *parent, int qso_count, int dupes, int action)
 	if (action == TQSL_ACTION_UNSPEC) {
 		if (qso_count == dupes) {
 			message+= wxT("\n\n");
-			message += _("The log file you are uploading using your QSO Logging system consists entirely of previously uploaded "
-				  "QSOs (duplicates) that create unnecessary work for LoTW. There may be a more recent version of your QSO "
-				  "Logging system that would prevent this. Please check with your QSO Logging system's vendor for an updated version.");
+			message += _("The log file you are uploading using your QSO Logging system consists entirely of previously uploaded \
+QSOs (duplicates) that create unnecessary work for LoTW. There may be a more recent version of your QSO \
+Logging system that would prevent this. Please check with your QSO Logging system's vendor for an updated version.");
 			message += wxT("\n");
-			message += _("In the meantime, please note that some loggers may exhibit strange behavior if an option other than 'Allow duplicates' "
-				  "is clicked. Choosing 'Cancel' is usually safe, but a defective logger not checking the status messages reported by TrustedQSL may produce "
-				  "strange (but harmless) behavior such as attempting to upload an empty file or marking all chosen QSOs as 'sent'");
+			message += _("In the meantime, please note that some loggers may exhibit strange behavior if an option other than 'Allow duplicates' \
+is clicked. Choosing 'Cancel' is usually safe, but a defective logger not checking the status messages reported by TrustedQSL may produce \
+strange (but harmless) behavior such as attempting to upload an empty file or marking all chosen QSOs as 'sent'");
 		} else {
 			message+= wxT("\n\n");
-			message += _("The log file you are uploading using your QSO Logging system includes some previously uploaded "
-				  "QSOs (duplicates) that create unnecessary work for LoTW. There may be a more recent version of your "
-				  "QSO Logging system that would prevent this. Please check with your QSO Logging system's vendor for an updated version.");
+			message += _("The log file you are uploading using your QSO Logging system includes some previously uploaded \
+QSOs (duplicates) that create unnecessary work for LoTW. There may be a more recent version of your \
+QSO Logging system that would prevent this. Please check with your QSO Logging system's vendor for an updated version.");
 			message += wxT("\n");
-			message += _("In the meantime, please note that some loggers may exhibit strange behavior if an option other than 'Allow duplicates' "
-				  "is clicked. 'Exclude duplicates' is recommended, but a logger that does its own duplicate tracking may incorrectly "
-				  "set the status in this case. A logger that doesn't track duplicates should be unaffected by choosing 'Exclude duplicates' "
-				  "and if it tracks 'QSO sent' status, will correctly mark all selected QSOs as sent - they are in your account even though "
-				  "they would not be in this specific batch");
+			message += _("In the meantime, please note that some loggers may exhibit strange behavior if an option other than 'Allow duplicates' \
+is clicked. 'Exclude duplicates' is recommended, but a logger that does its own duplicate tracking may incorrectly \
+set the status in this case. A logger that doesn't track duplicates should be unaffected by choosing 'Exclude duplicates' \
+and if it tracks 'QSO sent' status, will correctly mark all selected QSOs as sent - they are in your account even though \
+they would not be in this specific batch");
 			message += wxT("\n");
-			message += _("Choosing 'Cancel' is usually safe, but a defective logger not checking the status messages reported by TrustedQSL may produce "
-				  "strange (but harmless) behavior such as attempting to upload an empty file or marking all chosen QSOs as 'sent'");
+			message += _("Choosing 'Cancel' is usually safe, but a defective logger not checking the status messages reported by TrustedQSL may produce \
+strange (but harmless) behavior such as attempting to upload an empty file or marking all chosen QSOs as 'sent'");
 		}
 	}
 	wxStaticText* mtext = new wxStaticText(this, -1, message);
@@ -584,8 +579,8 @@ void
 DupesDialog::OnAllow(wxCommandEvent&) {
 	tqslTrace("DupesDialog::OnAllow", NULL);
 
-	wxString msg = _("The only reason to re-sign duplicate QSOs is if a previous upload "
-		"was not processed by LoTW, either because it was never uploaded, or there was a server failure");
+	wxString msg = _("The only reason to re-sign duplicate QSOs is if a previous upload \
+was not processed by LoTW, either because it was never uploaded, or there was a server failure");
 		msg += wxT("\n\n");
 		msg += _("Are you sure you want to proceed? Click 'No' to review the choices");
 	if (wxMessageBox(msg, _("Are you sure?"), wxYES_NO|wxICON_EXCLAMATION, this) == wxYES) {
@@ -895,7 +890,7 @@ MyFrame::SaveOldBackups(const wxString& directory, const wxString& filename, con
 	wxArrayString bfiles;
 
 #ifdef _WIN32
-	wchar_t* wpath = utf8_to_wchar(directory);
+	wchar_t* wpath = utf8_to_wchar(directory.ToUTF8());
 	_WDIR *dir = _wopendir(wpath);
 	free_wchar(wpath);
 #else
@@ -1523,7 +1518,11 @@ MyFrame::OnHelpContents(wxCommandEvent& WXUNUSED(event)) {
 // Return the "About" string
 //
 static wxString getAbout() {
-	wxString msg = wxT("TQSL V") wxT(VERSION) wxT(" build ") wxT(BUILD) wxT("\n(c) 2001-2019 American Radio Relay League\n\n");
+	wxString msg = wxT("TQSL V") wxT(VERSION) wxT(" build ") wxT(BUILD);
+#ifdef OSX_ARCHITECTURES
+	msg += wxT("(") wxT(OSX_ARCHITECTURES) wxT(")");
+#endif
+	msg += wxT("\n(c) 2001-2019 American Radio Relay League\n\n");
 	int major, minor;
 	if (tqsl_getVersion(&major, &minor))
 		wxLogError(getLocalizedErrorString());
@@ -1546,17 +1545,17 @@ static wxString getAbout() {
 #else
 	msg+=wxString::Format(wxT("%hs"), DB_VERSION_STRING);
 #endif
-	msg+=wxT("\n\n\nTranslators:\n"
-		"German: Andreas Rehberg, DF4WC\n"
-		"Spanish: Jordi Quintero, EA3GCV\n"
-		"Italian: Salvatore Besso, I4FYV\n"
-		"Japanese: Akihiro KODA, JL3OXR\n"
-		"Finnish: Juhani Tapaninen, OH8MXL\n"
-		"Polish: Roman Bagiński, SP4JEU\n"
-		"Portuguese: Nuno Lopes, CT2IRY\n"
-		"Russian: Vic Goncharsky, US5WE\n"
-		"Chinese: Caros, BH4TXN\n"
-		"Hindi: Manmohan Bhagat, VU3YBH\n");
+	msg+=wxT("\n\n\nTranslators:\n");
+	msg+=wxT("German: Andreas Rehberg, DF4WC\n");
+	msg+=wxT("Spanish: Jordi Quintero, EA3GCV\n");
+	msg+=wxT("Italian: Salvatore Besso, I4FYV\n");
+	msg+=wxT("Japanese: Akihiro KODA, JL3OXR\n");
+	msg+=wxT("Finnish: Juhani Tapaninen, OH8MXL\n");
+	msg+=wxT("Polish: Roman Bagiński, SP4JEU\n");
+	msg+=wxT("Portuguese: Nuno Lopes, CT2IRY\n");
+	msg+=wxT("Russian: Vic Goncharsky, US5WE\n");
+	msg+=wxT("Chinese: Caros, BH4TXN\n");
+	msg+=wxT("Hindi: Manmohan Bhagat, VU3YBH\n");
 	return msg;
 }
 
@@ -6146,16 +6145,14 @@ void MyFrame::OnCertExport(wxCommandEvent& WXUNUSED(event)) {
 	wxConfig::Get()->Write(wxT("CertFilePath"), wxPathOnly(filename));
 	wxString msg = _("Enter the password for the certificate container file.");
 		msg += wxT("\n\n");
-		msg += _("If you are using a computer system that is shared "
-			"with others, you should specify a password to "
-			"protect this certificate. However, if you are using "
-			"a computer in a private residence, no password need be specified.");
+		msg += _("If you are using a computer system that is shared \
+with others, you should specify a password to \
+protect this certificate. However, if you are using \
+a computer in a private residence, no password need be specified.");
 		msg += wxT("\n\n");
-		msg += _("You will have to enter the password any time you "
-			"load the file into TrustedQSL.");
+		msg += _("You will have to enter the password any time you load the file into TrustedQSL.");
 		msg += wxT("\n\n");
-		msg += _("Leave the password blank and click 'OK' unless you want to "
-			"use a password.");
+		msg += _("Leave the password blank and click 'OK' unless you want to use a password.");
 		msg += wxT("\n\n");
 	GetNewPasswordDialog dial(this, _("Certificate Container Password"), msg, true, help, wxT("save.htm"));
 	if (dial.ShowModal() != wxID_OK)
