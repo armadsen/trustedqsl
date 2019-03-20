@@ -143,15 +143,15 @@ GetNewPassword(char *buf, int bufsiz, void *) {
 	tqslTrace("GetNewPassword", NULL);
 	wxString msg = _("Enter a password for this callsign certificate.");
 		msg += wxT("\n\n");
-		msg += _("If you are using a computer system that is \
-shared with others, you should specify a \
-password to protect this certificate. However, if \
-you are using a computer in a private residence \
-no password need be specified.");
+		msg += _("If you are using a computer system that is "
+			L"shared with others, you should specify a "
+			L"password to protect this certificate. However, if "
+			L"you are using a computer in a private residence "
+			L"no password need be specified.");
 		msg += wxT("\n\n");
-		msg += _("This password will have to be entered each time \
-you use this callsign certificate for signing or \
-when saving the key.");
+		msg += _("This password will have to be entered each time "
+			L"you use this callsign certificate for signing or "
+			L"when saving the key.");
 		msg += wxT("\n\n");
 		msg += _("Leave the password blank and click 'OK' unless you want to use a password.");
 		msg += wxT("\n\n");
@@ -190,9 +190,9 @@ export_new_cert(ExtWizard *_parent, const char *filename) {
 				if (!tqsl_getCertificateSerial(cert, &serial)) {
 					if (serial == newserial) {
 						wxCommandEvent e;
-						wxString msg = _("You will not be able to use this tq6 file to recover your \
-callsign certificate if it gets lost. For security purposes, you should \
-back up your certificate on removable media for safe-keeping.");
+						wxString msg = _("You will not be able to use this tq6 file to recover your "
+							L"callsign certificate if it gets lost. For security purposes, you should "
+							L"back up your certificate on removable media for safe-keeping.");
 							msg += wxT("\n\n");
 							msg += _("Would you like to back up your callsign certificate now?");
 						if (wxMessageBox(msg, _("Warning"), wxYES_NO | wxICON_QUESTION, _parent) == wxNO) {

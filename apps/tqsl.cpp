@@ -484,8 +484,7 @@ DupesDialog::DupesDialog(wxWindow *parent, int qso_count, int dupes, int action)
 	wxString message;
 
 	if (qso_count == dupes) {
-		wxString fmt = _("This log contains %d QSO(s) which appear \
-to have already been signed for upload to LoTW, and no new QSOs.");
+		wxString fmt = _("This log contains %d QSO(s) which appear to have already been signed for upload to LoTW, and no new QSOs.");
 		fmt += wxT("\n\n");
 		fmt += _("Click 'Cancel' to abandon processing this log file (Recommended).");
 		fmt += wxT("\n");
@@ -493,18 +492,18 @@ to have already been signed for upload to LoTW, and no new QSOs.");
 		message = wxString::Format(fmt, qso_count);
 	} else {
 		int newq = qso_count - dupes;
-		wxString fmt = _("This log contains %d QSO(s) which appear \
-to have already been signed for upload to LoTW, and \
-%d QSOs which are new.");
+		wxString fmt = _("This log contains %d QSO(s) which appear "
+				L"to have already been signed for upload to LoTW, and "
+				L"%d QSOs which are new.");
 			fmt += wxT("\n\n");
 		  	fmt += _("Click 'Exclude duplicates' to sign normally, without the duplicate QSOs (Recommended).");
 			fmt += wxT("\n");
 			fmt += _("Click 'Cancel' to abandon processing this log file.");
 			fmt += wxT("\n");
 			fmt += _("Click 'Allow duplicates' to re-process this log while allowing duplicate QSOs.");
-		wxString fmt1 = _("This log contains %d QSO(s) which appear \
-to have already been signed for upload to LoTW, and \
-one QSO which is new.");
+		wxString fmt1 = _("This log contains %d QSO(s) which appear "
+				L"to have already been signed for upload to LoTW, and "
+				L"one QSO which is new.");
 			fmt1 += wxT("\n\n");
 		  	fmt1 += _("Click 'Exclude duplicates' to sign normally, without the duplicate QSOs (Recommended).");
 			fmt1 += wxT("\n");
@@ -521,27 +520,27 @@ one QSO which is new.");
 	if (action == TQSL_ACTION_UNSPEC) {
 		if (qso_count == dupes) {
 			message+= wxT("\n\n");
-			message += _("The log file you are uploading using your QSO Logging system consists entirely of previously uploaded \
-QSOs (duplicates) that create unnecessary work for LoTW. There may be a more recent version of your QSO \
-Logging system that would prevent this. Please check with your QSO Logging system's vendor for an updated version.");
+			message += _("The log file you are uploading using your QSO Logging system consists entirely of previously uploaded "
+				L"QSOs (duplicates) that create unnecessary work for LoTW. There may be a more recent version of your QSO "
+				L"Logging system that would prevent this. Please check with your QSO Logging system's vendor for an updated version.");
 			message += wxT("\n");
-			message += _("In the meantime, please note that some loggers may exhibit strange behavior if an option other than 'Allow duplicates' \
-is clicked. Choosing 'Cancel' is usually safe, but a defective logger not checking the status messages reported by TrustedQSL may produce \
-strange (but harmless) behavior such as attempting to upload an empty file or marking all chosen QSOs as 'sent'");
+			message += _("In the meantime, please note that some loggers may exhibit strange behavior if an option other than 'Allow duplicates' "
+				L"is clicked. Choosing 'Cancel' is usually safe, but a defective logger not checking the status messages reported by TrustedQSL may produce "
+				L"strange (but harmless) behavior such as attempting to upload an empty file or marking all chosen QSOs as 'sent'");
 		} else {
 			message+= wxT("\n\n");
-			message += _("The log file you are uploading using your QSO Logging system includes some previously uploaded \
-QSOs (duplicates) that create unnecessary work for LoTW. There may be a more recent version of your \
-QSO Logging system that would prevent this. Please check with your QSO Logging system's vendor for an updated version.");
+			message += _("The log file you are uploading using your QSO Logging system includes some previously uploaded "
+				L"QSOs (duplicates) that create unnecessary work for LoTW. There may be a more recent version of your "
+				L"QSO Logging system that would prevent this. Please check with your QSO Logging system's vendor for an updated version.");
 			message += wxT("\n");
-			message += _("In the meantime, please note that some loggers may exhibit strange behavior if an option other than 'Allow duplicates' \
-is clicked. 'Exclude duplicates' is recommended, but a logger that does its own duplicate tracking may incorrectly \
-set the status in this case. A logger that doesn't track duplicates should be unaffected by choosing 'Exclude duplicates' \
-and if it tracks 'QSO sent' status, will correctly mark all selected QSOs as sent - they are in your account even though \
-they would not be in this specific batch");
+			message += _("In the meantime, please note that some loggers may exhibit strange behavior if an option other than 'Allow duplicates' "
+				L"is clicked. 'Exclude duplicates' is recommended, but a logger that does its own duplicate tracking may incorrectly "
+				L"set the status in this case. A logger that doesn't track duplicates should be unaffected by choosing 'Exclude duplicates' "
+				L"and if it tracks 'QSO sent' status, will correctly mark all selected QSOs as sent - they are in your account even though "
+				L"they would not be in this specific batch");
 			message += wxT("\n");
-			message += _("Choosing 'Cancel' is usually safe, but a defective logger not checking the status messages reported by TrustedQSL may produce \
-strange (but harmless) behavior such as attempting to upload an empty file or marking all chosen QSOs as 'sent'");
+			message += _("Choosing 'Cancel' is usually safe, but a defective logger not checking the status messages reported by TrustedQSL may produce "
+				L"strange (but harmless) behavior such as attempting to upload an empty file or marking all chosen QSOs as 'sent'");
 		}
 	}
 	wxStaticText* mtext = new wxStaticText(this, -1, message);
@@ -579,8 +578,8 @@ void
 DupesDialog::OnAllow(wxCommandEvent&) {
 	tqslTrace("DupesDialog::OnAllow", NULL);
 
-	wxString msg = _("The only reason to re-sign duplicate QSOs is if a previous upload \
-was not processed by LoTW, either because it was never uploaded, or there was a server failure");
+	wxString msg = _("The only reason to re-sign duplicate QSOs is if a previous upload "
+			L"was not processed by LoTW, either because it was never uploaded, or there was a server failure");
 		msg += wxT("\n\n");
 		msg += _("Are you sure you want to proceed? Click 'No' to review the choices");
 	if (wxMessageBox(msg, _("Are you sure?"), wxYES_NO|wxICON_EXCLAMATION, this) == wxYES) {
@@ -6145,10 +6144,10 @@ void MyFrame::OnCertExport(wxCommandEvent& WXUNUSED(event)) {
 	wxConfig::Get()->Write(wxT("CertFilePath"), wxPathOnly(filename));
 	wxString msg = _("Enter the password for the certificate container file.");
 		msg += wxT("\n\n");
-		msg += _("If you are using a computer system that is shared \
-with others, you should specify a password to \
-protect this certificate. However, if you are using \
-a computer in a private residence, no password need be specified.");
+		msg += _("If you are using a computer system that is shared "
+			L"with others, you should specify a password to "
+			L"protect this certificate. However, if you are using "
+			L"a computer in a private residence, no password need be specified.");
 		msg += wxT("\n\n");
 		msg += _("You will have to enter the password any time you load the file into TrustedQSL.");
 		msg += wxT("\n\n");

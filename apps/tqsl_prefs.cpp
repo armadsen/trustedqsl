@@ -605,9 +605,9 @@ ProxyPrefs::ProxyPrefs(wxWindow *parent) : PrefsPanel(parent, wxT("pref-opt.htm"
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 
 	wxString msg = wxT("\n");
-		msg += _("Use these settings to configure a network proxy \
-for Internet uploads and downloads. You should only \
-enable a proxy if directed by your network administrator.");
+		msg += _("Use these settings to configure a network proxy "
+			L"for Internet uploads and downloads. You should only "
+			L"enable a proxy if directed by your network administrator.");
 		msg += wxT("\n");
 		msg += _("Incorrect settings can cause TQSL to be unable to upload logs or check for updates.");
 	wxStaticText *st = new wxStaticText(this, -1, msg, wxDefaultPosition, wxSize(char_width, char_height *8));
