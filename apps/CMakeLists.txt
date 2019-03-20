@@ -97,6 +97,10 @@ if(${BUILD} MATCHES "-(alpha|beta|test|rc[0-9])")
 	add_definitions(-DTQSL_TEST_BUILD)
 endif()
 
+if(APPLE)
+	add_definitions(-DOSX_PLATFORM="${OSX_PLATFORM}")
+endif()
+
 if(WIN32)
 	set(TQSLLIB_NAME tqsllib2)
 	set(srcdir ${CMAKE_CURRENT_SOURCE_DIR})

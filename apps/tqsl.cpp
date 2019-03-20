@@ -1519,8 +1519,8 @@ MyFrame::OnHelpContents(wxCommandEvent& WXUNUSED(event)) {
 //
 static wxString getAbout() {
 	wxString msg = wxT("TQSL V") wxT(VERSION) wxT(" build ") wxT(BUILD);
-#ifdef OSX_ARCHITECTURES
-	msg += wxT("(") wxT(OSX_ARCHITECTURES) wxT(")");
+#ifdef OSX_PLATFORM
+	msg += wxT("\nBuilt for ") wxT(OSX_PLATFORM);
 #endif
 	msg += wxT("\n(c) 2001-2019 American Radio Relay League\n\n");
 	int major, minor;

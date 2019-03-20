@@ -77,6 +77,9 @@ tqsl-*.dmg
 tqsl64-2.4.4.dmg
 tests/CMakeLists.txt
 tests/basictest.cpp
+tests/basicTest
+tests/gtest-1.7.0/libgtest.a
+tests/gtest-1.7.0/libgtest_main.a
 tests/gtest-1.7.0/CHANGES
 tests/gtest-1.7.0/CMakeLists.txt
 tests/gtest-1.7.0/CONTRIBUTORS
