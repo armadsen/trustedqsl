@@ -1200,8 +1200,10 @@ MyFrame::MyFrame(const wxString& title, int x, int y, int w, int h, bool checkUp
 	b1sizer->Add(up, 0, wxALL, 1);
 	wxString b1lbl = wxT("\n");
 	b1lbl += _("Sign a log and upload it automatically to LoTW");
-	b1lbl += wxT("\n");
-	b1sizer->Add(new wxStaticText(b1Panel, -1, b1lbl), 1, wxALL, 1);
+	wxStaticText *b1txt = new wxStaticText(b1Panel, -1, b1lbl);
+	b1sizer->Add(b1txt, 1, wxFIXED_MINSIZE | wxALL, 1);
+	b1txt->SetLabel(b1lbl);
+	up->SetLabel(b1lbl);
 	bsizer->Add(b1Panel, 0, wxALL, 1);
 
 	wxPanel* b2Panel = new wxPanel(buttons);
@@ -1214,7 +1216,10 @@ MyFrame::MyFrame(const wxString& title, int x, int y, int w, int h, bool checkUp
 	b2sizer->Add(signsave, 0, wxALL, 1);
 	wxString b2lbl = wxT("\n");
 	b2lbl += _("Sign a log and save it for uploading later");
-	b2sizer->Add(new wxStaticText(b2Panel, -1, b2lbl), 1, wxALL, 1);
+	wxStaticText *b2txt = new wxStaticText(b2Panel, -1, b2lbl);
+	b2txt->SetLabel(b1lbl);
+	signsave->SetLabel(b1lbl);
+	b2sizer->Add(b2txt, 1, wxALL, 1);
 	bsizer->Add(b2Panel, 0, wxALL, 1);
 
 	wxPanel* b3Panel = new wxPanel(buttons);
@@ -1228,7 +1233,10 @@ MyFrame::MyFrame(const wxString& title, int x, int y, int w, int h, bool checkUp
 	b3sizer->Add(fed, 0, wxALL, 1);
 	wxString b3lbl = wxT("\n");
 	b3lbl += _("Create an ADIF file for signing and uploading");
-	b3sizer->Add(new wxStaticText(b3Panel, -1, b3lbl), 1, wxALL, 1);
+	wxStaticText *b3txt = new wxStaticText(b3Panel, -1, b3lbl);
+	b3sizer->Add(b3txt, 1, wxALL, 1);
+	b3txt->SetLabel(b1lbl);
+	fed->SetLabel(b1lbl);
 	bsizer->Add(b3Panel, 0, wxALL, 1);
 
 	wxPanel* b4Panel = new wxPanel(buttons);
@@ -1241,7 +1249,10 @@ MyFrame::MyFrame(const wxString& title, int x, int y, int w, int h, bool checkUp
 	b4sizer->Add(lotw, 0, wxALL, 1);
 	wxString b4lbl = wxT("\n");
 	b4lbl += _("Log in to the Logbook of the World Site");
-	b4sizer->Add(new wxStaticText(b4Panel, -1, b4lbl), 1, wxALL, 1);
+	wxStaticText *b4txt = new wxStaticText(b4Panel, -1, b4lbl);
+	b4sizer->Add(b4txt, 1, wxALL, 1);
+	b4txt->SetLabel(b1lbl);
+	lotw->SetLabel(b1lbl);
 	bsizer->Add(b4Panel, 0, wxALL, 1);
 
 	notebook->AddPage(buttons, _("Log Operations"));
