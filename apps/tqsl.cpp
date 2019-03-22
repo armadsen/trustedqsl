@@ -1217,8 +1217,8 @@ MyFrame::MyFrame(const wxString& title, int x, int y, int w, int h, bool checkUp
 	wxString b2lbl = wxT("\n");
 	b2lbl += _("Sign a log and save it for uploading later");
 	wxStaticText *b2txt = new wxStaticText(b2Panel, -1, b2lbl);
-	b2txt->SetLabel(b1lbl);
-	signsave->SetLabel(b1lbl);
+	b2txt->SetLabel(b2lbl);
+	signsave->SetLabel(b2lbl);
 	b2sizer->Add(b2txt, 1, wxALL, 1);
 	bsizer->Add(b2Panel, 0, wxALL, 1);
 
@@ -1235,8 +1235,8 @@ MyFrame::MyFrame(const wxString& title, int x, int y, int w, int h, bool checkUp
 	b3lbl += _("Create an ADIF file for signing and uploading");
 	wxStaticText *b3txt = new wxStaticText(b3Panel, -1, b3lbl);
 	b3sizer->Add(b3txt, 1, wxALL, 1);
-	b3txt->SetLabel(b1lbl);
-	fed->SetLabel(b1lbl);
+	b3txt->SetLabel(b3lbl);
+	fed->SetLabel(b3lbl);
 	bsizer->Add(b3Panel, 0, wxALL, 1);
 
 	wxPanel* b4Panel = new wxPanel(buttons);
@@ -1251,8 +1251,8 @@ MyFrame::MyFrame(const wxString& title, int x, int y, int w, int h, bool checkUp
 	b4lbl += _("Log in to the Logbook of the World Site");
 	wxStaticText *b4txt = new wxStaticText(b4Panel, -1, b4lbl);
 	b4sizer->Add(b4txt, 1, wxALL, 1);
-	b4txt->SetLabel(b1lbl);
-	lotw->SetLabel(b1lbl);
+	b4txt->SetLabel(b4lbl);
+	lotw->SetLabel(b4lbl);
 	bsizer->Add(b4Panel, 0, wxALL, 1);
 
 	notebook->AddPage(buttons, _("Log Operations"));
