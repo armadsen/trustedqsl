@@ -1556,16 +1556,17 @@ static wxString getAbout() {
 	msg+=wxString::Format(wxT("%hs"), DB_VERSION_STRING);
 #endif
 	msg+=wxT("\n\n\nTranslators:\n");
+	msg+=wxT("Chinese: Caros, BH4TXN\n");
+	msg+=wxT("Finnish: Juhani Tapaninen, OH8MXL\n");
 	msg+=wxT("German: Andreas Rehberg, DF4WC\n");
-	msg+=wxT("Spanish: Jordi Quintero, EA3GCV\n");
+	msg+=wxT("Hindi: Manmohan Bhagat, VU3YBH\n");
 	msg+=wxT("Italian: Salvatore Besso, I4FYV\n");
 	msg+=wxT("Japanese: Akihiro KODA, JL3OXR\n");
-	msg+=wxT("Finnish: Juhani Tapaninen, OH8MXL\n");
 	msg+=wxT("Polish: Roman Bagiński, SP4JEU\n");
 	msg+=wxT("Portuguese: Nuno Lopes, CT2IRY\n");
 	msg+=wxT("Russian: Vic Goncharsky, US5WE\n");
-	msg+=wxT("Chinese: Caros, BH4TXN\n");
-	msg+=wxT("Hindi: Manmohan Bhagat, VU3YBH\n");
+	msg+=wxT("Spanish: Jordi Quintero, EA3GCV\n");
+	msg+=wxT("Turkish: Oguzhan Kayhan, TA2NC\n");
 	return msg;
 }
 
