@@ -29,7 +29,7 @@ do
     cp apps/ca-bundle.crt $WORKDIR/TrustedQSL/$app.app/Contents/Resources
     cp apps/languages.dat $WORKDIR/TrustedQSL/$app.app/Contents/Resources
     cp apps/cab_modes.dat $WORKDIR/TrustedQSL/$app.app/Contents/Resources
-    for lang in de es fi fr hi_IN it ja pl_PL pt zh ru
+    for lang in de es fi fr hi_IN it ja pl_PL pt zh ru tr_TR
     do
 	mkdir $WORKDIR/TrustedQSL/$app.app/Contents/Resources/$lang.lproj
 	cp apps/lang/$lang/tqslapp.mo $WORKDIR/TrustedQSL/$app.app/Contents/Resources/$lang.lproj
