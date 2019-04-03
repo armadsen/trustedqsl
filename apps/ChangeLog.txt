@@ -2,6 +2,8 @@ TQSL changes
 ============
 2.4.4
 ----------
+Add localization for Turkish.
+
 Add support for a 64-bit build for MacOS. Add an indicator of what platforms
 are supported for an Mac build (i386/ppc or x86_64/i386).
 
