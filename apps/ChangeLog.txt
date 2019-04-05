@@ -1,5 +1,10 @@
 TQSL changes
 ============
+2.4.5
+----------
+Fix log messages for Windows command line users to not be a string of Hex
+characters.
+
 2.4.4
 ----------
 Add localization for Turkish.

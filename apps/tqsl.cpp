@@ -746,7 +746,7 @@ void LogList::DoLogString(const wxChar *szString, time_t) {
 		_logwin = _frame->logwin;
 	if (_logwin == 0) {
 #ifdef _WIN32
-		cerr << szString << endl;
+		cerr << msg << endl;
 #else
 		fprintf(stderr, "%ls\n", szString);
 #endif
@@ -771,7 +771,7 @@ void LogStderr::DoLogString(const wxChar *szString, time_t) {
 	if (wxString(szString).StartsWith(wxT("Debug:")))
 		return;
 #ifdef _WIN32
-	cerr << szString << endl;
+	cerr << msg << endl;
 #else
 	fprintf(stderr, "%ls\n", szString);
 #endif
