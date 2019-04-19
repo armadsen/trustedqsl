@@ -3363,8 +3363,8 @@ tqsl_deleteCertificate(tQSL_Cert cert) {
 		goto dc_end;
 	}
 #ifdef _WIN32
-	free(wpath);
-	free(wnewpath);
+	free_wchar(wpath);
+	free_wchar(wnewpath);
 #endif
 
  dc_ok:
@@ -4221,7 +4221,7 @@ tqsl_make_key_path(const char *callsign, char *path, int size) {
 		return 0;
 	}
 #ifdef _WIN32
-	free(wpath);
+	free_wchar(wpath);
 	strncat(path, "\\", size - strlen(path));
 #else
 	strncat(path, "/", size - strlen(path));
@@ -4252,7 +4252,7 @@ tqsl_make_backup_path(const char *callsign, char *path, int size) {
 		return 0;
 	}
 #ifdef _WIN32
-	free(wpath);
+	free_wchar(wpath);
 	strncat(path, "\\", size - strlen(path));
 #else
 	strncat(path, "/", size - strlen(path));
@@ -4538,7 +4538,7 @@ tqsl_store_cert(const char *pem, X509 *cert, const char *certfile, int type, boo
 		return 1;
 	}
 #ifdef _WIN32
-	free(wpath);
+	free_wchar(wpath);
 #endif
 	// Make sure there's always a newline between certs
 	size_t pemlen = strlen(pem);

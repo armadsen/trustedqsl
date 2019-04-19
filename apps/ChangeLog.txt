@@ -1,5 +1,10 @@
 TQSL changes
 ============
+2.4.6
+----------
+Fix error messages for Windows command line users. The text was garbled due
+to changes made to implement Unicode on Windows (no changes for Linux or Mac).
+
 2.4.5
 ----------
 Fix log messages for Windows command line users to not be a string of Hex
