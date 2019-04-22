@@ -2568,7 +2568,7 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 
 	wxString filename;
 #ifdef _WIN32
-	filename.Printf(wxT("%hs\\curl.log"), wxString::FromUTF8(tQSL_BaseDir));
+	filename.Printf(wxT("%hs\\curl.log"), tQSL_BaseDir);
 #else
 	filename.Printf(wxT("%hs/curl.log"), tQSL_BaseDir);
 #endif
@@ -3190,7 +3190,7 @@ void MyFrame::UpdateConfigFile() {
 
 	wxString filename;
 #ifdef _WIN32
-	filename.Printf(wxT("%hs\\config.tq6"), wxString::FromUTF8(tQSL_BaseDir));
+	filename.Printf(wxT("%hs\\config.tq6"), tQSL_BaseDir);
 	wchar_t* lfn = utf8_to_wchar(filename.ToUTF8());
 	FILE *configFile = _wfopen(lfn, L"wb");
 	free_wchar(lfn);
@@ -3265,7 +3265,7 @@ void MyFrame::UpdateTQSL(wxString& url) {
 	}
 
 	wxString filename;
-	filename.Printf(wxT("%hs\\tqslupdate.msi"), wxString::FromUTF8(tQSL_BaseDir));
+	filename.Printf(wxT("%hs\\tqslupdate.msi"), tQSL_BaseDir);
 	wchar_t* lfn = utf8_to_wchar(filename.ToUTF8());
 	FILE *updateFile = _wfopen(lfn, L"wb");
 	free_wchar(lfn);

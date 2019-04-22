@@ -1,5 +1,9 @@
 TQSL changes
 ============
+2.4.7
+----------
+Correct defect that keeps TQSL updates on Windows from working properly.
+
 2.4.6
 ----------
 Fix error messages for Windows command line users. The text was garbled due
