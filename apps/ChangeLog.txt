@@ -1,5 +1,9 @@
 TQSL changes
 ============
+2.5
+----------
+Detect running TQSL "As Administrator" and refuse to open.
+
 2.4.7
 ----------
 Correct defect that keeps TQSL updates on Windows from working properly.

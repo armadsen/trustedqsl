@@ -16,6 +16,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <unistd.h>
 #ifdef _WIN32
     #include <io.h>
     #include <windows.h>
@@ -341,10 +342,31 @@ tqsl_init() {
 #endif
 			return 1;
 		}
+		FILE *test;
 #if defined(_WIN32)
 		tQSL_BaseDir = wchar_to_utf8(path, true);
+		wcsncat(path, L"\\tmp.tmp", sizeof path - wcslen(path) - 1);
+		if ((test = _wfopen(path, L"wb")) == NULL ) {
+			tQSL_Errno = errno;
+			char *p = wchar_to_utf8(path, false);
+			sprintf(tQSL_CustomError, "Unable to create files in the TQSL working directory (%s): %m", p);
+			tQSL_Error = TQSL_CUSTOM_ERROR;
+			return 1;
+		}
+		fclose(test);
+		_wunlink(path);
 #else
-		tQSL_BaseDir = path;
+		if (tQSL_BaseDir) free (const_cast<char *>(tQSL_BaseDir));
+		tQSL_BaseDir = strdup(path);
+		strncat(path, "/tmp.tmp", sizeof path -strlen(path) - 1);
+		if ((test = fopen(path, "wb")) == NULL ) {
+			tQSL_Errno = errno;
+			sprintf(tQSL_CustomError, "Unable to create files in the TQSL working directory (%s): %m", tQSL_BaseDir);
+			tQSL_Error = TQSL_CUSTOM_ERROR;
+			return 1;
+		}
+		fclose(test);
+		unlink(path);
 #endif
 	}
 	semaphore = 1;

@@ -61,6 +61,7 @@
 
 #ifdef _WIN32
 	#include <io.h>
+	HRESULT IsElevated(BOOL * pbElevated);
 #endif
 #include <zlib.h>
 #include <openssl/opensslv.h> // only for version info!
@@ -5007,6 +5008,14 @@ QSLApp::OnInit() {
 	frame = 0;
 	long lng = -1;
 
+#ifdef _WIN32
+	bool disa;
+	wxConfig::Get()->Read(wxT("DisableAdminCheck"), &disa, False);
+	if (!disa && IsElevated(NULL) == S_OK) {
+		wxMessageBox(_("TQSL must not be run 'As Administrator'. Quitting."), _("Error"), wxOK | wxICON_ERROR, frame);
+		exitNow(TQSL_EXIT_TQSL_ERROR, quiet);
+	}
+#endif
 	int major, minor;
 	if (tqsl_getConfigVersion(&major, &minor)) {
 		wxMessageBox(getLocalizedErrorString(), _("Error"), wxOK | wxICON_ERROR, frame);
@@ -5239,12 +5248,16 @@ QSLApp::OnInit() {
 			wxString about = getAbout();
 			tqslTrace(NULL, "TQSL Diagnostics\r\n%s\n\n", (const char *)about.ToUTF8());
 			tqslTrace(NULL, "Command Line: %s\r\n", (const char *)origCommandLine.ToUTF8());
-			tqsl_init();
+			if (tqsl_init()) {
+				wxLogError(getLocalizedErrorString());
+			}
 			tqslTrace(NULL, "Working Directory: %s\r\n", tQSL_BaseDir);
 		}
 	}
 
-	tqsl_init();	// Init tqsllib
+	if (tqsl_init()) { // Init tqsllib
+		wxLogError(getLocalizedErrorString());
+	}
 	// check for logical command switches
 	if (parser.Found(wxT("o")) && parser.Found(wxT("u"))) {
 		cerr << "Option -o cannot be combined with -u" << endl;
@@ -6920,4 +6933,183 @@ unlock_db(void) {
 	lockfileFD = -1;
 	hFile = 0;
 }
+
+///////////////////////////////
+/* Derived from VistaTools.cxx - version 2.1 http://www.softblog.com/files/VistaTools.cxx
+
+THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
+ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED
+TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+PARTICULAR PURPOSE.
+
+Copyright (C) 2008.  WinAbility Software Corporation. All rights reserved.
+
+Author: Andrei Belogortseff [ http://www.softblog.com ]
+
+TERMS OF USE: You are free to use this file in any way you like, 
+for both the commercial and non-commercial purposes, royalty-free,
+AS LONG AS you agree with the warranty disclaimer above, 
+EXCEPT that you may not remove or modify this or any of the 
+preceeding paragraphs. If you make any changes, please document 
+them in the MODIFICATIONS section below. If the changes are of general 
+interest, please let us know and we will consider incorporating them in 
+this file, as well.
+
+If you use this file in your own project, an acknowledgment will be appreciated, 
+although it's not required.
+
+SUMMARY:
+
+This file contains several Vista-specific functions helpful when dealing with the 
+"elevation" features of Windows Vista. See the descriptions of the functions below
+for information on what each function does and how to use it.
+
+This file contains the Win32 stuff only, it can be used with or without other frameworks, 
+such as MFC, ATL, etc.
+
+*/
+
+#if ( NTDDI_VERSION < NTDDI_LONGHORN )
+#	error NTDDI_VERSION must be defined as NTDDI_LONGHORN or later
+#endif
+
+static BOOL
+IsVista();
+
+/*
+Use IsVista() to determine whether the current process is running under Windows Vista or 
+(or a later version of Windows, whatever it will be)
+
+Return Values:
+	If the function succeeds, and the current version of Windows is Vista or later, 
+		the return value is TRUE. 
+	If the function fails, or if the current version of Windows is older than Vista 
+		(that is, if it is Windows XP, Windows 2000, Windows Server 2003, Windows 98, etc.)
+		the return value is FALSE.
+*/
+
+static HRESULT
+GetElevationType(__out TOKEN_ELEVATION_TYPE * ptet);
+
+/*
+Use GetElevationType() to determine the elevation type of the current process.
+
+Parameters:
+
+ptet
+	[out] Pointer to a variable that receives the elevation type of the current process.
+
+	The possible values are:
+
+	TokenElevationTypeDefault - User is not using a "split" token. 
+		This value indicates that either UAC is disabled, or the process is started
+		by a standard user (not a member of the Administrators group).
+
+	The following two values can be returned only if both the UAC is enabled and
+	the user is a member of the Administrator's group (that is, the user has a "split" token):
+
+	TokenElevationTypeFull - the process is running elevated. 
+
+	TokenElevationTypeLimited - the process is not running elevated.
+
+Return Values:
+	If the function succeeds, the return value is S_OK. 
+	If the function fails, the return value is E_FAIL. To get extended error information, 
+	call GetLastError().
+*/
+
+HRESULT
+IsElevated(BOOL * pbElevated);
+
+/*
+Use IsElevated() to determine whether the current process is elevated or not.
+
+Parameters:
+
+pbElevated
+	[out] [optional] Pointer to a BOOL variable that, if non-NULL, receives the result.
+
+	The possible values are:
+
+	TRUE - the current process is elevated.
+		This value indicates that either UAC is enabled, and the process was elevated by 
+		the administrator, or that UAC is disabled and the process was started by a user 
+		who is a member of the Administrators group.
+
+	FALSE - the current process is not elevated (limited).
+		This value indicates that either UAC is enabled, and the process was started normally, 
+		without the elevation, or that UAC is disabled and the process was started by a standard user. 
+
+Return Values
+	If the function succeeds, and the current process is elevated, the return value is S_OK. 
+	If the function succeeds, and the current process is not elevated, the return value is S_FALSE. 
+	If the function fails, the return value is E_FAIL. To get extended error information, 
+	call GetLastError().
+*/
+
+static
+BOOL IsVista() {
+	OSVERSIONINFO osver;
+
+	osver.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
+
+	if (	::GetVersionEx( &osver ) &&
+			osver.dwPlatformId == VER_PLATFORM_WIN32_NT &&
+			(osver.dwMajorVersion >= 6) )
+		return TRUE;
+
+	return FALSE;
+}
+
+static
+HRESULT
+GetElevationType(__out TOKEN_ELEVATION_TYPE * ptet) {
+	if (!IsVista() || ptet == NULL )
+		return E_FAIL;
+
+	HRESULT hResult = E_FAIL; // assume an error occured
+	HANDLE hToken	= NULL;
+
+	if (!::OpenProcessToken(::GetCurrentProcess(), TOKEN_QUERY, &hToken)) {
+		return hResult;
+	}
+
+	DWORD dwReturnLength = 0;
+
+	if (::GetTokenInformation(hToken, TokenElevationType, ptet, sizeof(*ptet), &dwReturnLength)) {
+		hResult = S_OK;
+	}
+
+	::CloseHandle(hToken);
+
+	return hResult;
+}
+
+HRESULT
+IsElevated(BOOL * pbElevated) {
+	if (!IsVista())
+	    return E_FAIL;
+
+	HRESULT hResult = E_FAIL; // assume an error occured
+	HANDLE hToken	= NULL;
+
+	if (!::OpenProcessToken(::GetCurrentProcess(), TOKEN_QUERY, &hToken)) {
+		return hResult;
+	}
+
+	TOKEN_ELEVATION te = { 0 };
+	DWORD dwReturnLength = 0;
+
+	if (::GetTokenInformation(hToken, TokenElevation, &te, sizeof(te), &dwReturnLength)) {
+		hResult = te.TokenIsElevated ? S_OK : S_FALSE;
+
+		if ( pbElevated)
+			*pbElevated = (te.TokenIsElevated != 0);
+	}
+
+	::CloseHandle(hToken);
+
+	return hResult;
+}
+
 #endif /* _WIN32 */

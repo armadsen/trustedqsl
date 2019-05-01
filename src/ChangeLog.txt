@@ -3,6 +3,8 @@ TQSLLIB changes
 
 2.5
 ---
+Check if TQSL is able to write to the working directory during start-up.
+
 Improve the error message for missing private keys to be more descriptive.
 
 Add the ability to map Cabrillo modes to user-specified ADIF modes
