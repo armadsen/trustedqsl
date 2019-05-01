@@ -5010,7 +5010,7 @@ QSLApp::OnInit() {
 
 #ifdef _WIN32
 	bool disa;
-	wxConfig::Get()->Read(wxT("DisableAdminCheck"), &disa, False);
+	wxConfig::Get()->Read(wxT("DisableAdminCheck"), &disa, false);
 	if (!disa && IsElevated(NULL) == S_OK) {
 		wxMessageBox(_("TQSL must not be run 'As Administrator'. Quitting."), _("Error"), wxOK | wxICON_ERROR, frame);
 		exitNow(TQSL_EXIT_TQSL_ERROR, quiet);

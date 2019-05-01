@@ -16,12 +16,13 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <sys/stat.h>
-#include <unistd.h>
 #ifdef _WIN32
     #include <io.h>
     #include <windows.h>
     #include <direct.h>
     #include <Shlobj.h>
+#else
+#include <unistd.h>
 #endif
 #ifdef __APPLE__
 #include <CoreFoundation/CFBundle.h>
