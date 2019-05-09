@@ -22,6 +22,7 @@
 #include "util.h"
 #include "tqslctrls.h"
 #include "tqsltrace.h"
+#include "tqsl_prefs.h"
 
 #include "winstrdefs.h"
 
@@ -76,6 +77,8 @@ CRQWiz::CRQWiz(TQSL_CERT_REQ *crq, tQSL_Cert xcert, wxWindow *parent, wxHtmlHelp
 	introPage = new CRQ_IntroPage(this, _crq);
 	namePage = new CRQ_NamePage(this, _crq);
 	emailPage = new CRQ_EmailPage(this, _crq);
+	wxConfig *config = reinterpret_cast<wxConfig *>(wxConfig::Get());
+	config->Read(wxT("CertPwd"), &CertPwd, DEFAULT_CERTPWD);
 	pwPage = new CRQ_PasswordPage(this);
 	typePage = new CRQ_TypePage(this);
 	if (nprov != 1)
@@ -561,6 +564,7 @@ CRQ_EmailPage::CRQ_EmailPage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(par
 	initialized = false;
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 
+	_parent = parent;
 	wxSize sz = getTextSize(this);
 	int em_w = sz.GetWidth();
 	wxStaticText *st = new wxStaticText(this, -1, _("Your e-mail address"));
@@ -585,6 +589,26 @@ CRQ_EmailPage::CRQ_EmailPage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(par
 	sizer->Add(tc_status, 0, wxALL|wxEXPAND, 10);
 	AdjustPage(sizer, wxT("crq2.htm"));
 	initialized = true;
+}
+
+CRQ_Page *
+CRQ_EmailPage::GetNext() const {
+	tqslTrace("CRQ_EmailPage::GetNext", NULL);
+	if (_parent->CertPwd)
+		return _parent->pwPage;
+	else
+		if (_parent->signIt)
+			return _parent->signPage;
+		else
+			return NULL;
+}
+
+CRQ_Page *
+CRQ_EmailPage::GetPrev() const {
+	tqslTrace("CRQ_EmailPage::GetPrev", NULL);
+	
+	return _parent->namePage;
+
 }
 
 BEGIN_EVENT_TABLE(CRQ_PasswordPage, CRQ_Page)
@@ -697,8 +721,10 @@ bool
 CRQ_TypePage::TransferDataFromWindow() {
 	wxString signPrompts[] = {
 				wxT("sign error"),	// Current personal
-				_("Please select the Callsign Certificate for your current personal callsign to validate your request."),	// former personal
-				_("Please select a Callsign Certificate to validate your request."),	// Primary club
+				_("Please select the Callsign Certificate for your current personal callsign to validate your request."),	// New personal
+				_("Please select the Callsign Certificate for your current personal callsign to validate your request."),	// Former personal
+				wxT("sign error"),	// Primary Club
+
 				_("Please select your club's primary Callsign Certificate to validate your request."),	// Secondary club
 				wxT("sign error"),	// dxpedition multi-op
 				_("Please select the Callsign Certificate for your current personal callsign to validate your request."),	// dxpedition single op
@@ -707,6 +733,9 @@ CRQ_TypePage::TransferDataFromWindow() {
 				wxT("sign error"),	// spec event multi-op
 				_("Please select a Callsign Certificate to validate your request.")	// spec event single-op
 				};
+
+wxCOMPILE_TIME_ASSERT(WXSIZEOF(callTypeChoices) == WXSIZEOF(signPrompts),
+                       CertTypesArraysMismatch);
 
 	tqslTrace("CRQ_TypePage::TransferDataFromWindow", NULL);
 	int selected = certType->GetSelection();
@@ -732,6 +761,7 @@ CRQ_SignPage::CRQ_SignPage(CRQWiz *parent, TQSL_CERT_REQ *crq)
 	tqslTrace("CRQ_SignPage::CRQ_SignPage", "parent=%lx", reinterpret_cast<void *>(parent));
 
 	initialized = false;
+	_parent = parent;
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 	wxSize sz = getTextSize(this);
 	int em_h = sz.GetHeight();
@@ -761,6 +791,17 @@ CRQ_SignPage::refresh() {
 		Parent()->signIt = true;
 	else
 		Parent()->signIt = false;
+}
+
+CRQ_Page *
+CRQ_SignPage::GetPrev() const {
+	tqslTrace("CRQ_SignPage::GetPrev", NULL);
+
+	if (_parent->CertPwd)
+		return _parent->pwPage;
+	else
+		return _parent->emailPage;
+	return _parent->introPage;
 }
 
 // Page validation

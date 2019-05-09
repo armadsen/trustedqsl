@@ -356,14 +356,17 @@ FilePrefs::FilePrefs(wxWindow *parent) : PrefsPanel(parent, wxT("pref-opt.htm"))
 	dirPick->Enable(ab);
 	sizer->Add(dirPick, 0, wxEXPAND|wxLEFT|wxRIGHT, 10);
 
-	sizer->Add(new wxStaticText(this, -1, _("Number of Backups to retain:")), 0, wxTOP|wxLEFT|wxRIGHT, 10);
+	wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
+	hsizer->Add(new wxStaticText(this, -1, _("Number of Backups to retain:")), 0, wxTOP|wxLEFT|wxRIGHT, 10);
 
 	int bver;
 	config->Read(wxT("BackupVersions"), &bver, DEFAULT_BACKUP_VERSIONS);
 
 	versions = new wxTextCtrl(this, ID_PREF_FILE_BACKUP_VERSIONS, wxString::Format(wxT("%d"), bver),
 		wxDefaultPosition, wxSize(char_width / (FILE_TEXT_WIDTH / 3), HEIGHT_ADJ(char_height)));
-	sizer->Add(versions, 0, wxLEFT|wxRIGHT|wxBOTTOM, 10);
+	hsizer->Add(versions, 0, wxLEFT|wxRIGHT|wxBOTTOM, 10);
+
+	sizer->Add(hsizer, 0, wxALL|wxALIGN_LEFT, 10);
 
 	badcalls = new wxCheckBox(this, ID_PREF_FILE_BADCALLS, _("Allow nonamateur call signs"));
 	bool allow;
@@ -382,10 +385,17 @@ FilePrefs::FilePrefs(wxWindow *parent) : PrefsPanel(parent, wxT("pref-opt.htm"))
 	config->Read(wxT("DispDupes"), &allow, DEFAULT_DISP_DUPES);
 	dispdupes->SetValue(allow);
 	sizer->Add(dispdupes, 0, wxLEFT|wxRIGHT|wxTOP, 10);
+
 	logtab = new wxCheckBox(this, ID_PREF_FILE_LOG_TAB, _("Display status messages in separate tab"));
 	config->Read(wxT("LogTab"), &allow, DEFAULT_LOG_TAB);
 	logtab->SetValue(allow);
 	sizer->Add(logtab, 0, wxLEFT|wxRIGHT|wxTOP, 10);
+
+	certpwd = new wxCheckBox(this, ID_PREF_FILE_CERTPWD, _("Enable passwords for Callsign Certificates"));
+	bool cp;
+	config->Read(wxT("CertPwd"), &cp, DEFAULT_CERTPWD);
+	certpwd->SetValue(cp);
+	sizer->Add(certpwd, 0, wxLEFT|wxRIGHT|wxTOP, 10);
 	SetSizer(sizer);
 	sizer->Fit(this);
 	sizer->SetSizeHints(this);
@@ -423,6 +433,7 @@ bool FilePrefs::TransferDataFromWindow() {
 	config->Write(wxT("DateRange"), daterange->GetValue());
 	config->Write(wxT("AdifEdit"), adifedit->GetValue());
 	config->Write(wxT("DispDupes"), dispdupes->GetValue());
+	config->Write(wxT("CertPwd"), certpwd->GetValue());
 
 	bool oldLog;
 	config->Read(wxT("LogTab"), &oldLog, DEFAULT_LOG_TAB);

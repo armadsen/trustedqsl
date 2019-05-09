@@ -58,7 +58,8 @@ class CRQWiz : public ExtWizard {
 #endif
 	int ncerts;		// Number of valid certificates
 	int nprov;		// Number of providers
-	bool signIt;
+	bool signIt;		// Should this be signed?
+	bool CertPwd;		// Should we prompt for a password?
 	wxCoord maxWidth;	// Width of longest string
 	wxString signPrompt;
 	tQSL_Cert _cert;
@@ -152,7 +153,10 @@ class CRQ_EmailPage : public CRQ_Page {
 	explicit CRQ_EmailPage(CRQWiz *parent, TQSL_CERT_REQ *crq = 0);
 	virtual bool TransferDataFromWindow();
 	virtual const char *validate();
+	virtual CRQ_Page *GetPrev() const;
+	virtual CRQ_Page *GetNext() const;
  private:
+	CRQWiz *_parent;
 	wxTextCtrl *tc_email;
 	wxStaticText *tc_status;
 	bool initialized;
@@ -199,12 +203,14 @@ class CRQ_SignPage : public CRQ_Page {
 	void CertSelChanged(wxTreeEvent&);
 	virtual const char *validate();
 	virtual void refresh();
+	virtual CRQ_Page *GetPrev() const;
  private:
 	CertTree *cert_tree;
 	wxStaticText *tc_status;
 	bool initialized;
 	int em_w;
         void OnPageChanging(wxWizardEvent &);
+	CRQWiz *_parent;
 	DECLARE_EVENT_TABLE()
 };
 
