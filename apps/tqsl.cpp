@@ -5003,25 +5003,8 @@ QSLApp::OnRun() {
 static vector<wxLanguage> langIds;
 static wxArrayString langNames;
 
-bool
-QSLApp::OnInit() {
-	frame = 0;
-	long lng = -1;
-
-#ifdef _WIN32
-	bool disa;
-	wxConfig::Get()->Read(wxT("DisableAdminCheck"), &disa, false);
-	if (!disa && IsElevated(NULL) == S_OK) {
-		wxMessageBox(_("TQSL must not be run 'As Administrator'. Quitting."), _("Error"), wxOK | wxICON_ERROR, frame);
-		exitNow(TQSL_EXIT_TQSL_ERROR, quiet);
-	}
-#endif
-	int major, minor;
-	if (tqsl_getConfigVersion(&major, &minor)) {
-		wxMessageBox(getLocalizedErrorString(), _("Error"), wxOK | wxICON_ERROR, frame);
-		exitNow(TQSL_EXIT_TQSL_ERROR, quiet);
-	}
-
+static void
+initLang() {
 	if (langIds.size() == 0) {
 		char langfile[1024];
 		FILE *lfp;
@@ -5060,7 +5043,7 @@ QSLApp::OnInit() {
 		snprintf(langfile, sizeof langfile, "%s/languages.dat", tQSL_BaseDir);
 		if ((lfp = fopen(langfile, "rb")) == NULL) {
 #endif
-			goto nousrlang;
+			return;
 		}
 #ifdef _WIN32
 		free_wchar(wfilename);
@@ -5083,9 +5066,29 @@ QSLApp::OnInit() {
 		}
 		fclose(lfp);
 	}
+	return;
+}
 
- nousrlang:
+bool
+QSLApp::OnInit() {
+	frame = 0;
+	long lng = -1;
 
+#ifdef _WIN32
+	bool disa;
+	wxConfig::Get()->Read(wxT("DisableAdminCheck"), &disa, false);
+	if (!disa && IsElevated(NULL) == S_OK) {
+		wxMessageBox(_("TQSL must not be run 'As Administrator'. Quitting."), _("Error"), wxOK | wxICON_ERROR, frame);
+		exitNow(TQSL_EXIT_TQSL_ERROR, quiet);
+	}
+#endif
+	int major, minor;
+	if (tqsl_getConfigVersion(&major, &minor)) {
+		wxMessageBox(getLocalizedErrorString(), _("Error"), wxOK | wxICON_ERROR, frame);
+		exitNow(TQSL_EXIT_TQSL_ERROR, quiet);
+	}
+
+	initLang();
 	wxConfig::Get()->Read(wxT("Language"), &lng, wxLANGUAGE_UNKNOWN);
 	lang = (wxLanguage) lng;
 

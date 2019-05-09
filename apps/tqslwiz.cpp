@@ -35,6 +35,7 @@ BEGIN_EVENT_TABLE(TQSLWizCertPage, TQSLWizPage)
 	EVT_COMBOBOX(-1, TQSLWizCertPage::OnComboBoxEvent)
 	EVT_CHECKBOX(-1, TQSLWizCertPage::OnCheckBoxEvent)
 	EVT_WIZARD_PAGE_CHANGING(wxID_ANY, TQSLWizCertPage::OnPageChanging)
+	EVT_TEXT(wxID_ANY, TQSLWizCertPage::OnTextEvent)
 #if wxMAJOR_VERSION < 3 && (wxMAJOR_VERSION != 2 && wxMINOR_VERSION != 9)
 	EVT_SIZE(TQSLWizCertPage::OnSize)
 #endif
@@ -153,13 +154,15 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 		ForcedMap::iterator it;
 		it = forced.find(gabbi_name);
 		if (it != forced.end()) {		// Something set
-			if (it->second != callsign) {	// For a different call
+			if (it->second == "") {
+				forced.erase(it);
+			} else if (it->second != callsign) {	// For a different call
 				if (in_type == TQSL_LOCATION_FIELD_DDLIST || in_type == TQSL_LOCATION_FIELD_LIST) {
 					tqsl_setLocationFieldIndex(loc, i, 0);
 					cb->SetSelection(wxNOT_FOUND);
 				} else {
 					tqsl_setLocationFieldCharData(loc, i, "");
-					tx->SetValue(wxT(""));
+					tx->ChangeValue(wxT(""));
 				}
 				forced.erase(it);
 			}
@@ -168,11 +171,12 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 		char buf[256];
 		string s;
 		tqsl_getLocationFieldCharData(loc, i, buf, sizeof buf);
+
 		if (strlen(buf) == 0) { // Empty, so set to default
 			if (strcmp(gabbi_name, "GRIDSQUARE") == 0) {
 				if (get_address_field(callsign, "grid", s) == 0) {	// Got something
 					tqsl_setLocationFieldCharData(loc, i, s.c_str());
-					 tx->SetValue(wxString::FromUTF8(s.c_str()));
+					 tx->ChangeValue(wxString::FromUTF8(s.c_str()));
 					forced[gabbi_name] = callsign;
 				}
 			}
@@ -235,6 +239,7 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 				}
 			}
 		}
+
 		if (noupdate_field >= 0 && !changed && in_type != TQSL_LOCATION_FIELD_BADZONE)
 			continue;
 		if (in_type == TQSL_LOCATION_FIELD_DDLIST || in_type == TQSL_LOCATION_FIELD_LIST) {
@@ -252,7 +257,7 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 				if (!old_sel.IsEmpty())
 					defaulted = true;		// Set from default
 			}
-			if (forced[gabbi_name] == callsign) {
+			if (strlen(callsign) >0 && forced[gabbi_name] == callsign) {
 				char buf[256];
 				tqsl_getLocationFieldCharData(loc, i, buf, sizeof buf);
 				old_text = wxString::FromUTF8(buf);
@@ -290,7 +295,10 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 			if (noupdate_field < 0) {
 				char buf[256];
 				tqsl_getLocationFieldCharData(loc, i, buf, sizeof buf);
-				tx->SetValue(wxString::FromUTF8(buf));
+				tx->ChangeValue(wxString::FromUTF8(buf));
+				if (strcmp(gabbi_name, "GRIDSQUARE") == 0) {
+					gridFromDB = true;
+				}
 			}
 		} else if (in_type == TQSL_LOCATION_FIELD_BADZONE) {
 			int len;
@@ -334,6 +342,24 @@ TQSLWizCertPage::OnComboBoxEvent(wxCommandEvent& event) {
 }
 
 void
+TQSLWizCertPage::OnTextEvent(wxCommandEvent& event) {
+	tqslTrace("TQSLWizCertPage::OnTextEvent", NULL);
+	int control_idx = event.GetId() - TQSL_ID_LOW;
+	if (control_idx < 0 || control_idx >= static_cast<int>(controls.size()))
+		return;
+	int in_type;
+	tqsl_getLocationFieldInputType(loc, control_idx, &in_type);
+	if (in_type == TQSL_LOCATION_FIELD_TEXT) {
+		char gabbi_name[40];
+		tqsl_getLocationFieldDataGABBI(loc, control_idx, gabbi_name, sizeof gabbi_name);
+		if (strcmp(gabbi_name, "GRIDSQUARE") == 0) {
+			gridFromDB = false;  // User set the grid
+		}
+	}
+}
+
+
+void
 TQSLWizCertPage::OnCheckBoxEvent(wxCommandEvent& event) {
 	UpdateFields(-1);
 }
@@ -349,6 +375,7 @@ TQSLWizCertPage::TQSLWizCertPage(TQSLWizard *parent, tQSL_Location locp)
 	valMsg = wxT("");
 	invalidGrid = false;
 	allowBadGrid = false;
+	gridFromDB = false;
 	tqsl_getStationLocationCapturePage(loc, &loc_page);
 	wxScreenDC sdc;
 	int label_w = 0;
@@ -520,7 +547,7 @@ TQSLWizCertPage::validate() {
 					if (valMsg.IsEmpty())
 						valMsg = wxString::Format(_("%s: Invalid Grid Square"), grid.c_str());
 				}
-				if (valMsg.IsEmpty() && !gridlist.empty()) {
+				if (valMsg.IsEmpty() && !gridlist.empty() && !gridFromDB) {
 					string probe = string(grid.Left(4).mb_str());
 					if (gridlist.find(probe) == string::npos) {
 						valMsg = wxString::Format(_("Grid %s is not correct for your QTH. Click 'Next' again to use it anyway."), grid.c_str());
@@ -532,7 +559,7 @@ TQSLWizCertPage::validate() {
 				if (!editedGrids.IsEmpty())
 					editedGrids += wxT(",");
 				editedGrids += grid;
-				(reinterpret_cast<wxTextCtrl *>(controls[i]))->SetValue(editedGrids);
+				(reinterpret_cast<wxTextCtrl *>(controls[i]))->ChangeValue(editedGrids);
 				tqsl_setLocationFieldCharData(loc, i, (reinterpret_cast<wxTextCtrl *>(controls[i]))->GetValue().ToUTF8());
 			}
 		} else if (in_type == TQSL_LOCATION_FIELD_BADZONE) {
