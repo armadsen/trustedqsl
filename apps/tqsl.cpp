@@ -6335,13 +6335,13 @@ void MyFrame::OnLocTreeSel(wxTreeEvent& event) {
 		wxString nl = wxT("\n");
 		loc_edit_label->SetLabel(nl + _("Edit Station Location ") + call + wxT(": ") + lname);
 		loc_edit_label->Wrap(w - 10);
-		loc_edit_button->SetLabel(_("Edit Station Location ") + call + wxT(": ") + lname);
+		loc_edit_button->SetLabel(nl + _("Edit Station Location ") + call + wxT(": ") + lname);
 		loc_delete_label->SetLabel(nl + _("Delete Station Location ") + call + wxT(": ") + lname);
 		loc_delete_label->Wrap(w - 10);
-		loc_delete_button->SetLabel( _("Delete Station Location ") + call + wxT(": ") + lname);
+		loc_delete_button->SetLabel(nl +  _("Delete Station Location ") + call + wxT(": ") + lname);
 		loc_prop_label->SetLabel(nl + _("Display Station Location Properties for ") + call + wxT(": ") + lname);
 		loc_prop_label->Wrap(w - 10);
-		loc_prop_button->SetLabel(_("Display Station Location Properties for ") + call + wxT(": ") + lname);
+		loc_prop_button->SetLabel(nl + _("Display Station Location Properties for ") + call + wxT(": ") + lname);
 		loc_select_label->SetLabel(wxT(""));
 	} else {
 		LocTreeReset();
