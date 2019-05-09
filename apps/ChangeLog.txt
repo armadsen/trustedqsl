@@ -4,6 +4,14 @@ TQSL changes
 ----------
 Detect running TQSL "As Administrator" and refuse to open.
 
+Verify that the TQSL working directory is writable during startup.
+
+Disable prompting for callsign certificate password by default. Add a
+preference setting to allow this to be re-enabled if desired.
+
+Fix error that was not overriding station location details with the default
+values when editing an existing station location.
+
 2.4.7
 ----------
 Correct defect that keeps TQSL updates on Windows from working properly.
