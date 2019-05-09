@@ -6332,13 +6332,14 @@ void MyFrame::OnLocTreeSel(wxTreeEvent& event) {
 		loc_delete_button->Enable();
 		loc_prop_button->Enable();
 		stn_menu->Enable(tm_s_Properties, true);
-		loc_edit_label->SetLabel(_("Edit Station Location ") + call + wxT(": ") + lname);
+		wxString nl = wxT("\n");
+		loc_edit_label->SetLabel(nl + _("Edit Station Location ") + call + wxT(": ") + lname);
 		loc_edit_label->Wrap(w - 10);
 		loc_edit_button->SetLabel(_("Edit Station Location ") + call + wxT(": ") + lname);
-		loc_delete_label->SetLabel(_("Delete Station Location ") + call + wxT(": ") + lname);
+		loc_delete_label->SetLabel(nl + _("Delete Station Location ") + call + wxT(": ") + lname);
 		loc_delete_label->Wrap(w - 10);
-		loc_delete_button->SetLabel(_("Delete Station Location ") + call + wxT(": ") + lname);
-		loc_prop_label->SetLabel(_("Display Station Location Properties for ") + call + wxT(": ") + lname);
+		loc_delete_button->SetLabel( _("Delete Station Location ") + call + wxT(": ") + lname);
+		loc_prop_label->SetLabel(nl + _("Display Station Location Properties for ") + call + wxT(": ") + lname);
 		loc_prop_label->Wrap(w - 10);
 		loc_prop_button->SetLabel(_("Display Station Location Properties for ") + call + wxT(": ") + lname);
 		loc_select_label->SetLabel(wxT(""));

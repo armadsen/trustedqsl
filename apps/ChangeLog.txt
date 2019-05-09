@@ -12,6 +12,8 @@ preference setting to allow this to be re-enabled if desired.
 Fix error that was not overriding station location details with the default
 values when editing an existing station location.
 
+Fix OSX error where the "Edit Station Location" icon was getting squashed.
+
 2.4.7
 ----------
 Correct defect that keeps TQSL updates on Windows from working properly.
