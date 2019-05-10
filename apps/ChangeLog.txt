@@ -14,6 +14,11 @@ values when editing an existing station location.
 
 Fix OSX error where the "Edit Station Location" icon was getting squashed.
 
+Update "Waiting for Callsign Certificate" icon to a clock versus the slashed
+circle. The latter was being interpreted as something broken versus something
+to wait for.
+
+
 2.4.7
 ----------
 Correct defect that keeps TQSL updates on Windows from working properly.
