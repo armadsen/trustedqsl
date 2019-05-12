@@ -101,6 +101,7 @@ class TQSLWizCertPage : public TQSLWizPage {
 	virtual TQSLWizPage *GetNext() const;
 	void OnSize(wxSizeEvent&);
 	void OnPageChanging(wxWizardEvent &);
+
  private:
 	vector<void *> controls;
 	typedef map <std::string, std::string> ForcedMap;

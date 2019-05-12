@@ -6057,6 +6057,15 @@ void MyFrame::CRQWizard(wxCommandEvent& event) {
 			else
 				pending += wxT(",") + wiz.callsign;
 			wxConfig::Get()->Write(wxT("RequestPending"), pending);
+			// Record another certificate
+                	wxString requestRecord = wxConfig::Get()->Read(wxT("RequestRecord"));
+                	time_t now = time(NULL);
+                	if (!requestRecord.IsEmpty()) {
+                        	requestRecord = requestRecord + wxT(",");
+                	}
+                	requestRecord = requestRecord + wxString::Format(wxT("%s:%lu"), wiz.callsign.c_str(), now);
+                	wxConfig::Get()->Write(wxT("RequestRecord"), requestRecord);
+                	wxConfig::Get()->Flush();
 		}
 		if (req.signer)
 			tqsl_endSigning(req.signer);

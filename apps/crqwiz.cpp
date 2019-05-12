@@ -606,9 +606,8 @@ CRQ_EmailPage::GetNext() const {
 CRQ_Page *
 CRQ_EmailPage::GetPrev() const {
 	tqslTrace("CRQ_EmailPage::GetPrev", NULL);
-	
-	return _parent->namePage;
 
+	return _parent->namePage;
 }
 
 BEGIN_EVENT_TABLE(CRQ_PasswordPage, CRQ_Page)
@@ -824,8 +823,6 @@ CRQ_IntroPage::validate() {
 	bool ok = true;
 	int sel;
 	const char *dxccname = NULL;
-	wxString pending = wxConfig::Get()->Read(wxT("RequestPending"));
-	wxStringTokenizer tkz(pending, wxT(","));
 
 	if (_parent->callsign.Len() < 3)
 		ok = false;
@@ -841,7 +838,7 @@ CRQ_IntroPage::validate() {
 		if (call.find_first_of("0123456789") == string::npos)
 			ok = false;
 		// Invalid callsign patterns
-		// Starting with 0, Q, C7, or 4Y
+		// Starting with 0, Q, (no longer: C7, or 4Y)
 		// 1x other than 1A, 1M, 1S
 		string first = call.substr(0, 1);
 		string second = call.substr(1, 1);
@@ -996,20 +993,63 @@ CRQ_IntroPage::validate() {
 			valMsg += wxString::FromUTF8(cert_before_buf) + _(" to ") + wxString::FromUTF8(cert_after_buf);
 		}
 	}
-	while (tkz.HasMoreTokens()) {
-		wxString pend = tkz.GetNextToken();
-		if (pend == _parent->callsign) {
-			wxString fmt = _("You have already requested a Callsign Certificate for %s "
-					L"and can not request another until that request has been "
-					L"processed by LoTW Staff.");
-				fmt += wxT("\n\n");
-				fmt += _("Please wait until you receive an e-mail bearing your requested Callsign Certificate.");
-				fmt += wxT("\n\n");
-				fmt += _("If you are sure that the earlier request is now invalid you should delete the pending Callsign Certificate for %s.");
+	{
+		wxString pending = wxConfig::Get()->Read(wxT("RequestPending"));
+		wxStringTokenizer tkz(pending, wxT(","));
+		while (tkz.HasMoreTokens()) {
+			wxString pend = tkz.GetNextToken();
+			if (pend == _parent->callsign) {
+				wxString fmt = _("You have already requested a Callsign Certificate for %s "
+						L"and can not request another until that request has been "
+						L"processed by LoTW Staff.");
+					fmt += wxT("\n\n");
+					fmt += _("Please wait until you receive an e-mail bearing your requested Callsign Certificate.");
+					fmt += wxT("\n\n");
+					fmt += _("If you are sure that the earlier request is now invalid you should delete the pending Callsign Certificate for %s.");
+				valMsg = wxString::Format(fmt, _parent->callsign.c_str(), _parent->callsign.c_str());
+				goto notok;
+			}
+		}
+	}
+        {
+		wxString requestRecord = wxConfig::Get()->Read(wxT("RequestRecord"));
+		wxString requestList;
+		wxStringTokenizer rectkz(requestRecord, wxT(","));
+		time_t now = time(NULL);
+		time_t yesterday = now - 24 * 60 * 60; // 24 hours ago
+		int numRequests = 0;
+		while (rectkz.HasMoreTokens()) {
+			wxString rec = rectkz.GetNextToken();
+			char csign[512];
+			time_t rectime;
+			strncpy(csign, rec.ToUTF8(), sizeof csign);
+			char *s = csign;
+			while (*s != ':' && *s != '\0')
+				s++;
+			*s = '\0';
+			rectime = strtol(++s, NULL, 10);
+			if (rectime < yesterday) continue;		// More than 24 hours old
+			if (strcmp(csign, _parent->callsign.ToUTF8()) == 0) { // Same call
+				numRequests++;
+			}
+			if (!requestList.IsEmpty()) {
+				requestList = requestList + wxT(",");
+			}
+			requestList = requestList + wxString::Format(wxT("%hs:%Lu"), csign, rectime);
+		}
+		wxConfig::Get()->Write(wxT("RequestRecord"), requestList);
+		wxConfig::Get()->Flush();
+
+		if (numRequests > 3) {
+			wxString fmt = _("You have already requested more than three Callsign Certificates for %s "
+					L"in the past 24 hours. You should submit a request only once, then wait "
+					L"for that request to processed by LoTW Staff. This may take several business days.");
+					fmt += wxT("\n\n");
+					fmt += _("Please wait until you receive an e-mail bearing your requested Callsign Certificate.");
+					fmt += wxT("\n\n");
 			valMsg = wxString::Format(fmt, _parent->callsign.c_str(), _parent->callsign.c_str());
 		}
 	}
-
  notok:
 	tc_status->SetLabel(valMsg);
 	tc_status->Wrap(Parent()->maxWidth);
