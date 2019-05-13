@@ -18,6 +18,14 @@ Update "Waiting for Callsign Certificate" icon to a clock versus the slashed
 circle. The latter was being interpreted as something broken versus something
 to wait for.
 
+Keep track of Callsign Certificate requests and reject attempts to request
+certificates for the same callsign more than 3 times in 24 hours. This limit
+will hopefully stop people from mistakenly re-requesting callsign certificates
+repeatedly for the same call because they don't realize that action needs to
+be taken by ARRL staff to complete the process.
+
+Correct defect that could cause TQSL to crash upon exit while attempting to
+back up.
 
 2.4.7
 ----------

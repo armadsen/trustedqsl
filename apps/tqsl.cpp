@@ -4386,10 +4386,10 @@ MyFrame::BackupConfig(const wxString& filename, bool quiet) {
 
 		if (!quiet) {
 			wxLogMessage(_("Saving callsign certificates"));
+			wxSafeYield(frame);
 		} else {
 			tqslTrace("MyFrame::BackupConfig", "Saving callsign certificates");
 		}
-		wxSafeYield(frame);
 		int ncerts;
 		char buf[8192];
 		// Save root certificates
@@ -4463,10 +4463,11 @@ MyFrame::BackupConfig(const wxString& filename, bool quiet) {
 			throw TQSLException(gzerror(out, &err));
 		if (!quiet) {
 			wxLogMessage(_("Saving Station Locations"));
+			wxSafeYield(frame);
 		} else {
 			tqslTrace("MyFrame::BackupConfig", "Saving Station Locations");
 		}
-		wxSafeYield(frame);
+
 		tQSL_StationDataEnc sdbuf = NULL;
 		check_tqsl_error(tqsl_getStationDataEnc(&sdbuf));
 		TQSLConfig* parser = new TQSLConfig();
@@ -4478,10 +4479,11 @@ MyFrame::BackupConfig(const wxString& filename, bool quiet) {
 
 		if (!quiet) {
 			wxLogMessage(_("Saving TQSL Preferences"));
+			wxSafeYield(frame);
 		} else {
 			tqslTrace("MyFrame::BackupConfig", "Saving TQSL Preferences - out=0x%lx", reinterpret_cast<void *>(out));
 		}
-		wxSafeYield(frame);
+
 		if (gzprintf(out, "<TQSLSettings>\n") < 0)
 			throw TQSLException(gzerror(out, &err));
 		conf->SaveSettings(&out, wxT("tqslapp"));
@@ -4491,11 +4493,11 @@ MyFrame::BackupConfig(const wxString& filename, bool quiet) {
 
 		if (!quiet) {
 			wxLogMessage(_("Saving QSOs"));
+			wxSafeYield(frame);
 		} else {
 			tqslTrace("MyFrame::BackupConfig", "Saving QSOs");
 		}
 
-		wxSafeYield(frame);
 		tQSL_Converter conv = NULL;
 		check_tqsl_error(tqsl_beginConverter(&conv));
 		tqslTrace("MyFrame::BackupConfig", "beginConverter call success");
@@ -4518,7 +4520,7 @@ MyFrame::BackupConfig(const wxString& filename, bool quiet) {
 			strncpy(dupedata, dd.ToUTF8(), sizeof dupedata);
 			if (gzprintf(out, "<Dupe key=\"%s\" data=\"%s\" />\n", dupekey, dupedata) < 0)
 				throw TQSLException(gzerror(out, &err));
-			if ((count++ % 100000) == 0) {
+			if (!quiet && (count++ % 100000) == 0) {
 				wxSafeYield(frame);
 			}
 		}
