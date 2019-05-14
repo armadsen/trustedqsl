@@ -71,6 +71,7 @@ class CRQWiz : public ExtWizard {
 	wxString callsign;
 	tQSL_Date qsonotbefore, qsonotafter;
 	int dxcc;
+	bool onebyone;		// US 1x1 callsign
 	// NamePage data
 	CRQ_Page *namePage;
 	wxString name, addr1, addr2, city, state, zip, country;
