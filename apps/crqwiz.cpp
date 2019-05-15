@@ -819,6 +819,8 @@ CRQ_IntroPage::validate() {
 	tqslTrace("CRQ_IntroPage::validate", NULL);
 	tQSL_Cert *certlist = 0;
 	int ncert = 0;
+	// List of DXCC entities in the US.
+	int USEntities[] = { 6,9,20,43,103,105,110,123,138,166,174,182,197,202,285,291,297,515, -1 };
 	if (!initialized)
 		return 0;
 	valMsg = wxT("");
@@ -969,7 +971,15 @@ CRQ_IntroPage::validate() {
 	}
 
 	// Check for US 1x1 callsigns
-	if (_parent->dxcc != 291 || _parent->callsign.Len() != 3)
+	bool usa;
+	usa = false;
+	for (int i = 0; USEntities[i] > 0; i++) {
+		if (_parent->dxcc == USEntities[i]) {
+			usa = true;
+			break;
+		}
+	}
+	if (!usa || _parent->callsign.Len() != 3)
 		_parent->onebyone = false;
 
 	// Data looks okay, now let's make sure this isn't a duplicate request
