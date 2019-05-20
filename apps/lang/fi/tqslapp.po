@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TQSL v2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-01 20:08-0400\n"
+"POT-Creation-Date: 2019-05-17 11:18-0400\n"
 "PO-Revision-Date: 2018-02-22 19:24+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -38,28 +38,28 @@ msgstr "Virhe jäsennettäessä varmennetta kutsumerkille"
 msgid "Error parsing certificate for DXCC entity"
 msgstr "Virhe jäsennettäessä varmennetta DXCC-maalle"
 
-#: crqwiz.cpp:33
+#: crqwiz.cpp:34
 msgid "My current personal callsign"
 msgstr "Nykyinen henkilökohtainen kutsumerkkini"
 
-#: crqwiz.cpp:34
+#: crqwiz.cpp:35
 msgid ""
 "My new personal callsign (I have a Callsign Certificate for my former "
 "callsign)"
 msgstr ""
 
-#: crqwiz.cpp:35
+#: crqwiz.cpp:36
 msgid ""
 "My former personal callsign or a portable modifier for my current callsign"
 msgstr ""
 "Aiempi henkilökohtainen kutsumerkkini tai liikkuvan aseman lisämerkki "
 "nykyiseen kutsumerkkiini"
 
-#: crqwiz.cpp:36
+#: crqwiz.cpp:37
 msgid "A primary club callsign"
 msgstr "Kerhon ensisijainen kutsumerkki"
 
-#: crqwiz.cpp:37
+#: crqwiz.cpp:38
 msgid ""
 "A secondary club callsign (I have a Callsign Certificate for the primary "
 "club callsign)"
@@ -67,26 +67,22 @@ msgstr ""
 "Kerhon toissijainen kutsumerkki (minulla on kutsumerkin varmenne "
 "ensisijaiselle kerhon kutsumerkille)"
 
-#: crqwiz.cpp:38
+#: crqwiz.cpp:39
 msgid "A DXpedition, Portable, or holiday operation with multiple operators"
 msgstr ""
 "DX-peditio-, portable-operaatio tai lomapeditio, jossa on useita "
 "operaattoreita"
 
-#: crqwiz.cpp:39
+#: crqwiz.cpp:40
 msgid ""
 "A DXpedition, Portable, or holiday operation where I am the only operator"
 msgstr ""
 "DX-peditio, portable-operaatio tai lomapeditio, jossa minä olen ainoa "
 "operaattori"
 
-#: crqwiz.cpp:40
+#: crqwiz.cpp:41
 msgid "An operator that uses me as a QSL manager"
 msgstr "Operaattori, jonka QSL-manageri olen"
-
-#: crqwiz.cpp:41
-msgid "A special event (1x1) callsign"
-msgstr "Erityistapahtuman kutsumerkki (1x1)"
 
 #: crqwiz.cpp:42
 msgid "A special event callsign with multiple operators"
@@ -96,11 +92,11 @@ msgstr "Erityistapahtuman, jossa on useita operaattoreita, kutsumerkki"
 msgid "A special event callsign where I am the only operator"
 msgstr "Erityistapahtuman, jossa minä olen ainoa operaattori, kutsumerkki"
 
-#: crqwiz.cpp:132
+#: crqwiz.cpp:134
 msgid "This will create a new Callsign Certificate request file."
 msgstr "Tämä luo kutsumerkille uuden varmennepyynnön."
 
-#: crqwiz.cpp:134
+#: crqwiz.cpp:136
 msgid ""
 "Once you supply the requested information and the request file has been "
 "created, you must send the request file to the certificate issuer."
@@ -108,41 +104,41 @@ msgstr ""
 "Kun olet antanut pyydetyt tiedot ja varmennepyyntötiedosto on luotu, sinun "
 "täytyy lähettää pyyntötiedosto varmentajalle."
 
-#: crqwiz.cpp:143
+#: crqwiz.cpp:145
 msgid "Certificate Issuer:"
 msgstr "Varmenteen myöntäjä:"
 
-#: crqwiz.cpp:152 crqwiz.cpp:986 crqwiz.cpp:1081 crqwiz.cpp:1135
-#: crqwiz.cpp:1170 loadcertwiz.cpp:254 loadcertwiz.cpp:349 tqsl.cpp:2772
-#: tqsl.cpp:3204 tqsl.cpp:3219 tqsl.cpp:3275 tqsl.cpp:3290 tqsl.cpp:5081
-#: tqsl.cpp:5087 tqsl.cpp:6637 tqsl.cpp:6837 tqsl_prefs.cpp:935
-#: tqsl_prefs.cpp:942 tqslwiz.cpp:592 tqslwiz.cpp:683
+#: crqwiz.cpp:154 crqwiz.cpp:1092 crqwiz.cpp:1195 crqwiz.cpp:1249
+#: crqwiz.cpp:1284 loadcertwiz.cpp:258 loadcertwiz.cpp:357 tqsl.cpp:2772
+#: tqsl.cpp:3204 tqsl.cpp:3219 tqsl.cpp:3275 tqsl.cpp:3290 tqsl.cpp:5083
+#: tqsl.cpp:5089 tqsl.cpp:6649 tqsl.cpp:6849 tqsl_prefs.cpp:946
+#: tqsl_prefs.cpp:953 tqslwiz.cpp:619 tqslwiz.cpp:710
 msgid "Error"
 msgstr "Virhe"
 
-#: crqwiz.cpp:187
+#: crqwiz.cpp:189
 msgid "Email: "
 msgstr "Sähköposti: "
 
-#: crqwiz.cpp:189
+#: crqwiz.cpp:191
 msgid "URL: "
 msgstr "URL-osoite:"
 
-#: crqwiz.cpp:225
+#: crqwiz.cpp:227
 msgid "DXCC entity:"
 msgstr "DXCC-maa:"
 
-#: crqwiz.cpp:229 tqsl.cpp:1937 tqsl.cpp:4158
+#: crqwiz.cpp:231 tqsl.cpp:1937 tqsl.cpp:4158
 msgid "Call sign:"
 msgstr "Kutsumerkki:"
 
-#: crqwiz.cpp:286
+#: crqwiz.cpp:288
 msgid "Date of the first QSO you made or will make using this callsign:"
 msgstr ""
 "Ensimmäisen yhteyden, jonka olet pitänyt tai tulet pitämään tätä "
 "kutsumerkkia käyttäen, päivämäärä:"
 
-#: crqwiz.cpp:334
+#: crqwiz.cpp:336
 msgid ""
 "Date of the last QSO you made or will make using this callsign:\n"
 "(Leave this date blank if this is still your valid callsign.)"
@@ -151,35 +147,39 @@ msgstr ""
 "käyttäen, päivämäärä:\n"
 "(Jätä tämä tyhjäksi, jos tämä on nykyinen voimassaoleva kutsusi.)"
 
-#: crqwiz.cpp:397
+#: crqwiz.cpp:374 crqwiz.cpp:736
+msgid "Please select a Callsign Certificate to validate your request."
+msgstr "Valitse kutsumerkin varmenne vahvistaaksesi pyyntösi."
+
+#: crqwiz.cpp:404
 msgid "Zip/Postal"
 msgstr "Postinumero"
 
-#: crqwiz.cpp:402 stationdial.cpp:70
+#: crqwiz.cpp:409 stationdial.cpp:70
 msgid "Name"
 msgstr "Nimi"
 
-#: crqwiz.cpp:426
+#: crqwiz.cpp:433
 msgid "Address"
 msgstr "Osoite"
 
-#: crqwiz.cpp:452
+#: crqwiz.cpp:459
 msgid "City"
 msgstr "Postitoimipaikka"
 
-#: crqwiz.cpp:465 stationdial.cpp:351 stationdial.cpp:362
+#: crqwiz.cpp:472 stationdial.cpp:351 stationdial.cpp:362
 msgid "State"
 msgstr "Osavaltio"
 
-#: crqwiz.cpp:487 crqwiz.cpp:490
+#: crqwiz.cpp:494 crqwiz.cpp:497
 msgid "Country"
 msgstr "Maa"
 
-#: crqwiz.cpp:566
+#: crqwiz.cpp:574
 msgid "Your e-mail address"
 msgstr "Sähköpostiosoitteesi"
 
-#: crqwiz.cpp:579
+#: crqwiz.cpp:587
 msgid ""
 "Note: The e-mail address you provide here is the address to which the issued "
 "Certificate will be sent. Make sure it's the correct address!"
@@ -187,7 +187,7 @@ msgstr ""
 "Huomaa: Myönnetty varmenne lähetetään tähän sähköpostiosoitteeseen. "
 "Varmista, että sähköpostiosoite on oikea!"
 
-#: crqwiz.cpp:605
+#: crqwiz.cpp:632
 msgid ""
 "You may protect this Callsign Certificate using a password. If you are using "
 "a computer system that is shared with others, you should specify a password "
@@ -199,22 +199,22 @@ msgstr ""
 "suojataksesi tämän kutsumerkin varmenteen. Kuitenkin, jos käytät "
 "tietokonettä yksityistaloudessa, salasanaa ei ole tarvetta antaa."
 
-#: crqwiz.cpp:614 crqwiz.cpp:640
+#: crqwiz.cpp:641 crqwiz.cpp:667
 msgid ""
 "Leave the password blank and click 'Next' unless you want to use a password."
 msgstr ""
 "Jätä salasanakenttä tyhjäksi ja valitse \"Seuraava\", jos et halua käyttää "
 "salasanaa."
 
-#: crqwiz.cpp:618
+#: crqwiz.cpp:645
 msgid "Password:"
 msgstr "Salasana:"
 
-#: crqwiz.cpp:622
+#: crqwiz.cpp:649
 msgid "Enter the password again for verification:"
 msgstr "Anna salasana uudelleen varmistuksen vuoksi:"
 
-#: crqwiz.cpp:626
+#: crqwiz.cpp:653
 msgid ""
 "DO NOT lose the password you choose! You will be unable to use the "
 "Certificate without this password!"
@@ -222,7 +222,7 @@ msgstr ""
 "ÄLÄ hukkaa valitsemaasi salasanaa! Et voi käyttää varmennetta ilman tätä "
 "salasanaa!"
 
-#: crqwiz.cpp:645
+#: crqwiz.cpp:672
 msgid ""
 "Leave the password blank and click 'Finish' unless you want to use a "
 "password."
@@ -230,11 +230,11 @@ msgstr ""
 "Jätä salasanakenttä tyhjäksi ja valitse \"Valmis\", jos et halua käyttää "
 "salasanaa."
 
-#: crqwiz.cpp:691
+#: crqwiz.cpp:718
 msgid "This Callsign Certificate is for:"
 msgstr "Tämä kutsumerkin varmenne on seuraavaa varten:"
 
-#: crqwiz.cpp:700 crqwiz.cpp:704
+#: crqwiz.cpp:727 crqwiz.cpp:728 crqwiz.cpp:733
 msgid ""
 "Please select the Callsign Certificate for your current personal callsign to "
 "validate your request."
@@ -242,41 +242,37 @@ msgstr ""
 "Valitse nykyisen henkilökohtaisen kutsumerkkisi varmenne vahvistaaksesi "
 "pyyntösi."
 
-#: crqwiz.cpp:701 crqwiz.cpp:706 crqwiz.cpp:708
-msgid "Please select a Callsign Certificate to validate your request."
-msgstr "Valitse kutsumerkin varmenne vahvistaaksesi pyyntösi."
-
-#: crqwiz.cpp:702
+#: crqwiz.cpp:731
 msgid ""
 "Please select your club's primary Callsign Certificate to validate your "
 "request."
 msgstr "Valitse kerhosi ensisijaisen kutsun varmenne vahvistaaksesi pyyntösi."
 
-#: crqwiz.cpp:813
+#: crqwiz.cpp:864
 msgid "You must enter a valid call sign."
 msgstr "Sinun täytyy antaa hyväksyttävä kutsumerkki."
 
-#: crqwiz.cpp:834
+#: crqwiz.cpp:885
 msgid "You must select a DXCC entity."
 msgstr "Sinun täytyy valita DXCC-maa."
 
-#: crqwiz.cpp:865
+#: crqwiz.cpp:916
 msgid "QSO begin date: You must choose proper values for Year, Month and Day."
 msgstr ""
 "Yhteyden alkamisaika: Sinun täytyy valita oikeat vuosi, kuukausi ja päivä."
 
-#: crqwiz.cpp:869
+#: crqwiz.cpp:920
 msgid ""
 "QSO end date: You must either choose proper values for Year, Month and Day "
 "or leave all three blank."
 msgstr ""
 "Yhteyksien loppumisaika: Sinun täytyy valita oikeat vuosi, kuukausi ja päivä."
 
-#: crqwiz.cpp:874
+#: crqwiz.cpp:925
 msgid "QSO end date cannot be before QSO begin date."
 msgstr "Yhteyksien loppumispäivä ei voi olla ennen alkamispäivää."
 
-#: crqwiz.cpp:906
+#: crqwiz.cpp:957
 #, c-format
 msgid ""
 "The date of your first QSO is before the first valid date (%hs) of the "
@@ -285,7 +281,7 @@ msgstr ""
 "Ensimmäisen yhteytesi päivämäärä on ennen ensimmäistä hyväksyttävää "
 "päivämäärää (%hs) valitulle DXCC-maalle %hs "
 
-#: crqwiz.cpp:910
+#: crqwiz.cpp:961
 #, c-format
 msgid ""
 "The date of your first QSO is after the last valid date (%hs) of the "
@@ -294,7 +290,7 @@ msgstr ""
 "Ensimmäisen yhteytesi päivämäärä on valitun viimeisen hyväksyttävän "
 "päivämäärän (%hs) jälkeen valitulle DXCC-maalle %hs"
 
-#: crqwiz.cpp:914
+#: crqwiz.cpp:965
 #, c-format
 msgid ""
 "The date of your last QSO is before the first valid date (%hs) of the "
@@ -303,7 +299,7 @@ msgstr ""
 "Viimeisen yhteytesi päivämäärä on ennen ensimmäistä hyväksyttävää "
 "päivämäärää (%hs) valitulle DXCC-maalle %hs "
 
-#: crqwiz.cpp:918
+#: crqwiz.cpp:969
 #, c-format
 msgid ""
 "The date of your last QSO is after the last valid date (%hs) of the selected "
@@ -313,7 +309,7 @@ msgstr ""
 "jälkeen valitulle DXCC-maalle %hs"
 
 #. TRANSLATORS: first argument is callsign (%s), second is the related DXCC entity name (%hs)
-#: crqwiz.cpp:953
+#: crqwiz.cpp:1016
 #, c-format
 msgid ""
 "You have an overlapping Certificate for %s (DXCC=%hs) having QSO dates: "
@@ -322,11 +318,11 @@ msgstr ""
 "päivämäärinä: "
 
 #. TRANSLATORS: here "to" separates two dates in a date range
-#: crqwiz.cpp:955
+#: crqwiz.cpp:1018
 msgid " to "
 msgstr " - "
 
-#: crqwiz.cpp:961
+#: crqwiz.cpp:1027
 #, c-format
 msgid ""
 "You have already requested a Callsign Certificate for %s and can not request "
@@ -335,14 +331,14 @@ msgstr ""
 "Olet jo pyytänyt varmennetta kutsumerkille %s, etkä voi pyytää uutta ennen "
 "kuin LoTW:n henkilökunta on käsitellyt pyynnön."
 
-#: crqwiz.cpp:965
+#: crqwiz.cpp:1031 crqwiz.cpp:1073
 msgid ""
 "Please wait until you receive an e-mail bearing your requested Callsign "
 "Certificate."
 msgstr ""
 "Odota, kunnes saat sähköpostin, jossa on pyytämäsi kutsumerkin varmenne."
 
-#: crqwiz.cpp:967
+#: crqwiz.cpp:1033
 #, c-format
 msgid ""
 "If you are sure that the earlier request is now invalid you should delete "
@@ -351,7 +347,15 @@ msgstr ""
 "Jos olet varma, että aiempi pyyntö on nyt mitätön, sinun pitäisi poistaa "
 "vireillä oleva varmenne kutsumerkille %s."
 
-#: crqwiz.cpp:991
+#: crqwiz.cpp:1069
+#, c-format
+msgid ""
+"You have already requested more than three Callsign Certificates for %s in "
+"the past 24 hours. You should submit a request only once, then wait for that "
+"request to processed by LoTW Staff. This may take several business days."
+msgstr ""
+
+#: crqwiz.cpp:1097
 msgid ""
 "You cannot select DXCC Entity NONE as you must sign any request for entity "
 "NONE and you have no valid Callsign Certificates that you can use to sign "
@@ -361,15 +365,15 @@ msgstr ""
 "maalle TYHJÄ ja sinulla ei ole voimassaolevia kutsumerkin varmenteita, joita "
 "voisit käyttää varmentaaksesi tämän pyynnön."
 
-#: crqwiz.cpp:992 crqwiz.cpp:1184 tqsl.cpp:153 tqsl.cpp:175
+#: crqwiz.cpp:1098 crqwiz.cpp:1117 crqwiz.cpp:1298 tqsl.cpp:153 tqsl.cpp:175
 msgid "TQSL Error"
 msgstr "TQSL-virhe"
 
-#: crqwiz.cpp:996
+#: crqwiz.cpp:1102
 msgid "You have selected DXCC Entity NONE"
 msgstr "Olet valinnut DXCC-maaksi TYHJÄ"
 
-#: crqwiz.cpp:998
+#: crqwiz.cpp:1104
 msgid ""
 "QSO records signed using the Certificate will not be valid for DXCC award "
 "credit (but will be valid for other applicable awards). If the Certificate "
@@ -386,11 +390,18 @@ msgstr ""
 "suositeltavaa OK:n valitsemisen jälkeen tehdä \"Takaisin\"-valinta "
 "palataksesi DXCC-sivulle"
 
-#: crqwiz.cpp:1006 stationdial.cpp:447
+#: crqwiz.cpp:1112 stationdial.cpp:447
 msgid "TQSL Warning"
 msgstr "TQSL-varoitus"
 
-#: crqwiz.cpp:1009
+#: crqwiz.cpp:1116
+msgid ""
+"You cannot request a certificate for a 1x1 callsign as you must sign those "
+"requests, but you have no valid Callsign Certificates that you can use to "
+"sign this request."
+msgstr ""
+
+#: crqwiz.cpp:1123
 msgid ""
 "You have chosen a QSO end date for this Callsign Certificate. The 'QSO end "
 "date' should ONLY be set if that date is the date when that callsign's "
@@ -401,7 +412,7 @@ msgstr ""
 "jolloin kutsumerkin lupa päättyi tai kutsumerkki korvattiin uudella "
 "kutsumerkillä."
 
-#: crqwiz.cpp:1013
+#: crqwiz.cpp:1127
 msgid ""
 "If you set an end date, you will not be able to sign QSOs past that date, "
 "even if the Callsign Certificate itself is still valid."
@@ -410,7 +421,7 @@ msgstr ""
 "tuon päivämäärän jälkeen, et edes vaikka itse kutsumerkin varmenne olisi "
 "vielä voimassa."
 
-#: crqwiz.cpp:1017
+#: crqwiz.cpp:1131
 msgid ""
 "If you still hold this callsign (or if you plan to renew the license for the "
 "callsign), you should not set a 'QSO end date'."
@@ -418,41 +429,41 @@ msgstr ""
 "Jos sinulla on vielä lupa tälle kutsumerkille (tai aiot uusia luvan tälle "
 "kutsumerkille), sinun ei pitäisi asettaa \"Yhteyksien päättymispäivää\"."
 
-#: crqwiz.cpp:1020
+#: crqwiz.cpp:1134
 msgid "Do you really want to keep this 'QSO end date'?"
 msgstr "Haluatko varmasti pitää tämän QSO:jen päättymispäivän voimassa?"
 
-#: crqwiz.cpp:1021 loadcertwiz.cpp:198 tqsl.cpp:1832 tqsl.cpp:5495
-#: tqsl.cpp:6239 tqsl.cpp:6366 tqsl_prefs.cpp:430
+#: crqwiz.cpp:1135 loadcertwiz.cpp:199 tqsl.cpp:1832 tqsl.cpp:5497
+#: tqsl.cpp:6250 tqsl.cpp:6378 tqsl_prefs.cpp:441
 msgid "Warning"
 msgstr "Varoitus"
 
-#: crqwiz.cpp:1056
+#: crqwiz.cpp:1170
 msgid "You must enter your name"
 msgstr "Nimesi on annettava"
 
-#: crqwiz.cpp:1058
+#: crqwiz.cpp:1172
 msgid "You must enter your address"
 msgstr "Osoitteesi on annettava"
 
-#: crqwiz.cpp:1060
+#: crqwiz.cpp:1174
 msgid "You must enter your city"
 msgstr "Kaupunkisi on annettava"
 
-#: crqwiz.cpp:1122
+#: crqwiz.cpp:1236
 msgid "You must enter a valid email address"
 msgstr "Voimassa oleva sähköpostiosoite on annettava"
 
-#: crqwiz.cpp:1157
+#: crqwiz.cpp:1271
 msgid "The two copies of the password do not match."
 msgstr "Annetut salasanat eivät täsmää."
 
-#: crqwiz.cpp:1198
+#: crqwiz.cpp:1312
 msgid "Click 'Finish' to complete this Callsign Certificate request."
 msgstr ""
 "Valitse \"Valmis\" saattaaksesi valmiiksi tämän kutsumerkin varmennepyynnön."
 
-#: crqwiz.cpp:1211
+#: crqwiz.cpp:1325
 #, c-format
 msgid ""
 "You are saying that the requested Certificate for %s belongs to the same "
@@ -467,14 +478,14 @@ msgid "Help"
 msgstr "Ohje"
 
 #: getpassword.cpp:48 getpassword.cpp:121 qsodatadialog.cpp:384 tqsl.cpp:416
-#: tqsl_prefs.cpp:60 tqsl_prefs.cpp:269 tqsl_prefs.cpp:908 stationdial.h:46
+#: tqsl_prefs.cpp:60 tqsl_prefs.cpp:269 tqsl_prefs.cpp:919 stationdial.h:46
 #: tqslapp.h:116
 msgid "OK"
 msgstr "OK"
 
 #: getpassword.cpp:51 getpassword.cpp:124 qsodatadialog.cpp:383
 #: stationdial.cpp:214 tqsl.cpp:289 tqsl.cpp:340 tqsl.cpp:417 tqsl.cpp:556
-#: tqsl.cpp:617 tqsl_prefs.cpp:63 tqsl_prefs.cpp:272 tqsl_prefs.cpp:911
+#: tqsl.cpp:617 tqsl_prefs.cpp:63 tqsl_prefs.cpp:272 tqsl_prefs.cpp:922
 msgid "Cancel"
 msgstr "Peruuta"
 
@@ -494,31 +505,31 @@ msgstr "Annetut salasanat eivät täsmää"
 msgid "Password confirmed"
 msgstr "Salasana varmistettu"
 
-#: loadcertwiz.cpp:40
+#: loadcertwiz.cpp:41
 msgid "Import completed successfully"
 msgstr "Tuonti onnistui"
 
-#: loadcertwiz.cpp:74
+#: loadcertwiz.cpp:75
 msgid "OK to install "
 msgstr "Valmis asentamaan"
 
-#: loadcertwiz.cpp:75
+#: loadcertwiz.cpp:76
 msgid "certificate?"
 msgstr "varmenne?"
 
-#: loadcertwiz.cpp:76
+#: loadcertwiz.cpp:77
 msgid "Install Certificate"
 msgstr "Asenna varmenne"
 
-#: loadcertwiz.cpp:108
+#: loadcertwiz.cpp:109
 msgid "This callsign certificate is already installed"
 msgstr "Tämä kutsumerkin varmenne on jo asennettu"
 
-#: loadcertwiz.cpp:144
+#: loadcertwiz.cpp:145
 msgid "Enter a password for this callsign certificate."
 msgstr "Syötä salasana tälle kutsumerkin varmenteelle."
 
-#: loadcertwiz.cpp:146
+#: loadcertwiz.cpp:147
 msgid ""
 "If you are using a computer system that is shared with others, you should "
 "specify a password to protect this certificate. However, if you are using a "
@@ -528,7 +539,7 @@ msgstr ""
 "antaa salasana suojataksesi tämän varmenteen. Kuitenkin, jos käytät "
 "tietokonettä yksityistaloudessa, salasanaa ei ole tarvetta antaa."
 
-#: loadcertwiz.cpp:152
+#: loadcertwiz.cpp:153
 msgid ""
 "This password will have to be entered each time you use this callsign "
 "certificate for signing or when saving the key."
@@ -536,17 +547,17 @@ msgstr ""
 "Tämä salasana on annettava joka kerta kun käytät tätä kutsumerkin "
 "varmennetta allekirjoitukseen tai kun tallennat avainta."
 
-#: loadcertwiz.cpp:156 tqsl.cpp:6182
+#: loadcertwiz.cpp:157 tqsl.cpp:6193
 msgid ""
 "Leave the password blank and click 'OK' unless you want to use a password."
 msgstr ""
 "Jätä salasana tyhjäksi ja paina \"OK\", jos et halua käyttää salasanaa."
 
-#: loadcertwiz.cpp:158
+#: loadcertwiz.cpp:159
 msgid "New Password"
 msgstr "Uusi salasana"
 
-#: loadcertwiz.cpp:193
+#: loadcertwiz.cpp:194
 msgid ""
 "You will not be able to use this tq6 file to recover your callsign "
 "certificate if it gets lost. For security purposes, you should back up your "
@@ -557,11 +568,11 @@ msgstr ""
 "varmenteestasi irrotettavalle tallennusvälineelle ja säilyttää sitä "
 "turvallisessa paikassa."
 
-#: loadcertwiz.cpp:197
+#: loadcertwiz.cpp:198
 msgid "Would you like to back up your callsign certificate now?"
 msgstr "Haluatko nyt tehdä kutsumerkin varmenteesta varmuuskopion?"
 
-#: loadcertwiz.cpp:230
+#: loadcertwiz.cpp:234
 msgid ""
 "Callsign Certificate container files (*.p12;*.P12)|*.p12;*.P12|Certificate "
 "Request response files (*.tq6;*.TQ6)|*.tq6;*.TQ6"
@@ -569,7 +580,7 @@ msgstr ""
 "Kutsumerkin varmenteiden säilötiedostot (*.p12;*.P12)|*.p12;*.P12|"
 "Varmennepyyntöjen vastaustiedostot(*.tq6;*.TQ6)|*.tq6;*.TQ6"
 
-#: loadcertwiz.cpp:232
+#: loadcertwiz.cpp:236
 msgid ""
 "Callsign Certificate container files (*.p12)|*.p12|Certificate Request "
 "response files (*.tq6)|*.tq6"
@@ -577,31 +588,31 @@ msgstr ""
 "Kutsumerkin varmenteiden säilötiedostot (*.p12)|*.p12|Varmennepyyntöjen "
 "vastaustiedostot (*.tq6)|*.tq6"
 
-#: loadcertwiz.cpp:234 tqsl.cpp:4116
+#: loadcertwiz.cpp:238 tqsl.cpp:4116
 msgid "|All files (*.*)|*.*"
 msgstr "|Kaikki tiedostot (*.*)|*.*"
 
-#: loadcertwiz.cpp:238
+#: loadcertwiz.cpp:242
 msgid "Select Certificate File"
 msgstr "Valitse varmennetiedosto"
 
-#: loadcertwiz.cpp:294
+#: loadcertwiz.cpp:298
 msgid "Loading complete"
 msgstr "Lataus valmis"
 
-#: loadcertwiz.cpp:309
+#: loadcertwiz.cpp:313
 msgid "No status information available"
 msgstr "Tilatietoa ei ole saatavilla"
 
-#: loadcertwiz.cpp:316
+#: loadcertwiz.cpp:320
 msgid "Enter the password to unlock the .p12 file:"
 msgstr "Syötä salasana avataksesi .p12-tiedoston:"
 
-#: loadcertwiz.cpp:346 tqsl.cpp:2107
+#: loadcertwiz.cpp:354 tqsl.cpp:2107
 msgid "Password error"
 msgstr "Virhe salasanassa"
 
-#: loctree.cpp:86 tqsl.cpp:1368 tqsl.cpp:6396
+#: loctree.cpp:86 tqsl.cpp:1368 tqsl.cpp:6408
 msgid "Station Locations"
 msgstr "Asemien sijainnit"
 
@@ -674,7 +685,7 @@ msgid "Add QSO"
 msgstr "Lisää QSO"
 
 #: qsodatadialog.cpp:376 stationdial.cpp:207 tqsl_prefs.cpp:166
-#: tqsl_prefs.cpp:726
+#: tqsl_prefs.cpp:737
 msgid "Delete"
 msgstr "Poista"
 
@@ -757,7 +768,7 @@ msgstr "Yksi QSO-tieto"
 msgid "%d QSO Records"
 msgstr "%d QSO-tietoa"
 
-#: stationdial.cpp:56 tqsl.cpp:5750
+#: stationdial.cpp:56 tqsl.cpp:5752
 msgid "&Properties"
 msgstr "&Ominaisuudet"
 
@@ -789,7 +800,7 @@ msgstr "Valittu aseman sijainti"
 msgid "New..."
 msgstr "Uusi..."
 
-#: stationdial.cpp:203 tqsl_prefs.cpp:724
+#: stationdial.cpp:203 tqsl_prefs.cpp:735
 msgid "Edit..."
 msgstr "Muokkaa..."
 
@@ -931,7 +942,7 @@ msgstr ""
 "Syötä salasana avataksesi varmenteen kutsumerkille %hs -- %hs\n"
 "(Tämä on salasana, jonka keksit, kun asensit kutsumerkin varmennetta.)"
 
-#: tqsl.cpp:251 tqsl.cpp:6819 getpassword.h:32 getpassword.h:33
+#: tqsl.cpp:251 tqsl.cpp:6831 getpassword.h:32 getpassword.h:33
 msgid "Enter password"
 msgstr "Syötä salasana"
 
@@ -1218,7 +1229,7 @@ msgstr "&Asetukset"
 msgid "Display or Modify &Preferences..."
 msgstr "Näytä tai muokkaa &asetuksia..."
 
-#: tqsl.cpp:1106 tqsl.cpp:6457
+#: tqsl.cpp:1106 tqsl.cpp:6469
 msgid "Language"
 msgstr "Kieli"
 
@@ -1310,19 +1321,19 @@ msgstr "Valitse aseman sijainti tehdäksesi muutoksia      "
 msgid "Create a new Station Location"
 msgstr "Luo uusi aseman sijainti"
 
-#: tqsl.cpp:1331 tqsl.cpp:6310 tqsl.cpp:6311
+#: tqsl.cpp:1331 tqsl.cpp:6321 tqsl.cpp:6322
 msgid "Edit a Station Location"
 msgstr "Muokkaa aseman sijaintia"
 
-#: tqsl.cpp:1347 tqsl.cpp:6312 tqsl.cpp:6313
+#: tqsl.cpp:1347 tqsl.cpp:6323 tqsl.cpp:6324
 msgid "Delete a Station Location"
 msgstr "Poista aseman sijainti"
 
-#: tqsl.cpp:1363 tqsl.cpp:6314 tqsl.cpp:6315
+#: tqsl.cpp:1363 tqsl.cpp:6325 tqsl.cpp:6326
 msgid "Display Station Location Properties"
 msgstr "Näytä aseman sijaintitiedot"
 
-#: tqsl.cpp:1389 tqsl.cpp:6080
+#: tqsl.cpp:1389 tqsl.cpp:6091
 msgid "Select a Callsign Certificate to process"
 msgstr "Valitse kutsumerkin varmenne tehdäksesi muutoksia"
 
@@ -1330,13 +1341,13 @@ msgstr "Valitse kutsumerkin varmenne tehdäksesi muutoksia"
 msgid "Load a Callsign Certificate"
 msgstr "Lataa kutsumerkin varmenne"
 
-#: tqsl.cpp:1432 tqsl.cpp:6072 tqsl.cpp:6073
+#: tqsl.cpp:1432 tqsl.cpp:6083 tqsl.cpp:6084
 msgid "Save a Callsign Certificate"
 msgstr "Tallenna kutsumerkin varmenne"
 
 # Tässä ei käytetä verbiä "uusi", koska se voi sekoittua adjektiivin "uusi" kanssa
-#: tqsl.cpp:1448 tqsl.cpp:5886 tqsl.cpp:6074 tqsl.cpp:6075 tqsl.cpp:6130
-#: tqsl.cpp:6131
+#: tqsl.cpp:1448 tqsl.cpp:5888 tqsl.cpp:6085 tqsl.cpp:6086 tqsl.cpp:6141
+#: tqsl.cpp:6142
 msgid "Renew a Callsign Certificate"
 msgstr "Uudista kutsumerkin varmenne"
 
@@ -1344,7 +1355,7 @@ msgstr "Uudista kutsumerkin varmenne"
 msgid "Display a Callsign Certificate's Properties"
 msgstr "Näytä kutsumerkin varmenteen tiedot"
 
-#: tqsl.cpp:1469 tqsl.cpp:6288
+#: tqsl.cpp:1469 tqsl.cpp:6299
 msgid "Callsign Certificates"
 msgstr "Kutsumerkin varmenteet"
 
@@ -1374,7 +1385,7 @@ msgid "Log File Error"
 msgstr "Virhe lokitiedostossa"
 
 #. TRANSLATORS: uncommon error - error in a station location, followed by the ignore message that follows.
-#: tqsl.cpp:1684 tqsl.cpp:2917 tqsl.cpp:6428
+#: tqsl.cpp:1684 tqsl.cpp:2917 tqsl.cpp:6440
 msgid "The invalid data was ignored."
 msgstr "Virheelliset tiedot jätettiin huomiotta."
 
@@ -1382,16 +1393,16 @@ msgstr "Virheelliset tiedot jätettiin huomiotta."
 msgid "Location data error"
 msgstr "Virhe paikkatiedossa"
 
-#: tqsl.cpp:1689 tqsl.cpp:1715 tqsl.cpp:2922 tqsl.cpp:6433
+#: tqsl.cpp:1689 tqsl.cpp:1715 tqsl.cpp:2922 tqsl.cpp:6445
 #, c-format
 msgid "Edit Station Location : %hs - %s"
 msgstr "Muokkaa aseman sijaintia : %hs - %s"
 
-#: tqsl.cpp:1723 tqsl.cpp:5398
+#: tqsl.cpp:1723 tqsl.cpp:5400
 msgid "Edit Station Location"
 msgstr "Muokkaa aseman sijaintia"
 
-#: tqsl.cpp:1723 tqsl.cpp:6681 tqsl.cpp:6787 tqsl_prefs.cpp:87
+#: tqsl.cpp:1723 tqsl.cpp:6693 tqsl.cpp:6799 tqsl_prefs.cpp:87
 msgid "Close"
 msgstr "Sulje"
 
@@ -1399,7 +1410,7 @@ msgstr "Sulje"
 msgid "Open File"
 msgstr "Avaa tiedosto"
 
-#: tqsl.cpp:1832 tqsl.cpp:5495
+#: tqsl.cpp:1832 tqsl.cpp:5497
 msgid ""
 "Warning: The TQSL ADIF editor only processes a limited number of ADIF "
 "fields.\n"
@@ -1767,7 +1778,7 @@ msgstr ""
 "Voimassaolevia varmenteita ei ole kutsumerkille %hs. Tätä aseman sijaintia "
 "ei voi käyttää lokitiedoston allekirjoittamiseen."
 
-#: tqsl.cpp:2918 tqsl.cpp:2938 tqsl.cpp:6429
+#: tqsl.cpp:2918 tqsl.cpp:2938 tqsl.cpp:6441
 msgid "Station Location data error"
 msgstr "Aseman sijaintitiedoissa virhe"
 
@@ -1985,7 +1996,7 @@ msgstr "TQSL-datatiedostot (*.tq7)|*.tq7"
 msgid "Select file to write to"
 msgstr "Valitse tiedosto, johon kirjoitetaan"
 
-#: tqsl.cpp:4130 tqsl.cpp:5513
+#: tqsl.cpp:4130 tqsl.cpp:5515
 msgid "Select Station Location for Signing"
 msgstr "Valitse aseman sijainti allekirjoitusta varten"
 
@@ -2000,7 +2011,7 @@ msgstr ""
 "TQSL:n täytyy odottaa muiden ajettavien TQSL-kopioiden suorituksen "
 "päättymistä ennen varmuuskopiointia..."
 
-#: tqsl.cpp:4373 tqsl.cpp:4914
+#: tqsl.cpp:4373 tqsl.cpp:4916
 #, c-format
 msgid "Error opening save file %s: %hs"
 msgstr "Virhe avattaessa tallennustiedostoa %s: %hs"
@@ -2018,199 +2029,199 @@ msgstr "Tallennetaan kutsumerkkien varmenteita %hs:lle"
 msgid "Saving Station Locations"
 msgstr "Tallennetaan asemien sijainteja"
 
-#: tqsl.cpp:4480
+#: tqsl.cpp:4481
 msgid "Saving TQSL Preferences"
 msgstr "Tallennetaan TQSL-asetuksia"
 
-#: tqsl.cpp:4493
+#: tqsl.cpp:4495
 msgid "Saving QSOs"
 msgstr "Tallennetaan QSO:ja"
 
-#: tqsl.cpp:4537
+#: tqsl.cpp:4539
 msgid "Save operation complete."
 msgstr "Tallennus valmis."
 
-#: tqsl.cpp:4545
+#: tqsl.cpp:4547
 #, c-format
 msgid "Error performing automatic backup: %hs"
 msgstr "Virhe automaattista varmuustallennusta tehtäessä: %hs"
 
-#: tqsl.cpp:4546
+#: tqsl.cpp:4548
 msgid "Backup Error"
 msgstr "Varmuuskopiovirhe"
 
-#: tqsl.cpp:4548 tqsl.cpp:4567
+#: tqsl.cpp:4550 tqsl.cpp:4569
 #, c-format
 msgid "Backup operation failed: %hs"
 msgstr "Varmuustallennus epäonnistui: %hs"
 
-#: tqsl.cpp:4558
+#: tqsl.cpp:4560
 msgid "Enter file to save to"
 msgstr "Syötä tiedosto, johon tallennetaan"
 
-#: tqsl.cpp:4559
+#: tqsl.cpp:4561
 msgid "Configuration files (*.tbk)|*.tbk|All files (*.*)|*.*"
 msgstr "Kokoonpanotiedostot (*.tbk)|*.tbk|Kaikki tiedostot (*.*)|*.*"
 
-#: tqsl.cpp:4604
+#: tqsl.cpp:4606
 #, c-format
 msgid "Restoring callsign certificate for %hs"
 msgstr "Palautetaan kutsumerkin varmennetta %hs:lle"
 
-#: tqsl.cpp:4650
+#: tqsl.cpp:4652
 msgid "Restoring Preferences"
 msgstr "Palautetaan asetuksia"
 
-#: tqsl.cpp:4709
+#: tqsl.cpp:4711
 msgid "Restoring Station Locations"
 msgstr "Palautetaan asemien sijainteja"
 
-#: tqsl.cpp:4730
+#: tqsl.cpp:4732
 msgid "Restoring QSO records"
 msgstr "Palautetaan QSO-tietoja"
 
-#: tqsl.cpp:4780
+#: tqsl.cpp:4782
 #, c-format
 msgid "Error importing station locations: %hs"
 msgstr "Virhe asemien sijainteja tuodessa: %hs"
 
-#: tqsl.cpp:4846
+#: tqsl.cpp:4848
 msgid "Restoring Callsign Certificates"
 msgstr "Palautetaan kutsumerkkien varmenteita"
 
-#: tqsl.cpp:4853 tqsl.cpp:4861 tqsl.cpp:4866
+#: tqsl.cpp:4855 tqsl.cpp:4863 tqsl.cpp:4868
 #, c-format
 msgid "Error parsing saved configuration file: %hs"
 msgstr "Virhe jäsennettäessä tallennettua kokoonpanotiedostoa: %hs"
 
-#: tqsl.cpp:4870
+#: tqsl.cpp:4872
 msgid "Restore Complete."
 msgstr "Palautus valmis."
 
-#: tqsl.cpp:4884
+#: tqsl.cpp:4886
 #, c-format
 msgid "Error parsing station location file: %hs"
 msgstr "Virhe jäsennettäessä aseman sijaintitiedostoa: %hs"
 
-#: tqsl.cpp:4896
+#: tqsl.cpp:4898
 msgid "Select saved configuration file"
 msgstr "Valitse tallennettu kokoonpanotiedosto"
 
-#: tqsl.cpp:4897
+#: tqsl.cpp:4899
 msgid "Saved configuration files (*.tbk)|*.tbk"
 msgstr "Tallennetut kokoonpanotiedostot (*.tbk)|*.tbk"
 
-#: tqsl.cpp:4927
+#: tqsl.cpp:4929
 #, c-format
 msgid "Restore operation failed: %hs"
 msgstr "Palautusoperaatio epäonnistui: %hs"
 
-#: tqsl.cpp:5081
+#: tqsl.cpp:5083
 msgid "TQSL must not be run 'As Administrator'. Quitting."
 msgstr ""
 
-#: tqsl.cpp:5186
+#: tqsl.cpp:5188
 msgid "Specify dialog action - abort, all, compliant or ask"
 msgstr "Määritä valintatilanteen toiminta - abort, all, complant tai ask"
 
-#: tqsl.cpp:5187
+#: tqsl.cpp:5189
 msgid "Specify start date for QSOs to sign"
 msgstr "Määrittele alkamispäivämäärä allekirjoitettaville QSO:ille"
 
-#: tqsl.cpp:5188
+#: tqsl.cpp:5190
 msgid "Specify default callsign for log signing"
 msgstr "Määrittele oletusarvoinen kutsumerkki lokin allekirjoitukseen"
 
-#: tqsl.cpp:5189
+#: tqsl.cpp:5191
 msgid "Specify end date for QSOs to sign"
 msgstr "Määrittele loppumispäivä allekirjoitettaville QSO:ille"
 
-#: tqsl.cpp:5190
+#: tqsl.cpp:5192
 msgid "Suppress date range dialog"
 msgstr "Piilotettavan päivämääräalueen valintaikkuna"
 
-#: tqsl.cpp:5191
+#: tqsl.cpp:5193
 msgid "Import a certificate file (.p12 or .tq6)"
 msgstr "Tuo varmennetiedosto (.p12 tai .tq6)"
 
-#: tqsl.cpp:5192
+#: tqsl.cpp:5194
 msgid "Selects Station Location"
 msgstr "Valitsee aseman sijainnin"
 
-#: tqsl.cpp:5193
+#: tqsl.cpp:5195
 msgid "Edit (if used with -l) or create Station Location"
 msgstr "Muokkaa (jos käytetty -l:n kanssa) tai luo aseman sijainti"
 
-#: tqsl.cpp:5194
+#: tqsl.cpp:5196
 msgid "Output file name (defaults to input name minus extension plus .tq8"
 msgstr ""
 "tulostetiedoston nimi (oletusarvo syötetiedoston nimi miinus tarkenne plus ."
 "tq8"
 
-#: tqsl.cpp:5195
+#: tqsl.cpp:5197
 msgid "Upload after signing instead of saving"
 msgstr "Lähetä allekirjoittamisen jälkeen tallentamisen sijaan"
 
-#: tqsl.cpp:5196
+#: tqsl.cpp:5198
 msgid "Exit after processing log (otherwise start normally)"
 msgstr "Poistu lokin käsittelyn jälkeen (muuten käynnisty normaalisti)"
 
-#: tqsl.cpp:5197
+#: tqsl.cpp:5199
 msgid "Password for the signing key"
 msgstr "Salasana varmennusavaimelle"
 
-#: tqsl.cpp:5198
+#: tqsl.cpp:5200
 msgid "Quiet Mode - same behavior as -x"
 msgstr "Hiljainen toimintatila - sama käyttäytyminen kuin -x"
 
-#: tqsl.cpp:5199
+#: tqsl.cpp:5201
 msgid "File name for diagnostic tracking log"
 msgstr "Tiedoston nimi diagnoosiseurantatyökalulle"
 
-#: tqsl.cpp:5200
+#: tqsl.cpp:5202
 msgid "Display the version information and exit"
 msgstr "Näytä versiotiedot ja sulje"
 
-#: tqsl.cpp:5201
+#: tqsl.cpp:5203
 msgid "Check for updates to tqsl and the configuration file"
 msgstr "Tarkista päivitykset tqsl:ään ja kokoonpanotiedostoon"
 
-#: tqsl.cpp:5202
+#: tqsl.cpp:5204
 msgid "Display command line help"
 msgstr "Näytä komentoriviohje"
 
-#: tqsl.cpp:5203
+#: tqsl.cpp:5205
 msgid "Input ADIF or Cabrillo log file to sign"
 msgstr "Syötä ADIF- tai Cabrillotiedosto varmennettavaksi"
 
-#: tqsl.cpp:5342 tqsl.cpp:5345
+#: tqsl.cpp:5344 tqsl.cpp:5347
 #, c-format
 msgid "Start date of %s is invalid"
 msgstr "Alkamispäivämäärä %s on virheellinen"
 
-#: tqsl.cpp:5356 tqsl.cpp:5359
+#: tqsl.cpp:5358 tqsl.cpp:5361
 #, c-format
 msgid "End date of %s is invalid"
 msgstr "Loppupäivämäärä %s on virheellinen"
 
-#: tqsl.cpp:5381
+#: tqsl.cpp:5383
 #, c-format
 msgid "The -a parameter %hs is not recognized"
 msgstr "-a-parametria %hs ei tunnisteta"
 
-#: tqsl.cpp:5480
+#: tqsl.cpp:5482
 msgid "No logfile to sign!"
 msgstr "Ei lokitiedostoa allekirjoitettavaksi!"
 
-#: tqsl.cpp:5595
+#: tqsl.cpp:5597
 msgid "Please review the introductory documentation before using this program."
 msgstr "Lue johdanto-ohjeet ennen tämän ohjelman käyttämistä."
 
-#: tqsl.cpp:5596
+#: tqsl.cpp:5598
 msgid "Notice"
 msgstr "Ilmoitus"
 
-#: tqsl.cpp:5601
+#: tqsl.cpp:5603
 msgid ""
 "You have no callsign certificate installed on this computer with which to "
 "sign log submissions."
@@ -2218,158 +2229,158 @@ msgstr ""
 "Tähän tietokoneeseen ei ole asennettuna kutsumerkin varmennetta, jolla voisi "
 "allekirjoittaa lokin lähetyksen."
 
-#: tqsl.cpp:5603
+#: tqsl.cpp:5605
 msgid "Would you like to request a callsign certificate now?"
 msgstr "Haluatko pyytää kutsumerkin varmennetta nyt?"
 
-#: tqsl.cpp:5604
+#: tqsl.cpp:5606
 msgid "Alert"
 msgstr "Hälytys"
 
-#: tqsl.cpp:5720
+#: tqsl.cpp:5722
 msgid "Display Callsign Certificate &Properties"
 msgstr "&Näytä kutsumerkin varmenteen tiedot"
 
-#: tqsl.cpp:5723
+#: tqsl.cpp:5725
 msgid "&Load Callsign Certificate from File"
 msgstr "&Lataa kutsumerkin varmenne tiedostosta"
 
-#: tqsl.cpp:5724
+#: tqsl.cpp:5726
 msgid "&Save Callsign Certificate to File..."
 msgstr "&Tallenna kutsumerkin varmenne tiedostoon..."
 
-#: tqsl.cpp:5728
+#: tqsl.cpp:5730
 msgid "Request &New Callsign Certificate..."
 msgstr "&Pyydä uutta kutsumerkin varmennetta..."
 
 # Tässä ei käytetä verbiä "uusi", koska se voi sekoittua adjektiivin "uusi" kanssa
-#: tqsl.cpp:5729
+#: tqsl.cpp:5731
 msgid "&Renew Callsign Certificate"
 msgstr "&Uudista kutsumerkin varmenne"
 
-#: tqsl.cpp:5734
+#: tqsl.cpp:5736
 msgid "&Delete Callsign Certificate"
 msgstr "P&oista kutsumerkin varmenne"
 
-#: tqsl.cpp:5740
+#: tqsl.cpp:5742
 msgid "Restore Deleted Callsign Certificate"
 msgstr "Palauta poistettu kutsumerkin varmenne"
 
-#: tqsl.cpp:5753
+#: tqsl.cpp:5755
 msgid "&Edit"
 msgstr "&Muokkaa"
 
-#: tqsl.cpp:5755
+#: tqsl.cpp:5757
 msgid "&Delete"
 msgstr "&Poista"
 
-#: tqsl.cpp:5764
+#: tqsl.cpp:5766
 msgid "Load Certificate File"
 msgstr "Lataa varmennetiedosto"
 
-#: tqsl.cpp:5886 crqwiz.h:49
+#: tqsl.cpp:5888 crqwiz.h:49
 msgid "Request a new Callsign Certificate"
 msgstr "Pyydä uutta kutsumerkin varmennetta"
 
-#: tqsl.cpp:5919
+#: tqsl.cpp:5921
 msgid "Do you want to upload this certificate request to LoTW now?"
 msgstr "Haluatko lähettää tämän varmennepyynnön LoTW:ille nyt?"
 
-#: tqsl.cpp:5922
+#: tqsl.cpp:5924
 msgid "You do not need an account on LoTW to do this."
 msgstr "Et tarvitse LoTW-tiliä tehdäksesi tämän."
 
-#: tqsl.cpp:5924
+#: tqsl.cpp:5926
 msgid "Upload"
 msgstr "Lähetä"
 
-#: tqsl.cpp:5934
+#: tqsl.cpp:5936
 msgid "tQSL Cert Request files (*."
 msgstr "tQSL-varmenteen pyyntötiedostot (*."
 
-#: tqsl.cpp:5936
+#: tqsl.cpp:5938
 msgid "|All files ("
 msgstr "|Kaikki tiedostot ("
 
-#: tqsl.cpp:5937
+#: tqsl.cpp:5939
 msgid "Save request"
 msgstr "Tallenna pyyntö"
 
-#: tqsl.cpp:5940
+#: tqsl.cpp:5942
 msgid "Request cancelled"
 msgstr "Pyyntö peruttu"
 
-#: tqsl.cpp:6001
+#: tqsl.cpp:6003
 #, c-format
 msgid "Error creating callsign certificate request: %hs"
 msgstr "Virhe luotaessa kutsumerkin varmennepyyntöä: %hs"
 
-#: tqsl.cpp:6001
+#: tqsl.cpp:6003
 msgid "Error creating Callsign Certificate Request"
 msgstr "Virhe luotaessa kutsumerkin varmennepyyntöä"
 
-#: tqsl.cpp:6014
+#: tqsl.cpp:6016
 #, c-format
 msgid "Error opening certificate request file %s: %hs"
 msgstr "Virhe avattaessa kutsumerkin varmennepyyntötiedostoa %s: %hs"
 
-#: tqsl.cpp:6024
+#: tqsl.cpp:6026
 msgid "Certificate Request"
 msgstr "Varmennepyyntö"
 
-#: tqsl.cpp:6028
+#: tqsl.cpp:6030
 msgid "Your certificate request did not upload properly"
 msgstr "Varmennepyyntösi ei latautunut oikein palvelimelle"
 
-#: tqsl.cpp:6029
+#: tqsl.cpp:6031
 msgid "Please try again."
 msgstr "Yritä uudelleen."
 
-#: tqsl.cpp:6034
+#: tqsl.cpp:6036
 msgid "You may now send your new certificate request ("
 msgstr "Voit nyt lähettää uuden varmennepyyntösi ("
 
-#: tqsl.cpp:6039
+#: tqsl.cpp:6041
 msgid "to:"
 msgstr "vastaanottaja:"
 
-#: tqsl.cpp:6046
+#: tqsl.cpp:6048
 msgid "or "
 msgstr "tai"
 
-#: tqsl.cpp:6047
+#: tqsl.cpp:6049
 msgid "see:"
 msgstr "käy osoitteessa:"
 
-#: tqsl.cpp:6076 tqsl.cpp:6077
+#: tqsl.cpp:6087 tqsl.cpp:6088
 msgid "Display a Callsign Certificate"
 msgstr "Näytä kutsumerkin varmenne"
 
-#: tqsl.cpp:6119 tqsl.cpp:6121
+#: tqsl.cpp:6130 tqsl.cpp:6132
 msgid "Save the Callsign Certificate for"
 msgstr "Tallenna kutsumerkin varmenne kutsulle"
 
-#: tqsl.cpp:6122 tqsl.cpp:6124
+#: tqsl.cpp:6133 tqsl.cpp:6135
 msgid "Display the Callsign Certificate properties for"
 msgstr "Näytä kutsumerkin varmenne kutsulle"
 
-#: tqsl.cpp:6126 tqsl.cpp:6128
+#: tqsl.cpp:6137 tqsl.cpp:6139
 msgid "Renew the Callsign Certificate for"
 msgstr "Uudista kutsumerkin varmenne kutsulle"
 
-#: tqsl.cpp:6167
+#: tqsl.cpp:6178
 msgid "Enter the name for the new Certificate Container file"
 msgstr "Syötä nimi uudelle varmenteen säilötiedostolle."
 
-#: tqsl.cpp:6168
+#: tqsl.cpp:6179
 msgid "Certificate Container files (*.p12)|*.p12|All files (*.*)|*.*"
 msgstr "Varmenteiden säilötiedostot (*.p12)|*.p12|Kaikki tiedostot (*.*)|*.*"
 
-#: tqsl.cpp:6173
+#: tqsl.cpp:6184
 msgid "Enter the password for the certificate container file."
 msgstr "Syötä salasana varmenteen säilötiedostolle."
 
-#: tqsl.cpp:6175
+#: tqsl.cpp:6186
 msgid ""
 "If you are using a computer system that is shared with others, you should "
 "specify a password to protect this certificate. However, if you are using a "
@@ -2379,228 +2390,228 @@ msgstr ""
 "antaa salasana suojataksesi tämän varmenteen. Kuitenkin, jos käytät "
 "tietokonetta yksityistaloudessa, salasanaa ei ole tarvetta antaa."
 
-#: tqsl.cpp:6180
+#: tqsl.cpp:6191
 msgid ""
 "You will have to enter the password any time you load the file into "
 "TrustedQSL."
 msgstr ""
 "Sinun on annettava salasana joka kerta kun lataat tiedoston TrustedQSL:ään."
 
-#: tqsl.cpp:6184
+#: tqsl.cpp:6195
 msgid "Certificate Container Password"
 msgstr "Varmennesäilön salasana"
 
-#: tqsl.cpp:6215
+#: tqsl.cpp:6226
 #, c-format
 msgid "Export to %s failed: %hs"
 msgstr "Vienti %s:ään epäonnistui: %hs"
 
-#: tqsl.cpp:6217
+#: tqsl.cpp:6228
 #, c-format
 msgid "Certificate saved in file %s"
 msgstr "Varmenne tallennettu tiedostoon %s"
 
-#: tqsl.cpp:6228
+#: tqsl.cpp:6239
 msgid "This will remove the selected callsign certificate from your system."
 msgstr "Tämä poistaa valitun kutsumerkin varmenteen järjestelmästäsi."
 
-#: tqsl.cpp:6230
+#: tqsl.cpp:6241
 msgid "You will NOT be able to recover it by loading a .TQ6 file."
 msgstr "ET voi palauttaa sitä lataamalla .TQ6-tiedoston."
 
-#: tqsl.cpp:6232
+#: tqsl.cpp:6243
 msgid "You WILL be able to recover it from a container (.p12) file,"
 msgstr "VOIT palauttaa sen säilö(.p12)-tiedostosta,"
 
-#: tqsl.cpp:6234
+#: tqsl.cpp:6245
 msgid "if you have created one via the Callsign Certificate menu's"
 msgstr "jos olet luonut sellaisen Kutsumerkin varmenne -valikon"
 
-#: tqsl.cpp:6236
+#: tqsl.cpp:6247
 msgid "'Save Callsign Certificate' command."
 msgstr "\"Tallenna kutsumerkin varmenne\"-komennolla"
 
-#: tqsl.cpp:6238
+#: tqsl.cpp:6249
 msgid "Are you sure you want to delete the certificate?"
 msgstr "Haluatko varmasti poistaa tämän varmenteen?"
 
-#: tqsl.cpp:6276
+#: tqsl.cpp:6287
 msgid "There are no deleted Callsign Certificates to restore"
 msgstr "Ei ole poistettuja kutsumerkin varmenteita, joita voitaisiin palauttaa"
 
-#: tqsl.cpp:6276 tqsl.cpp:6384
+#: tqsl.cpp:6287 tqsl.cpp:6396
 msgid "Undelete Error"
 msgstr "Poiston perumisen virhe"
 
-#: tqsl.cpp:6287
+#: tqsl.cpp:6298
 msgid "Choose a Callsign Certificate to restore"
 msgstr "Valitse palautettava kutsumerkin varmenne "
 
-#: tqsl.cpp:6316
+#: tqsl.cpp:6327
 msgid "Select a Station Location to process"
 msgstr "Valitse aseman sijainti tehdäksesi muutoksia"
 
-#: tqsl.cpp:6335 tqsl.cpp:6337
+#: tqsl.cpp:6347 tqsl.cpp:6349
 msgid "Edit Station Location "
 msgstr "Muokkaa aseman sijaintia "
 
-#: tqsl.cpp:6338 tqsl.cpp:6340
+#: tqsl.cpp:6350 tqsl.cpp:6352
 msgid "Delete Station Location "
 msgstr "Poista aseman sijainti "
 
-#: tqsl.cpp:6341 tqsl.cpp:6343
+#: tqsl.cpp:6353 tqsl.cpp:6355
 msgid "Display Station Location Properties for "
 msgstr "Näytä aseman sijaintitiedot: "
 
-#: tqsl.cpp:6363
+#: tqsl.cpp:6375
 msgid "This will remove this station location from your system."
 msgstr "Tämä poistaa tämän aseman sijainnin järjestelmästäsi."
 
-#: tqsl.cpp:6365
+#: tqsl.cpp:6377
 msgid "Are you sure you want to delete this station location?"
 msgstr "Haluatko varmasti poistaa tämän aseman sijainnin?"
 
-#: tqsl.cpp:6384
+#: tqsl.cpp:6396
 msgid "There are no deleted Station Locations to restore"
 msgstr "Ei ole poistettuja aseman sijainteja, joita voitaisiin palautata"
 
-#: tqsl.cpp:6395
+#: tqsl.cpp:6407
 msgid "Choose a Station Location to restore"
 msgstr "Valitse palautettava aseman sijainti"
 
-#: tqsl.cpp:6456
+#: tqsl.cpp:6468
 msgid "Please choose language:"
 msgstr "Valitse kieli:"
 
-#: tqsl.cpp:6517
+#: tqsl.cpp:6529
 msgid "Certificate Properties"
 msgstr "Varmenteen tiedot"
 
-#: tqsl.cpp:6520
+#: tqsl.cpp:6532
 msgid "Begins: "
 msgstr "Alkaa:"
 
-#: tqsl.cpp:6521
+#: tqsl.cpp:6533
 msgid "Expires: "
 msgstr "Päättyy: "
 
-#: tqsl.cpp:6522
+#: tqsl.cpp:6534
 msgid "Organization: "
 msgstr "Organisaatio:"
 
-#: tqsl.cpp:6524
+#: tqsl.cpp:6536
 msgid "Serial: "
 msgstr "Sarjanumero: "
 
-#: tqsl.cpp:6525
+#: tqsl.cpp:6537
 msgid "Operator: "
 msgstr "Operaattori:"
 
-#: tqsl.cpp:6526 tqsl.cpp:6716
+#: tqsl.cpp:6538 tqsl.cpp:6728
 msgid "Call sign: "
 msgstr "Kutsumerkki:"
 
-#: tqsl.cpp:6527 tqsl.cpp:6717
+#: tqsl.cpp:6539 tqsl.cpp:6729
 msgid "DXCC Entity: "
 msgstr "DXCC-maa:"
 
-#: tqsl.cpp:6528
+#: tqsl.cpp:6540
 msgid "QSO Start Date: "
 msgstr "Yhteyksien alkamispäivä: "
 
-#: tqsl.cpp:6529
+#: tqsl.cpp:6541
 msgid "QSO End Date: "
 msgstr "Yhteyksien loppumispäivä: "
 
-#: tqsl.cpp:6530
+#: tqsl.cpp:6542
 msgid "Password: "
 msgstr "Salasana: "
 
-#: tqsl.cpp:6622
+#: tqsl.cpp:6634
 msgid "Missing from this computer"
 msgstr ""
 
-#: tqsl.cpp:6626
+#: tqsl.cpp:6638
 msgid "Private Key not found"
 msgstr ""
 
-#: tqsl.cpp:6630
+#: tqsl.cpp:6642
 msgid "Unable to read - no permission"
 msgstr ""
 
-#: tqsl.cpp:6638
+#: tqsl.cpp:6650
 msgid "<ERROR>"
 msgstr "<VIRHE>"
 
-#: tqsl.cpp:6641
+#: tqsl.cpp:6653
 msgid "No Private Key"
 msgstr ""
 
-#: tqsl.cpp:6644
+#: tqsl.cpp:6656
 msgid "None"
 msgstr "Tyhjä"
 
-#: tqsl.cpp:6647
+#: tqsl.cpp:6659
 msgid "Password protected"
 msgstr "Salasanasuojattu"
 
-#: tqsl.cpp:6653
+#: tqsl.cpp:6665
 msgid "Certificate Request:"
 msgstr "Varmennepyyntö:"
 
-#: tqsl.cpp:6655
+#: tqsl.cpp:6667
 msgid "Awaiting response from ARRL"
 msgstr "Odottaa ARRL:n vastausta"
 
-#: tqsl.cpp:6670
+#: tqsl.cpp:6682
 msgid "Replaced"
 msgstr "Korvattu"
 
-#: tqsl.cpp:6675
+#: tqsl.cpp:6687
 msgid "Expired"
 msgstr "Vanhentunut"
 
-#: tqsl.cpp:6713
+#: tqsl.cpp:6725
 msgid "Station Location Properties"
 msgstr "Aseman paikkatiedot"
 
-#: tqsl.cpp:6718
+#: tqsl.cpp:6730
 msgid "Grid Square: "
 msgstr "Lokaattori: "
 
-#: tqsl.cpp:6719
+#: tqsl.cpp:6731
 msgid "ITU Zone: "
 msgstr "ITU-zone: "
 
-#: tqsl.cpp:6720
+#: tqsl.cpp:6732
 msgid "CQ Zone: "
 msgstr "CQ-zone:"
 
-#: tqsl.cpp:6721
+#: tqsl.cpp:6733
 msgid "IOTA Locator: "
 msgstr "IOTA-lokaattori: "
 
-#: tqsl.cpp:6722 tqsl.cpp:6729
+#: tqsl.cpp:6734 tqsl.cpp:6741
 msgid "State: "
 msgstr "Osavaltio: "
 
-#: tqsl.cpp:6723
+#: tqsl.cpp:6735
 msgid "County: "
 msgstr "Kunta: "
 
-#: tqsl.cpp:6724 tqsl.cpp:6726 tqsl.cpp:6730
+#: tqsl.cpp:6736 tqsl.cpp:6738 tqsl.cpp:6742
 msgid "Park: "
 msgstr "Puisto: "
 
-#: tqsl.cpp:6725 tqsl.cpp:6728
+#: tqsl.cpp:6737 tqsl.cpp:6740
 msgid "Province: "
 msgstr "Maakunta: "
 
-#: tqsl.cpp:6727
+#: tqsl.cpp:6739
 msgid "Oblast: "
 msgstr "Oblast:"
 
-#: tqsl.cpp:6809
+#: tqsl.cpp:6821
 msgid "Enter the password to unlock the callsign certificate"
 msgstr "Syötä salasana avataksesi kutsumerkin varmenteen"
 
@@ -2628,7 +2639,7 @@ msgstr "Verkkovälityspalvelin (proxy)"
 msgid "Custom ADIF mode mappings:"
 msgstr "Erityiset ADIF-lähetelajien kuvaukset"
 
-#: tqsl_prefs.cpp:165 tqsl_prefs.cpp:723
+#: tqsl_prefs.cpp:165 tqsl_prefs.cpp:734
 msgid "Add..."
 msgstr "Lisää..."
 
@@ -2679,31 +2690,35 @@ msgstr "Varmuuskopiointihakemisto:"
 msgid "Select a Folder"
 msgstr "Valitse hakemisto"
 
-#: tqsl_prefs.cpp:359
+#: tqsl_prefs.cpp:360
 msgid "Number of Backups to retain:"
 msgstr "Kuinka monta varmuuskopiota pidetään tallessa:"
 
-#: tqsl_prefs.cpp:368
+#: tqsl_prefs.cpp:371
 msgid "Allow nonamateur call signs"
 msgstr "Salli muut kuin radioamatöörikutsut"
 
-#: tqsl_prefs.cpp:373
+#: tqsl_prefs.cpp:376
 msgid "Prompt for QSO Date range when signing"
 msgstr "Kysy QSO:jen päivämääräaluetta kun allekirjoitetaan"
 
-#: tqsl_prefs.cpp:377
+#: tqsl_prefs.cpp:380
 msgid "Open ADIF files in ADIF editor"
 msgstr "Avaa ADIF-tiedostot ADIF-muokkaimessa"
 
-#: tqsl_prefs.cpp:381
+#: tqsl_prefs.cpp:384
 msgid "Display details of duplicate QSOs when signing a log"
 msgstr "Näytä duplikaatti-QSO:jen tiedot, kun lokia allekirjoitetaan"
 
-#: tqsl_prefs.cpp:385
+#: tqsl_prefs.cpp:389
 msgid "Display status messages in separate tab"
 msgstr "Näytä tilaviestit erillisessä välilehdessä"
 
-#: tqsl_prefs.cpp:430
+#: tqsl_prefs.cpp:394
+msgid "Enable passwords for Callsign Certificates"
+msgstr ""
+
+#: tqsl_prefs.cpp:441
 msgid ""
 "Changes to the status message configuration will take affect when TQSL is "
 "restarted"
@@ -2711,7 +2726,7 @@ msgstr ""
 "Muutokset tilaviestien asetuksiin tulevat käyttöön, kun TQSL on käynnistetty "
 "uudelleen"
 
-#: tqsl_prefs.cpp:608
+#: tqsl_prefs.cpp:619
 msgid ""
 "Use these settings to configure a network proxy for Internet uploads and "
 "downloads. You should only enable a proxy if directed by your network "
@@ -2721,7 +2736,7 @@ msgstr ""
 "Internet-lähetyksiä ja latauksia varten. Välityspalvelin pitäisi määritellä "
 "vain jos verkon ylläpitäjä on niin ohjeistanut."
 
-#: tqsl_prefs.cpp:612
+#: tqsl_prefs.cpp:623
 msgid ""
 "Incorrect settings can cause TQSL to be unable to upload logs or check for "
 "updates."
@@ -2729,71 +2744,71 @@ msgstr ""
 "Väärät asetukset voivat aiheuttaa, että TQSL ei pysty lähettämään lokeja tai "
 "tarkistamaan päivityksiä."
 
-#: tqsl_prefs.cpp:618
+#: tqsl_prefs.cpp:629
 msgid "Enable a Network Proxy"
 msgstr "Käytä välityspalvelinta (proxy)"
 
-#: tqsl_prefs.cpp:622
+#: tqsl_prefs.cpp:633
 msgid "Proxy Address:"
 msgstr "Välityspalvelimen osoite"
 
-#: tqsl_prefs.cpp:630
+#: tqsl_prefs.cpp:641
 msgid "Port Number:"
 msgstr "Porttinumero:"
 
-#: tqsl_prefs.cpp:637
+#: tqsl_prefs.cpp:648
 msgid "Proxy Type:"
 msgstr "Välityspalvelimen tyyppi:"
 
-#: tqsl_prefs.cpp:640
+#: tqsl_prefs.cpp:651
 msgid "ProxyType"
 msgstr "Välityspalvelimen tyyppi"
 
-#: tqsl_prefs.cpp:702
+#: tqsl_prefs.cpp:713
 msgid "Cabrillo CONTEST definitions:"
 msgstr "Cabrillo KILPAILU-määrittelyt"
 
-#: tqsl_prefs.cpp:713
+#: tqsl_prefs.cpp:724
 msgid "CONTEST"
 msgstr "KILPAILU"
 
-#: tqsl_prefs.cpp:714
+#: tqsl_prefs.cpp:725
 msgid "Type"
 msgstr "Tyyppi"
 
-#: tqsl_prefs.cpp:715
+#: tqsl_prefs.cpp:726
 msgid "Field"
 msgstr "Kenttä"
 
-#: tqsl_prefs.cpp:855 tqsl_prefs.h:248
+#: tqsl_prefs.cpp:866 tqsl_prefs.h:250
 msgid "Edit"
 msgstr "Muokkaa"
 
-#: tqsl_prefs.cpp:878
+#: tqsl_prefs.cpp:889
 msgid "Contest"
 msgstr "Kilpailu"
 
-#: tqsl_prefs.cpp:888
+#: tqsl_prefs.cpp:899
 msgid "Cabrillo CONTEST"
 msgstr "Cabrillo KILPAILU"
 
-#: tqsl_prefs.cpp:890
+#: tqsl_prefs.cpp:901
 msgid "CONTEST Name:"
 msgstr "KILPAILUN nimi:"
 
-#: tqsl_prefs.cpp:896
+#: tqsl_prefs.cpp:907
 msgid "Contest type"
 msgstr "Kilpailun tyyppi"
 
-#: tqsl_prefs.cpp:901
+#: tqsl_prefs.cpp:912
 msgid "Call-Worked Field Number:"
 msgstr "Työskennelty-kutsu -kentän numero:"
 
-#: tqsl_prefs.cpp:935
+#: tqsl_prefs.cpp:946
 msgid "Contest name cannot be blank"
 msgstr "Kilpailun nimi ei voi olla tyhjä"
 
-#: tqsl_prefs.cpp:941
+#: tqsl_prefs.cpp:952
 #, c-format
 msgid "Call-worked field must be %d or greater"
 msgstr "Työskennelty-kutsu -kenttä täytyy olla %d tai suurempi"
@@ -2804,35 +2819,35 @@ msgstr "Työskennelty-kutsu -kenttä täytyy olla %d tai suurempi"
 msgid "Invalid %hs: \"%hs\""
 msgstr "Virheellinen %hs: \"%hs\""
 
-#: tqslwiz.cpp:269
+#: tqslwiz.cpp:274
 msgid "[None]"
 msgstr "[Tyhjä]"
 
-#: tqslwiz.cpp:421
+#: tqslwiz.cpp:448
 msgid "Allow 'None' for "
 msgstr "Salli \"Tyhjä\" kohtaan "
 
-#: tqslwiz.cpp:458
+#: tqslwiz.cpp:485
 #, c-format
 msgid "You must select a %hs"
 msgstr "%hs on valittava"
 
-#: tqslwiz.cpp:486 tqslwiz.cpp:490
+#: tqslwiz.cpp:513 tqslwiz.cpp:517
 #, c-format
 msgid "%s: Invalid Grid Square Field"
 msgstr "%s: Virheellinen lokaattorikenttä"
 
-#: tqslwiz.cpp:494 tqslwiz.cpp:498 tqslwiz.cpp:502 tqslwiz.cpp:521
+#: tqslwiz.cpp:521 tqslwiz.cpp:525 tqslwiz.cpp:529 tqslwiz.cpp:548
 #, c-format
 msgid "%s: Invalid Grid Square"
 msgstr "%s: Virheellinen lokaattori"
 
-#: tqslwiz.cpp:512 tqslwiz.cpp:516
+#: tqslwiz.cpp:539 tqslwiz.cpp:543
 #, c-format
 msgid "%s: Invalid Subsquare"
 msgstr "%s: Virheellinen alilokaattori"
 
-#: tqslwiz.cpp:526
+#: tqslwiz.cpp:553
 #, c-format
 msgid ""
 "Grid %s is not correct for your QTH. Click 'Next' again to use it anyway."
@@ -2840,35 +2855,35 @@ msgstr ""
 "Lokaattori %s ei ole oikea nykyiselle QTH:llesi. Jos haluat silti käyttää "
 "sitä, napsauta uudestaan \"Seuraava\"."
 
-#: tqslwiz.cpp:542
+#: tqslwiz.cpp:569
 msgid "Invalid zone selections for state"
 msgstr "Väärät zone-valinnat osavaltiolle"
 
-#: tqslwiz.cpp:543
+#: tqslwiz.cpp:570
 msgid "Invalid zone selections for province"
 msgstr "Väärät zone-valinnat maakunnalle"
 
-#: tqslwiz.cpp:544
+#: tqslwiz.cpp:571
 msgid "Invalid zone selections for oblast"
 msgstr "Väärät zone-valinnat oblastille"
 
-#: tqslwiz.cpp:545
+#: tqslwiz.cpp:572
 msgid "Invalid zone selections for DXCC entity"
 msgstr "Väärät zone-valinnat DXCC-maalle"
 
-#: tqslwiz.cpp:626
+#: tqslwiz.cpp:653
 msgid "Station Data input complete"
 msgstr "Aseman tietojen syöttö valmis"
 
-#: tqslwiz.cpp:630
+#: tqslwiz.cpp:657
 msgid "Select or enter name of this station location"
 msgstr "Valitse tai syötä nimi tälle aseman sijainnille"
 
-#: tqslwiz.cpp:653
+#: tqslwiz.cpp:680
 msgid "Station Location Name"
 msgstr "Aseman sijainnin nimi"
 
-#: tqslwiz.cpp:695
+#: tqslwiz.cpp:722
 msgid "Station name must be provided"
 msgstr "Aseman nimi on annettava"
 
@@ -3055,6 +3070,9 @@ msgstr "Päivämäärä"
 #: tqslvalidator.h:69
 msgid "Time"
 msgstr "Kellonaika"
+
+#~ msgid "A special event (1x1) callsign"
+#~ msgstr "Erityistapahtuman kutsumerkki (1x1)"
 
 #~ msgid "Callsign Certificate or Certificate Request not found"
 #~ msgstr "Kutsumerkin varmennetta tai varmennepyyntöä ei löytynyt"
