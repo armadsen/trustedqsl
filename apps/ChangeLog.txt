@@ -2,6 +2,9 @@ TQSL changes
 ============
 2.5
 ----------
+Fix TQSL updates failing on Windows when the user's home directory has
+non-ASCII characters.
+
 Detect running TQSL "As Administrator" and refuse to open.
 
 Verify that the TQSL working directory is writable during startup.

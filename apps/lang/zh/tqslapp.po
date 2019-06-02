@@ -1,9 +1,14 @@
+# TrustedQSL
+# Copyright (C) 2015-2019 The American Radio Relay League
+# This file is distributed under the same license as the tqsl package.
+# Rick Murphy/K1MU.
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: V2.1\n"
+"Project-Id-Version: V2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-17 11:18-0400\n"
-"PO-Revision-Date: 2018-02-23 08:52+0800\n"
+"PO-Revision-Date: 2019-05-24 05:01+0800\n"
 "Last-Translator: caros <bh4txn@gmail.com>\n"
 "Language-Team: TQSL Developers\n"
 "Language: zh\n"
@@ -40,7 +45,7 @@ msgstr "我当前的个人呼号"
 msgid ""
 "My new personal callsign (I have a Callsign Certificate for my former "
 "callsign)"
-msgstr ""
+msgstr "我的新个人呼号（我有一个原来呼号的证书）"
 
 #: crqwiz.cpp:36
 msgid ""
@@ -311,6 +316,8 @@ msgid ""
 "the past 24 hours. You should submit a request only once, then wait for that "
 "request to processed by LoTW Staff. This may take several business days."
 msgstr ""
+"您已在过去24小时内为 %s 申请过三次以上的呼号证书。 您应该只提交一次请求，然后"
+"等待LoTW职员处理该申请。 这可能需要几个工作日。"
 
 #: crqwiz.cpp:1097
 msgid ""
@@ -352,6 +359,8 @@ msgid ""
 "requests, but you have no valid Callsign Certificates that you can use to "
 "sign this request."
 msgstr ""
+"您无法为1x1呼号申请证书，因为您必须签署这些申请，但您没有可用于签署此申请的有"
+"效呼号证书。"
 
 #: crqwiz.cpp:1123
 msgid ""
@@ -1982,7 +1991,7 @@ msgstr "恢复操作失败： %hs"
 
 #: tqsl.cpp:5083
 msgid "TQSL must not be run 'As Administrator'. Quitting."
-msgstr ""
+msgstr "TQSL不能“以管理员身份运行”。正在关闭。"
 
 #: tqsl.cpp:5188
 msgid "Specify dialog action - abort, all, compliant or ask"
@@ -2386,15 +2395,15 @@ msgstr "口令："
 
 #: tqsl.cpp:6634
 msgid "Missing from this computer"
-msgstr ""
+msgstr "从本电脑消失"
 
 #: tqsl.cpp:6638
 msgid "Private Key not found"
-msgstr ""
+msgstr "私有密钥未找到"
 
 #: tqsl.cpp:6642
 msgid "Unable to read - no permission"
-msgstr ""
+msgstr "不能读取 - 未授权"
 
 #: tqsl.cpp:6650
 msgid "<ERROR>"
@@ -2402,7 +2411,7 @@ msgstr "<错误>"
 
 #: tqsl.cpp:6653
 msgid "No Private Key"
-msgstr ""
+msgstr "无私有密钥"
 
 #: tqsl.cpp:6656
 msgid "None"
@@ -2571,7 +2580,7 @@ msgstr "在分开的标签里显示状态信息"
 
 #: tqsl_prefs.cpp:394
 msgid "Enable passwords for Callsign Certificates"
-msgstr ""
+msgstr "启用呼号证书密码"
 
 #: tqsl_prefs.cpp:441
 msgid ""
@@ -2807,7 +2816,7 @@ msgstr "不能打开设置文件"
 msgid ""
 "The private key for this Callsign Certificate is not present on this "
 "computer; you can obtain it by loading a .tbk or .p12 file"
-msgstr ""
+msgstr "本电脑上没有该呼号证书的私钥; 您可以通过加载.tbk或.p12文件来获取它"
 
 #: wxutil.cpp:149
 msgid "PKCS#12 file not TQSL compatible"
@@ -2891,6 +2900,7 @@ msgid ""
 "The private key for callsign %hs serial %ld is not present on this computer; "
 "you can obtain it by loading a .tbk or .p12 file"
 msgstr ""
+"本电脑上没有呼号 %hs 的 %ld 系列的私钥; 您可以通过加载.tbk或.p12文件来获取它"
 
 #: wxutil.cpp:240
 #, c-format

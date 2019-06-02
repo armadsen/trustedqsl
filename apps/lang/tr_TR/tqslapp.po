@@ -1,21 +1,21 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR The TrustedQSL Developers
-# This file is distributed under the same license as the TQSL package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# TrustedQSL
+# Copyright (C) 2015-2019 The American Radio Relay League
+# This file is distributed under the same license as the tqsl package.
+# Rick Murphy/K1MU.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: TQSL v2.4\n"
+"Project-Id-Version: TQSL v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-17 11:18-0400\n"
-"PO-Revision-Date: 2019-04-02 09:15+0300\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2019-05-20 21:35+0300\n"
+"Last-Translator: Oguzhan Kayhan\n"
 "Language-Team: \n"
 "Language: tr_TR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.2.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: certtree.cpp:104
@@ -32,11 +32,11 @@ msgstr "Sertifikayı veren için ayrıştırma hatası"
 
 #: certtree.cpp:118
 msgid "Error parsing certificate for call sign"
-msgstr "Çağrı İşareti için sertifika ayrıştırma hatası"
+msgstr "Çağrı Adı için sertifika ayrıştırma hatası"
 
 #: certtree.cpp:125
 msgid "Error parsing certificate for DXCC entity"
-msgstr "DXCC girdisi için serfifika ayrıştırma hatası"
+msgstr "DXCC girdisi için sertifika ayrıştırma hatası"
 
 #: crqwiz.cpp:34
 msgid "My current personal callsign"
@@ -46,7 +46,7 @@ msgstr "Şu anki geçerli çağrı işareti"
 msgid ""
 "My new personal callsign (I have a Callsign Certificate for my former "
 "callsign)"
-msgstr ""
+msgstr "Yeni Çağrı Adım (Önceki çağrı adım için sertifikam mevcut)"
 
 #: crqwiz.cpp:36
 msgid ""
@@ -55,7 +55,7 @@ msgstr "Daha önce kullanılan çağrı işareti ya da portable çağrı işaret
 
 #: crqwiz.cpp:37
 msgid "A primary club callsign"
-msgstr "Derrnek istasyonu çağrı işareti"
+msgstr "Dernek istasyonu çağrı işareti"
 
 #: crqwiz.cpp:38
 msgid ""
@@ -78,7 +78,7 @@ msgstr "Beni QSL Manager olarak kullanan başka bir operatör"
 
 #: crqwiz.cpp:42
 msgid "A special event callsign with multiple operators"
-msgstr "Çok operaörlü özel çağrı işareti"
+msgstr "Çok operatörlü özel çağrı işareti"
 
 #: crqwiz.cpp:43
 msgid "A special event callsign where I am the only operator"
@@ -86,7 +86,7 @@ msgstr "Tek operatör olarak katıldığım özel çağrı işareti"
 
 #: crqwiz.cpp:134
 msgid "This will create a new Callsign Certificate request file."
-msgstr "Burası yeni Çağrı İşareti Sertifikası yaratacaktır."
+msgstr "Bu menü yeni Çağrı Adı Sertifikası yaratacaktır."
 
 #: crqwiz.cpp:136
 msgid ""
@@ -122,7 +122,7 @@ msgstr "DXCC Girdisi:"
 
 #: crqwiz.cpp:231 tqsl.cpp:1937 tqsl.cpp:4158
 msgid "Call sign:"
-msgstr "Çağrı İşareti:"
+msgstr "Çağrı Adı:"
 
 #: crqwiz.cpp:288
 msgid "Date of the first QSO you made or will make using this callsign:"
@@ -138,8 +138,7 @@ msgstr ""
 
 #: crqwiz.cpp:374 crqwiz.cpp:736
 msgid "Please select a Callsign Certificate to validate your request."
-msgstr ""
-"İsteğinizi doğrulama amacıyla lütfen Çağrı işareti sertifikasını seçiniz."
+msgstr "İsteğinizi doğrulama amacıyla lütfen Çağrı adı sertifikasını seçiniz."
 
 #: crqwiz.cpp:404
 msgid "Zip/Postal"
@@ -265,8 +264,8 @@ msgid ""
 "The date of your first QSO is before the first valid date (%hs) of the "
 "selected DXCC Entity %hs"
 msgstr ""
-"İlk QSOsunuzun tarihi  geçerli bu girdi için geçerli ilk qso tarihinden "
-"(%hs) öncedir.  %hs"
+"İlk QSO'nuzun tarihi  geçerli bu girdi için geçerli ilk qso tarihinden (%hs) "
+"öncedir.  %hs"
 
 #: crqwiz.cpp:961
 #, c-format
@@ -281,8 +280,8 @@ msgid ""
 "The date of your last QSO is before the first valid date (%hs) of the "
 "selected DXCC Entity %hs"
 msgstr ""
-"İlk QSOsunuzun tarihi  geçerli bu girdi için geçerli ilk qso tarihinden "
-"(%hs) öncedir.  %hs"
+"İlk QSO'nuzun tarihi  geçerli bu girdi için geçerli ilk qso tarihinden (%hs) "
+"öncedir.  %hs"
 
 #: crqwiz.cpp:969
 #, c-format
@@ -309,7 +308,7 @@ msgid ""
 "You have already requested a Callsign Certificate for %s and can not request "
 "another until that request has been processed by LoTW Staff."
 msgstr ""
-"%s için zaten bir sertiifka isteği yapmışsınız. LOTW görevlileri tarafından "
+"%s için zaten bir sertifika isteği yapmışsınız. LOTW görevlileri tarafından "
 "işleme alınana kadar yenisi için istek yapamazsınız."
 
 #: crqwiz.cpp:1031 crqwiz.cpp:1073
@@ -336,6 +335,9 @@ msgid ""
 "the past 24 hours. You should submit a request only once, then wait for that "
 "request to processed by LoTW Staff. This may take several business days."
 msgstr ""
+"Son 24 saat içinde %s çağrı işareti için üç istekte bulundunuz. İsteği "
+"sadece bir kere yapmalı, daha sonra LoTW personeli tarafından bu başvurunun "
+"incelenmesini beklemelisiniz. Bu işlem bir kaç gün sürebilir."
 
 #: crqwiz.cpp:1097
 msgid ""
@@ -381,6 +383,8 @@ msgid ""
 "requests, but you have no valid Callsign Certificates that you can use to "
 "sign this request."
 msgstr ""
+"1x1 çağrı işareti için istek yapamazsınız. Çünkü bu işlem için geçerli bir "
+"sertifikanız bulunmamaktadır."
 
 #: crqwiz.cpp:1123
 msgid ""
@@ -439,7 +443,7 @@ msgstr "Girdiğiniz iki şifre birbiri ile uyuşmuyor."
 
 #: crqwiz.cpp:1312
 msgid "Click 'Finish' to complete this Callsign Certificate request."
-msgstr "Çağrı işareti Sertifika isteğinizi \"Bitir\" e basarak tamamlayınız."
+msgstr "Çağrı adı Sertifika isteğinizi \"Bitir\" e basarak tamamlayınız."
 
 #: crqwiz.cpp:1325
 #, c-format
@@ -505,7 +509,7 @@ msgstr "Bu çağrı işareti sertifikası zaten kurulu"
 
 #: loadcertwiz.cpp:145
 msgid "Enter a password for this callsign certificate."
-msgstr "Çağrı işareti sertifikası için şifre giriniz."
+msgstr "Çağrı adı sertifikası için şifre giriniz."
 
 #: loadcertwiz.cpp:147
 msgid ""
@@ -544,7 +548,7 @@ msgstr ""
 
 #: loadcertwiz.cpp:198
 msgid "Would you like to back up your callsign certificate now?"
-msgstr "Çağrı işareti sertifikanızı şimdi yedeklemek ister misiniz?"
+msgstr "Çağrı adı sertifikanızı şimdi yedeklemek ister misiniz?"
 
 #: loadcertwiz.cpp:234
 msgid ""
@@ -576,7 +580,7 @@ msgstr "Yükleme tamamlandı"
 
 #: loadcertwiz.cpp:313
 msgid "No status information available"
-msgstr "DUrum bilgisi mevcut değil"
+msgstr "Durum bilgisi mevcut değil"
 
 #: loadcertwiz.cpp:320
 msgid "Enter the password to unlock the .p12 file:"
@@ -691,7 +695,7 @@ msgstr "Ya band seçmeli, ya da frekans girmelisiniz"
 
 #: qsodatadialog.cpp:537
 msgid "Call Sign cannot be empty"
-msgstr "Çağrı İşareti boş olamaz"
+msgstr "Çağrı Adı boş olamaz"
 
 #: qsodatadialog.cpp:542
 msgid "'Satellite' propagation mode selected, so a Satellite must be chosen"
@@ -789,7 +793,7 @@ msgstr "TQSL Onay"
 
 #: stationdial.cpp:352
 msgid "Call Sign"
-msgstr "Çağrı İşareti"
+msgstr "Çağrı Adı"
 
 #: stationdial.cpp:353
 msgid "Province"
@@ -980,7 +984,7 @@ msgstr "Bitiş tarihi geçersiz"
 
 #: tqsl.cpp:482
 msgid "Duplicate QSOs Detected"
-msgstr "Çift (Duplicate) qso tespit edildi"
+msgstr "Çift (Duplicate) QSO tespit edildi"
 
 #: tqsl.cpp:488
 #, c-format
@@ -1000,7 +1004,7 @@ msgid ""
 "Click 'Allow Duplicates' to re-process this log while allowing duplicate "
 "QSOs."
 msgstr ""
-"Yinelenen QSO lara izin vererek tekrar işlemek için \"Yinelenen'e izin ver\" "
+"Yinelenen QSO'lara izin vererek tekrar işlemek için \"Yinelenen'e izin ver\" "
 "e basınız."
 
 #: tqsl.cpp:496
@@ -1058,7 +1062,7 @@ msgid ""
 "reported by TrustedQSL may produce strange (but harmless) behavior such as "
 "attempting to upload an empty file or marking all chosen QSOs as 'sent'"
 msgstr ""
-"Bu arada Log yazılımınız Yinelenen QSOlara izin ver seçeneği barındırıyor "
+"Bu arada Log yazılımınız Yinelenen QSO'lara izin ver seçeneği barındırıyor "
 "olabilir. Bu doğrultuda inceleme yapıp eksik ya da boş log dosyası "
 "yüklemediğinizden emin olun."
 
@@ -1095,7 +1099,7 @@ msgid ""
 "status messages reported by TrustedQSL may produce strange (but harmless) "
 "behavior such as attempting to upload an empty file or marking all chosen "
 "QSOs as 'sent'"
-msgstr "Emin olmadığınız durumlarda \"İPTAL\" seeneğini seçiniz"
+msgstr "Emin olmadığınız durumlarda \"İPTAL\" seçeneğini seçiniz"
 
 #: tqsl.cpp:555
 msgid "Exclude duplicates"
@@ -1197,15 +1201,15 @@ msgstr "İstasyon Lokasyon bilgilerini göster"
 
 #: tqsl.cpp:1120
 msgid "&Edit Station Location"
-msgstr "İstasyon Lokasyonu &Güncelle"
+msgstr "İstasyon Yeri &Güncelle"
 
 #: tqsl.cpp:1121
 msgid "&Add Station Location"
-msgstr "İstasyon Lokasyonu &Ekle"
+msgstr "İstasyon Yeri &Ekle"
 
 #: tqsl.cpp:1127
 msgid "&Restore a Deleted Station Location"
-msgstr "Silinmiş Bir İstasyon Lokasyonunu kurtar"
+msgstr "Silinmiş Bir İstasyon Yeri kurtar"
 
 #: tqsl.cpp:1140
 msgid "&Contents"
@@ -1213,7 +1217,7 @@ msgstr "&İçerik"
 
 #: tqsl.cpp:1142
 msgid "Display &Documentation"
-msgstr "Dokumantasyonu Göster"
+msgstr "Dokümantasyonu Göster"
 
 #: tqsl.cpp:1147
 msgid "Check for &Updates..."
@@ -1229,11 +1233,11 @@ msgstr "&Dosya"
 
 #: tqsl.cpp:1153
 msgid "&Station Location"
-msgstr "&İstasyon Yeni"
+msgstr "&İstasyon Yeri"
 
 #: tqsl.cpp:1154
 msgid "Callsign &Certificate"
-msgstr "Çağrı adı ve Sertifika"
+msgstr "Çağrı adı ve &Sertifika"
 
 #: tqsl.cpp:1155
 msgid "&Help"
@@ -1265,40 +1269,40 @@ msgstr "LOTW Web sitesine Giriniz"
 
 #: tqsl.cpp:1285
 msgid "Select a Station Location to process      "
-msgstr "İlerlemek için İstasyon Lokasyonu Seç "
+msgstr "İlerlemek için İstasyon Yeri Seç "
 
 #: tqsl.cpp:1316
 msgid "Create a new Station Location"
-msgstr "Yeni İstasyon Lokasyonu Oluştur"
+msgstr "Yeni İstasyon Yeri Oluştur"
 
 #: tqsl.cpp:1331 tqsl.cpp:6321 tqsl.cpp:6322
 msgid "Edit a Station Location"
-msgstr "İstasyon Lokasyonu Güncelle"
+msgstr "İstasyon Yeri Güncelle"
 
 #: tqsl.cpp:1347 tqsl.cpp:6323 tqsl.cpp:6324
 msgid "Delete a Station Location"
-msgstr "İstasyon Lokasyonu Sil"
+msgstr "İstasyon Yeri Sil"
 
 #: tqsl.cpp:1363 tqsl.cpp:6325 tqsl.cpp:6326
 msgid "Display Station Location Properties"
-msgstr "İlerlemek için Çağrı İşareti Sertifikası Göster"
+msgstr "İlerlemek için Çağrı Adı Sertifikası Göster"
 
 #: tqsl.cpp:1389 tqsl.cpp:6091
 msgid "Select a Callsign Certificate to process"
-msgstr "İlerlemek için Çağrı İşareti Sertifikası Seç"
+msgstr "İlerlemek için Çağrı Adı Sertifikası Seç"
 
 #: tqsl.cpp:1415
 msgid "Load a Callsign Certificate"
-msgstr "Çağrı İşareti Sertifikası Yükle"
+msgstr "Çağrı Adı Sertifikası Yükle"
 
 #: tqsl.cpp:1432 tqsl.cpp:6083 tqsl.cpp:6084
 msgid "Save a Callsign Certificate"
-msgstr "Çağrı İşareti Sertifikası Kaydet"
+msgstr "Çağrı Adı Sertifikası Kaydet"
 
 #: tqsl.cpp:1448 tqsl.cpp:5888 tqsl.cpp:6085 tqsl.cpp:6086 tqsl.cpp:6141
 #: tqsl.cpp:6142
 msgid "Renew a Callsign Certificate"
-msgstr "Çağrı İşareti Sertifikası Yenile"
+msgstr "Çağrı Adı Sertifikası Yenile"
 
 #: tqsl.cpp:1464
 msgid "Display a Callsign Certificate's Properties"
@@ -1306,11 +1310,11 @@ msgstr "Sertifika ve Özellikleri göster"
 
 #: tqsl.cpp:1469 tqsl.cpp:6299
 msgid "Callsign Certificates"
-msgstr "Çağrı İşareti Sertifikaları"
+msgstr "Çağrı Adı Sertifikaları"
 
 #: tqsl.cpp:1493 tqsl.cpp:1627 tqsl.cpp:1657
 msgid "Add Station Location"
-msgstr "İstasyon KOnumunu Ekle"
+msgstr "İstasyon Konumunu Ekle"
 
 #: tqsl.cpp:1576
 msgid "About"
@@ -1345,11 +1349,11 @@ msgstr "Lokasyon Data hatası"
 #: tqsl.cpp:1689 tqsl.cpp:1715 tqsl.cpp:2922 tqsl.cpp:6445
 #, c-format
 msgid "Edit Station Location : %hs - %s"
-msgstr "İstasyon Lokasyonu güncelle: %hs - %s"
+msgstr "İstasyon Yeri güncelle: %hs - %s"
 
 #: tqsl.cpp:1723 tqsl.cpp:5400
 msgid "Edit Station Location"
-msgstr "İstasyon Lokasyonu güncelle"
+msgstr "İstasyon Yeri güncelle"
 
 #: tqsl.cpp:1723 tqsl.cpp:6693 tqsl.cpp:6799 tqsl_prefs.cpp:87
 msgid "Close"
@@ -1376,7 +1380,7 @@ msgstr "Bu istasyon lokasyonu için bir çağrı işareti seçin"
 
 #: tqsl.cpp:1921
 msgid "Select Callsign"
-msgstr "Çağrı İşaretini Seçin"
+msgstr "Çağrı Adını Seçin"
 
 #. TRANSLATORS: filename being signed, station location and callsign added later.
 #: tqsl.cpp:1933 tqsl.cpp:4154
@@ -1386,7 +1390,7 @@ msgstr "Dosya  (%s)  imzalanacaktır:"
 
 #: tqsl.cpp:1935 tqsl.cpp:4156
 msgid "Station Location:"
-msgstr "İstasyon Lokasyonu:"
+msgstr "İstasyon Yeri:"
 
 #: tqsl.cpp:1939 tqsl.cpp:4160
 msgid "DXCC:"
@@ -1415,7 +1419,7 @@ msgstr "İmzalama işlemi iptal edildi."
 #: tqsl.cpp:1979
 #, c-format
 msgid "Signing using Callsign %hs, DXCC Entity %hs"
-msgstr "%hs Çağrı işareti ile, %hs DXCC bilgisi ile imzalanıyor"
+msgstr "%hs Çağrı adı ile, %hs DXCC bilgisi ile imzalanıyor"
 
 #: tqsl.cpp:1997
 msgid ""
@@ -1677,7 +1681,7 @@ msgstr ""
 #: tqsl.cpp:2822
 #, c-format
 msgid "%s: Unable to connect to the upload site."
-msgstr "%s: yüklem sunucusuna bağlanılamadı."
+msgstr "%s: yükleme sunucusuna bağlanılamadı."
 
 #: tqsl.cpp:2826
 #, c-format
@@ -1965,7 +1969,7 @@ msgstr "%hs için sertifika  kaydediliyor"
 
 #: tqsl.cpp:4465
 msgid "Saving Station Locations"
-msgstr "İstasyon Lokasyonu Kaydediliyor"
+msgstr "İstasyon Yeri Kaydediliyor"
 
 #: tqsl.cpp:4481
 msgid "Saving TQSL Preferences"
@@ -2012,7 +2016,7 @@ msgstr "Tercihler geri yükleniyor"
 
 #: tqsl.cpp:4711
 msgid "Restoring Station Locations"
-msgstr "İstasyon Lokasyonu geri yükleniyor"
+msgstr "İstasyon Yeri geri yükleniyor"
 
 #: tqsl.cpp:4732
 msgid "Restoring QSO records"
@@ -2057,10 +2061,12 @@ msgstr "Yedekten dönme Hatası: %hs"
 #: tqsl.cpp:5083
 msgid "TQSL must not be run 'As Administrator'. Quitting."
 msgstr ""
+"TQSL programını, Administrator- Yönetici olarak çalıştırmamalısınız. "
+"Kapatılıyor."
 
 #: tqsl.cpp:5188
 msgid "Specify dialog action - abort, all, compliant or ask"
-msgstr "Aksiyonu seçin- iptal, hepsi, uyumlu sor"
+msgstr "Aksiyonu seçin- iptal, hepsi, uyumlu veya sor"
 
 #: tqsl.cpp:5189
 msgid "Specify start date for QSOs to sign"
@@ -2084,11 +2090,11 @@ msgstr "Sertifika dosyasını içe aktar (.p12 or .tq6)"
 
 #: tqsl.cpp:5194
 msgid "Selects Station Location"
-msgstr "İstasyon Lokasyonunu Seçer"
+msgstr "İstasyon Yeri Seçer"
 
 #: tqsl.cpp:5195
 msgid "Edit (if used with -l) or create Station Location"
-msgstr "İstasyon Lokasyonu yaratın ya da güncelleyin"
+msgstr "İstasyon Yeri yaratın ya da güncelleyin"
 
 #: tqsl.cpp:5196
 msgid "Output file name (defaults to input name minus extension plus .tq8"
@@ -2181,7 +2187,7 @@ msgstr "Dosyadan Sertifika &Yükle"
 
 #: tqsl.cpp:5726
 msgid "&Save Callsign Certificate to File..."
-msgstr "Çağrı İşareti Sertifikası &Kaydet..."
+msgstr "Çağrı Adı Sertifikası &Kaydet..."
 
 #: tqsl.cpp:5730
 msgid "Request &New Callsign Certificate..."
@@ -2189,7 +2195,7 @@ msgstr "&Yeni Sertifika İsteği Yap..."
 
 #: tqsl.cpp:5731
 msgid "&Renew Callsign Certificate"
-msgstr "Çağrı İşareti Sertifikası Y&enile"
+msgstr "Çağrı Adı Sertifikası Y&enile"
 
 #: tqsl.cpp:5736
 msgid "&Delete Callsign Certificate"
@@ -2291,7 +2297,7 @@ msgstr "Sertifika ve Özellikleri göster"
 
 #: tqsl.cpp:6130 tqsl.cpp:6132
 msgid "Save the Callsign Certificate for"
-msgstr "Çağrı İşareti Sertifikası Kaydet"
+msgstr "Çağrı Adı Sertifikası Kaydet"
 
 #: tqsl.cpp:6133 tqsl.cpp:6135
 msgid "Display the Callsign Certificate properties for"
@@ -2299,7 +2305,7 @@ msgstr "Sertifika ve Özellikleri göster"
 
 #: tqsl.cpp:6137 tqsl.cpp:6139
 msgid "Renew the Callsign Certificate for"
-msgstr "Çağrı İşareti Sertifikası Yenile"
+msgstr "Çağrı Adı Sertifikası Yenile"
 
 #: tqsl.cpp:6178
 msgid "Enter the name for the new Certificate Container file"
@@ -2362,7 +2368,7 @@ msgstr "çağrı İşareti Sertifika menüsü ile bir adet yarattıysanız"
 
 #: tqsl.cpp:6247
 msgid "'Save Callsign Certificate' command."
-msgstr "Çağrı İşareti Sertifikası Kaydet komutu."
+msgstr "Çağrı Adı Sertifikası Kaydet komutu."
 
 #: tqsl.cpp:6249
 msgid "Are you sure you want to delete the certificate?"
@@ -2382,15 +2388,15 @@ msgstr "Geri yüklemek için bir Çağrı Sertifikası seçin"
 
 #: tqsl.cpp:6327
 msgid "Select a Station Location to process"
-msgstr "İlerlemek için İstasyon Lokasyonu Seç"
+msgstr "İlerlemek için İstasyon Yeri Seç"
 
 #: tqsl.cpp:6347 tqsl.cpp:6349
 msgid "Edit Station Location "
-msgstr "İstasyon Lokasyonunu Güncelle "
+msgstr "İstasyon Yeri Güncelle "
 
 #: tqsl.cpp:6350 tqsl.cpp:6352
 msgid "Delete Station Location "
-msgstr "İstasyon Lokasyonunu sil "
+msgstr "İstasyon Yeri sil "
 
 #: tqsl.cpp:6353 tqsl.cpp:6355
 msgid "Display Station Location Properties for "
@@ -2410,7 +2416,7 @@ msgstr "Geri yüklenecek İstasyon Lokasyon bilgisi bulunamadı"
 
 #: tqsl.cpp:6407
 msgid "Choose a Station Location to restore"
-msgstr "Geri yüklenecek İstasyon Lokasyonunu seçin"
+msgstr "Geri yüklenecek İstasyon Yeri seçin"
 
 #: tqsl.cpp:6468
 msgid "Please choose language:"
@@ -2647,7 +2653,7 @@ msgstr "Durum mesajlarını ayrı bir tab'ta göster"
 
 #: tqsl_prefs.cpp:394
 msgid "Enable passwords for Callsign Certificates"
-msgstr ""
+msgstr "Çağrı adı sertifikaları için şifreleri aktive et"
 
 #: tqsl_prefs.cpp:441
 msgid ""

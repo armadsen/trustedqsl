@@ -1,14 +1,14 @@
 # TrustedQSL
-# Copyright (C) 2015-2016 The American Radio Relay League
+# Copyright (C) 2015-2019 The American Radio Relay League
 # This file is distributed under the same license as the tqsl package.
 # Rick Murphy/K1MU.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: V2.1\n"
+"Project-Id-Version: V2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-17 11:18-0400\n"
-"PO-Revision-Date: 2018-06-06 19:18-0400\n"
+"PO-Revision-Date: 2019-06-02 09:43-0400\n"
 "Last-Translator: Rick Murphy <k1mu@arrl.net>\n"
 "Language-Team: TQSL Developers\n"
 "Language: fr\n"
@@ -46,6 +46,8 @@ msgid ""
 "My new personal callsign (I have a Callsign Certificate for my former "
 "callsign)"
 msgstr ""
+"Mon nouvel indicatif personnel (j’ai un certificat d’indicatif pour mon "
+"ancien indicatif)"
 
 #: crqwiz.cpp:36
 msgid ""
@@ -363,6 +365,10 @@ msgid ""
 "the past 24 hours. You should submit a request only once, then wait for that "
 "request to processed by LoTW Staff. This may take several business days."
 msgstr ""
+"Vous avez déjà demandé plus de trois certificats d’indicatif d’appel pour %s "
+"au cours des 24 dernières heures. Vous devez soumettre une demande une seule "
+"fois, puis attendre que cette demande soit traitée par le personnel de LoTW. "
+"Cela peut prendre plusieurs jours ouvrables."
 
 #: crqwiz.cpp:1097
 msgid ""
@@ -409,6 +415,9 @@ msgid ""
 "requests, but you have no valid Callsign Certificates that you can use to "
 "sign this request."
 msgstr ""
+"Vous ne pouvez pas demander de certificat pour un indicatif 1x1 car vous "
+"devez signer ces demandes, mais vous ne disposez d’aucun certificat "
+"d’indicatif valide que vous pouvez utiliser pour signer cette demande."
 
 #: crqwiz.cpp:1123
 msgid ""
@@ -2143,7 +2152,7 @@ msgstr "Échoué de l'opération de restauration: %hs"
 
 #: tqsl.cpp:5083
 msgid "TQSL must not be run 'As Administrator'. Quitting."
-msgstr ""
+msgstr "TQSL ne doit pas être exécuté en tant qu’administrateur. En quittant."
 
 #: tqsl.cpp:5188
 msgid "Specify dialog action - abort, all, compliant or ask"
@@ -2561,15 +2570,15 @@ msgstr "Mot de passe: "
 
 #: tqsl.cpp:6634
 msgid "Missing from this computer"
-msgstr ""
+msgstr "Manquant de cet ordinateur"
 
 #: tqsl.cpp:6638
 msgid "Private Key not found"
-msgstr ""
+msgstr "Clé privée introuvable."
 
 #: tqsl.cpp:6642
 msgid "Unable to read - no permission"
-msgstr ""
+msgstr "Incapable de lire - pas d’autorisation"
 
 #: tqsl.cpp:6650
 msgid "<ERROR>"
@@ -2577,7 +2586,7 @@ msgstr "<Erreur>"
 
 #: tqsl.cpp:6653
 msgid "No Private Key"
-msgstr ""
+msgstr "Clé d’onglet d’objet"
 
 #: tqsl.cpp:6656
 msgid "None"
@@ -2749,7 +2758,7 @@ msgstr "Afficher les messages d'État dans onglet séparé"
 
 #: tqsl_prefs.cpp:394
 msgid "Enable passwords for Callsign Certificates"
-msgstr ""
+msgstr "Activer les mots de passe pour les certificats d’indicatif"
 
 #: tqsl_prefs.cpp:441
 msgid ""
@@ -2998,6 +3007,8 @@ msgid ""
 "The private key for this Callsign Certificate is not present on this "
 "computer; you can obtain it by loading a .tbk or .p12 file"
 msgstr ""
+"La clé privée de ce certificat d’indicatif d’appel n’est pas présente sur "
+"cet ordinateur. vous pouvez l’obtenir en chargeant un fichier .tbk ou .p12"
 
 #: wxutil.cpp:149
 msgid "PKCS#12 file not TQSL compatible"
@@ -3081,6 +3092,8 @@ msgid ""
 "The private key for callsign %hs serial %ld is not present on this computer; "
 "you can obtain it by loading a .tbk or .p12 file"
 msgstr ""
+"La clé privée de l’indicatif %hs série %ld n’est pas présente sur cet "
+"ordinateur. vous pouvez l’obtenir en chargeant un fichier .tbk ou .p12"
 
 #: wxutil.cpp:240
 #, c-format

@@ -1,25 +1,25 @@
 # TrustedQSL
-# Copyright (C) 2015-2016 The American Radio Relay League
+# Copyright (C) 2015-2019 The American Radio Relay League
 # This file is distributed under the same license as the tqsl package.
 # Rick Murphy/K1MU.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: V2.4\n"
+"Project-Id-Version: V2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-17 11:18-0400\n"
-"PO-Revision-Date: 2018-02-24 00:55+0100\n"
+"PO-Revision-Date: 2019-05-26 16:16+0200\n"
 "Last-Translator: Rick Murphy <k1mu@arrl.net>\n"
-"Language-Team: I4FYV Salvatore Besso <salvatore.besso@alice.it>\n"
+"Language-Team: I4FYV Salvatore Besso <salvatore.besso@outlook.it>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2.3\n"
 
 #: certtree.cpp:104
 msgid "tQSL Certificates"
-msgstr "Certificati TQSL"
+msgstr "Certificati tQSL"
 
 #: certtree.cpp:107
 msgid "Error while accessing certificate store"
@@ -46,6 +46,8 @@ msgid ""
 "My new personal callsign (I have a Callsign Certificate for my former "
 "callsign)"
 msgstr ""
+"Il mio nuovo nominativo personale (ho un certificato del nominativo per "
+"quello precedente)"
 
 #: crqwiz.cpp:36
 msgid ""
@@ -63,20 +65,19 @@ msgid ""
 "A secondary club callsign (I have a Callsign Certificate for the primary "
 "club callsign)"
 msgstr ""
-"Un nominativo secondario di club (posseggo un certificato per il nominativo "
+"Un nominativo secondario di club (posseggo un certificato del nominativo "
 "primario di club)"
 
 #: crqwiz.cpp:39
 msgid "A DXpedition, Portable, or holiday operation with multiple operators"
 msgstr ""
-"Una DXpedition, un portatile o un'operazione in vacanza con operatori "
-"multipli"
+"Una DXpedition, un'operazione portatile o in vacanza con operatori multipli"
 
 #: crqwiz.cpp:40
 msgid ""
 "A DXpedition, Portable, or holiday operation where I am the only operator"
 msgstr ""
-"Una DXpedition, un portatile o un'operazione in vacanza dove sono l'unico "
+"Una DXpedition, un'operazione portatile o in vacanza dove io sono l'unico "
 "operatore"
 
 #: crqwiz.cpp:41
@@ -357,6 +358,10 @@ msgid ""
 "the past 24 hours. You should submit a request only once, then wait for that "
 "request to processed by LoTW Staff. This may take several business days."
 msgstr ""
+"Hai già richiesto più di tre certificati del nominativo per %s nelle ultime "
+"ventiquattro ore. Dovresti inviare una richiesta solo una volta, quindi "
+"attendere affinché questa richiesta venga elaborata dal personale di LoTW. "
+"Ciò potrebbe richiedere diversi giorni lavorativi."
 
 #: crqwiz.cpp:1097
 msgid ""
@@ -402,6 +407,9 @@ msgid ""
 "requests, but you have no valid Callsign Certificates that you can use to "
 "sign this request."
 msgstr ""
+"Non puoi richiedere un certificato per un nominativo 1x1 poiché devi firmare "
+"richieste di questo tipo, ma non hai certificati del nominativo validi da "
+"poter usare per firmare tale richiesta."
 
 #: crqwiz.cpp:1123
 msgid ""
@@ -2134,7 +2142,7 @@ msgstr "Operazione di ripristino fallita: %hs"
 
 #: tqsl.cpp:5083
 msgid "TQSL must not be run 'As Administrator'. Quitting."
-msgstr ""
+msgstr "TQSL non può essere eseguito come 'Amministratore'. Chiusura."
 
 #: tqsl.cpp:5188
 msgid "Specify dialog action - abort, all, compliant or ask"
@@ -2314,7 +2322,7 @@ msgstr "Carica"
 
 #: tqsl.cpp:5936
 msgid "tQSL Cert Request files (*."
-msgstr "File di richiesta di TQSLCert (*."
+msgstr "File di richiesta di tQSLCert (*."
 
 #: tqsl.cpp:5938
 msgid "|All files ("
@@ -2553,15 +2561,15 @@ msgstr "Password: "
 
 #: tqsl.cpp:6634
 msgid "Missing from this computer"
-msgstr ""
+msgstr "Mancante su questo computer"
 
 #: tqsl.cpp:6638
 msgid "Private Key not found"
-msgstr ""
+msgstr "Chiave privata non trovata"
 
 #: tqsl.cpp:6642
 msgid "Unable to read - no permission"
-msgstr ""
+msgstr "Impossibile leggere - nessun permesso"
 
 #: tqsl.cpp:6650
 msgid "<ERROR>"
@@ -2569,7 +2577,7 @@ msgstr "<ERRORE>"
 
 #: tqsl.cpp:6653
 msgid "No Private Key"
-msgstr ""
+msgstr "Nessuna chiave privata"
 
 #: tqsl.cpp:6656
 msgid "None"
@@ -2740,7 +2748,7 @@ msgstr "Visualizza i messaggi di stato in una scheda separata"
 
 #: tqsl_prefs.cpp:394
 msgid "Enable passwords for Callsign Certificates"
-msgstr ""
+msgstr "Abilita password per i certificati del nominativo"
 
 #: tqsl_prefs.cpp:441
 msgid ""
@@ -2989,6 +2997,8 @@ msgid ""
 "The private key for this Callsign Certificate is not present on this "
 "computer; you can obtain it by loading a .tbk or .p12 file"
 msgstr ""
+"La chiave privata per questo certificato del nominativo non è presente su "
+"questo computer; è possibile ottenerla caricando un file .tbk o .p12"
 
 #: wxutil.cpp:149
 msgid "PKCS#12 file not TQSL compatible"
@@ -3072,6 +3082,8 @@ msgid ""
 "The private key for callsign %hs serial %ld is not present on this computer; "
 "you can obtain it by loading a .tbk or .p12 file"
 msgstr ""
+"La chiave privata per il nominativo %hs numero di serie %ld non è presente "
+"su questo computer; è possibile ottenerla caricando un file .tbk o .p12"
 
 #: wxutil.cpp:240
 #, c-format

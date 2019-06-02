@@ -1,21 +1,21 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR The TrustedQSL Developers
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# TrustedQSL
+# Copyright (C) 2015-2019 The American Radio Relay League
+# This file is distributed under the same license as the tqsl package.
+# Rick Murphy/K1MU.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: TQSL v2.3\n"
+"Project-Id-Version: TQSL v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-17 11:18-0400\n"
-"PO-Revision-Date: 2018-02-22 19:24+0200\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2019-05-26 11:54+0300\n"
+"Last-Translator: Juhani Tapaninen\n"
 "Language-Team: \n"
 "Language: fi_FI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.2\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: certtree.cpp:104
@@ -47,6 +47,8 @@ msgid ""
 "My new personal callsign (I have a Callsign Certificate for my former "
 "callsign)"
 msgstr ""
+"Uusi henkilökohtainen kutsumerkkini (minulla on kutsumerkin varmenne "
+"aiemmalle kutsumerkilleni)"
 
 #: crqwiz.cpp:36
 msgid ""
@@ -354,6 +356,10 @@ msgid ""
 "the past 24 hours. You should submit a request only once, then wait for that "
 "request to processed by LoTW Staff. This may take several business days."
 msgstr ""
+"Olet jo pyytänyt yli kolme kutsumerkin varmennetta kutsulle %s viimeisten 24 "
+"tunnin aikana. Kutsumerkin varmenne tulee pyytää vain kerran ja sen jälkeen "
+"odottaa, että LoTW:n henkilökunta käsittelee pyynnön. Tämä voi kestää useita "
+"työpäiviä."
 
 #: crqwiz.cpp:1097
 msgid ""
@@ -400,6 +406,9 @@ msgid ""
 "requests, but you have no valid Callsign Certificates that you can use to "
 "sign this request."
 msgstr ""
+"Et voi pyytää varmennetta 1x1-kutsulle koska sinun täytyy allekirjoittaa "
+"tämä pyyntö, mutta sinulla ei ole voimassa olevaa kutsumerkin varmennetta, "
+"jolla voisit allekirjoittaa pyynnön. "
 
 #: crqwiz.cpp:1123
 msgid ""
@@ -537,7 +546,7 @@ msgid ""
 msgstr ""
 "Jos käytät tietokonetta, jota käyttävät muutkin henkilöt, sinun on syytä "
 "antaa salasana suojataksesi tämän varmenteen. Kuitenkin, jos käytät "
-"tietokonettä yksityistaloudessa, salasanaa ei ole tarvetta antaa."
+"tietokonetta yksityistaloudessa, salasanaa ei ole tarvetta antaa."
 
 #: loadcertwiz.cpp:153
 msgid ""
@@ -2119,6 +2128,7 @@ msgstr "Palautusoperaatio epäonnistui: %hs"
 #: tqsl.cpp:5083
 msgid "TQSL must not be run 'As Administrator'. Quitting."
 msgstr ""
+"TQSL:ää ei voi käynnistää ylläpitäjänä. Lopetetaan TQSL:n suorittaminen."
 
 #: tqsl.cpp:5188
 msgid "Specify dialog action - abort, all, compliant or ask"
@@ -2529,15 +2539,15 @@ msgstr "Salasana: "
 
 #: tqsl.cpp:6634
 msgid "Missing from this computer"
-msgstr ""
+msgstr "Puuttuu tältä tietokoneelta"
 
 #: tqsl.cpp:6638
 msgid "Private Key not found"
-msgstr ""
+msgstr "Salaista avainta ei löytynyt"
 
 #: tqsl.cpp:6642
 msgid "Unable to read - no permission"
-msgstr ""
+msgstr "Ei voida avata - pääsyoikeus puuttuu"
 
 #: tqsl.cpp:6650
 msgid "<ERROR>"
@@ -2545,7 +2555,7 @@ msgstr "<VIRHE>"
 
 #: tqsl.cpp:6653
 msgid "No Private Key"
-msgstr ""
+msgstr "Ei salaista avainta"
 
 #: tqsl.cpp:6656
 msgid "None"
@@ -2716,7 +2726,7 @@ msgstr "Näytä tilaviestit erillisessä välilehdessä"
 
 #: tqsl_prefs.cpp:394
 msgid "Enable passwords for Callsign Certificates"
-msgstr ""
+msgstr "Ota käyttöön salasanat kutsumerkin varmenteille"
 
 #: tqsl_prefs.cpp:441
 msgid ""
@@ -2962,6 +2972,8 @@ msgid ""
 "The private key for this Callsign Certificate is not present on this "
 "computer; you can obtain it by loading a .tbk or .p12 file"
 msgstr ""
+"Tämän kutsumerkin varmenteen salaista avainta ei ole tällä tietokoneella. "
+"Voit lisätä sen lataamalla .tbk- tai .p12-tiedoston"
 
 #: wxutil.cpp:149
 msgid "PKCS#12 file not TQSL compatible"
@@ -3045,6 +3057,8 @@ msgid ""
 "The private key for callsign %hs serial %ld is not present on this computer; "
 "you can obtain it by loading a .tbk or .p12 file"
 msgstr ""
+"Kutsumerkin %hs, sarjanumeron %ld salaista avainta ei ole tällä "
+"tietokoneella. Voit lisätä sen lataamalla .tbk- tai .p12-tiedoston"
 
 #: wxutil.cpp:240
 #, c-format
