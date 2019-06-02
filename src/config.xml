@@ -1,5 +1,4 @@
-<?xml version="1.0"?>
-<tqslconfig majorversion="11" minorversion="7">
+<tqslconfig majorversion="11" minorversion="8">
      <adifmap>
        <adifmode adif-mode="AM" mode="AM">AM</adifmode>
        <adifmode adif-mode="ARDOP" mode="ARDOP">ARDOP</adifmode>
@@ -64,6 +63,7 @@
        <adifmode adif-mode="JT9" adif-submode="JT9H FAST" mode="JT9">JT9H FAST</adifmode>
        <adifmode adif-mode="JT9" mode="JT9">JT9</adifmode>
        <adifmode adif-mode="MFSK" adif-submode="FSQCALL" mode="DATA">FSQCALL</adifmode>
+       <adifmode adif-mode="MFSK" adif-submode="FT4" mode="FT4">FT4</adifmode>
        <adifmode adif-mode="MFSK" adif-submode="JS8" mode="DATA">JS8</adifmode>
        <adifmode adif-mode="MFSK" adif-submode="MFSK11" mode="DATA">MFSK11</adifmode>
        <adifmode adif-mode="MFSK" adif-submode="MFSK128" mode="DATA">MFSK128</adifmode>
@@ -671,7 +671,7 @@
        <entity arrlId="497" valid="1991-06-26 00:00:00" zonemap="28:15">CROATIA</entity>
        <entity arrlId="499" valid="1945-11-15 00:00:00" zonemap="28:15">SLOVENIA</entity>
        <entity arrlId="501" valid="1945-11-15 00:00:00" zonemap="28:15">BOSNIA-HERZEGOVINA</entity>
-       <entity arrlId="502" valid="1991-09-08 00:00:00" zonemap="28:15">MACEDONIA</entity>
+       <entity arrlId="502" valid="1991-09-08 00:00:00" zonemap="28:15">NORTH MACEDONIA</entity>
        <entity arrlId="503" valid="1993-01-01 00:00:00" zonemap="28:15">CZECH REPUBLIC</entity>
        <entity arrlId="504" valid="1993-01-01 00:00:00" zonemap="28:15">SLOVAK REPUBLIC</entity>
        <entity arrlId="505" valid="1994-01-01 00:00:00" zonemap="44:24">PRATAS ISLAND</entity>
@@ -7620,6 +7620,7 @@
        <mode group="PHONE">FM</mode>
        <mode group="DATA">FSK31</mode>
        <mode group="DATA">FSK441</mode>
+       <mode group="DATA">FT4</mode>
        <mode group="DATA">FT8</mode>
        <mode group="DATA">GTOR</mode>
        <mode group="DATA">HELL</mode>
@@ -7689,6 +7690,7 @@
        </provider>
      </providers>
      <satellites>
+       <satellite name="AISAT1" startDate="2019-04-07">AISAT-1 AMSAT India APRS Digipeater</satellite>
        <satellite name="AO-10" startDate="1983-06-16">AMSAT-OSCAR 10</satellite>
        <satellite endDate="1996-12-07" name="AO-13" startDate="1988-06-15">AMSAT-OSCAR 13</satellite>
        <satellite name="AO-16" startDate="1990-01-22">AMSAT-OSCAR 16</satellite>
@@ -7731,6 +7733,7 @@
        <satellite name="NO-44" startDate="2001-09-30">Navy-OSCAR 44</satellite>
        <satellite name="NO-83" startDate="2015-05-20">BRICsat</satellite>
        <satellite name="NO-84" startDate="2015-05-20">PSAT</satellite>
+       <satellite name="PO-101" startDate="2018-10-18">Phillipines-OSCAR-101 (Diwata-2)</satellite>
        <satellite name="QO-100" startDate="2019-02-02">Qatar-OSCAR 100 (Es&apos;hail-2/P4A)</satellite>
        <satellite endDate="1979-02-01" name="RS-1" startDate="1978-10-26">Radio Sputnik 1</satellite>
        <satellite endDate="2000-11-01" name="RS-10" startDate="1987-06-23">Radio Sputnik 10</satellite>
