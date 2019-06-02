@@ -2567,11 +2567,11 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 	if (!curlReq)
 		return NULL;
 
-	wxString filename;
+	wxString filename = wxString::FromUTF8(tQSL_BaseDir);
 #ifdef _WIN32
-	filename.Printf(wxT("%hs\\curl.log"), tQSL_BaseDir);
+	filename = filename + wxT("\\curl.log");
 #else
-	filename.Printf(wxT("%hs/curl.log"), tQSL_BaseDir);
+	filename = filename + wxT("/curl.log");
 #endif
 #ifdef _WIN32
 	wchar_t*lfn = utf8_to_wchar(filename.ToUTF8());
@@ -3189,14 +3189,14 @@ void MyFrame::UpdateConfigFile() {
  retry:
 	curlReq = tqsl_curl_init("Config File Download Log", (const char *)newConfigURL.ToUTF8(), &curlLogFile, false);
 
-	wxString filename;
+	wxString filename = wxString::FromUTF8(tQSL_BaseDir);
 #ifdef _WIN32
-	filename.Printf(wxT("%hs\\config.tq6"), tQSL_BaseDir);
+	filename = filename + wxT("\\config.tq6");
 	wchar_t* lfn = utf8_to_wchar(filename.ToUTF8());
 	FILE *configFile = _wfopen(lfn, L"wb");
 	free_wchar(lfn);
 #else
-	filename.Printf(wxT("%hs/config.tq6"), tQSL_BaseDir);
+	filename = filename + wxT("/config.tq6");
 	FILE *configFile = fopen(filename.ToUTF8(), "wb");
 #endif
 	if (!configFile) {
@@ -3265,8 +3265,8 @@ void MyFrame::UpdateTQSL(wxString& url) {
 		needToCleanUp = true;
 	}
 
-	wxString filename;
-	filename.Printf(wxT("%hs\\tqslupdate.msi"), tQSL_BaseDir);
+	wxString filename = wxString::FromUTF8(tQSL_BaseDir);
+	filename = filename + wxT("\\tqslupdate.msi");
 	wchar_t* lfn = utf8_to_wchar(filename.ToUTF8());
 	FILE *updateFile = _wfopen(lfn, L"wb");
 	free_wchar(lfn);
