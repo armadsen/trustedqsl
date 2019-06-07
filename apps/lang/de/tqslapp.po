@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: V2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-05-17 11:18-0400\n"
-"PO-Revision-Date: 2018-02-22 20:04+0100\n"
+"PO-Revision-Date: 2019-06-06 20:00+0200\n"
 "Last-Translator: Andreas Rehberg\n"
 "Language-Team: TQSL Developers\n"
 "Language: de\n"
@@ -46,6 +46,8 @@ msgid ""
 "My new personal callsign (I have a Callsign Certificate for my former "
 "callsign)"
 msgstr ""
+"Mein neues persönliches Rufzeichen (ich besitze ein Rufzeichen-Zertifikat "
+"für mein altes Rufzeichen)"
 
 #: crqwiz.cpp:36
 msgid ""
@@ -358,6 +360,9 @@ msgid ""
 "the past 24 hours. You should submit a request only once, then wait for that "
 "request to processed by LoTW Staff. This may take several business days."
 msgstr ""
+"Sie haben in den letzten 24 Std. bereits mehr als drei Rufzeichen-"
+"Zertifikate für %s angefordert. Bitte fordern Sie dies nur einmal an und "
+"warten dann auf die Antwort von LoTW. Das kann mehrere Arbeitstage dauern."
 
 #: crqwiz.cpp:1097
 msgid ""
@@ -402,6 +407,9 @@ msgid ""
 "requests, but you have no valid Callsign Certificates that you can use to "
 "sign this request."
 msgstr ""
+"Sie können für 1x1 Rufzeichen keine Zertifikate anfordern, da diese signiert "
+"werden müssen. Sie besitzen aber kein gültiges Rufzeichen-Zertifikat, das "
+"Sie hierzu verwenden können."
 
 #: crqwiz.cpp:1123
 msgid ""
@@ -2130,7 +2138,7 @@ msgstr "Wiederherstellungsvorgang fehlgeschlagen: %hs"
 
 #: tqsl.cpp:5083
 msgid "TQSL must not be run 'As Administrator'. Quitting."
-msgstr ""
+msgstr "TQSL darf nicht als Administrator ausgeführt werden und wird beendet."
 
 #: tqsl.cpp:5188
 msgid "Specify dialog action - abort, all, compliant or ask"
@@ -2544,15 +2552,15 @@ msgstr "Kennwort: "
 
 #: tqsl.cpp:6634
 msgid "Missing from this computer"
-msgstr ""
+msgstr "Fehlt auf diesem Computer"
 
 #: tqsl.cpp:6638
 msgid "Private Key not found"
-msgstr ""
+msgstr "Privaten Schlüssel nicht gefunden"
 
 #: tqsl.cpp:6642
 msgid "Unable to read - no permission"
-msgstr ""
+msgstr "Lesefehler - keine Berechtigung"
 
 #: tqsl.cpp:6650
 msgid "<ERROR>"
@@ -2560,7 +2568,7 @@ msgstr "<Fehler>"
 
 #: tqsl.cpp:6653
 msgid "No Private Key"
-msgstr ""
+msgstr "Kein privater Schlüssel"
 
 #: tqsl.cpp:6656
 msgid "None"
@@ -2730,7 +2738,7 @@ msgstr "Statusmeldungen in separater Registerkarte anzeigen"
 
 #: tqsl_prefs.cpp:394
 msgid "Enable passwords for Callsign Certificates"
-msgstr ""
+msgstr "Passwörter für Rufzeichen-Zertifikate aktivieren"
 
 #: tqsl_prefs.cpp:441
 msgid ""
@@ -2977,6 +2985,8 @@ msgid ""
 "The private key for this Callsign Certificate is not present on this "
 "computer; you can obtain it by loading a .tbk or .p12 file"
 msgstr ""
+"Der private Schlüssel für dieses Rufzeichen-Zertifikat befindet sich nicht "
+"auf diesem Computer; laden Sie eine .tbk oder .p12 Datei."
 
 #: wxutil.cpp:149
 msgid "PKCS#12 file not TQSL compatible"
@@ -3060,6 +3070,8 @@ msgid ""
 "The private key for callsign %hs serial %ld is not present on this computer; "
 "you can obtain it by loading a .tbk or .p12 file"
 msgstr ""
+"Der private Schlüssel für das Rufzeichen %hs Nr. %ld befindet sich nicht auf "
+"diesem Computer; laden Sie eine .tbk oder .p12 Datei."
 
 #: wxutil.cpp:240
 #, c-format
