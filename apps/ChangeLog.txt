@@ -2,6 +2,8 @@ TQSL changes
 ============
 2.5
 ----------
+Use ARRL web service to validate US callsigns and pre-fill address info.
+
 Fix TQSL updates failing on Windows when the user's home directory has
 non-ASCII characters.
 

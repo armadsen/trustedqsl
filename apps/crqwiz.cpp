@@ -26,9 +26,27 @@
 
 #include "winstrdefs.h"
 
+extern int SaveAddressInfo(const char *callsign);
+
+extern int GetULSInfo(const char *callsign, wxString &name, wxString &street, wxString &city, wxString &state, wxString &zip);
+
 using std::string;
 
 extern int get_address_field(const char *callsign, const char *field, string& result);
+
+enum  {
+	CERT_TYPE_INVALID = -1,
+	CERT_CURRENT_PERSONAL = 0,
+	CERT_NEW_PERSONAL,
+	CERT_FORMER_PERSONAL,
+	CERT_PRIMARY_CLUB,
+	CERT_SECONDARY_CLUB,
+	CERT_DXP_MULTIOP,
+	CERT_DXP_ONEOP,
+	CERT_QSLMGR,
+	CERT_EVENT_MULTIOP,
+	CERT_EVENT_SINGLEOP
+};
 
 static wxString callTypeChoices[] = {
 	 _("My current personal callsign"),
@@ -65,15 +83,20 @@ CRQWiz::CRQWiz(TQSL_CERT_REQ *crq, tQSL_Cert xcert, wxWindow *parent, wxHtmlHelp
 	tqslTrace("CRQWiz::CRQWiz", "crq=%lx, xcert=%lx, title=%s", reinterpret_cast<void *>(cert), reinterpret_cast<void *>(xcert), S(title));
 
 	dxcc = -1;
-	ncerts = 0;
+	validcerts = false;		// No signing certs to use
 	onebyone = false;
+	renewal = (_crq);		// It's a renewal if there's a CRQ provided
+	usa = validusa = false;		// Not usa
+	certType = CERT_TYPE_INVALID;	// Not yet set
 	// Get count of valid certificates
+	int ncerts = 0;
 	tqsl_selectCertificates(NULL, &ncerts, NULL, 0, NULL, NULL, 0);
+	validcerts = (ncerts > 0);
 	nprov = 1;
 	tqsl_getNumProviders(&nprov);
 	providerPage = new CRQ_ProviderPage(this, _crq);
 	signPage = new CRQ_SignPage(this, _crq);
-	introPage = new CRQ_IntroPage(this, _crq);
+	callsignPage = new CRQ_CallsignPage(this, _crq);
 	namePage = new CRQ_NamePage(this, _crq);
 	emailPage = new CRQ_EmailPage(this, _crq);
 	wxConfig *config = reinterpret_cast<wxConfig *>(wxConfig::Get());
@@ -81,8 +104,9 @@ CRQWiz::CRQWiz(TQSL_CERT_REQ *crq, tQSL_Cert xcert, wxWindow *parent, wxHtmlHelp
 	pwPage = new CRQ_PasswordPage(this);
 	typePage = new CRQ_TypePage(this);
 	if (nprov != 1)
-		wxWizardPageSimple::Chain(providerPage, introPage);
-	wxWizardPageSimple::Chain(typePage, namePage);
+		wxWizardPageSimple::Chain(providerPage, typePage);
+	wxWizardPageSimple::Chain(typePage, callsignPage);
+	wxWizardPageSimple::Chain(callsignPage, namePage);
 	wxWizardPageSimple::Chain(namePage, emailPage);
 	wxWizardPageSimple::Chain(emailPage, pwPage);
 	signIt = true;
@@ -91,7 +115,10 @@ CRQWiz::CRQWiz(TQSL_CERT_REQ *crq, tQSL_Cert xcert, wxWindow *parent, wxHtmlHelp
 	if (!cert)
 		wxWizardPageSimple::Chain(pwPage, signPage);
 	if (nprov == 1)
-		_first = introPage;
+		if (!renewal) // rhm		if (validcerts && !renewal)
+			_first = typePage;
+		else
+			_first = callsignPage;
 	else
 		_first = providerPage;
 	AdjustSize();
@@ -207,7 +234,7 @@ static wxDateTime::Month mons[] = {
 	wxDateTime::Aug, wxDateTime::Sep, wxDateTime::Oct, wxDateTime::Nov,
 	wxDateTime::Dec };
 
-BEGIN_EVENT_TABLE(CRQ_IntroPage, CRQ_Page)
+BEGIN_EVENT_TABLE(CRQ_CallsignPage, CRQ_Page)
 	EVT_TEXT(ID_CRQ_CALL, CRQ_Page::check_valid)
 	EVT_COMBOBOX(ID_CRQ_DXCC, CRQ_Page::check_valid)
 	EVT_COMBOBOX(ID_CRQ_QBYEAR, CRQ_Page::check_valid)
@@ -218,8 +245,8 @@ BEGIN_EVENT_TABLE(CRQ_IntroPage, CRQ_Page)
 	EVT_COMBOBOX(ID_CRQ_QEDAY, CRQ_Page::check_valid)
 END_EVENT_TABLE()
 
-CRQ_IntroPage::CRQ_IntroPage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(parent) {
-	tqslTrace("CRQ_IntroPage::CRQ_IntroPage", "parent=%lx, crq=%lx", reinterpret_cast<void *>(parent), reinterpret_cast<void *>(crq));
+CRQ_CallsignPage::CRQ_CallsignPage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(parent) {
+	tqslTrace("CRQ_CallsignPage::CRQ_CallsignPage", "parent=%lx, crq=%lx", reinterpret_cast<void *>(parent), reinterpret_cast<void *>(crq));
 	initialized = false;
 	_parent = parent;
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
@@ -358,35 +385,35 @@ CRQ_IntroPage::CRQ_IntroPage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(par
 }
 
 CRQ_Page *
-CRQ_IntroPage::GetNext() const {
-	tqslTrace("CRQ_IntroPage::GetNext", NULL);
+CRQ_CallsignPage::GetNext() const {
+	tqslTrace("CRQ_CallsignPage::GetNext", NULL);
 	if (_parent->cert) {			// Renewal
 		_parent->signIt = false;
-		reinterpret_cast<CRQ_NamePage*>(_parent->namePage)->Preset(reinterpret_cast<CRQ_IntroPage*>(_parent->introPage));
+		reinterpret_cast<CRQ_NamePage*>(_parent->namePage)->Preset(reinterpret_cast<CRQ_CallsignPage*>(_parent->callsignPage));
 		return _parent->namePage;
 	}
 	if (_parent->dxcc == 0) {		// NONE always requires signature
 		_parent->signIt = true;
-		return _parent->typePage;
+		return _parent->namePage;
 	}
 	if (_parent->onebyone) {		// 1x1 always requires signature
 		_parent->signIt = true;
 		_parent->signPrompt = _("Please select a Callsign Certificate to validate your request.");	// 1x1 callsign
 		return _parent->namePage;
 	}
-	if (_parent->ncerts == 0) {		// No certs, can't sign.
+	if (!_parent->validcerts) {		// No certs, can't sign.
 		_parent->signIt = false;
-		reinterpret_cast<CRQ_NamePage*>(_parent->namePage)->Preset(reinterpret_cast<CRQ_IntroPage*>(_parent->introPage));
+		reinterpret_cast<CRQ_NamePage*>(_parent->namePage)->Preset(reinterpret_cast<CRQ_CallsignPage*>(_parent->callsignPage));
 		return _parent->namePage;
 	}
-	reinterpret_cast<CRQ_NamePage*>(_parent->namePage)->Preset(reinterpret_cast<CRQ_IntroPage*>(_parent->introPage));
-	return _parent->typePage;
+	reinterpret_cast<CRQ_NamePage*>(_parent->namePage)->Preset(reinterpret_cast<CRQ_CallsignPage*>(_parent->callsignPage));
+	return _parent->namePage;
 }
 
 CRQ_Page *
-CRQ_IntroPage::GetPrev() const {
-	tqslTrace("CRQ_IntroPage::GetPrev", NULL);
-	return _parent->introPage;
+CRQ_CallsignPage::GetPrev() const {
+	tqslTrace("CRQ_CallsignPage::GetPrev", NULL);
+	return _parent->callsignPage;
 }
 
 BEGIN_EVENT_TABLE(CRQ_NamePage, CRQ_Page)
@@ -507,9 +534,10 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 }
 
 void
-CRQ_NamePage::Preset(CRQ_IntroPage *ip) {
+CRQ_NamePage::Preset(CRQ_CallsignPage *ip) {
 	wxString s;
 	string t;
+	SaveAddressInfo(_parent->callsign.ToUTF8());
 	if (get_address_field(_parent->callsign.ToUTF8(), "name", t) == 0) {
 		s = wxString::FromUTF8(t.c_str());
 		tc_name->SetValue(s);
@@ -550,12 +578,7 @@ CRQ_NamePage::GetNext() const {
 CRQ_Page *
 CRQ_NamePage::GetPrev() const {
 	tqslTrace("CRQ_NamePage::GetPrev", NULL);
-
-	// If no certificates to sign with and dxcc nonzero and not a renewal
-	if (_parent->ncerts > 0 && _parent->dxcc != 0 && !_parent->cert && !_parent->onebyone)
-		return _parent->typePage;
-	else
-		return _parent->introPage;
+	return _parent->callsignPage;
 }
 
 
@@ -717,6 +740,14 @@ CRQ_TypePage::CRQ_TypePage(CRQWiz *parent)
 
 	certType = new wxRadioBox(this, ID_CRQ_TYPE, _("This Callsign Certificate is for:"), wxDefaultPosition,
 		wxDefaultSize, ch, 1, wxRA_SPECIFY_COLS);
+	for (unsigned int i = 0; i < sizeof signThisType / sizeof signThisType[0]; i++) {
+		if (signThisType[i]) {
+			if (!_parent->validcerts) {
+				certType->Enable(i, false);
+			}
+		}
+	}
+
 	sizer->Add(certType, 0, wxALL|wxEXPAND, 10);
 }
 
@@ -745,7 +776,7 @@ CRQ_TypePage::TransferDataFromWindow() {
 		return false;
 	_parent->signIt = signThisType[selected];
 	_parent->signPrompt = signPrompts[selected];
-
+	_parent->certType = selected;
 	if (_parent->dxcc == 0)
 		_parent->signIt = true;
 	return true;
@@ -755,7 +786,10 @@ CRQ_Page *
 CRQ_TypePage::GetPrev() const {
 	tqslTrace("CRQ_TypePage::GetPrev", NULL);
 
-	return _parent->introPage;
+	if (_parent->nprov > 1)
+		return _parent->callsignPage;
+	else
+		return _parent->typePage;
 }
 
 CRQ_SignPage::CRQ_SignPage(CRQWiz *parent, TQSL_CERT_REQ *crq)
@@ -803,7 +837,6 @@ CRQ_SignPage::GetPrev() const {
 		return _parent->pwPage;
 	else
 		return _parent->emailPage;
-	return _parent->introPage;
 }
 
 // Page validation
@@ -815,8 +848,8 @@ CRQ_ProviderPage::TransferDataFromWindow() {
 }
 
 const char *
-CRQ_IntroPage::validate() {
-	tqslTrace("CRQ_IntroPage::validate", NULL);
+CRQ_CallsignPage::validate() {
+	tqslTrace("CRQ_CallsignPage::validate", NULL);
 	tQSL_Cert *certlist = 0;
 	int ncert = 0;
 	// List of DXCC entities in the US.
@@ -971,15 +1004,14 @@ CRQ_IntroPage::validate() {
 	}
 
 	// Check for US 1x1 callsigns
-	bool usa;
-	usa = false;
+	_parent->usa = false;
 	for (int i = 0; USEntities[i] > 0; i++) {
 		if (_parent->dxcc == USEntities[i]) {
-			usa = true;
+			_parent->usa = true;
 			break;
 		}
 	}
-	if (!usa || _parent->callsign.Len() != 3)
+	if (!_parent->usa || _parent->callsign.Len() != 3)
 		_parent->onebyone = false;
 
 	// Data looks okay, now let's make sure this isn't a duplicate request
@@ -1082,10 +1114,47 @@ CRQ_IntroPage::validate() {
 }
 
 bool
-CRQ_IntroPage::TransferDataFromWindow() {
-	tqslTrace("CRQ_IntroPage::TransferDataFromWindow", NULL);
+CRQ_CallsignPage::TransferDataFromWindow() {
+	tqslTrace("CRQ_CallsignPage::TransferDataFromWindow", NULL);
 	bool ok;
+
+	// Is this in the ULS?
 	validate();
+	if (valMsg.Len() == 0 && _parent->usa) {
+		wxString callsign = _parent->callsign;
+		wxString name, addr1, city, state, zip;
+		int stat = GetULSInfo(callsign.ToUTF8(), name, addr1, city, state, zip);
+		_parent->validusa = (stat == 0);
+		if (stat) {
+			switch (_parent->certType) {
+				case CERT_CURRENT_PERSONAL:
+				case CERT_NEW_PERSONAL:
+				case CERT_PRIMARY_CLUB:
+				case CERT_DXP_MULTIOP:
+				case CERT_EVENT_MULTIOP:
+					valMsg = wxString::Format(_("The callsign %s is not registered in the FCC database.\nIf this is a newly registered call, you must wait at least one business day for it to be valid. Please enter a curently valid callsign."), callsign.c_str());
+					break;
+			}
+		} else {
+			if (!name.IsEmpty()) {
+				_parent->name = name;
+			}
+			if (!addr1.IsEmpty()) {
+				_parent->addr1 = addr1;
+				_parent->addr2 = wxT("");
+			}
+			if (!city.IsEmpty()) {
+				_parent->city = city;
+			}
+			if (!state.IsEmpty()) {
+				_parent->state = state;
+			}
+			if (!zip.IsEmpty()) {
+				_parent->zip = zip;
+			}
+		}
+	}
+
 	if (valMsg.Len() == 0) {
 		ok = true;
 	} else {
@@ -1093,7 +1162,7 @@ CRQ_IntroPage::TransferDataFromWindow() {
 		ok = false;
 	}
 	if (ok && _parent->dxcc == 0) {
-		if (_parent->ncerts == 0) {
+		if (!_parent->validcerts) {
 			wxString msg = _("You cannot select DXCC Entity NONE as you must sign any request for entity NONE and you have no valid Callsign Certificates that you can use to sign this request.");
 			wxMessageBox(msg, _("TQSL Error"), wxOK | wxICON_ERROR, this);
 			return false;
@@ -1112,7 +1181,7 @@ CRQ_IntroPage::TransferDataFromWindow() {
 		wxMessageBox(msg, _("TQSL Warning"), wxOK | wxICON_WARNING, this);
 	}
 	if (ok && _parent->onebyone) {
-		if (_parent->ncerts == 0) {
+		if (!_parent->validcerts) {
 			wxString msg = _("You cannot request a certificate for a 1x1 callsign as you must sign those requests, but you have no valid Callsign Certificates that you can use to sign this request.");
 			wxMessageBox(msg, _("TQSL Error"), wxOK | wxICON_ERROR, this);
 			return false;

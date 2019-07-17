@@ -3,6 +3,9 @@ TQSLLIB changes
 
 2.5
 ---
+Move Deleted entities to the end of the DXCC list. Allow the "DELETED" text
+in the entity name to be localized.
+
 Check if TQSL is able to write to the working directory during start-up.
 
 Improve the error message for missing private keys to be more descriptive.

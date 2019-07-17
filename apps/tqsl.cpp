@@ -62,6 +62,7 @@
 #ifdef _WIN32
 	#include <io.h>
 	HRESULT IsElevated(BOOL * pbElevated);
+	static HRESULT GetElevationType(__out TOKEN_ELEVATION_TYPE * ptet);
 #endif
 #include <zlib.h>
 #include <openssl/opensslv.h> // only for version info!
@@ -162,6 +163,9 @@ static MyFrame *frame = 0;
 static char unipwd[64];
 static bool quiet = false;
 static bool verifyCA = true;
+
+static FILE *curlLogFile;
+static CURL *curlReq;
 
 static int lock_db(bool wait);
 static void unlock_db(void);
@@ -1563,7 +1567,7 @@ static wxString getAbout() {
 	msg+=wxT("Hindi: Manmohan Bhagat, VU3YBH\n");
 	msg+=wxT("Italian: Salvatore Besso, I4FYV\n");
 	msg+=wxT("Japanese: Akihiro KODA, JL3OXR\n");
-	msg+=wxT("Polish: Roman Bagiński, SP4JEU\n");
+	msg+=wxString::FromUTF8("Polish: Roman Bagiński, SP4JEU\n");
 	msg+=wxT("Portuguese: Nuno Lopes, CT2IRY\n");
 	msg+=wxT("Russian: Vic Goncharsky, US5WE\n");
 	msg+=wxT("Spanish: Jordi Quintero, EA3GCV\n");
@@ -3874,7 +3878,7 @@ wx_tokens(const wxString& str, vector<wxString> &toks) {
 }
 
 int
-MyFrame::SaveAddressInfo(const char *callsign) {
+SaveAddressInfo(const char *callsign) {
 	if (callsign == NULL) {
 		tQSL_Error = TQSL_ARGUMENT_ERROR;
 		return 1;
@@ -3883,7 +3887,7 @@ MyFrame::SaveAddressInfo(const char *callsign) {
 	bool needToCleanUp = false;
 	char url[512];
 	strncpy(url, (wxString::Format(wxT("https://lotw.arrl.org/tqsl-setup.php?callsign=%hs"), callsign)).ToUTF8(), sizeof url);
-	tqslTrace("MyFrame::SaveAddressInfo", "Call = %s, url = %s", callsign, url);
+	tqslTrace("SaveAddressInfo", "Call = %s, url = %s", callsign, url);
 	if (curlReq) {
 		curl_easy_setopt(curlReq, CURLOPT_URL, url);
 	} else {
@@ -3912,7 +3916,7 @@ MyFrame::SaveAddressInfo(const char *callsign) {
 
 	if (retval == CURLE_OK) {
 		if (handler.s != "null") {
-			tqslTrace("MyFrame::SaveAddressInfo", "callsign=%s, result = %s", callsign, handler.s.c_str());
+			tqslTrace("SaveAddressInfo", "callsign=%s, result = %s", callsign, handler.s.c_str());
 			tqsl_saveCallsignLocationInfo(callsign, handler.s.c_str());
 		}
 	} else {
@@ -4037,6 +4041,75 @@ get_address_field(const char *callsign, const char *field, string& result) {
 		return 1;
 	}
 	result = temp;
+	return 0;
+}
+
+int
+GetULSInfo(const char *callsign, wxString &name, wxString &street, wxString &city, wxString &state, wxString &zip) {
+	if (callsign == NULL) {
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+
+	bool needToCleanUp = false;
+	char url[512];
+	strncpy(url, (wxString::Format(wxT("https://lotw.arrl.org/uls.php?callsign=%hs"), callsign)).ToUTF8(), sizeof url);
+	tqslTrace("GetULSInfo", "Call = %s, url = %s", callsign, url);
+	if (curlReq) {
+		curl_easy_setopt(curlReq, CURLOPT_URL, url);
+	} else {
+		curlReq = tqsl_curl_init("checkULS", url, &curlLogFile, false);
+		needToCleanUp = true;
+	}
+	FileUploadHandler handler;
+
+	curl_easy_setopt(curlReq, CURLOPT_WRITEFUNCTION, &FileUploadHandler::recv);
+	curl_easy_setopt(curlReq, CURLOPT_WRITEDATA, &handler);
+
+	curl_easy_setopt(curlReq, CURLOPT_FAILONERROR, 1); //let us find out about a server issue
+
+	char errorbuf[CURL_ERROR_SIZE];
+	errorbuf[0] = '\0';
+	curl_easy_setopt(curlReq, CURLOPT_ERRORBUFFER, errorbuf);
+	int retval = curl_easy_perform(curlReq);
+
+	if (needToCleanUp) {
+		if (curlLogFile)
+			fclose(curlLogFile);
+		curl_easy_cleanup(curlReq);
+		curlReq = NULL;
+	}
+
+	if (retval == CURLE_OK) {
+		if (handler.s != "null") {
+			tqslTrace("GetULSInfo", "callsign=%s, result = %s", callsign, handler.s.c_str());
+			// fields: name, callsign, street, city, state, zip.
+			wxString checkresult = wxString::FromUTF8(handler.s.c_str());
+
+			wxJSONReader reader;
+			wxJSONValue root;
+
+			int errors = reader.Parse(checkresult, &root);
+			if (errors > 0)
+				return 1;
+
+			if (strcmp(root[wxT("callsign")].AsString().ToUTF8(), callsign) != 0)
+				return 1;
+
+			name = root[wxT("name")].AsString();
+			street = root[wxT("street")].AsString();
+			city = root[wxT("city")].AsString();
+			state = root[wxT("state")].AsString();
+			zip = root[wxT("zip")].AsString();
+			return 0;
+		} else {
+			return 1;	// Not valid
+		}
+	} else {
+		tqslTrace("GetULSInfo", "cURL Error during cert status check: %s (%s)\n", curl_easy_strerror((CURLcode)retval), errorbuf);
+		return 1;
+	}
+
 	return 0;
 }
 
@@ -5080,10 +5153,37 @@ QSLApp::OnInit() {
 	bool disa;
 	wxConfig::Get()->Read(wxT("DisableAdminCheck"), &disa, false);
 	if (!disa && IsElevated(NULL) == S_OK) {
-		wxMessageBox(_("TQSL must not be run 'As Administrator'. Quitting."), _("Error"), wxOK | wxICON_ERROR, frame);
-		exitNow(TQSL_EXIT_TQSL_ERROR, quiet);
+		TOKEN_ELEVATION_TYPE tet = TokenElevationTypeDefault;
+		GetElevationType(&tet);
+		if (tet == TokenElevationTypeFull) {
+//rhmfoo #endif  // temp
+
+			wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+
+			wxArrayString ch;
+			ch.Add(wxT("Exit TQSL so I can re-run as a normal user"));
+			ch.Add(wxT("I always run in this way. Allow TQSL to continue"));
+			wxSingleChoiceDialog dial(this, _("TQSL must not be run 'As Administrator'"), _("Administrator Error"), wxYES_NO|wxCancel);
+			wxCheckBox *always = new wxCheckBox(this, ID_PREF_FILE_AUTO_BACKUP, _("Always take this action when running 'As Administrator'"));
+			wxRadioBox *adminResp = new wxRadioBox(this, ID_CRQ_TYPE, _("This Callsign Certificate is for:"), wxDefaultPosition,
+								wxDefaultSize, ch, 1, wxRA_SPECIFY_COLS);
+			wxMessageDialog dial(this, _("TQSL must not be run 'As Administrator'"), _("Administrator Error"), wxYES_NO|wxCancel);
+			int res = dial.ShowModal();
+			switch (res) {
+			    case wxID_CANCEL:
+				exitNow(TQSL_EXIT_TQSL_ERROR, quiet);
+				break;
+			    case wxID_YES:
+				wxConfig::Get()->Write(wxT("DisableAdminCheck"), true);
+				break;
+			    case wxID_NO:
+				break;
+//rhmfoo #ifdef _WIN32 // temp
+			}
+		}
+//rhmfoo #endif // temp
 	}
-#endif
+#endif // rhmfoo //temp #endif
 	int major, minor;
 	if (tqsl_getConfigVersion(&major, &minor)) {
 		wxMessageBox(getLocalizedErrorString(), _("Error"), wxOK | wxICON_ERROR, frame);
