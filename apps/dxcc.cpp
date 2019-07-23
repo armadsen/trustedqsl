@@ -65,9 +65,9 @@ DXCC::init() {
 				char fixedName[TQSL_CRQ_COUNTRY_MAX+1];
 				*p = '\0';
 				strncpy(fixedName, testName, sizeof fixedName);
-				strncat(fixedName, cdel, sizeof fixedName - strlen(fixedName));
+				strncat(fixedName, cdel, sizeof fixedName - strlen(fixedName) - 1);
 				p += strlen("DELETED");		// Go past the DELETED string
-				strncat(fixedName, p, sizeof fixedName - strlen(fixedName));
+				strncat(fixedName, p, sizeof fixedName - strlen(fixedName) - 1);
 				deleted_entity_list[deletedEntities].number = entityNum;
 				deleted_entity_list[deletedEntities].name = strdup(fixedName);
 				deleted_entity_list[deletedEntities++].zonemap = zonemap;

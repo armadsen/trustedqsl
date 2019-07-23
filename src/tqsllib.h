@@ -1286,6 +1286,10 @@ DLLEXPORT int CALLCONVENTION tqsl_setADIFMode(const char *adif_item, const char 
   */
 DLLEXPORT int CALLCONVENTION tqsl_getADIFMode(const char *adif_item, char *mode, int nmode);
 
+/** Map a GABBI mode to its mode/submode pair.
+  */
+DLLEXPORT int CALLCONVENTION tqsl_getADIFSubMode(const char *adif_item, char *mode, char *submode, int nmode);
+
 /** Get a GABBI record that contains the certificate.
   *
   * \c uid is the value for the CERT_UID field

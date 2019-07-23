@@ -1739,6 +1739,7 @@ static tqsl_adifFieldDefinitions fielddefs[] = {
 	{ "BAND", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_BAND_MAX, 0, 0, 0, 0 },
 	{ "BAND_RX", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_BAND_MAX, 0, 0, 0, 0 },
 	{ "MODE", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_MODE_MAX, 0, 0, 0, 0 },
+	{ "SUBMODE", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_MODE_MAX, 0, 0, 0, 0 },
 	{ "FREQ", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_FREQ_MAX, 0, 0, 0, 0 },
 	{ "FREQ_RX", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_FREQ_MAX, 0, 0, 0, 0 },
 	{ "QSO_DATE", "", TQSL_ADIF_RANGE_TYPE_NONE, 8, 0, 0, 0, 0 },
@@ -1781,6 +1782,10 @@ loadQSOfile(wxString& file, QSORecordList& recs) {
 				rec._mode = wxString::FromUTF8((const char *)field.data);
 				char amode[40];
 				if (tqsl_getADIFMode(rec._mode.ToUTF8(), amode, sizeof amode) == 0 && amode[0] != '\0')
+					rec._mode = wxString::FromUTF8(amode);
+			} else if (!strcasecmp(field.name, "SUBMODE")) {
+				char amode[40];
+				if (tqsl_getADIFMode((const char *)field.data, amode, sizeof amode) == 0 && amode[0] != '\0')
 					rec._mode = wxString::FromUTF8(amode);
 			} else if (!strcasecmp(field.name, "FREQ")) {
 				rec._freq = wxString::FromUTF8((const char *)field.data);
@@ -4045,7 +4050,7 @@ get_address_field(const char *callsign, const char *field, string& result) {
 }
 
 int
-GetULSInfo(const char *callsign, wxString &name, wxString &street, wxString &city, wxString &state, wxString &zip) {
+GetULSInfo(const char *callsign, wxString &name, wxString &attn, wxString &street, wxString &city, wxString &state, wxString &zip) {
 	if (callsign == NULL) {
 		tQSL_Error = TQSL_ARGUMENT_ERROR;
 		return 1;
@@ -4097,6 +4102,7 @@ GetULSInfo(const char *callsign, wxString &name, wxString &street, wxString &cit
 				return 1;
 
 			name = root[wxT("name")].AsString();
+			attn = root[wxT("attention")].AsString();
 			street = root[wxT("street")].AsString();
 			city = root[wxT("city")].AsString();
 			state = root[wxT("state")].AsString();

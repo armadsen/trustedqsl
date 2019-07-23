@@ -278,6 +278,7 @@ static vector<Satellite> SatelliteList;
 static map<int, XMLElement> tqsl_page_map;
 static map<string, XMLElement> tqsl_field_map;
 static map<string, string> tqsl_adif_map;
+static map<string, string> tqsl_adif_submode_map;
 static map<string, pair<int, int> > tqsl_cabrillo_map;
 static map<string, pair<int, int> > tqsl_cabrillo_user_map;
 
@@ -733,6 +734,7 @@ init_mode() {
 		ok = modes.getNextElement(config_mode);
 	}
 	sort(ModeList.begin(), ModeList.end());
+
 	return 0;
 }
 
@@ -1116,6 +1118,9 @@ init_adif_map() {
 		string gabbi = adif_item.getAttribute("mode").first;
 		string melem = adif_item.getText();
 
+		if (adifmode != "" && submode != "") {
+			tqsl_adif_submode_map[melem] = adifmode + "%" + submode;
+		}
 		if (adifmode == "") { 		// Handle entries with just a mode element
 			adifmode = melem;
 		}
@@ -1190,11 +1195,47 @@ tqsl_getADIFMode(const char *adif_item, char *mode, int nmode) {
 	}
 
 	if (nmode < static_cast<int>(amode.length())+1) {
-		tqslTrace("tqsl_getAdifMode", "bufer error %s %s", nmode, amode.length());
+		tqslTrace("tqsl_getAdifMode", "buffer error %s %s", nmode, amode.length());
 		tQSL_Error = TQSL_BUFFER_ERROR;
 		return 1;
 	}
 	strncpy(mode, amode.c_str(), nmode);
+	return 0;
+}
+
+DLLEXPORT int CALLCONVENTION
+tqsl_getADIFSubMode(const char *adif_item, char *mode, char *submode, int nmode) {
+	if (adif_item == NULL || mode == NULL) {
+		tqslTrace("tqsl_getADIFSubMode", "arg error adif_item=0x%lx, mode=0x%lx", adif_item, mode);
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+	if (init_adif_map()) {
+		tQSL_Error = TQSL_CUSTOM_ERROR;
+		strncpy(tQSL_CustomError, "TQSL Configuration file invalid - ADIF map invalid",
+			sizeof tQSL_CustomError);
+		tqslTrace("tqsl_getADIFSubMode", "init_adif error %s", tQSL_CustomError);
+		return 1;
+	}
+	string orig = adif_item;
+	orig = string_toupper(orig);
+	string amode;
+	if (tqsl_adif_submode_map.find(orig) != tqsl_adif_submode_map.end()) {
+		amode = tqsl_adif_submode_map[orig];
+	} else {
+		tQSL_Error = TQSL_NAME_NOT_FOUND;
+		return 1;
+	}
+
+	string adifmode = amode.substr(0, amode.find("%"));
+	string adifsubmode = amode.substr(amode.find("%")+1);
+	if (nmode < static_cast<int>(amode.length())+1) {
+		tqslTrace("tqsl_getAdifSubMode", "buffer error %s %s", nmode, amode.length());
+		tQSL_Error = TQSL_BUFFER_ERROR;
+		return 1;
+	}
+	strncpy(mode, adifmode.c_str(), nmode);
+	strncpy(submode, adifsubmode.c_str(), nmode);
 	return 0;
 }
 
