@@ -28,7 +28,7 @@
 
 extern int SaveAddressInfo(const char *callsign);
 
-extern int GetULSInfo(const char *callsign, wxString &name, wxString &street, wxString &city, wxString &state, wxString &zip);
+extern int GetULSInfo(const char *callsign, wxString &name, wxString &attn, wxString &street, wxString &city, wxString &state, wxString &zip);
 
 using std::string;
 
@@ -538,32 +538,48 @@ CRQ_NamePage::Preset(CRQ_CallsignPage *ip) {
 	wxString s;
 	string t;
 	SaveAddressInfo(_parent->callsign.ToUTF8());
-	if (get_address_field(_parent->callsign.ToUTF8(), "name", t) == 0) {
+	if (!_parent->name.IsEmpty()) {
+		tc_name->SetValue(_parent->name);
+	} else if (get_address_field(_parent->callsign.ToUTF8(), "name", t) == 0) {
 		s = wxString::FromUTF8(t.c_str());
 		tc_name->SetValue(s);
 	}
 
-	if (get_address_field(_parent->callsign.ToUTF8(), "addr1", t) == 0) {
+	if (!_parent->addr1.IsEmpty()) {
+		tc_addr1->SetValue(_parent->addr1);
+	} else if (get_address_field(_parent->callsign.ToUTF8(), "addr1", t) == 0) {
 		s = wxString::FromUTF8(t.c_str());
 		tc_addr1->SetValue(s);
 	}
-	if (get_address_field(_parent->callsign.ToUTF8(), "addr2", t) == 0) {
+	if (!_parent->addr2.IsEmpty()) {
+		if (_parent->addr2 == wxT("."))
+			_parent->addr2 = wxT("");
+		tc_addr2->SetValue(_parent->addr2);
+	} else if (get_address_field(_parent->callsign.ToUTF8(), "addr2", t) == 0) {
 		s = wxString::FromUTF8(t.c_str());
 		tc_addr2->SetValue(s);
 	}
-	if (get_address_field(_parent->callsign.ToUTF8(), "city", t) == 0) {
+	if (!_parent->city.IsEmpty()) {
+		tc_city->SetValue(_parent->city);
+	} else if (get_address_field(_parent->callsign.ToUTF8(), "city", t) == 0) {
 		s = wxString::FromUTF8(t.c_str());
 		tc_city->SetValue(s);
 	}
-	if (get_address_field(_parent->callsign.ToUTF8(), "addrState", t) == 0) {
+	if (!_parent->state.IsEmpty()) {
+		tc_state->SetValue(_parent->state);
+	} else if (get_address_field(_parent->callsign.ToUTF8(), "addrState", t) == 0) {
 		s = wxString::FromUTF8(t.c_str());
 		tc_state->SetValue(s);
 	}
-	if (get_address_field(_parent->callsign.ToUTF8(), "mailCode", t) == 0) {
+	if (!_parent->zip.IsEmpty()) {
+		tc_zip->SetValue(_parent->zip);
+	} else if (get_address_field(_parent->callsign.ToUTF8(), "mailCode", t) == 0) {
 		s = wxString::FromUTF8(t.c_str());
 		tc_zip->SetValue(s);
 	}
-	if (get_address_field(_parent->callsign.ToUTF8(), "aCountry", t) == 0) {
+	if (!_parent->country.IsEmpty()) {
+		tc_country->SetValue(_parent->country);
+	} else if (get_address_field(_parent->callsign.ToUTF8(), "aCountry", t) == 0) {
 		s = wxString::FromUTF8(t.c_str());
 		tc_country->SetValue(s);
 	}
@@ -1118,12 +1134,13 @@ CRQ_CallsignPage::TransferDataFromWindow() {
 	tqslTrace("CRQ_CallsignPage::TransferDataFromWindow", NULL);
 	bool ok;
 
-	// Is this in the ULS?
 	validate();
+
+	// Is this in the ULS?
 	if (valMsg.Len() == 0 && _parent->usa) {
 		wxString callsign = _parent->callsign;
-		wxString name, addr1, city, state, zip;
-		int stat = GetULSInfo(callsign.ToUTF8(), name, addr1, city, state, zip);
+		wxString name, attn, addr1, city, state, zip;
+		int stat = GetULSInfo(callsign.ToUTF8(), name, attn, addr1, city, state, zip);
 		_parent->validusa = (stat == 0);
 		if (stat) {
 			switch (_parent->certType) {
@@ -1132,26 +1149,47 @@ CRQ_CallsignPage::TransferDataFromWindow() {
 				case CERT_PRIMARY_CLUB:
 				case CERT_DXP_MULTIOP:
 				case CERT_EVENT_MULTIOP:
-					valMsg = wxString::Format(_("The callsign %s is not registered in the FCC database.\nIf this is a newly registered call, you must wait at least one business day for it to be valid. Please enter a curently valid callsign."), callsign.c_str());
+					valMsg = wxString::Format(wxT("The callsign %s is not currently registered in the FCC ULS database.\nIf this is a newly registered call, you must wait at least one business day for it to be valid. Please enter a currently valid callsign."), callsign.c_str());
 					break;
 			}
 		} else {
-			if (!name.IsEmpty()) {
-				_parent->name = name;
-			}
-			if (!addr1.IsEmpty()) {
+			if (name == wxT("null"))
+				name = wxT("");
+			_parent->name = name;
+			_parent->namePage->setName(name);
+
+			if (addr1 == wxT("null"))
+				addr1 = wxT("");
+			if (attn == wxT("null")) {
+				attn = wxT("");
 				_parent->addr1 = addr1;
-				_parent->addr2 = wxT("");
+				_parent->addr2 = wxT(".");
+				_parent->namePage->setAddr1(addr1);
+				_parent->namePage->setAddr2(attn);
+			} else {
+				_parent->addr1 = attn;
+				_parent->addr2 = addr1;
+				_parent->namePage->setAddr1(attn);
+				_parent->namePage->setAddr2(addr1);
 			}
-			if (!city.IsEmpty()) {
-				_parent->city = city;
-			}
-			if (!state.IsEmpty()) {
-				_parent->state = state;
-			}
-			if (!zip.IsEmpty()) {
-				_parent->zip = zip;
-			}
+
+			if (city == wxT("null"))
+				city = wxT("");
+			_parent->city = city;
+			_parent->namePage->setCity(city);
+
+			if (state == wxT("null"))
+				state = wxT("");
+			_parent->state = state;
+			_parent->namePage->setState(state);
+
+			if (zip == wxT("null"))
+				zip = wxT("");
+			_parent->zip = zip;
+			_parent->namePage->setZip(zip);
+
+			_parent->country = wxT("USA");
+			_parent->namePage->setCountry(_parent->country);
 		}
 	}
 
@@ -1242,6 +1280,22 @@ CRQ_NamePage::validate() {
 	if (valMsg.Len() == 0 && cleanString(_parent->city))
 		valMsg = _("You must enter your city");
 	tc_status->SetLabel(valMsg);
+	if (!valMsg.IsEmpty())
+		return 0;
+	//
+	// If this is not a renewal, and it's in the USA, and there's no certs to sign it with,
+	// then this is an initial certificate and must match the FCC database. Say so.
+	//
+	if (!_parent->renewal && _parent->validusa && !_parent->validcerts) {
+		tc_status->SetLabel(wxT("This address must match the FCC ULS database.\nIf this address information is incorrect, please correct your FCC record."));
+		tc_name->Enable(false);
+		tc_addr1->Enable(false);
+		tc_addr2->Enable(false);
+		tc_city->Enable(false);
+		tc_state->Enable(false);
+		tc_zip->Enable(false);
+		tc_country->Enable(false);
+	}
 	return 0;
 }
 

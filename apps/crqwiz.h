@@ -42,6 +42,7 @@
 using std::vector;
 
 class CRQ_Page;
+class CRQ_NamePage;
 
 class CRQWiz : public ExtWizard {
  public:
@@ -76,7 +77,7 @@ class CRQWiz : public ExtWizard {
 	int dxcc;
 	bool onebyone;		// US 1x1 callsign
 	// NamePage data
-	CRQ_Page *namePage;
+	CRQ_NamePage *namePage;
 	wxString name, addr1, addr2, city, state, zip, country;
 	// EmailPage data
 	CRQ_Page *emailPage;
@@ -143,6 +144,13 @@ class CRQ_NamePage : public CRQ_Page {
 	virtual CRQ_Page *GetPrev() const;
 	virtual CRQ_Page *GetNext() const;
 	void Preset(CRQ_CallsignPage *ip);
+	void setName(wxString &s) { tc_name->SetValue(s);}
+	void setAddr1(wxString &s) { tc_addr1->SetValue(s);}
+	void setAddr2(wxString &s) { tc_addr2->SetValue(s);}
+	void setCity(wxString &s) { tc_city->SetValue(s);}
+	void setState(wxString &s) { tc_state->SetValue(s);}
+	void setZip(wxString &s) { tc_zip->SetValue(s);}
+	void setCountry(wxString &s) { tc_country->SetValue(s);}
  private:
 	wxTextCtrl *tc_name, *tc_addr1, *tc_addr2, *tc_city, *tc_state,
 		*tc_zip, *tc_country;
