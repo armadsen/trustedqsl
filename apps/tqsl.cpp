@@ -5162,34 +5162,32 @@ QSLApp::OnInit() {
 		TOKEN_ELEVATION_TYPE tet = TokenElevationTypeDefault;
 		GetElevationType(&tet);
 		if (tet == TokenElevationTypeFull) {
-//rhmfoo #endif  // temp
-
-			wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-
 			wxArrayString ch;
-			ch.Add(wxT("Exit TQSL so I can re-run as a normal user"));
-			ch.Add(wxT("I always run in this way. Allow TQSL to continue"));
-			wxSingleChoiceDialog dial(this, _("TQSL must not be run 'As Administrator'"), _("Administrator Error"), wxYES_NO|wxCancel);
-			wxCheckBox *always = new wxCheckBox(this, ID_PREF_FILE_AUTO_BACKUP, _("Always take this action when running 'As Administrator'"));
-			wxRadioBox *adminResp = new wxRadioBox(this, ID_CRQ_TYPE, _("This Callsign Certificate is for:"), wxDefaultPosition,
-								wxDefaultSize, ch, 1, wxRA_SPECIFY_COLS);
-			wxMessageDialog dial(this, _("TQSL must not be run 'As Administrator'"), _("Administrator Error"), wxYES_NO|wxCancel);
+			ch.Add(_("Exit TQSL so I can re-run as a normal user"));
+			ch.Add(_("Allow TQSL to continue this time."));
+			ch.Add(_("Always allow running as Administrator."));
+			wxSingleChoiceDialog dial(frame, _("TQSL must not be run 'As Administrator'"), _("Administrator Error"), ch);
 			int res = dial.ShowModal();
 			switch (res) {
 			    case wxID_CANCEL:
 				exitNow(TQSL_EXIT_TQSL_ERROR, quiet);
 				break;
-			    case wxID_YES:
-				wxConfig::Get()->Write(wxT("DisableAdminCheck"), true);
+			    case wxID_OK:
+				int sel = dial.GetSelection();
+				switch (sel) {
+					case 0:
+						exitNow(TQSL_EXIT_TQSL_ERROR, quiet);
+					case 1:
+						break;
+					case 2:
+						wxConfig::Get()->Write(wxT("DisableAdminCheck"), true);
+						break;
+				}
 				break;
-			    case wxID_NO:
-				break;
-//rhmfoo #ifdef _WIN32 // temp
 			}
 		}
-//rhmfoo #endif // temp
 	}
-#endif // rhmfoo //temp #endif
+#endif	 // Administrator check
 	int major, minor;
 	if (tqsl_getConfigVersion(&major, &minor)) {
 		wxMessageBox(getLocalizedErrorString(), _("Error"), wxOK | wxICON_ERROR, frame);
