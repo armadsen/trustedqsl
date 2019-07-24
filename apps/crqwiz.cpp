@@ -85,7 +85,7 @@ CRQWiz::CRQWiz(TQSL_CERT_REQ *crq, tQSL_Cert xcert, wxWindow *parent, wxHtmlHelp
 	dxcc = -1;
 	validcerts = false;		// No signing certs to use
 	onebyone = false;
-	renewal = (_crq);		// It's a renewal if there's a CRQ provided
+	renewal = (_crq != NULL);	// It's a renewal if there's a CRQ provided
 	usa = validusa = false;		// Not usa
 	certType = CERT_TYPE_INVALID;	// Not yet set
 	// Get count of valid certificates
