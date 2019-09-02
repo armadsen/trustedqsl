@@ -149,7 +149,7 @@ static const char *error_strings[] = {
 	__("PKCS#12 file not TQSL compatible"),			/* TQSL_PKCS12_ERROR */
 	__("Callsign Certificate not TQSL compatible"),		/* TQSL_CERT_TYPE_ERROR */
 	__("Date out of range"),				/* TQSL_DATE_OUT_OF_RANGE */
-	__("Duplicate QSO suppressed"),				/* TQSL_DUPLICATE_QSO */
+	__("Already Uploaded QSO suppressed"),			/* TQSL_DUPLICATE_QSO */
 	__("Database error"),					/* TQSL_DB_ERROR */
 	__("The selected station location could not be found"),	/* TQSL_LOCATION_NOT_FOUND */
 	__("The selected callsign could not be found"),		/* TQSL_CALL_NOT_FOUND */
@@ -505,7 +505,7 @@ getLocalizedErrorString() {
 	};
 
 wxLanguage langWX2toWX3(wxLanguage wx2) {
-	for (int i = 0; i < WXSIZEOF(mapping); i++) {
+	for (unsigned int i = 0; i < WXSIZEOF(mapping); i++) {
 		if (mapping[i].wx2 == -1) return wx2;
 		if (mapping[i].wx2 == wx2) return mapping[i].wx3;
 	}

@@ -112,7 +112,7 @@ static const char *error_strings[] = {
 	"PKCS#12 file not TQSL compatible",			/* TQSL_PKCS12_ERROR */
 	"Callsign Certificate not TQSL compatible",		/* TQSL_CERT_TYPE_ERROR */
 	"Date out of range",					/* TQSL_DATE_OUT_OF_RANGE */
-	"Duplicate QSO suppressed",				/* TQSL_DUPLICATE_QSO */
+	"Already Uploaded QSO suppressed",			/* TQSL_DUPLICATE_QSO */
 	"Database error",					/* TQSL_DB_ERROR */
 	"The selected station location could not be found",	/* TQSL_LOCATION_NOT_FOUND */
 	"The selected callsign could not be found",		/* TQSL_CALL_NOT_FOUND */

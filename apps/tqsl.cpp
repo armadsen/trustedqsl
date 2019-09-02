@@ -483,7 +483,7 @@ BEGIN_EVENT_TABLE(DupesDialog, wxDialog)
 END_EVENT_TABLE()
 
 DupesDialog::DupesDialog(wxWindow *parent, int qso_count, int dupes, int action)
-		: wxDialog(parent, -1, wxString(_("Duplicate QSOs Detected")), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE) {
+		: wxDialog(parent, -1, wxString(_("Already Uploaded QSOs Detected")), wxDefaultPosition, wxDefaultSize, wxDEFAULT_DIALOG_STYLE) {
 	tqslTrace("DupesDialog::DupesDialog", "qso_count = %d, dupes =%d, action= =%d", qso_count, dupes, action);
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 	wxString message;
@@ -493,7 +493,7 @@ DupesDialog::DupesDialog(wxWindow *parent, int qso_count, int dupes, int action)
 		fmt += wxT("\n\n");
 		fmt += _("Click 'Cancel' to abandon processing this log file (Recommended).");
 		fmt += wxT("\n");
-		fmt += _("Click 'Allow Duplicates' to re-process this log while allowing duplicate QSOs.");
+		fmt += _("Click 'Re-Upload QSOs' to re-process this log while allowing already uploaded QSOs.");
 		message = wxString::Format(fmt, qso_count);
 	} else {
 		int newq = qso_count - dupes;
@@ -501,20 +501,20 @@ DupesDialog::DupesDialog(wxWindow *parent, int qso_count, int dupes, int action)
 				L"to have already been signed for upload to LoTW, and "
 				L"%d QSOs which are new.");
 			fmt += wxT("\n\n");
-		  	fmt += _("Click 'Exclude duplicates' to sign normally, without the duplicate QSOs (Recommended).");
+		  	fmt += _("Click 'New QSOs Only' to sign normally, without the already uploaded QSOs (Recommended).");
 			fmt += wxT("\n");
 			fmt += _("Click 'Cancel' to abandon processing this log file.");
 			fmt += wxT("\n");
-			fmt += _("Click 'Allow duplicates' to re-process this log while allowing duplicate QSOs.");
+			fmt += _("Click 'Re-Upload QSOs' to re-process this log while allowing already uploaded QSOs.");
 		wxString fmt1 = _("This log contains %d QSO(s) which appear "
 				L"to have already been signed for upload to LoTW, and "
 				L"one QSO which is new.");
 			fmt1 += wxT("\n\n");
-		  	fmt1 += _("Click 'Exclude duplicates' to sign normally, without the duplicate QSOs (Recommended).");
+		  	fmt1 += _("Click 'New QSOs Only' to sign normally, without the already uploaded QSOs (Recommended).");
 			fmt1 += wxT("\n");
 			fmt1 += _("Click 'Cancel' to abandon processing this log file.");
 			fmt1 += wxT("\n");
-			fmt1 += _("Click 'Allow duplicates' to re-process this log while allowing duplicate QSOs.");
+			fmt1 += _("Click 'Re-Upload QSOs' to re-process this log while allowing already uploaded QSOs.");
 		if (newq == 1) {
 			message = wxString::Format(fmt1, dupes);
 		} else {
@@ -526,21 +526,21 @@ DupesDialog::DupesDialog(wxWindow *parent, int qso_count, int dupes, int action)
 		if (qso_count == dupes) {
 			message+= wxT("\n\n");
 			message += _("The log file you are uploading using your QSO Logging system consists entirely of previously uploaded "
-				L"QSOs (duplicates) that create unnecessary work for LoTW. There may be a more recent version of your QSO "
+				L"QSOs that create unnecessary work for LoTW. There may be a more recent version of your QSO "
 				L"Logging system that would prevent this. Please check with your QSO Logging system's vendor for an updated version.");
 			message += wxT("\n");
-			message += _("In the meantime, please note that some loggers may exhibit strange behavior if an option other than 'Allow duplicates' "
+			message += _("In the meantime, please note that some loggers may exhibit strange behavior if an option other than 'Re-Upload QSOs' "
 				L"is clicked. Choosing 'Cancel' is usually safe, but a defective logger not checking the status messages reported by TrustedQSL may produce "
 				L"strange (but harmless) behavior such as attempting to upload an empty file or marking all chosen QSOs as 'sent'");
 		} else {
 			message+= wxT("\n\n");
 			message += _("The log file you are uploading using your QSO Logging system includes some previously uploaded "
-				L"QSOs (duplicates) that create unnecessary work for LoTW. There may be a more recent version of your "
+				L"QSOs that create unnecessary work for LoTW. There may be a more recent version of your "
 				L"QSO Logging system that would prevent this. Please check with your QSO Logging system's vendor for an updated version.");
 			message += wxT("\n");
-			message += _("In the meantime, please note that some loggers may exhibit strange behavior if an option other than 'Allow duplicates' "
-				L"is clicked. 'Exclude duplicates' is recommended, but a logger that does its own duplicate tracking may incorrectly "
-				L"set the status in this case. A logger that doesn't track duplicates should be unaffected by choosing 'Exclude duplicates' "
+			message += _("In the meantime, please note that some loggers may exhibit strange behavior if an option other than 'Re-Upload QSOs' "
+				L"is clicked. 'New QSOs Only' is recommended, but a logger that does its own upload tracking may incorrectly "
+				L"set the status in this case. A logger that doesn't track uploads should be unaffected by choosing 'New QSOs Only' "
 				L"and if it tracks 'QSO sent' status, will correctly mark all selected QSOs as sent - they are in your account even though "
 				L"they would not be in this specific batch");
 			message += wxT("\n");
@@ -556,9 +556,9 @@ DupesDialog::DupesDialog(wxWindow *parent, int qso_count, int dupes, int action)
 	mtext->Wrap(em_w * 50);
 	wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
 	if (qso_count != dupes)
-		hsizer->Add(new wxButton(this, TQSL_DP_OK, _("Exclude duplicates")), 0, wxRIGHT, 5);
+		hsizer->Add(new wxButton(this, TQSL_DP_OK, _("New QSOs Only")), 0, wxRIGHT, 5);
 	hsizer->Add(new wxButton(this, TQSL_DP_CAN, _("Cancel")), 0, wxLEFT, 10);
-	hsizer->Add(new wxButton(this, TQSL_DP_ALLOW, _("Allow duplicates")), 0, wxLEFT, 20);
+	hsizer->Add(new wxButton(this, TQSL_DP_ALLOW, _("Re-Upload QSOs")), 0, wxLEFT, 20);
 	sizer->Add(hsizer, 0, wxALIGN_CENTER|wxALL, 10);
 	SetAutoLayout(TRUE);
 	SetSizer(sizer);
@@ -583,7 +583,7 @@ void
 DupesDialog::OnAllow(wxCommandEvent&) {
 	tqslTrace("DupesDialog::OnAllow", NULL);
 
-	wxString msg = _("The only reason to re-sign duplicate QSOs is if a previous upload "
+	wxString msg = _("The only reason to re-sign already uploaded QSOs is if a previous upload "
 			L"was not processed by LoTW, either because it was never uploaded, or there was a server failure");
 		msg += wxT("\n\n");
 		msg += _("Are you sure you want to proceed? Click 'No' to review the choices");
@@ -1494,8 +1494,8 @@ MyFrame::MyFrame(const wxString& title, int x, int y, int w, int h, bool checkUp
 
 static wxString
 run_station_wizard(wxWindow *parent, tQSL_Location loc, wxHtmlHelpController *help = 0,
-	bool expired = false, wxString title = _("Add Station Location"), wxString dataname = wxT(""), wxString callsign = wxT("")) {
-	tqslTrace("run_station_wizard", "loc=%lx, expired=%d, title=%s, dataname=%s, callsign=%s", loc, expired, S(title), S(dataname), S(callsign));
+	bool expired = false, bool editing = false, wxString title = _("Add Station Location"), wxString dataname = wxT(""), wxString callsign = wxT("")) {
+	tqslTrace("run_station_wizard", "loc=%lx, expired=%d, editing=%d, title=%s, dataname=%s, callsign=%s", loc, expired, editing, S(title), S(dataname), S(callsign));
 	wxString rval(wxT(""));
 	get_certlist("", 0, expired, false, false);
 	if (ncerts == 0)
@@ -1631,7 +1631,7 @@ static void
 AddEditStationLocation(tQSL_Location loc, bool expired = false, const wxString& title = _("Add Station Location"), const wxString& callsign = wxT("")) {
 	tqslTrace("AddEditStationLocation", "loc=%lx, expired=%lx, title=%s, callsign=%s", loc, expired, S(title), S(callsign));
 	try {
-		run_station_wizard(frame, loc, frame->help, expired, title, wxT(""), callsign);
+		run_station_wizard(frame, loc, frame->help, expired, true, title, wxT(""), callsign);
 		frame->loc_tree->Build();
 	}
 	catch(TQSLException& x) {
@@ -1690,7 +1690,7 @@ MyFrame::EditStationLocation(wxCommandEvent& event) {
 			}
 			char loccall[512];
 			check_tqsl_error(tqsl_getLocationCallSign(loc, loccall, sizeof loccall));
-			selname = run_station_wizard(this, loc, help, true, wxString::Format(_("Edit Station Location : %hs - %s"), loccall, data->getLocname().c_str()), data->getLocname());
+			selname = run_station_wizard(this, loc, help, true, true, wxString::Format(_("Edit Station Location : %hs - %s"), loccall, data->getLocname().c_str()), data->getLocname());
 			check_tqsl_error(tqsl_endStationLocationCapture(&loc));
 			loc_tree->Build();
 			LocTreeReset();
@@ -1716,7 +1716,7 @@ MyFrame::EditStationLocation(wxCommandEvent& event) {
 			check_tqsl_error(tqsl_getStationLocation(&loc, deflocn));
 			char loccall[512];
 			check_tqsl_error(tqsl_getLocationCallSign(loc, loccall, sizeof loccall));
-			run_station_wizard(this, loc, help, true, wxString::Format(_("Edit Station Location : %hs - %s"), loccall, locname.c_str()), locname);
+			run_station_wizard(this, loc, help, true, true, wxString::Format(_("Edit Station Location : %hs - %s"), loccall, locname.c_str()), locname);
 			check_tqsl_error(tqsl_endStationLocationCapture(&loc));
 			loc_tree->Build();
 			LocTreeReset();
@@ -2082,7 +2082,7 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 				if ((processed % 10) == 0) {
 					wxString progress = wxString::Format(_("QSOs: %d"), processed);
 					if (duplicates > 0)
-						progress += wxT(" ") + wxString::Format(_("Duplicates: %d"), duplicates);
+						progress += wxT(" ") + wxString::Format(_("Already Uploaded: %d"), duplicates);
 					if (errors > 0 || out_of_range > 0)
 						progress += wxT(" ") + wxString::Format(_("Errors: %d"), errors + out_of_range);
 					conv_dial->msg->SetLabel(progress);
@@ -2092,7 +2092,7 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 			if ((processed % 10) == 0) {
 				wxString progress = wxString::Format(_("QSOs: %d"), processed);
 				if (duplicates > 0)
-					progress += wxT(" ") + wxString::Format(_("Duplicates: %d"), duplicates);
+					progress += wxT(" ") + wxString::Format(_("Already uploaded: %d"), duplicates);
 				if (errors > 0 || out_of_range > 0)
 					progress += wxT(" ") + wxString::Format(_("Errors: %d"), errors + out_of_range);
 				conv_dial->msg->SetLabel(progress);
@@ -2278,14 +2278,14 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 			}
 		} else if (action == TQSL_ACTION_ABORT) {
 				if (processed == duplicates) {
-					wxLogMessage(_("All QSOs are duplicates; aborted"));
+					wxLogMessage(_("All QSOs are already uploaded; aborted"));
 					tqsl_converterRollBack(logConv);
 					tqsl_endConverter(&logConv);
 					unlock_db();
 					n = 0;
 					return TQSL_EXIT_NO_QSOS;
 				} else {
-					wxLogMessage(_("%d of %d QSOs are duplicates; aborted"), duplicates, processed);
+					wxLogMessage(_("%d of %d QSOs are already uploaded; aborted"), duplicates, processed);
 					tqsl_converterRollBack(logConv);
 					tqsl_endConverter(&logConv);
 					unlock_db();
@@ -2301,7 +2301,7 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 		}
 		// Otherwise it must be TQSL_ACTION_NEW, so fall through
 		// and output the new records.
-		wxLogMessage(_("%s: %d QSO records were duplicates"),
+		wxLogMessage(_("%s: %d QSO records were already uploaded"),
 			infile.c_str(), duplicates);
 	}
 	//if (!cancelled) tqsl_converterCommit(logConv);
@@ -2434,7 +2434,7 @@ MyFrame::ConvertLogFile(tQSL_Location loc, const wxString& infile, const wxStrin
 			outfile.c_str());
 		wxLogMessage(_("%s is ready to be emailed or uploaded."), outfile.c_str());
 		wxLogMessage(_("Note: TQSL assumes that this file will be uploaded to LoTW."));
-		wxLogMessage(_("Resubmitting these QSOs will cause them to be reported as duplicates."));
+		wxLogMessage(_("Resubmitting these QSOs will cause them to be reported as already uploaded."));
 	}
 
 	return status;
@@ -2907,7 +2907,7 @@ MyFrame::SelectStationLocation(const wxString& title, const wxString& okLabel, b
 			case wxID_APPLY:	// User hit New
 				try {
 					check_tqsl_error(tqsl_initStationLocationCapture(&loc));
-					selname = run_station_wizard(this, loc, help, false);
+					selname = run_station_wizard(this, loc, help, false, false);
 					check_tqsl_error(tqsl_endStationLocationCapture(&loc));
 					frame->loc_tree->Build();
 					break;
@@ -2928,7 +2928,7 @@ MyFrame::SelectStationLocation(const wxString& title, const wxString& okLabel, b
 						}
 						char loccall[512];
 						check_tqsl_error(tqsl_getLocationCallSign(loc, loccall, sizeof loccall));
-						selname = run_station_wizard(this, loc, help, true, wxString::Format(_("Edit Station Location : %hs - %s"), loccall, station_dial.Selected().c_str()), station_dial.Selected());
+						selname = run_station_wizard(this, loc, help, true, true, wxString::Format(_("Edit Station Location : %hs - %s"), loccall, station_dial.Selected().c_str()), station_dial.Selected());
 						check_tqsl_error(tqsl_endStationLocationCapture(&loc));
 					}
 					break;
@@ -6546,7 +6546,7 @@ void MyFrame::OnLocEdit(wxCommandEvent& WXUNUSED(event)) {
 			}
 			char loccall[512];
 			check_tqsl_error(tqsl_getLocationCallSign(loc, loccall, sizeof loccall));
-			selname = run_station_wizard(this, loc, help, true, wxString::Format(_("Edit Station Location : %hs - %s"), loccall, data->getLocname().c_str()));
+			selname = run_station_wizard(this, loc, help, true, true, wxString::Format(_("Edit Station Location : %hs - %s"), loccall, data->getLocname().c_str()));
 			check_tqsl_error(tqsl_endStationLocationCapture(&loc));
 		}
 	}

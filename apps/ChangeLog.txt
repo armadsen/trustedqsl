@@ -2,6 +2,13 @@ TQSL changes
 ============
 2.5
 ----------
+Eliminate the use of the term "duplicates" when referring to already
+uploaded QSOs as that term means something else in normal usage.
+
+When editing a Station Location, do not force default values for station
+information fields. Only provide default values when a new station location is
+being created.
+
 Fix incorrect ADIF output for several modes when creating files using the
 ADIF editor built into TQSL.
 

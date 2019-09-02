@@ -381,7 +381,7 @@ FilePrefs::FilePrefs(wxWindow *parent) : PrefsPanel(parent, wxT("pref-opt.htm"))
 	config->Read(wxT("AdifEdit"), &allow, DEFAULT_ADIF_EDIT);
 	adifedit->SetValue(allow);
 	sizer->Add(adifedit, 0, wxLEFT|wxRIGHT|wxTOP, 10);
-	dispdupes = new wxCheckBox(this, ID_PREF_FILE_DISPLAY_DUPES, _("Display details of duplicate QSOs when signing a log"));
+	dispdupes = new wxCheckBox(this, ID_PREF_FILE_DISPLAY_DUPES, _("Display details of already uploaded QSOs when signing a log"));
 	config->Read(wxT("DispDupes"), &allow, DEFAULT_DISP_DUPES);
 	dispdupes->SetValue(allow);
 	sizer->Add(dispdupes, 0, wxLEFT|wxRIGHT|wxTOP, 10);
