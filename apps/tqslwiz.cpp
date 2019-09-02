@@ -51,12 +51,13 @@ TQSLWizard::OnPageChanged(wxWizardEvent& ev) {
 }
 
 TQSLWizard::TQSLWizard(tQSL_Location locp, wxWindow *parent, wxHtmlHelpController *help,
-	const wxString& title, bool expired)
+	const wxString& title, bool expired, bool _editing)
 	: ExtWizard(parent, help, title), loc(locp), _curpage(-1) {
-	tqslTrace("TQSLWizard::TQSLWizard", "locp=0x%lx, parent=0x%lx, title=%s, expired=%d", reinterpret_cast<void *>(locp), reinterpret_cast<void *>(parent), S(title), expired);
+	tqslTrace("TQSLWizard::TQSLWizard", "locp=0x%lx, parent=0x%lx, title=%s, expired=%d, editing=%d", reinterpret_cast<void *>(locp), reinterpret_cast<void *>(parent), S(title), expired, _editing);
 
 	callsign[0] = '\0';
 	char buf[256];
+	editing = _editing;
 	if (!tqsl_getStationLocationCaptureName(locp, buf, sizeof buf)) {
 		wxString s = wxString::FromUTF8(buf);
 		SetLocationName(s);
@@ -172,7 +173,7 @@ TQSLWizCertPage::UpdateFields(int noupdate_field) {
 		string s;
 		tqsl_getLocationFieldCharData(loc, i, buf, sizeof buf);
 
-		if (strlen(buf) == 0) { // Empty, so set to default
+		if (!parent->editing && strlen(buf) == 0) { // Empty, so set to default
 			if (strcmp(gabbi_name, "GRIDSQUARE") == 0) {
 				if (get_address_field(callsign, "grid", s) == 0) {	// Got something
 					tqsl_setLocationFieldCharData(loc, i, s.c_str());
@@ -364,14 +365,15 @@ TQSLWizCertPage::OnCheckBoxEvent(wxCommandEvent& event) {
 	UpdateFields(-1);
 }
 
-TQSLWizCertPage::TQSLWizCertPage(TQSLWizard *parent, tQSL_Location locp)
-	: TQSLWizPage(parent, locp) {
+TQSLWizCertPage::TQSLWizCertPage(TQSLWizard *_parent, tQSL_Location locp)
+	: TQSLWizPage(_parent, locp) {
 	tqslTrace("TQSLWizCertPage::TQSLWizCertPage", "parent=0x%lx, locp=0x%lx", reinterpret_cast<void *>(parent), reinterpret_cast<void *>(locp));
 	initialized = false;
 	errlbl = NULL;
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 	int control_width = getTextSize(this).GetWidth() * 40;
 
+	parent = _parent;
 	valMsg = wxT("");
 	invalidGrid = false;
 	allowBadGrid = false;
