@@ -52,16 +52,18 @@ DXCC::init() {
 			const char *entityName;
 			const char *zonemap;
 			int entityNum;
-			tqsl_getDXCCEntity(i, &entityNum, &entityName);
-			tqsl_getDXCCZoneMap(entityNum, &zonemap);
+			int deleted;
+			if (tqsl_getDXCCEntity(i, &entityNum, &entityName))
+				return false;
+			if (tqsl_getDXCCZoneMap(entityNum, &zonemap))
+				return false;
+			if (tqsl_getDXCCDeleted(entityNum, &deleted))
+				return false;
 			char testName[TQSL_CRQ_COUNTRY_MAX+1];
 			strncpy(testName, entityName, sizeof testName);
 			char *p = strstr(testName, "DELETED");
-			if (p == NULL) {
-				entity_list[activeEntities].number = entityNum;
-				entity_list[activeEntities].name = entityName;
-				entity_list[activeEntities++].zonemap = zonemap;
-			} else {
+			if (deleted || p != NULL) {
+				// Remove "(DELETED)" and replace it with translation
 				char fixedName[TQSL_CRQ_COUNTRY_MAX+1];
 				*p = '\0';
 				strncpy(fixedName, testName, sizeof fixedName);
@@ -71,6 +73,10 @@ DXCC::init() {
 				deleted_entity_list[deletedEntities].number = entityNum;
 				deleted_entity_list[deletedEntities].name = strdup(fixedName);
 				deleted_entity_list[deletedEntities++].zonemap = zonemap;
+			} else {
+				entity_list[activeEntities].number = entityNum;
+				entity_list[activeEntities].name = entityName;
+				entity_list[activeEntities++].zonemap = zonemap;
 			}
 		}
 		qsort(entity_list, activeEntities, sizeof(struct _dxcc_entity), &_ent_cmp);

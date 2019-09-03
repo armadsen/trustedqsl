@@ -249,6 +249,7 @@ using tqsllib::tqsl_get_pem_serial;
 #define CAST_TQSL_LOCATION(x) (reinterpret_cast<TQSL_LOCATION *>((x)))
 
 typedef map<int, string> IntMap;
+typedef map<int, bool> BoolMap;
 typedef map<int, tQSL_Date> DateMap;
 
 static int num_entities = 0;
@@ -267,6 +268,7 @@ static XMLElement tqsl_xml_config;
 static int tqsl_xml_config_major = -1;
 static int tqsl_xml_config_minor = 0;
 static IntMap DXCCMap;
+static BoolMap DeletedMap;
 static IntMap DXCCZoneMap;
 static DateMap DXCCStartMap;
 static DateMap DXCCEndMap;
@@ -605,9 +607,14 @@ init_dxcc() {
 		pair<string, bool> zval = dxcc_entity.getAttribute("zonemap");
 		pair<string, bool> strdate = dxcc_entity.getAttribute("valid");
 		pair<string, bool> enddate = dxcc_entity.getAttribute("invalid");
+		pair<string, bool> deleted = dxcc_entity.getAttribute("deleted");
 		if (rval.second) {
 			int num = strtol(rval.first.c_str(), NULL, 10);
 			DXCCMap[num] = dxcc_entity.getText();
+			DeletedMap[num] = false;
+			if (deleted.second) {
+				DeletedMap[num] = (deleted.first == "1");
+			}
 			if (zval.second)
 				DXCCZoneMap[num] = zval.first;
 			tQSL_Date d;
@@ -951,6 +958,29 @@ tqsl_getDXCCEndDate(int number, tQSL_Date *d) {
 	tQSL_Date newdate = it->second;
 	*d = newdate;
 	return 0;
+}
+
+DLLEXPORT int CALLCONVENTION
+tqsl_getDXCCDeleted(int number, int *deleted) {
+	if (deleted == NULL) {
+		tqslTrace("tqsl_getDXCCDeleted", "Name=null");
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+	if (init_dxcc()) {
+		tqslTrace("tqsl_getDXCCDeleted", "init_dxcc error %d", tQSL_Error);
+		return 1;
+	}
+	*deleted = 0;
+	BoolMap::const_iterator it;
+	it = DeletedMap.find(number);
+	if (it == DeletedMap.end()) {
+		tQSL_Error = TQSL_NAME_NOT_FOUND;
+		return 1;
+	}
+	*deleted = it->second;
+	return 0;
+
 }
 
 DLLEXPORT int CALLCONVENTION
