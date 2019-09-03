@@ -26,6 +26,10 @@
 #include "tqslapp.h"
 #include "winstrdefs.h"
 
+#if wxMAJOR_VERSION == 3 && wxMINOR_VERSION > 0
+#define WX31
+#endif
+
 using std::make_pair;
 
 #if defined(__APPLE__)
@@ -716,6 +720,7 @@ ContestMap::ContestMap(wxWindow *parent) : PrefsPanel(parent, wxT("pref-cab.htm"
 	grid = new wxGrid(this, -1, wxDefaultPosition, wxDefaultSize);
 
 	grid->CreateGrid(10, 3);
+#ifndef WX31
 	grid->SetLabelSize(wxHORIZONTAL, HEIGHT_ADJ(char_height));
 	grid->SetLabelSize(wxVERTICAL, 0);
 	grid->SetColumnWidth(0, char_width*15);
@@ -725,9 +730,24 @@ ContestMap::ContestMap(wxWindow *parent) : PrefsPanel(parent, wxT("pref-cab.htm"
 	grid->SetLabelValue(wxHORIZONTAL, _("Type"), 1);
 	grid->SetLabelValue(wxHORIZONTAL, _("Field"), 2);
 	grid->SetEditable(false);
-	grid->SetDividerPen(wxNullPen);
+	grid->SetDividerPen(wxNullPen);		// No replacement in wx3.1?
+#else
+	grid->SetColLabelSize(HEIGHT_ADJ(char_height));
+	grid->SetRowLabelSize(0);
+	grid->SetColSize(0, char_width*15);
+	grid->SetColSize(1, char_width*4);
+	grid->SetColSize(2, char_width*5);
+	grid->SetColLabelValue(0, _("CONTEST"));
+	grid->SetColLabelValue(1, _("Type"));
+	grid->SetColLabelValue(2, _("Field"));
+	grid->EnableEditing(false);
+#endif
 
+#ifndef WX31
 	grid->SetSize(1, grid->GetRowHeight(0) * grid->GetRows());
+#else
+	grid->SetSize(1, grid->GetRowHeight(0) * grid->GetNumberRows());
+#endif
 	subsizer->Add(grid, 1, wxLEFT|wxRIGHT|wxEXPAND, 10);
 
 	wxBoxSizer *vsizer = new wxBoxSizer(wxVERTICAL);
@@ -765,8 +785,13 @@ void ContestMap::SetContestList() {
 	long cookie;
 
 	contestmap.clear();
+#ifndef WX31
 	if (grid->GetRows() > 0)
 		grid->DeleteRows(0, grid->GetRows());
+#else
+	if (grid->GetNumberRows() > 0)
+		grid->DeleteRows(0, grid->GetNumberRows());
+#endif
 
 	config->SetPath(wxT("/cabrilloMap"));
 	bool stat = config->GetFirstEntry(key, cookie);
@@ -785,9 +810,15 @@ void ContestMap::SetContestList() {
 		grid->AppendRows(vsize);
 	int idx = 0;
 	for (ContestSet::iterator it = contestmap.begin(); it != contestmap.end(); it++) {
+#ifndef WX31
 		grid->SetCellValue(it->first, idx, 0);
 		grid->SetCellValue(it->second.first == 1 ? wxT("VHF") : wxT("HF"), idx, 1);
 		grid->SetCellValue(wxString::Format(wxT("%d"), it->second.second), idx, 2);
+#else
+		grid->SetCellValue(idx, 0, it->first);
+		grid->SetCellValue(idx, 1, it->second.first == 1 ? wxT("VHF") : wxT("HF"));
+		grid->SetCellValue(idx, 2, wxString::Format(wxT("%d"), it->second.second));
+#endif
 		++idx;
 	}
 	config->SetPath(wxT("/"));
