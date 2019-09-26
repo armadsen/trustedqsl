@@ -2,6 +2,9 @@ TQSL changes
 ============
 2.5
 ----------
+When installing a Callsign Certificate, don't display errors about expired
+root certificates.
+
 When listing DXCC entities, move the Deleted entities to the end of the list.
 This helps with the confusion between "Germany (DELETED)" and "FEDERAL
 REPUBLIC OF GERMANY", especially for persons where English is not a primary

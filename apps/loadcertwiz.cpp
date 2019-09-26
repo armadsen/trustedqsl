@@ -112,9 +112,13 @@ notifyImport(int type, const char *message, void *data) {
 					counts->duplicate++;
 					break;
 				case TQSL_CERT_CB_ERROR:
-					if (message)
-						nd->status = nd->status + wxString::FromUTF8(message) + wxT("\n");
-					counts->error++;
+					if (message) {
+						// Suppress expiration message other than for user certs
+						if (strcmp(message, "certificate has expired") || TQSL_CERT_CB_CERT_TYPE(type) == TQSL_CERT_CB_USER) {
+							nd->status = nd->status + wxString::FromUTF8(message) + wxT("\n");
+							counts->error++;
+						}
+					}	
 					// wxMessageBox(wxString::FromUTF8(message), _("Error"));
 					break;
 				case TQSL_CERT_CB_LOADED:
