@@ -980,7 +980,6 @@ tqsl_getDXCCDeleted(int number, int *deleted) {
 	}
 	*deleted = it->second;
 	return 0;
-
 }
 
 DLLEXPORT int CALLCONVENTION
