@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: V2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-05 20:53-0400\n"
-"PO-Revision-Date: 2019-05-24 05:01+0800\n"
+"PO-Revision-Date: 2019-10-07 16:19+0800\n"
 "Last-Translator: caros <bh4txn@gmail.com>\n"
 "Language-Team: TQSL Developers\n"
 "Language: zh\n"
@@ -432,7 +432,7 @@ msgstr ""
 #. TRANSLATORS: This is part of an deleted DXCC entity name
 #: dxcc.cpp:41
 msgid "DELETED"
-msgstr ""
+msgstr "已删除"
 
 #: extwizard.cpp:66 getpassword.cpp:53 getpassword.cpp:126
 #: qsodatadialog.cpp:382 stationdial.cpp:212 tqsl_prefs.cpp:61
@@ -952,7 +952,7 @@ msgstr "结束日期无效"
 
 #: tqsl.cpp:486
 msgid "Already Uploaded QSOs Detected"
-msgstr ""
+msgstr "检测到已经上传过的QSO"
 
 #: tqsl.cpp:492
 #, c-format
@@ -969,7 +969,7 @@ msgstr "点击“取消”终止处理该日志文件（建议）。"
 msgid ""
 "Click 'Re-Upload QSOs' to re-process this log while allowing already "
 "uploaded QSOs."
-msgstr ""
+msgstr "当允许已上传QSO时，点击“重新上传QSO”再次处理这份日志。"
 
 #: tqsl.cpp:500
 #, c-format
@@ -982,7 +982,7 @@ msgstr "这份日志有 %d 个QSO已经签名并上传到LoTW，还有 %d 个QSO
 msgid ""
 "Click 'New QSOs Only' to sign normally, without the already uploaded QSOs "
 "(Recommended)."
-msgstr ""
+msgstr "点击“仅新QSO”仅签名未上传过的QSO，剔除已上传的QSO（推荐模式）。"
 
 #: tqsl.cpp:506 tqsl.cpp:515
 msgid "Click 'Cancel' to abandon processing this log file."
@@ -1003,6 +1003,8 @@ msgid ""
 "prevent this. Please check with your QSO Logging system's vendor for an "
 "updated version."
 msgstr ""
+"你的日志系统上传的文件里QSO完全与过去已有的QSO日志重复让LoTW做不必要的工作。"
+"也许有新版的日志系统可以避免这个。请检查你的日志系统提供者的更新版本。"
 
 #: tqsl.cpp:532
 msgid ""
@@ -1012,6 +1014,9 @@ msgid ""
 "reported by TrustedQSL may produce strange (but harmless) behavior such as "
 "attempting to upload an empty file or marking all chosen QSOs as 'sent'"
 msgstr ""
+"与此同时请注意，一些日志系统点击“允许重复”以外的选项会出现奇怪的行为。选择“取"
+"消”是安全的，但是有缺陷的日志系统不检查TrustedQSL产生的报告将导致奇怪的行为"
+"（但无害）例如试图上传一个空文件或者标记所有的QSO为“已发送”"
 
 #: tqsl.cpp:537
 msgid ""
@@ -1020,6 +1025,9 @@ msgid ""
 "a more recent version of your QSO Logging system that would prevent this. "
 "Please check with your QSO Logging system's vendor for an updated version."
 msgstr ""
+"使用QSO日志记录系统上传的日志文件包括一些以前上传的QSO，它们为LoTW创建了不必"
+"要的工作。 您的QSO日志记录系统可能有较新的版本，可以防止这种情况。 请与QSO日"
+"志记录系统的供应商联系以获取更新版本。"
 
 #: tqsl.cpp:541
 msgid ""
@@ -1031,6 +1039,11 @@ msgid ""
 "will correctly mark all selected QSOs as sent - they are in your account "
 "even though they would not be in this specific batch"
 msgstr ""
+"同时，请注意，如果单击“重新上传QSO”以外的选项，某些日志系统可能会表现出奇怪的"
+"行为。 建议使用“仅新QSO”，但是在这种情况下，自己进行上传跟踪的记录器可能会错"
+"误地设置状态。 选择“仅新QSO”的日志系统不会受到影响，如果它跟踪“ QSO已发送”状"
+"态，它将正确地将所有选定的QSO标记为已发送-即使它们不在此状态不在本批次内但它"
+"们仍在您的帐户中"
 
 #: tqsl.cpp:547
 msgid ""
@@ -1038,15 +1051,18 @@ msgid ""
 "status messages reported by TrustedQSL may produce strange (but harmless) "
 "behavior such as attempting to upload an empty file or marking all chosen "
 "QSOs as 'sent'"
-msgstr "选择“取消”通常是安全的，但"
+msgstr ""
+"与此同时请注意，一些日志系统点击“允许重复”以外的选项会出现奇怪的行为。选择“取"
+"消”是安全的，但是有缺陷的日志系统不检查TrustedQSL产生的报告将导致奇怪的行为"
+"（但无害）例如试图上传一个空文件或者标记所有的QSO为“已发送”"
 
 #: tqsl.cpp:559
 msgid "New QSOs Only"
-msgstr ""
+msgstr "仅新QSO"
 
 #: tqsl.cpp:561
 msgid "Re-Upload QSOs"
-msgstr ""
+msgstr "重传QSO"
 
 #: tqsl.cpp:586
 msgid ""
@@ -1054,6 +1070,8 @@ msgid ""
 "not processed by LoTW, either because it was never uploaded, or there was a "
 "server failure"
 msgstr ""
+"重新签名已上传的QSO的唯一原因是LoTW还未处理先前的上传，或者是因为从未上传过，"
+"或者服务器发生了故障"
 
 #: tqsl.cpp:589
 msgid "Are you sure you want to proceed? Click 'No' to review the choices"
@@ -1374,7 +1392,7 @@ msgstr "QSO: %d"
 #: tqsl.cpp:2085
 #, c-format
 msgid "Already Uploaded: %d"
-msgstr ""
+msgstr "已经上传: %d"
 
 #: tqsl.cpp:2087 tqsl.cpp:2097
 #, c-format
@@ -1384,7 +1402,7 @@ msgstr "错误： %d"
 #: tqsl.cpp:2095
 #, c-format
 msgid "Already uploaded: %d"
-msgstr ""
+msgstr "已经上传: %d"
 
 #: tqsl.cpp:2161 tqsl.cpp:2242
 #, c-format
@@ -1434,17 +1452,17 @@ msgstr "%s: %d QSOs 超出选定的日期范围"
 
 #: tqsl.cpp:2281
 msgid "All QSOs are already uploaded; aborted"
-msgstr ""
+msgstr "所有QSOs都重复；已取消"
 
 #: tqsl.cpp:2288
 #, c-format
 msgid "%d of %d QSOs are already uploaded; aborted"
-msgstr ""
+msgstr "有 %d （共 %d ）个QSO 已上传过; 已取消"
 
 #: tqsl.cpp:2304
 #, c-format
 msgid "%s: %d QSO records were already uploaded"
-msgstr ""
+msgstr "%s: %d QSO记录已上传过"
 
 #: tqsl.cpp:2326
 msgid "Invalid contact - QSO does not specify a Callsign"
@@ -1496,7 +1514,7 @@ msgstr "注意：TQSL假设这个文件将被上传到LoTW。"
 #: tqsl.cpp:2437
 msgid ""
 "Resubmitting these QSOs will cause them to be reported as already uploaded."
-msgstr ""
+msgstr "重新提交这些QSO将导致被报告已上传过。"
 
 #: tqsl.cpp:2514
 msgid "No records to upload"
@@ -1982,23 +2000,23 @@ msgstr "恢复操作失败： %hs"
 
 #: tqsl.cpp:5166
 msgid "Exit TQSL so I can re-run as a normal user"
-msgstr ""
+msgstr "退出TQSL以便重新已普通用户身份运行"
 
 #: tqsl.cpp:5167
 msgid "Allow TQSL to continue this time."
-msgstr ""
+msgstr "本次允许TQSL继续运行。"
 
 #: tqsl.cpp:5168
 msgid "Always allow running as Administrator."
-msgstr ""
+msgstr "总是允许以管理员身份运行。"
 
 #: tqsl.cpp:5169
 msgid "TQSL must not be run 'As Administrator'"
-msgstr ""
+msgstr "TQSL不能以管理员身份运行"
 
 #: tqsl.cpp:5169
 msgid "Administrator Error"
-msgstr ""
+msgstr "管理员出错"
 
 #: tqsl.cpp:5292
 msgid "Specify dialog action - abort, all, compliant or ask"
@@ -2579,7 +2597,7 @@ msgstr "在ADIF编辑器中打开ADIF文件"
 
 #: tqsl_prefs.cpp:388
 msgid "Display details of already uploaded QSOs when signing a log"
-msgstr ""
+msgstr "签名日志时显示已经上传过的日志详情"
 
 #: tqsl_prefs.cpp:393
 msgid "Display status messages in separate tab"
@@ -2839,7 +2857,7 @@ msgstr "日期超出范围"
 
 #: wxutil.cpp:156
 msgid "Already Uploaded QSO suppressed"
-msgstr ""
+msgstr "已上传过的QSO已被去除"
 
 #: wxutil.cpp:157
 msgid "Database error"

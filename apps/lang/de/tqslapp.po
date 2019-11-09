@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: V2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-05 20:53-0400\n"
-"PO-Revision-Date: 2019-06-06 20:00+0200\n"
+"PO-Revision-Date: 2019-10-05 14:14+0200\n"
 "Last-Translator: Andreas Rehberg\n"
 "Language-Team: TQSL Developers\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 2.2\n"
 
 #: certtree.cpp:104
 msgid "tQSL Certificates"
@@ -250,7 +250,7 @@ msgid ""
 "request."
 msgstr ""
 "Bitte wählen Sie das primäre Rufzeichen-Zertifikat Ihres Clubs aus, um Ihre "
-"Anforderung zu überprüfen"
+"Anforderung zu überprüfen."
 
 #: crqwiz.cpp:913
 msgid "You must enter a valid call sign."
@@ -486,7 +486,7 @@ msgstr ""
 #. TRANSLATORS: This is part of an deleted DXCC entity name
 #: dxcc.cpp:41
 msgid "DELETED"
-msgstr ""
+msgstr "GELÖSCHT"
 
 #: extwizard.cpp:66 getpassword.cpp:53 getpassword.cpp:126
 #: qsodatadialog.cpp:382 stationdial.cpp:212 tqsl_prefs.cpp:61
@@ -769,7 +769,7 @@ msgstr ""
 
 #: qsodatadialog.cpp:604 tqsl.cpp:1835
 msgid "ADIF files (*.adi;*.adif)|*.adi;*.adif|All files (*.*)|*.*"
-msgstr "ADIF-Dateien (*.adi;*.adif)|*.adi;*.adif|Alle Dateien (*.*)|*.*."
+msgstr "ADIF-Dateien (*.adi;*.adif)|*.adi;*.adif|Alle Dateien (*.*)|*.*"
 
 #: qsodatadialog.cpp:672
 #, c-format
@@ -1023,7 +1023,7 @@ msgstr "Enddatum ist ungültig"
 
 #: tqsl.cpp:486
 msgid "Already Uploaded QSOs Detected"
-msgstr ""
+msgstr "Bereits hochgeladene QSO gefunden"
 
 #: tqsl.cpp:492
 #, c-format
@@ -1045,6 +1045,8 @@ msgid ""
 "Click 'Re-Upload QSOs' to re-process this log while allowing already "
 "uploaded QSOs."
 msgstr ""
+"Klicken Sie auf 'QSOs nochmals hochladen', um dieses Log erneut zu laden "
+"inkl. bereits hochgeladener QSOs."
 
 #: tqsl.cpp:500
 #, c-format
@@ -1060,6 +1062,8 @@ msgid ""
 "Click 'New QSOs Only' to sign normally, without the already uploaded QSOs "
 "(Recommended)."
 msgstr ""
+"Klicken Sie auf 'nur neue QSOs', um ohne die bereits hochgeladenen QSOs "
+"(empfohlen) fortzufahren."
 
 #: tqsl.cpp:506 tqsl.cpp:515
 msgid "Click 'Cancel' to abandon processing this log file."
@@ -1083,6 +1087,11 @@ msgid ""
 "prevent this. Please check with your QSO Logging system's vendor for an "
 "updated version."
 msgstr ""
+"Die Log-Datei, die Sie mit Hilfe Ihres Log-Programms hochladen wollen "
+"besteht ausschließlich aus bereits zuvor hochgeladenen QSOs (Dubletten), die "
+"eine unnötige Last für LoTW darstellen. Möglicherweise gibt es eine neuere "
+"Version Ihres Log-Programms, das dies vermeidet. Bitte überprüfen Sie beim "
+"Anbieter, ob eine aktualisierte Version vorliegt."
 
 #: tqsl.cpp:532
 msgid ""
@@ -1092,6 +1101,13 @@ msgid ""
 "reported by TrustedQSL may produce strange (but harmless) behavior such as "
 "attempting to upload an empty file or marking all chosen QSOs as 'sent'"
 msgstr ""
+"In der Zwischenzeit beachten Sie bitte, dass einige Log-Programme sich ggf. "
+"anders als erwartet verhalten, wenn eine andere Option als 'Duplikate "
+"zulassen' angeklickt wird. Die Auswahl 'Abbrechen' ist in der Regel sicher, "
+"aber ein Log-Programm, das die Statusmeldungen von TrustedQSL nicht "
+"überprüft könnte seltsam (aber harmlos) reagieren. In dem es z. B. versucht "
+"eine leere Datei hochzuladen oder alle ausgewählten QSOs als 'gesendet' "
+"markiert."
 
 #: tqsl.cpp:537
 msgid ""
@@ -1100,6 +1116,11 @@ msgid ""
 "a more recent version of your QSO Logging system that would prevent this. "
 "Please check with your QSO Logging system's vendor for an updated version."
 msgstr ""
+"Die Log-Datei, die Sie mit Hilfe Ihres Log-Programms hochladen wollen "
+"enthält einige bereits zuvor hochgeladenen QSOs (Dubletten), die eine "
+"unnötige Last für LoTW darstellen. Möglicherweise gibt es eine neuere "
+"Version Ihres Log-Programms, das dies vermeidet. Bitte überprüfen Sie beim "
+"Anbieter, ob eine aktualisierte Version vorliegt."
 
 #: tqsl.cpp:541
 msgid ""
@@ -1111,6 +1132,11 @@ msgid ""
 "will correctly mark all selected QSOs as sent - they are in your account "
 "even though they would not be in this specific batch"
 msgstr ""
+"In der Zwischenzeit beachten Sie bitte, dass einige Log-Programme sich ggf. "
+"anders als erwartet verhalten, wenn eine andere Option als 'Duplikate "
+"zulassen' angeklickt wird. 'Nur neue QSOs' wird empfohlen. Manche Log-"
+"Programme mit eigener 'Hochgeladen-Markierung' könnten den Status der "
+"hochgeladenen QSOs aber ggf. falsch speichern. "
 
 #: tqsl.cpp:547
 msgid ""
@@ -1126,11 +1152,11 @@ msgstr ""
 
 #: tqsl.cpp:559
 msgid "New QSOs Only"
-msgstr ""
+msgstr "nur neue QSOs"
 
 #: tqsl.cpp:561
 msgid "Re-Upload QSOs"
-msgstr ""
+msgstr "QSOs nochmals hochladen"
 
 #: tqsl.cpp:586
 msgid ""
@@ -1138,6 +1164,9 @@ msgid ""
 "not processed by LoTW, either because it was never uploaded, or there was a "
 "server failure"
 msgstr ""
+"Der einzige Grund bereits hochgeladene QSOs erneut zu signieren ist, wenn "
+"diese nicht im LoTW angekommen sind - entweder weil das Hochladen nicht "
+"funktioniert hat oder wegen eines Server-Fehlers."
 
 #: tqsl.cpp:589
 msgid "Are you sure you want to proceed? Click 'No' to review the choices"
@@ -1465,7 +1494,7 @@ msgstr "QSOs: %d"
 #: tqsl.cpp:2085
 #, c-format
 msgid "Already Uploaded: %d"
-msgstr ""
+msgstr "bereits hochgeladen: %d"
 
 #: tqsl.cpp:2087 tqsl.cpp:2097
 #, c-format
@@ -1475,7 +1504,7 @@ msgstr "Fehler: %d"
 #: tqsl.cpp:2095
 #, c-format
 msgid "Already uploaded: %d"
-msgstr ""
+msgstr "bereits hochgeladen: %d"
 
 #: tqsl.cpp:2161 tqsl.cpp:2242
 #, c-format
@@ -1529,17 +1558,17 @@ msgstr "%s: %d QSOs waren außerhalb des gewählten Zeitraums"
 
 #: tqsl.cpp:2281
 msgid "All QSOs are already uploaded; aborted"
-msgstr ""
+msgstr "Es wurden bereits alle QSOs hochgeladen, Abbruch"
 
 #: tqsl.cpp:2288
 #, c-format
 msgid "%d of %d QSOs are already uploaded; aborted"
-msgstr ""
+msgstr "%d von %d QSOs wurden bereits hochgeladen; Abbruch"
 
 #: tqsl.cpp:2304
 #, c-format
 msgid "%s: %d QSO records were already uploaded"
-msgstr ""
+msgstr "%s: %d QSOs wurden bereits hochgeladen"
 
 #: tqsl.cpp:2326
 msgid "Invalid contact - QSO does not specify a Callsign"
@@ -1596,6 +1625,8 @@ msgstr ""
 msgid ""
 "Resubmitting these QSOs will cause them to be reported as already uploaded."
 msgstr ""
+"Wenn Sie diese QSOs erneut hochladen werden diese als bereits hochgeladen "
+"gemeldet."
 
 #: tqsl.cpp:2514
 msgid "No records to upload"
@@ -2109,23 +2140,23 @@ msgstr "Wiederherstellungsvorgang fehlgeschlagen: %hs"
 
 #: tqsl.cpp:5166
 msgid "Exit TQSL so I can re-run as a normal user"
-msgstr ""
+msgstr "TQSL verlassen zum Neustart als normaler Benutzer"
 
 #: tqsl.cpp:5167
 msgid "Allow TQSL to continue this time."
-msgstr ""
+msgstr "TQSL jetzt die Fortsetzung erlauben."
 
 #: tqsl.cpp:5168
 msgid "Always allow running as Administrator."
-msgstr ""
+msgstr "Immer als Administrator ausführen."
 
 #: tqsl.cpp:5169
 msgid "TQSL must not be run 'As Administrator'"
-msgstr ""
+msgstr "TQSL darf nicht 'als Administrator' ausgeführt werden"
 
 #: tqsl.cpp:5169
 msgid "Administrator Error"
-msgstr ""
+msgstr "Administrator-Fehler"
 
 #: tqsl.cpp:5292
 msgid "Specify dialog action - abort, all, compliant or ask"
@@ -2717,7 +2748,7 @@ msgstr "ADIF-Dateien im ADIF-Editor öffnen"
 
 #: tqsl_prefs.cpp:388
 msgid "Display details of already uploaded QSOs when signing a log"
-msgstr ""
+msgstr "Zeige Details der bereits hochgeladenen QSOs beim Signieren eines Logs"
 
 #: tqsl_prefs.cpp:393
 msgid "Display status messages in separate tab"
@@ -2989,7 +3020,7 @@ msgstr "Datum außerhalb des Bereichs"
 
 #: wxutil.cpp:156
 msgid "Already Uploaded QSO suppressed"
-msgstr ""
+msgstr "bereits hochgeladene QSOs unterdrückt"
 
 #: wxutil.cpp:157
 msgid "Database error"

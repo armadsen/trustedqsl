@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: TQSL v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-05 20:53-0400\n"
-"PO-Revision-Date: 2019-05-26 11:54+0300\n"
+"PO-Revision-Date: 2019-10-03 22:40+0300\n"
 "Last-Translator: Juhani Tapaninen\n"
 "Language-Team: \n"
 "Language: fi_FI\n"
@@ -484,7 +484,7 @@ msgstr ""
 #. TRANSLATORS: This is part of an deleted DXCC entity name
 #: dxcc.cpp:41
 msgid "DELETED"
-msgstr ""
+msgstr "POISTETTU"
 
 #: extwizard.cpp:66 getpassword.cpp:53 getpassword.cpp:126
 #: qsodatadialog.cpp:382 stationdial.cpp:212 tqsl_prefs.cpp:61
@@ -1022,7 +1022,7 @@ msgstr "Loppupäivämäärä on virheellinen"
 
 #: tqsl.cpp:486
 msgid "Already Uploaded QSOs Detected"
-msgstr ""
+msgstr "Havaittu aiemmin lähetettyjä QSO-tietoja"
 
 #: tqsl.cpp:492
 #, c-format
@@ -1044,6 +1044,8 @@ msgid ""
 "Click 'Re-Upload QSOs' to re-process this log while allowing already "
 "uploaded QSOs."
 msgstr ""
+"Napsauta \"Lähetä QSO-tiedot uudestaan\" käsitelläksesi tämän lokin "
+"uudestaan niin että jo aiemmin lähetetyt QSO-tiedot sallitaan."
 
 #: tqsl.cpp:500
 #, c-format
@@ -1059,6 +1061,8 @@ msgid ""
 "Click 'New QSOs Only' to sign normally, without the already uploaded QSOs "
 "(Recommended)."
 msgstr ""
+"Napsauta \"Vain uudet QSO-tiedot\" allekirjoittaaksesi normaalisti ilman jo "
+"aiemmin lähetettyjä QSO-tietoja (suositeltavaa)."
 
 #: tqsl.cpp:506 tqsl.cpp:515
 msgid "Click 'Cancel' to abandon processing this log file."
@@ -1081,6 +1085,11 @@ msgid ""
 "prevent this. Please check with your QSO Logging system's vendor for an "
 "updated version."
 msgstr ""
+"Lokitiedosto, jota lähetät QSO-lokiohjelmaasi käyttäen, koostuu ainoastaan "
+"jo aiemmin lähetetyistä QSO-tiedoista (duplikaateista), jotka aiheuttavat "
+"turhaa prosessointikuormaa LoTW:lle. Lokiohjelmastasi on mahdollisesti "
+"saatavilla uudempi versio, joka estää tämän. Tarkista lokiohjelmasi "
+"valmistajalta, onko uudempaa versiota saatavilla."
 
 #: tqsl.cpp:532
 msgid ""
@@ -1090,6 +1099,11 @@ msgid ""
 "reported by TrustedQSL may produce strange (but harmless) behavior such as "
 "attempting to upload an empty file or marking all chosen QSOs as 'sent'"
 msgstr ""
+"Huomaa, että jotkut lokiohjelmat voivat toimia oudosti jos et valitse "
+"vaihtoehtoa \"Lähetä QSO-tiedot uudestaan\". \"Peruuta\" on yleensä "
+"turvallinen vaihtoehto, mutta epätäydellinen lokiohjelma, joka ei tarkista "
+"TQSL:n tilaviestejä voi tuottaa oudon (mutta vaarattoman)tuloksen kuten "
+"yrittää lähettää tyhjää tiedostoa tai merkitä kaikki QSO-tiedot lähetetyiksi."
 
 #: tqsl.cpp:537
 msgid ""
@@ -1098,6 +1112,11 @@ msgid ""
 "a more recent version of your QSO Logging system that would prevent this. "
 "Please check with your QSO Logging system's vendor for an updated version."
 msgstr ""
+"Lokitiedosto, jota lähetät QSO-lokiohjelmaasi käyttäen, sisältää joitakin jo "
+"aiemmin lähetettyjä QSO-tietoja (duplikaatteja), jotka aiheuttavat turhaa "
+"prosessointikuormaa LoTW:lle. Lokiohjelmastasi on mahdollisesti saatavilla "
+"uudempi versio, joka estää tämän. Tarkista lokiohjelmasi valmistajalta, onko "
+"uudempaa versiota saatavilla."
 
 #: tqsl.cpp:541
 msgid ""
@@ -1109,6 +1128,15 @@ msgid ""
 "will correctly mark all selected QSOs as sent - they are in your account "
 "even though they would not be in this specific batch"
 msgstr ""
+"Huomaa, että jotkut lokiohjelmat voivat toimia oudosti jos et valitse "
+"vaihtoehtoa \"Lähetä QSO-tiedot uudestaan\". \"Vain uudet QSO-tiedot\" on "
+"suositeltava vaihtoehto, mutta lokiohjelma, joka itse seuraa lähetettyjä "
+"tietoja saattaa tässä tapauksesas merkitä väärin lähetettyjen tietojen "
+"tilan. Lokiohjelma, joka ei seuraa lähetettyjä tietoja, toiminee oikein "
+"valinnan \"Vain uudet QSO-tiedot\" kanssa, ja jos se seuraa \"QSO-tiedot "
+"lähetetty\" -tilaa, se merkitsee oikein kaikki valitut QSO-tiedot "
+"lähetetyiksi - ne ovat tililläsi vaikka niitä ei lähetetäkään tässä "
+"nimenomaisessa lähetyksessä."
 
 #: tqsl.cpp:547
 msgid ""
@@ -1124,11 +1152,11 @@ msgstr ""
 
 #: tqsl.cpp:559
 msgid "New QSOs Only"
-msgstr ""
+msgstr "Vain uudet QSO-tiedot"
 
 #: tqsl.cpp:561
 msgid "Re-Upload QSOs"
-msgstr ""
+msgstr "Lähetä QSO-tiedot uudestaan"
 
 #: tqsl.cpp:586
 msgid ""
@@ -1136,6 +1164,9 @@ msgid ""
 "not processed by LoTW, either because it was never uploaded, or there was a "
 "server failure"
 msgstr ""
+"Ainoa syy allekirjoittaa uudelleen jo aiemmin lähetettyjä QSO-tietoja on "
+"se , että LoTW ei käsitellyt aiempaa lähetystä sen vuoksi että tietoja ei "
+"koskaan lähetetty tai tapahtui palvelinvirhe"
 
 #: tqsl.cpp:589
 msgid "Are you sure you want to proceed? Click 'No' to review the choices"
@@ -1461,7 +1492,7 @@ msgstr "QSO:ja: %d"
 #: tqsl.cpp:2085
 #, c-format
 msgid "Already Uploaded: %d"
-msgstr ""
+msgstr "Jo lähetetty: %d"
 
 #: tqsl.cpp:2087 tqsl.cpp:2097
 #, c-format
@@ -1471,7 +1502,7 @@ msgstr "Virheitä: %d"
 #: tqsl.cpp:2095
 #, c-format
 msgid "Already uploaded: %d"
-msgstr ""
+msgstr "Jo lähetetty: %d"
 
 #: tqsl.cpp:2161 tqsl.cpp:2242
 #, c-format
@@ -1524,17 +1555,17 @@ msgstr "%s: %d QSO-tietoa oli valitun päivämääräalueen ulkopuolella"
 
 #: tqsl.cpp:2281
 msgid "All QSOs are already uploaded; aborted"
-msgstr ""
+msgstr "Kaikki QSO-tiedot on jo aiemmin lähetetty, lähetys keskeytetty"
 
 #: tqsl.cpp:2288
 #, c-format
 msgid "%d of %d QSOs are already uploaded; aborted"
-msgstr ""
+msgstr "%d kappaletta %d:stä QSO:sta on jo lähetetty, lähetys keskeytetty"
 
 #: tqsl.cpp:2304
 #, c-format
 msgid "%s: %d QSO records were already uploaded"
-msgstr ""
+msgstr "%s: %d QSO-tietoa oli jo aiemmin lähetetty"
 
 #: tqsl.cpp:2326
 msgid "Invalid contact - QSO does not specify a Callsign"
@@ -1587,6 +1618,8 @@ msgstr "Huomaa: TQSL olettaa että tämä tiedosto lähetetään LoTW:iin."
 msgid ""
 "Resubmitting these QSOs will cause them to be reported as already uploaded."
 msgstr ""
+"Näiden QSO-tietojen uudelleenlähettäminen aiheuttaa niiden raportoimisen "
+"aiemmin lähetettyinä."
 
 #: tqsl.cpp:2514
 msgid "No records to upload"
@@ -2097,22 +2130,23 @@ msgstr "Palautusoperaatio epäonnistui: %hs"
 #: tqsl.cpp:5166
 msgid "Exit TQSL so I can re-run as a normal user"
 msgstr ""
+"Poistu TQSL:stä jotta voin käynnistää sen uudelleen tavallisena käyttäjänä"
 
 #: tqsl.cpp:5167
 msgid "Allow TQSL to continue this time."
-msgstr ""
+msgstr "Salli TQSL:n suoritus tällä kertaa."
 
 #: tqsl.cpp:5168
 msgid "Always allow running as Administrator."
-msgstr ""
+msgstr "Salli aina suoritus järjestelmänvalvojana."
 
 #: tqsl.cpp:5169
 msgid "TQSL must not be run 'As Administrator'"
-msgstr ""
+msgstr "TQSL:ää ei pidä käynnistää järjestelmänvalvojana"
 
 #: tqsl.cpp:5169
 msgid "Administrator Error"
-msgstr ""
+msgstr "Järjestelmävalvoja-virhe"
 
 #: tqsl.cpp:5292
 msgid "Specify dialog action - abort, all, compliant or ask"
@@ -2703,6 +2737,7 @@ msgstr "Avaa ADIF-tiedostot ADIF-muokkaimessa"
 #: tqsl_prefs.cpp:388
 msgid "Display details of already uploaded QSOs when signing a log"
 msgstr ""
+"Näytä tiedot aiemmin lähetetyistä QSO-tiedoista kun lokia allekrjoitetaan"
 
 #: tqsl_prefs.cpp:393
 msgid "Display status messages in separate tab"
@@ -2973,7 +3008,7 @@ msgstr "Päivämäärä alueen ulkopuolella"
 
 #: wxutil.cpp:156
 msgid "Already Uploaded QSO suppressed"
-msgstr ""
+msgstr "Aiemmin lähetetty QSO-tieto piilotettu"
 
 #: wxutil.cpp:157
 msgid "Database error"

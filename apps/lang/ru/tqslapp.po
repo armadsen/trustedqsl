@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: TQSL v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-05 20:53-0400\n"
-"PO-Revision-Date: 2019-05-22 09:04+0300\n"
+"PO-Revision-Date: 2019-10-06 13:35+0300\n"
 "Last-Translator: Vic Goncharsky\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -473,7 +473,7 @@ msgstr ""
 #. TRANSLATORS: This is part of an deleted DXCC entity name
 #: dxcc.cpp:41
 msgid "DELETED"
-msgstr ""
+msgstr "УДАЛЕНО"
 
 #: extwizard.cpp:66 getpassword.cpp:53 getpassword.cpp:126
 #: qsodatadialog.cpp:382 stationdial.cpp:212 tqsl_prefs.cpp:61
@@ -1008,7 +1008,7 @@ msgstr "Неверная конечная дата"
 
 #: tqsl.cpp:486
 msgid "Already Uploaded QSOs Detected"
-msgstr ""
+msgstr "Обнаружены ранее загруженные QSOs"
 
 #: tqsl.cpp:492
 #, c-format
@@ -1029,6 +1029,8 @@ msgid ""
 "Click 'Re-Upload QSOs' to re-process this log while allowing already "
 "uploaded QSOs."
 msgstr ""
+"Нажмите 'Re-Upload QSOs' для повторной обработки этого лога с уже "
+"загруженными QSOs."
 
 #: tqsl.cpp:500
 #, c-format
@@ -1044,6 +1046,8 @@ msgid ""
 "Click 'New QSOs Only' to sign normally, without the already uploaded QSOs "
 "(Recommended)."
 msgstr ""
+"Нажмите 'New QSOs Only' для загрузки без заранее загруженных QSOs "
+"(Recommended)."
 
 #: tqsl.cpp:506 tqsl.cpp:515
 msgid "Click 'Cancel' to abandon processing this log file."
@@ -1066,6 +1070,11 @@ msgid ""
 "prevent this. Please check with your QSO Logging system's vendor for an "
 "updated version."
 msgstr ""
+"Логфайл, который вы загружаете с использованием программы аппаратного "
+"журнала содержит полностью уже загруженные QSO, что создает дополнительную "
+"нагрузку на систему LoTW. Возможно существует более свежая версия вашего "
+"аппаратного журнала, которая не позволит это делать. Пожалуйста свяжитесь с "
+"автором программы для получения последней версии."
 
 #: tqsl.cpp:532
 msgid ""
@@ -1075,6 +1084,11 @@ msgid ""
 "reported by TrustedQSL may produce strange (but harmless) behavior such as "
 "attempting to upload an empty file or marking all chosen QSOs as 'sent'"
 msgstr ""
+"Обращаем внимание, что некоторые логгеры себя странно ведут, если выбрана "
+"другая опция кроме Re-Upload QSOs. Выбор Cancel обычно безопасен, но "
+"дефектиивный логгер, который не проверяет статус сообщений от TrustedQSL "
+"может себя странно (но безопасно) вести. Например, пробовать загрузить "
+"пустой файл или пометить выбранные  QSOs как уже загруженные."
 
 #: tqsl.cpp:537
 msgid ""
@@ -1083,6 +1097,11 @@ msgid ""
 "a more recent version of your QSO Logging system that would prevent this. "
 "Please check with your QSO Logging system's vendor for an updated version."
 msgstr ""
+"Логфайл, который вы загружаете с использованием программы аппаратного "
+"журнала содержит полностью уже загруженные QSO, что создает дополнительную "
+"нагрузку на систему LoTW. Возможно существует более свежая версия вашего "
+"аппаратного журнала, которая не позволит это делать. Пожалуйста свяжитесь с "
+"автором программы для получения последней версии."
 
 #: tqsl.cpp:541
 msgid ""
@@ -1094,6 +1113,12 @@ msgid ""
 "will correctly mark all selected QSOs as sent - they are in your account "
 "even though they would not be in this specific batch"
 msgstr ""
+"Обращаем внимание, что некоторые логгеры себя странно ведут, если выбрана "
+"другая опция кроме Re-Upload QSOs. Выбор 'New QSOs Only'рекомендуется , но "
+"если в логгере отсутствует опция отслеживания отсылок он может в данном "
+"случае не изменить их статус. Для логгера, который не отслеживает отсылки "
+"выбор  'New QSOs Only' безопасен, а если логгер их отслеживает он корректно "
+"отметит выбранные QSOs как  загруженные."
 
 #: tqsl.cpp:547
 msgid ""
@@ -1109,11 +1134,11 @@ msgstr ""
 
 #: tqsl.cpp:559
 msgid "New QSOs Only"
-msgstr ""
+msgstr "Только новые QSOs"
 
 #: tqsl.cpp:561
 msgid "Re-Upload QSOs"
-msgstr ""
+msgstr "Перезагрузить QSOs"
 
 #: tqsl.cpp:586
 msgid ""
@@ -1121,6 +1146,9 @@ msgid ""
 "not processed by LoTW, either because it was never uploaded, or there was a "
 "server failure"
 msgstr ""
+"Единственной причиной перезагрузки уже загруженных это если они не были "
+"обработаны.в случае если связи вообще не были загружены или из-за сбоя "
+"сервера."
 
 #: tqsl.cpp:589
 msgid "Are you sure you want to proceed? Click 'No' to review the choices"
@@ -1450,7 +1478,7 @@ msgstr "QSO: %d"
 #: tqsl.cpp:2085
 #, c-format
 msgid "Already Uploaded: %d"
-msgstr ""
+msgstr "Уже загружены: %d"
 
 #: tqsl.cpp:2087 tqsl.cpp:2097
 #, c-format
@@ -1460,7 +1488,7 @@ msgstr "Ошибки: %d"
 #: tqsl.cpp:2095
 #, c-format
 msgid "Already uploaded: %d"
-msgstr ""
+msgstr "Уже загружены: %d"
 
 #: tqsl.cpp:2161 tqsl.cpp:2242
 #, c-format
@@ -1512,17 +1540,17 @@ msgstr "%s: %d QSO были вне выбранного временного и�
 
 #: tqsl.cpp:2281
 msgid "All QSOs are already uploaded; aborted"
-msgstr ""
+msgstr "Все QSOs уже загружены: отмена"
 
 #: tqsl.cpp:2288
 #, c-format
 msgid "%d of %d QSOs are already uploaded; aborted"
-msgstr ""
+msgstr "%d из %d QSOs уже загружены: отмена"
 
 #: tqsl.cpp:2304
 #, c-format
 msgid "%s: %d QSO records were already uploaded"
-msgstr ""
+msgstr "%s %d QSO были уже загружены"
 
 #: tqsl.cpp:2326
 msgid "Invalid contact - QSO does not specify a Callsign"
@@ -1574,7 +1602,7 @@ msgstr "Примечание: TQSL предполагает, что этот ф�
 #: tqsl.cpp:2437
 msgid ""
 "Resubmitting these QSOs will cause them to be reported as already uploaded."
-msgstr ""
+msgstr "При загрузке этих QSOs появится сообщение, что они уже загружены. "
 
 #: tqsl.cpp:2514
 msgid "No records to upload"
@@ -2082,23 +2110,23 @@ msgstr "Операция восстановления не удалась: %hs"
 
 #: tqsl.cpp:5166
 msgid "Exit TQSL so I can re-run as a normal user"
-msgstr ""
+msgstr "Выйти из TQSL, я мог войти, как обычный пользователь"
 
 #: tqsl.cpp:5167
 msgid "Allow TQSL to continue this time."
-msgstr ""
+msgstr "Разрешить TQSL продолжить работу сейчас"
 
 #: tqsl.cpp:5168
 msgid "Always allow running as Administrator."
-msgstr ""
+msgstr "Всегда разрешать загрузку \"Как Администратор\""
 
 #: tqsl.cpp:5169
 msgid "TQSL must not be run 'As Administrator'"
-msgstr ""
+msgstr "TQSL не должен загружаться \"Как Администратор\""
 
 #: tqsl.cpp:5169
 msgid "Administrator Error"
-msgstr ""
+msgstr "Ошибка администраатора"
 
 #: tqsl.cpp:5292
 msgid "Specify dialog action - abort, all, compliant or ask"
@@ -2690,7 +2718,7 @@ msgstr "Откройте файл ADIF в ADIF-редакторе"
 
 #: tqsl_prefs.cpp:388
 msgid "Display details of already uploaded QSOs when signing a log"
-msgstr ""
+msgstr "Показать детали уже загруженных QSOs при подписании лога"
 
 #: tqsl_prefs.cpp:393
 msgid "Display status messages in separate tab"
@@ -2964,7 +2992,7 @@ msgstr "Дата за пределами"
 
 #: wxutil.cpp:156
 msgid "Already Uploaded QSO suppressed"
-msgstr ""
+msgstr "Уже загруженное QSO отклонено "
 
 #: wxutil.cpp:157
 msgid "Database error"

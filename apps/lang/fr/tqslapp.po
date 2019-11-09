@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: V2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-09-05 20:53-0400\n"
-"PO-Revision-Date: 2019-06-02 09:43-0400\n"
+"PO-Revision-Date: 2019-10-01 21:26-0400\n"
 "Last-Translator: Rick Murphy <k1mu@arrl.net>\n"
 "Language-Team: TQSL Developers\n"
 "Language: fr\n"
@@ -495,7 +495,7 @@ msgstr ""
 #. TRANSLATORS: This is part of an deleted DXCC entity name
 #: dxcc.cpp:41
 msgid "DELETED"
-msgstr ""
+msgstr "SUPPRIMÉ"
 
 #: extwizard.cpp:66 getpassword.cpp:53 getpassword.cpp:126
 #: qsodatadialog.cpp:382 stationdial.cpp:212 tqsl_prefs.cpp:61
@@ -1039,7 +1039,7 @@ msgstr "Date de fin n'est pas valide"
 
 #: tqsl.cpp:486
 msgid "Already Uploaded QSOs Detected"
-msgstr ""
+msgstr "QSOs déjà téléchargés détectés"
 
 #: tqsl.cpp:492
 #, c-format
@@ -1061,6 +1061,8 @@ msgid ""
 "Click 'Re-Upload QSOs' to re-process this log while allowing already "
 "uploaded QSOs."
 msgstr ""
+"Cliquez sur ‘Re-télécharger les QSO’ pour traiter à nouveau ce journal tout "
+"en autorisant les QSO déjà téléchargés."
 
 #: tqsl.cpp:500
 #, c-format
@@ -1076,6 +1078,8 @@ msgid ""
 "Click 'New QSOs Only' to sign normally, without the already uploaded QSOs "
 "(Recommended)."
 msgstr ""
+"Cliquez sur “Nouveaux QSO uniquement” pour signer normalement, sans les QSO "
+"déjà téléchargés (recommandé)."
 
 #: tqsl.cpp:506 tqsl.cpp:515
 msgid "Click 'Cancel' to abandon processing this log file."
@@ -1099,6 +1103,12 @@ msgid ""
 "prevent this. Please check with your QSO Logging system's vendor for an "
 "updated version."
 msgstr ""
+"Le fichier journal que vous téléchargez à l’aide de votre système de "
+"journalisation QSO est entièrement constitué de QSO précédemment téléchargés "
+"qui créent un travail inutile pour LoTW. Il se peut qu’une version plus "
+"récente de votre système de journalisation QSO empêche ce problème. Veuillez "
+"vous renseigner auprès du fournisseur de votre système de journalisation QSO "
+"pour obtenir une version mise à jour."
 
 #: tqsl.cpp:532
 msgid ""
@@ -1108,6 +1118,13 @@ msgid ""
 "reported by TrustedQSL may produce strange (but harmless) behavior such as "
 "attempting to upload an empty file or marking all chosen QSOs as 'sent'"
 msgstr ""
+"En attendant, veuillez noter que certains enregistreurs peuvent présenter un "
+"comportement étrange si vous cliquez sur une option autre que “Re-"
+"télécharger des QSO”. Le choix de «Annuler» est généralement sûr, mais un "
+"enregistreur défectueux qui ne vérifie pas les messages d’état signalés par "
+"TrustedQSL peut produire un comportement étrange (mais inoffensif) tel que "
+"tenter de télécharger un fichier vide ou de marquer tous les QSO choisis "
+"comme «envoyés»."
 
 #: tqsl.cpp:537
 msgid ""
@@ -1116,6 +1133,12 @@ msgid ""
 "a more recent version of your QSO Logging system that would prevent this. "
 "Please check with your QSO Logging system's vendor for an updated version."
 msgstr ""
+"Le fichier journal que vous téléchargez à l’aide de votre système de "
+"journalisation QSO inclut certains QSO précédemment chargés qui créent un "
+"travail inutile pour LoTW. Il se peut qu’une version plus récente de votre "
+"système de journalisation QSO empêche ce problème. Veuillez vous renseigner "
+"auprès du fournisseur de votre système de journalisation QSO pour obtenir "
+"une version mise à jour."
 
 #: tqsl.cpp:541
 msgid ""
@@ -1127,6 +1150,15 @@ msgid ""
 "will correctly mark all selected QSOs as sent - they are in your account "
 "even though they would not be in this specific batch"
 msgstr ""
+"En attendant, veuillez noter que certains enregistreurs peuvent présenter un "
+"comportement étrange si vous cliquez sur une option autre que “Re-"
+"télécharger des QSO”. “Nouveaux QSO uniquement” est recommandé, mais un "
+"enregistreur qui effectue son propre suivi de téléchargement peut définir de "
+"manière incorrecte le statut dans ce cas. Un enregistreur qui ne suit pas "
+"les téléchargements ne devrait pas être affecté en choisissant “Nouveaux "
+"QSOs uniquement” et s’il suit l’état du “QSO envoyé”, marquera correctement "
+"tous les QSO sélectionnés comme étant envoyés - ils sont dans votre compte "
+"même s’ils ne le seraient pas. lot spécifique"
 
 #: tqsl.cpp:547
 msgid ""
@@ -1143,11 +1175,11 @@ msgstr ""
 
 #: tqsl.cpp:559
 msgid "New QSOs Only"
-msgstr ""
+msgstr "Nouveaux QSOs seulement"
 
 #: tqsl.cpp:561
 msgid "Re-Upload QSOs"
-msgstr ""
+msgstr "Re-télécharger des QSO"
 
 #: tqsl.cpp:586
 msgid ""
@@ -1155,6 +1187,9 @@ msgid ""
 "not processed by LoTW, either because it was never uploaded, or there was a "
 "server failure"
 msgstr ""
+"La seule raison de re-signer les QSO déjà téléchargés est si un "
+"téléchargement précédent n’a pas été traité par LoTW, soit parce qu’il n’a "
+"jamais été chargé, soit en cas de défaillance du serveur."
 
 #: tqsl.cpp:589
 msgid "Are you sure you want to proceed? Click 'No' to review the choices"
@@ -1488,7 +1523,7 @@ msgstr "QSOs : %d"
 #: tqsl.cpp:2085
 #, c-format
 msgid "Already Uploaded: %d"
-msgstr ""
+msgstr "Déjà téléchargé: %d"
 
 #: tqsl.cpp:2087 tqsl.cpp:2097
 #, c-format
@@ -1498,7 +1533,7 @@ msgstr "Erreurs : %d"
 #: tqsl.cpp:2095
 #, c-format
 msgid "Already uploaded: %d"
-msgstr ""
+msgstr "Déjà téléchargé: %d"
 
 #: tqsl.cpp:2161 tqsl.cpp:2242
 #, c-format
@@ -1550,17 +1585,17 @@ msgstr ""
 
 #: tqsl.cpp:2281
 msgid "All QSOs are already uploaded; aborted"
-msgstr ""
+msgstr "Tous les QSO est des doublons ; abandonnée"
 
 #: tqsl.cpp:2288
 #, c-format
 msgid "%d of %d QSOs are already uploaded; aborted"
-msgstr ""
+msgstr "%d des %d QSO sont déjà téléchargés; avorté"
 
 #: tqsl.cpp:2304
 #, c-format
 msgid "%s: %d QSO records were already uploaded"
-msgstr ""
+msgstr "%s: %d des enregistrements QSO ont déjà été téléchargés"
 
 #: tqsl.cpp:2326
 msgid "Invalid contact - QSO does not specify a Callsign"
@@ -1613,6 +1648,7 @@ msgstr "Remarque: TQSL suppose que ce fichier sera téléchargé sur LoTW."
 msgid ""
 "Resubmitting these QSOs will cause them to be reported as already uploaded."
 msgstr ""
+"Soumettre à nouveau ces QSOs entraînera leur rapport comme déjà téléchargés."
 
 #: tqsl.cpp:2514
 msgid "No records to upload"
@@ -2119,23 +2155,23 @@ msgstr "Échoué de l'opération de restauration: %hs"
 
 #: tqsl.cpp:5166
 msgid "Exit TQSL so I can re-run as a normal user"
-msgstr ""
+msgstr "Quittez TQSL pour pouvoir le réexécuter en tant qu’utilisateur normal"
 
 #: tqsl.cpp:5167
 msgid "Allow TQSL to continue this time."
-msgstr ""
+msgstr "Autoriser TQSL à continuer cette fois."
 
 #: tqsl.cpp:5168
 msgid "Always allow running as Administrator."
-msgstr ""
+msgstr "Toujours autoriser l’exécution en tant qu’administrateur."
 
 #: tqsl.cpp:5169
 msgid "TQSL must not be run 'As Administrator'"
-msgstr ""
+msgstr "TQSL ne doit pas être exécuté ‘en tant qu’administrateur’"
 
 #: tqsl.cpp:5169
 msgid "Administrator Error"
-msgstr ""
+msgstr "Erreur de l’administrateur"
 
 #: tqsl.cpp:5292
 msgid "Specify dialog action - abort, all, compliant or ask"
@@ -2734,6 +2770,8 @@ msgstr "Ouvrir des fichiers  ADIF dans l'éditeur de l'ADIF"
 #: tqsl_prefs.cpp:388
 msgid "Display details of already uploaded QSOs when signing a log"
 msgstr ""
+"Afficher les détails des QSO déjà téléchargés lors de la signature d’un "
+"journal"
 
 #: tqsl_prefs.cpp:393
 msgid "Display status messages in separate tab"
@@ -3007,7 +3045,7 @@ msgstr "Date hors de portée"
 
 #: wxutil.cpp:156
 msgid "Already Uploaded QSO suppressed"
-msgstr ""
+msgstr "QSO déjà téléchargé supprimé"
 
 #: wxutil.cpp:157
 msgid "Database error"

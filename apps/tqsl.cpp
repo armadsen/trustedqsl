@@ -6586,7 +6586,9 @@ void MyFrame::OnChooseLanguage(wxCommandEvent& WXUNUSED(event)) {
 		locale = new wxLocale(chosen);
 		if (!locale) locale = new wxLocale(wxLANGUAGE_DEFAULT);
 	} else {
+#if defined(TQSL_TESTING)
 		wxLogError(wxT("This language is not supported by the system."));
+#endif
 		locale = new wxLocale(wxLANGUAGE_DEFAULT);
 	}
 	// Add a subdirectory for language files

@@ -1008,7 +1008,7 @@ msgstr "終了日が無効です"
 
 #: tqsl.cpp:486
 msgid "Already Uploaded QSOs Detected"
-msgstr ""
+msgstr "アップロード済の　QSO　を見つけました"
 
 #: tqsl.cpp:492
 #, c-format
@@ -1030,6 +1030,7 @@ msgid ""
 "Click 'Re-Upload QSOs' to re-process this log while allowing already "
 "uploaded QSOs."
 msgstr ""
+"アップロード済　QSO　も含めて再度、処理するには「QSO　の再アップロード」をクリックしてください。"
 
 #: tqsl.cpp:500
 #, c-format
@@ -1045,6 +1046,7 @@ msgid ""
 "Click 'New QSOs Only' to sign normally, without the already uploaded QSOs "
 "(Recommended)."
 msgstr ""
+"アップロード済　QSO　を含まず、正常に署名するには「新しい　QSO　のみ」をクリックしてください。（推奨）"
 
 #: tqsl.cpp:506 tqsl.cpp:515
 msgid "Click 'Cancel' to abandon processing this log file."
@@ -1068,6 +1070,10 @@ msgid ""
 "prevent this. Please check with your QSO Logging system's vendor for an "
 "updated version."
 msgstr ""
+"あなたがお使いのロギングシステムが作成したアップロード用のログファイルはすべてが以前にアップロード済の　QSO　でした。"
+"これは　LoTW　に不要な作業をさせることになります。"
+"お使いのロギングシステムの、より最新のバージョンには、このようなことを防止する機能があるかもしれません。"
+"最新バージョンについてロギングシステムの提供元をご確認ください。"
 
 #: tqsl.cpp:532
 msgid ""
@@ -1077,6 +1083,12 @@ msgid ""
 "reported by TrustedQSL may produce strange (but harmless) behavior such as "
 "attempting to upload an empty file or marking all chosen QSOs as 'sent'"
 msgstr ""
+"一方、いくつかのロギングシステムでは「QSO　の再アップロード」以外のオプションをクリックすると、"
+"奇妙な挙動を示すことがありますのでご注意ください。"
+" 「キャンセル」を選択するのは通常なら安全ですが、TrustedQSL　によって報告され"
+"たステータスメッセージをチェックしていない不良品ロギングシステムは、空のファ"
+"イルをアップロードしようとしたり、選択されたすべての　QSO　を「送信済」とマー"
+"クしたりといった奇妙な（しかし、無害な）挙動を示したりすることがあります。"
 
 #: tqsl.cpp:537
 msgid ""
@@ -1085,6 +1097,10 @@ msgid ""
 "a more recent version of your QSO Logging system that would prevent this. "
 "Please check with your QSO Logging system's vendor for an updated version."
 msgstr ""
+"あなたがお使いのロギングシステムが作成したアップロード用のログファイルには一部、以前にアップロード済の　QSO　が含まれていました。"
+"これは　LoTW　に不要な作業をさせることになります。"
+"お使いのロギングシステムの、より最新のバージョンには、このようなことを防止する機能があるかもしれません。"
+"最新バージョンについてロギングシステムの提供元をご確認ください。"
 
 #: tqsl.cpp:541
 msgid ""
@@ -1096,6 +1112,15 @@ msgid ""
 "will correctly mark all selected QSOs as sent - they are in your account "
 "even though they would not be in this specific batch"
 msgstr ""
+"一方、いくつかのロギングシステムでは「QSO　の再アップロード」以外のオプションをクリックすると、"
+"奇妙な挙動を示すことがありますのでご注意ください。"
+" 「新しい　QSO　のみ」を選択することを推奨しますが、独自のアップロード記録を残すようなロギングシステムでは、"
+"このようなケースにおいて不正確なステータス設定をおこなうかもしれません。"
+"独自のアップロード記録を残さないロギングシステムでは「新しい　QSO　のみ」を選択することで影響を受けることは"
+"ありません。"
+"また、そのロギングシステムが「QSO　が送信済か」を記録しているならば、選択された　QSO　すべてを正しく"
+"送信済みとマークすることでしょう。それらの QSO　がこの送信バッチに含まれて"
+"いなくても、あなたのアカウントには存在しているわけですから。"
 
 #: tqsl.cpp:547
 msgid ""
@@ -1111,11 +1136,11 @@ msgstr ""
 
 #: tqsl.cpp:559
 msgid "New QSOs Only"
-msgstr ""
+msgstr "新しい QSO のみ"
 
 #: tqsl.cpp:561
 msgid "Re-Upload QSOs"
-msgstr ""
+msgstr "QSO の再アップロード"
 
 #: tqsl.cpp:586
 msgid ""
@@ -1123,6 +1148,8 @@ msgid ""
 "not processed by LoTW, either because it was never uploaded, or there was a "
 "server failure"
 msgstr ""
+"アップロード済の　QSO　に再び署名するのは、以前のアップロードが　LoTW　によって処理されなかったケースに限られます。"
+"これはアップロード出来ていなかったか、サーバーがエラーであった場合に発生します。"
 
 #: tqsl.cpp:589
 msgid "Are you sure you want to proceed? Click 'No' to review the choices"
@@ -1449,7 +1476,7 @@ msgstr "処理済　QSO： %d"
 #: tqsl.cpp:2085
 #, c-format
 msgid "Already Uploaded: %d"
-msgstr ""
+msgstr "アップロード済: %d"
 
 #: tqsl.cpp:2087 tqsl.cpp:2097
 #, c-format
@@ -1459,7 +1486,7 @@ msgstr "エラー： %d"
 #: tqsl.cpp:2095
 #, c-format
 msgid "Already uploaded: %d"
-msgstr ""
+msgstr "アップロード済: %d"
 
 #: tqsl.cpp:2161 tqsl.cpp:2242
 #, c-format
@@ -1512,17 +1539,17 @@ msgstr "%s ： %d 件の　QSO レコードが選択した日付範囲外"
 
 #: tqsl.cpp:2281
 msgid "All QSOs are already uploaded; aborted"
-msgstr ""
+msgstr "全ての　QSO　がアップロード済（動作中止）"
 
 #: tqsl.cpp:2288
 #, c-format
 msgid "%d of %d QSOs are already uploaded; aborted"
-msgstr ""
+msgstr "%2$d 件中、%1$d　件の　QSO　がアップロード済（動作中止）"
 
 #: tqsl.cpp:2304
 #, c-format
 msgid "%s: %d QSO records were already uploaded"
-msgstr ""
+msgstr "%s: %d 件の　QSO　レコードはアップロード済"
 
 #: tqsl.cpp:2326
 msgid "Invalid contact - QSO does not specify a Callsign"
@@ -1577,6 +1604,7 @@ msgstr ""
 msgid ""
 "Resubmitting these QSOs will cause them to be reported as already uploaded."
 msgstr ""
+"この　QSO　を再度、アップロードすると、アップロード済として報告されることになります。"
 
 #: tqsl.cpp:2514
 msgid "No records to upload"
@@ -1593,12 +1621,12 @@ msgstr ""
 
 #: tqsl.cpp:2716
 msgid "Attempting to upload one QSO"
-msgstr "これより 1 件のQSOをアップロード"
+msgstr "これより 1 件の　QSO　をアップロード"
 
 #: tqsl.cpp:2718
 #, c-format
 msgid "Attempting to upload %d QSOs"
-msgstr "これより %d 件のQSOをアップロード"
+msgstr "これより %d 件の　QSO　をアップロード"
 
 #: tqsl.cpp:2721
 #, c-format
@@ -1774,7 +1802,7 @@ msgstr ""
 
 #: tqsl.cpp:3139
 msgid "Download from:"
-msgstr "次のURLからダウンロード:"
+msgstr "次の　URL　からダウンロード:"
 
 #: tqsl.cpp:3148
 msgid "More details at:"
@@ -2086,23 +2114,23 @@ msgstr "復元操作は失敗: %hs"
 
 #: tqsl.cpp:5166
 msgid "Exit TQSL so I can re-run as a normal user"
-msgstr ""
+msgstr "標準ユーザーとして実行しなおすために　TQSL　を終了"
 
 #: tqsl.cpp:5167
 msgid "Allow TQSL to continue this time."
-msgstr ""
+msgstr "今回はこのまま　TQSL　の実行を継続"
 
 #: tqsl.cpp:5168
 msgid "Always allow running as Administrator."
-msgstr ""
+msgstr "管理者権限での実行を常に認める"
 
 #: tqsl.cpp:5169
 msgid "TQSL must not be run 'As Administrator'"
-msgstr ""
+msgstr "TQSL は管理者権限で実行すべきではありません"
 
 #: tqsl.cpp:5169
 msgid "Administrator Error"
-msgstr ""
+msgstr "管理者エラー"
 
 #: tqsl.cpp:5292
 msgid "Specify dialog action - abort, all, compliant or ask"
@@ -2692,7 +2720,7 @@ msgstr "ADIF エディタで ADIF ファイルを開く"
 
 #: tqsl_prefs.cpp:388
 msgid "Display details of already uploaded QSOs when signing a log"
-msgstr ""
+msgstr "ログに署名するときアップロード済QSOの詳細を表示"
 
 #: tqsl_prefs.cpp:393
 msgid "Display status messages in separate tab"
@@ -2959,7 +2987,7 @@ msgstr "範囲外の日付"
 
 #: wxutil.cpp:156
 msgid "Already Uploaded QSO suppressed"
-msgstr ""
+msgstr "アップロード済のQSOを除いた"
 
 #: wxutil.cpp:157
 msgid "Database error"
