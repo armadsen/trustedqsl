@@ -56,7 +56,7 @@ DXCC::init() {
 			if (tqsl_getDXCCEntity(i, &entityNum, &entityName))
 				return false;
 			if (tqsl_getDXCCZoneMap(entityNum, &zonemap))
-				return false;
+				zonemap = "";
 			if (tqsl_getDXCCDeleted(entityNum, &deleted))
 				return false;
 			char testName[TQSL_CRQ_COUNTRY_MAX+1];
