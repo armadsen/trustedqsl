@@ -260,7 +260,7 @@ CRQ_CallsignPage::CRQ_CallsignPage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Pa
 	st->SetSize(dst->GetSize());
 
 	wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
-	hsizer->Add(st, 0, wxRIGHT, 5);
+	hsizer->Add(st, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	wxString cs;
 	if (crq && crq->callSign[0])
 		cs = wxString::FromUTF8(crq->callSign);
@@ -271,7 +271,7 @@ CRQ_CallsignPage::CRQ_CallsignPage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Pa
 		tc_call->Enable(false);
 
 	hsizer = new wxBoxSizer(wxHORIZONTAL);
-	hsizer->Add(dst, 0, wxRIGHT, 5);
+	hsizer->Add(dst, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	tc_dxcc = new wxComboBox(this, ID_CRQ_DXCC, wxT(""), wxDefaultPosition,
 		wxSize(em_w*25, -1), 0, 0, wxCB_DROPDOWN|wxCB_READONLY);
 	hsizer->Add(tc_dxcc, 1, 0, 0);
@@ -317,15 +317,15 @@ CRQ_CallsignPage::CRQ_CallsignPage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Pa
 		sels[i][0] = sels[i][1] = sels[i][2] = 0;
 		sizer->Add(new wxStaticText(this, -1, label), 0, wxBOTTOM, 5);
 		hsizer = new wxBoxSizer(wxHORIZONTAL);
-		hsizer->Add(new wxStaticText(this, -1, wxT("Y")), 0, wxLEFT, 20);
+		hsizer->Add(new wxStaticText(this, -1, wxT("Y")), 0, wxLEFT|wxALIGN_CENTER_VERTICAL, 20);
 		*(boxes[i][0].cb) = new wxComboBox(this, boxes[i][0].id, wxT(""), wxDefaultPosition,
 			wxSize(em_w*8, -1), 0, 0, wxCB_DROPDOWN|wxCB_READONLY);
 		hsizer->Add(*(boxes[i][0].cb), 0, wxLEFT, 5);
-		hsizer->Add(new wxStaticText(this, -1, wxT("M")), 0, wxLEFT, 10);
+		hsizer->Add(new wxStaticText(this, -1, wxT("M")), 0, wxLEFT|wxALIGN_CENTER_VERTICAL, 10);
 		*(boxes[i][1].cb) = new wxComboBox(this, boxes[i][1].id, wxT(""), wxDefaultPosition,
 			wxSize(em_w*6, -1), 0, 0, wxCB_DROPDOWN|wxCB_READONLY);
 		hsizer->Add(*(boxes[i][1].cb), 0, wxLEFT, 5);
-		hsizer->Add(new wxStaticText(this, -1, wxT("D")), 0, wxLEFT, 10);
+		hsizer->Add(new wxStaticText(this, -1, wxT("D")), 0, wxLEFT|wxALIGN_CENTER_VERTICAL, 10);
 		*(boxes[i][2].cb) = new wxComboBox(this, boxes[i][2].id, wxT(""), wxDefaultPosition,
 			wxSize(em_w*6, -1), 0, 0, wxCB_DROPDOWN|wxCB_READONLY);
 		hsizer->Add(*(boxes[i][2].cb), 0, wxLEFT, 5);
@@ -413,7 +413,7 @@ CRQ_CallsignPage::GetNext() const {
 CRQ_Page *
 CRQ_CallsignPage::GetPrev() const {
 	tqslTrace("CRQ_CallsignPage::GetPrev", NULL);
-	return _parent->callsignPage;
+	return _parent->typePage;
 }
 
 BEGIN_EVENT_TABLE(CRQ_NamePage, CRQ_Page)
@@ -440,7 +440,7 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 	wxConfig *config = reinterpret_cast<wxConfig *>(wxConfig::Get());
 	wxString val;
 	wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
-	hsizer->Add(st, 0, wxRIGHT, 5);
+	hsizer->Add(st, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	wxString s;
 	if (crq && crq->name[0])
 		s = wxString::FromUTF8(crq->name);
@@ -458,7 +458,7 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 		s = val;
 	hsizer = new wxBoxSizer(wxHORIZONTAL);
 	hsizer->Add(new wxStaticText(this, -1, _("Address"), wxDefaultPosition, zst->GetSize(),
-		wxST_NO_AUTORESIZE|wxALIGN_RIGHT), 0, wxRIGHT, 5);
+		wxST_NO_AUTORESIZE|wxALIGN_RIGHT), 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	tc_addr1 = new wxTextCtrl(this, ID_CRQ_ADDR1, s, wxDefaultPosition, wxSize(def_w, -1));
 	hsizer->Add(tc_addr1, 1, 0, 0);
 	sizer->Add(hsizer, 0, wxLEFT|wxRIGHT|wxBOTTOM, 10);
@@ -484,7 +484,7 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 		s = val;
 	hsizer = new wxBoxSizer(wxHORIZONTAL);
 	hsizer->Add(new wxStaticText(this, -1, _("City"), wxDefaultPosition, zst->GetSize(),
-		wxST_NO_AUTORESIZE|wxALIGN_RIGHT), 0, wxRIGHT, 5);
+		wxST_NO_AUTORESIZE|wxALIGN_RIGHT), 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	tc_city = new wxTextCtrl(this, ID_CRQ_CITY, s, wxDefaultPosition, wxSize(def_w, -1));
 	hsizer->Add(tc_city, 1, 0, 0);
 	sizer->Add(hsizer, 0, wxLEFT|wxRIGHT|wxBOTTOM, 10);
@@ -497,7 +497,7 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 		s = val;
 	hsizer = new wxBoxSizer(wxHORIZONTAL);
 	hsizer->Add(new wxStaticText(this, -1, _("State"), wxDefaultPosition, zst->GetSize(),
-		wxST_NO_AUTORESIZE|wxALIGN_RIGHT), 0, wxRIGHT, 5);
+		wxST_NO_AUTORESIZE|wxALIGN_RIGHT), 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	tc_state = new wxTextCtrl(this, ID_CRQ_STATE, s, wxDefaultPosition, wxSize(def_w, -1));
 	hsizer->Add(tc_state, 1, 0, 0);
 	sizer->Add(hsizer, 0, wxLEFT|wxRIGHT|wxBOTTOM, 10);
@@ -509,7 +509,7 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 	else if (config->Read(wxT("ZIP"), &val))
 		s = val;
 	hsizer = new wxBoxSizer(wxHORIZONTAL);
-	hsizer->Add(zst, 0, wxRIGHT, 5);
+	hsizer->Add(zst, 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	tc_zip = new wxTextCtrl(this, ID_CRQ_ZIP, s, wxDefaultPosition, wxSize(def_w, -1));
 	hsizer->Add(tc_zip, 1, 0, 0);
 	sizer->Add(hsizer, 0, wxLEFT|wxRIGHT|wxBOTTOM, 10);
@@ -522,7 +522,7 @@ CRQ_NamePage::CRQ_NamePage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Page(paren
 		s = val;
 	hsizer = new wxBoxSizer(wxHORIZONTAL);
 	hsizer->Add(new wxStaticText(this, -1, _("Country"), wxDefaultPosition, zst->GetSize(),
-		wxST_NO_AUTORESIZE|wxALIGN_RIGHT), 0, wxRIGHT, 5);
+		wxST_NO_AUTORESIZE|wxALIGN_RIGHT), 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	tc_country = new wxTextCtrl(this, ID_CRQ_COUNTRY, s, wxDefaultPosition, wxSize(def_w, -1));
 	hsizer->Add(tc_country, 1, 0, 0);
 	sizer->Add(hsizer, 0, wxLEFT|wxRIGHT|wxBOTTOM, 10);
@@ -1137,7 +1137,7 @@ CRQ_CallsignPage::TransferDataFromWindow() {
 	validate();
 
 	// Is this in the ULS?
-	if (valMsg.Len() == 0 && _parent->usa) {
+	if (valMsg.Len() == 0 && _parent->usa && !_parent->onebyone) {
 		wxString callsign = _parent->callsign;
 		wxString name, attn, addr1, city, state, zip;
 		int stat = GetULSInfo(callsign.ToUTF8(), name, attn, addr1, city, state, zip);
