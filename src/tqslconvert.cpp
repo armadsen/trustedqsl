@@ -96,6 +96,10 @@ class TQSL_CONVERTER {
 	char *appName;
 };
 
+#if !defined(__APPLE__) && !defined(_WIN32) && !defined(__clang__)
+        #pragma GCC diagnostic ignored "-Wformat-truncation"
+#endif
+
 inline TQSL_CONVERTER::TQSL_CONVERTER()  : sentinel(0x4445) {
 //	file = 0;
 	adif = 0;

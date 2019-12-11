@@ -207,8 +207,12 @@ unsigned char *ASN1_seq_pack(void *safes, i2d_of_void *i2d,
 # define PKCS12_x5092certbag PKCS12_SAFEBAG_create_cert
 # define PKCS12_x509crl2certbag PKCS12_SAFEBAG_create_crl
 # define X509_STORE_CTX_trusted_stack X509_STORE_CTX_set0_trusted_stack
+#ifndef X509_get_notAfter
 # define X509_get_notAfter X509_get0_notAfter
+#endif
+#ifndef X509_get_notBefore
 # define X509_get_notBefore X509_get0_notBefore
+#endif
 # define PKCS12_MAKE_SHKEYBAG PKCS12_SAFEBAG_create_pkcs8_encrypt
 # define X509_V_FLAG_CB_ISSUER_CHECK 0x0
 #else
@@ -346,6 +350,10 @@ static tqsl_adifFieldDefinitions tqsl_cert_file_fields[] = {
 static unsigned char tqsl_static_buf[2001];
 
 static char ImportCall[256];
+
+#if !defined(__APPLE__) && !defined(_WIN32) && !defined(__clang__)
+        #pragma GCC diagnostic ignored "-Wformat-truncation"
+#endif
 
 static unsigned char *
 tqsl_static_alloc(size_t size) {

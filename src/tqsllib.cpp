@@ -122,6 +122,11 @@ static const char *error_strings[] = {
 	"This Callsign Certificate could not be installed", 	/* TQSL_CERT_ERROR */
 };
 
+
+#if !defined(__APPLE__) && !defined(_WIN32) && !defined(__clang__)
+        #pragma GCC diagnostic ignored "-Wformat-truncation"
+#endif
+
 const char* tqsl_openssl_error(void);
 
 #if defined(_WIN32)
