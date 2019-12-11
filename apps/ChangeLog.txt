@@ -1,5 +1,18 @@
 TQSL changes
 ============
+2.5.2
+----------
+Remove ULS check for US 1x1 callsigns.
+
+Add diagnostic log lines suggested by David, W1HKJ.
+
+Fix centering of date fields in the date range prompt dialog box.
+
+2.5.1
+----------
+Correct defect causing the entity name to not display properly when only
+one callsign certificate was active.
+
 2.5
 ----------
 When installing a Callsign Certificate, don't display errors about expired

@@ -255,7 +255,7 @@ AddMode::AddMode(wxWindow *parent) : wxDialog(parent, -1, wxString(_("Add ADIF m
 
 	wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
 
-	hsizer->Add(new wxStaticText(this, -1, _("ADIF Mode:")), 0);
+	hsizer->Add(new wxStaticText(this, -1, _("ADIF Mode:")), 0, wxALIGN_CENTER_VERTICAL);
 
 	adif = new wxTextCtrl(this, ID_PREF_ADD_ADIF, wxT(""), wxPoint(0, 0),
 		wxSize(char_width, HEIGHT_ADJ(char_height)));

@@ -406,7 +406,7 @@ TQSLWizCertPage::TQSLWizCertPage(TQSLWizard *_parent, tQSL_Location locp)
 		if (in_type != TQSL_LOCATION_FIELD_BADZONE) {
 			hsizer = new wxBoxSizer(wxHORIZONTAL);
 			hsizer->Add(new wxStaticText(this, -1, lbl, wxDefaultPosition,
-				wxSize(label_w, -1), wxALIGN_RIGHT/*|wxST_NO_AUTORESIZE*/), 0, wxTOP, 5);
+				wxSize(label_w, -1), wxALIGN_RIGHT/*|wxST_NO_AUTORESIZE*/), 0, wxTOP|wxALIGN_CENTER_VERTICAL, 5);
 		}
 		wxWindow *control_p = 0;
 		char gabbi_name[256];
