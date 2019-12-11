@@ -193,13 +193,14 @@ static void exitNow(int status, bool quiet) {
 	wxString err = wxGetTranslation(wxString::FromUTF8(errors[stat]));
 	wxString localmsg = wxString::Format(_("Final Status: %hs (%d)"), (const char *)err.ToUTF8(), status);
 
-	if (quiet) {
+	if (!quiet) {
 		if (msg != localmsg) {
 			wxLogMessage(localmsg);
 		}
 		wxLogMessage(msg);
 	} else {
 		cerr << "Final Status: " << errors[stat] << "(" << status << ")" << endl;
+		tqslTrace(NULL, "Final Status: %s", errors[stat]);
 	}
 	exit(status);
 }
@@ -405,12 +406,12 @@ DateRangeDialog::DateRangeDialog(wxWindow *parent) : wxDialog(parent, -1, wxStri
 	sizer->Add(st, 0, wxALL|wxALIGN_CENTER, 10);
 
 	wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
-	hsizer->Add(new wxStaticText(this, -1, _("Start Date (YYYY-MM-DD)")), 0, wxRIGHT, 5);
+	hsizer->Add(new wxStaticText(this, -1, _("Start Date (YYYY-MM-DD)")), 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	start_tc = new wxTextCtrl(this, TQSL_DR_START);
 	hsizer->Add(start_tc, 0, 0, 0);
 	sizer->Add(hsizer, 0, wxALL|wxALIGN_CENTER, 10);
 	hsizer = new wxBoxSizer(wxHORIZONTAL);
-	hsizer->Add(new wxStaticText(this, -1, _("End Date (YYYY-MM-DD)")), 0, wxRIGHT, 5);
+	hsizer->Add(new wxStaticText(this, -1, _("End Date (YYYY-MM-DD)")), 0, wxRIGHT|wxALIGN_CENTER_VERTICAL, 5);
 	end_tc = new wxTextCtrl(this, TQSL_DR_END);
 	hsizer->Add(end_tc, 0, 0, 0);
 	sizer->Add(hsizer, 0, wxALL|wxALIGN_CENTER, 10);
@@ -741,8 +742,11 @@ class LogList : public wxLog {
 
 void LogList::DoLogString(const wxChar *szString, time_t) {
 	wxTextCtrl *_logwin = 0;
-	const char *msg = wxString(szString).ToUTF8();
-	tqslTrace(NULL, "%s", msg);
+	static wxString msg = wxString(szString).ToUTF8();
+	static const char *smsg = msg.c_str();
+
+	tqslTrace(NULL, "%s", smsg);
+
 	if (wxString(szString).StartsWith(wxT("Debug:")))
 		return;
 	if (wxString(szString).StartsWith(wxT("Error: Unable to open requested HTML document:")))
@@ -771,8 +775,11 @@ class LogStderr : public wxLog {
 };
 
 void LogStderr::DoLogString(const wxChar *szString, time_t) {
-	const char *msg = wxString(szString).ToUTF8();
-	tqslTrace(NULL, "%s", msg);
+	static wxString msg = wxString(szString).ToUTF8();
+	static const char *smsg = msg.c_str();
+
+	tqslTrace(NULL, "%s", smsg);
+
 	if (wxString(szString).StartsWith(wxT("Debug:")))
 		return;
 #ifdef _WIN32
@@ -2301,8 +2308,15 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 		}
 		// Otherwise it must be TQSL_ACTION_NEW, so fall through
 		// and output the new records.
-		wxLogMessage(_("%s: %d QSO records were already uploaded"),
+		if (!quiet) {
+			wxLogMessage(_("%s: %d QSO records were already uploaded"),
 			infile.c_str(), duplicates);
+		} else {
+			if (duplicates > 1)
+				tqslTrace(NULL, "%d duplicate QSO records", duplicates);
+			else
+				tqslTrace(NULL, "%s", "Duplicate QSO record");
+		}
 	}
 	//if (!cancelled) tqsl_converterCommit(logConv);
 	if (cancelled || processed == 0) {
@@ -2386,7 +2400,7 @@ MyFrame::ConvertLogFile(tQSL_Location loc, const wxString& infile, const wxStrin
 #else
 		unlink(outfile.ToUTF8());
 #endif
-		if (status == TQSL_EXIT_CANCEL || TQSL_EXIT_QSOS_SUPPRESSED)
+		if (status == TQSL_EXIT_CANCEL || status == TQSL_EXIT_QSOS_SUPPRESSED)
 			return status;
 		else
 			return TQSL_EXIT_NO_QSOS;
@@ -2512,7 +2526,7 @@ int MyFrame::UploadLogFile(tQSL_Location loc, const wxString& infile, bool compr
 
 	if (numrecs == 0) {
 		wxLogMessage(_("No records to upload"));
-		if (status == TQSL_EXIT_CANCEL || TQSL_EXIT_QSOS_SUPPRESSED)
+		if (status == TQSL_EXIT_CANCEL || status == TQSL_EXIT_QSOS_SUPPRESSED)
 			return status;
 		else
 			return TQSL_EXIT_NO_QSOS;
@@ -5584,6 +5598,7 @@ QSLApp::OnInit() {
 	if (wxIsEmpty(infile)) {	// Nothing to sign
 		if (quiet) {
 			wxLogError(_("No logfile to sign!"));
+			tqslTrace(NULL, "%s", _("No logfile to sign!"));
 			exitNow(TQSL_EXIT_COMMAND_ERROR, quiet);
 			return false;
 		}
