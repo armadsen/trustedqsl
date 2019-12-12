@@ -5233,7 +5233,9 @@ QSLApp::OnInit() {
 		if (!locale)
 			locale = new wxLocale(wxLANGUAGE_DEFAULT);
 	} else {
+#ifdef DEBUG
 		wxLogError(wxT("This language is not supported by the system."));
+#endif
 		locale = new wxLocale(wxLANGUAGE_DEFAULT);
 	}
 
