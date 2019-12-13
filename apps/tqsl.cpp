@@ -5225,9 +5225,7 @@ QSLApp::OnInit() {
 	// Add locale search path for where we install language files
 	locale->AddCatalogLookupPathPrefix(wxT("/usr/local/share/locale"));
 #endif
-#if wxMAJOR_VERSION > 2
 	lang = langWX2toWX3(lang);		// Translate to wxWidgets 3 language ID.
-#endif
 	if (wxLocale::IsAvailable(lang)) {
 		locale = new wxLocale(lang);
 		if (!locale)
@@ -6586,19 +6584,25 @@ void MyFrame::OnChooseLanguage(wxCommandEvent& WXUNUSED(event)) {
 	tqslTrace("MyFrame::OnChooseLanguage", "Language choice dialog");
 
 	wxLanguage lang = wxGetApp().GetLang();
+	
+	int sel = 0;
+	for (size_t i = 0; i < langIds.size(); i++) {
+		if (langWX2toWX3(langIds[i]) == lang) {
+			sel = i;
+			break;
+		}	
+	}
 	long lng = wxGetSingleChoiceIndex(_("Please choose language:"),
-					 _("Language"), langNames, this);
+					 _("Language"), langNames, sel, this);
 	tqslTrace("MyFrame::OnChooseLanguage", "Language chosen: %d", lng);
-	if (lng == -1 || langIds[lng] == lang)		// Cancel or No change
+	if (lng == -1 || langWX2toWX3(langIds[lng]) == lang)		// Cancel or No change
 		return;
 
 	wxConfig::Get()->Write(wxT("Language"), static_cast<int>(langIds[lng]));
 	wxConfig::Get()->Flush();
 
 	wxLanguage chosen = langIds[lng];
-#if wxMAJOR_VERSION > 2
 	chosen = langWX2toWX3(chosen);
-#endif
 	if (wxLocale::IsAvailable(chosen)) {
 		locale = new wxLocale(chosen);
 		if (!locale) locale = new wxLocale(wxLANGUAGE_DEFAULT);

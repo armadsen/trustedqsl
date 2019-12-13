@@ -8,6 +8,8 @@ Add diagnostic log lines suggested by David, W1HKJ.
 
 Fix centering of date fields in the date range prompt dialog box.
 
+Select the current language in the language selection dialog.
+
 2.5.1
 ----------
 Correct defect causing the entity name to not display properly when only

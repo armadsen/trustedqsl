@@ -518,11 +518,14 @@ getLocalizedErrorString() {
 	    { wxLANGUAGE_DEFAULT, -1}
 	};
 
+#endif // WX3
+
 wxLanguage langWX2toWX3(wxLanguage wx2) {
+#if wxMAJOR_VERSION > 2
 	for (unsigned int i = 0; i < WXSIZEOF(mapping); i++) {
 		if (mapping[i].wx2 == -1) return wx2;
 		if (mapping[i].wx2 == wx2) return mapping[i].wx3;
 	}
+#endif
 	return wx2;
 }
-#endif // WX3
