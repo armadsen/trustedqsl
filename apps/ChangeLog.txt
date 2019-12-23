@@ -2,6 +2,12 @@ TQSL changes
 ============
 2.5.2
 ----------
+When fetching ULS data fails, do not reject callsign certificate requests -
+allow those to work without address data.
+
+Fix handing of cases where secure connections fail due to certain antivirus
+misbehavior.
+
 Remove ULS check for US 1x1 callsigns.
 
 Add diagnostic log lines suggested by David, W1HKJ.

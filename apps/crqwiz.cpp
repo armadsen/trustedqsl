@@ -1141,55 +1141,60 @@ CRQ_CallsignPage::TransferDataFromWindow() {
 		wxString callsign = _parent->callsign;
 		wxString name, attn, addr1, city, state, zip;
 		int stat = GetULSInfo(callsign.ToUTF8(), name, attn, addr1, city, state, zip);
-		_parent->validusa = (stat == 0);
-		if (stat) {
-			switch (_parent->certType) {
-				case CERT_CURRENT_PERSONAL:
-				case CERT_NEW_PERSONAL:
-				case CERT_PRIMARY_CLUB:
-				case CERT_DXP_MULTIOP:
-				case CERT_EVENT_MULTIOP:
-					valMsg = wxString::Format(wxT("The callsign %s is not currently registered in the FCC ULS database.\nIf this is a newly registered call, you must wait at least one business day for it to be valid. Please enter a currently valid callsign."), callsign.c_str());
+		switch (stat) {
+			case 0:
+				_parent->validusa = true;		// Good data returned
+				if (name == wxT("null"))
+					name = wxT("");
+				_parent->name = name;
+				_parent->namePage->setName(name);
+
+				if (addr1 == wxT("null"))
+					addr1 = wxT("");
+				if (attn == wxT("null")) {
+					attn = wxT("");
+					_parent->addr1 = addr1;
+					_parent->addr2 = wxT(".");
+					_parent->namePage->setAddr1(addr1);
+					_parent->namePage->setAddr2(attn);
+				} else {
+					_parent->addr1 = attn;
+					_parent->addr2 = addr1;
+					_parent->namePage->setAddr1(attn);
+					_parent->namePage->setAddr2(addr1);
+				}
+
+				if (city == wxT("null"))
+					city = wxT("");
+				_parent->city = city;
+				_parent->namePage->setCity(city);
+
+				if (state == wxT("null"))
+					state = wxT("");
+				_parent->state = state;
+				_parent->namePage->setState(state);
+
+				if (zip == wxT("null"))
+					zip = wxT("");
+				_parent->zip = zip;
+				_parent->namePage->setZip(zip);
+
+				_parent->country = wxT("USA");
+				_parent->namePage->setCountry(_parent->country);
+				break;
+			case 1:
+				break;						// Error reading ULS info
+			case 2:							
+				switch (_parent->certType) {			// Not found
+					case CERT_CURRENT_PERSONAL:
+					case CERT_NEW_PERSONAL:
+					case CERT_PRIMARY_CLUB:
+					case CERT_DXP_MULTIOP:
+					case CERT_EVENT_MULTIOP:
+						valMsg = wxString::Format(wxT("The callsign %s is not currently registered in the FCC ULS database.\nIf this is a newly registered call, you must wait at least one business day for it to be valid. Please enter a currently valid callsign."), callsign.c_str());
 					break;
-			}
-		} else {
-			if (name == wxT("null"))
-				name = wxT("");
-			_parent->name = name;
-			_parent->namePage->setName(name);
-
-			if (addr1 == wxT("null"))
-				addr1 = wxT("");
-			if (attn == wxT("null")) {
-				attn = wxT("");
-				_parent->addr1 = addr1;
-				_parent->addr2 = wxT(".");
-				_parent->namePage->setAddr1(addr1);
-				_parent->namePage->setAddr2(attn);
-			} else {
-				_parent->addr1 = attn;
-				_parent->addr2 = addr1;
-				_parent->namePage->setAddr1(attn);
-				_parent->namePage->setAddr2(addr1);
-			}
-
-			if (city == wxT("null"))
-				city = wxT("");
-			_parent->city = city;
-			_parent->namePage->setCity(city);
-
-			if (state == wxT("null"))
-				state = wxT("");
-			_parent->state = state;
-			_parent->namePage->setState(state);
-
-			if (zip == wxT("null"))
-				zip = wxT("");
-			_parent->zip = zip;
-			_parent->namePage->setZip(zip);
-
-			_parent->country = wxT("USA");
-			_parent->namePage->setCountry(_parent->country);
+				}
+				break;
 		}
 	}
 

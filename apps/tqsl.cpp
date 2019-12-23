@@ -742,8 +742,10 @@ class LogList : public wxLog {
 
 void LogList::DoLogString(const wxChar *szString, time_t) {
 	wxTextCtrl *_logwin = 0;
-	static wxString msg = wxString(szString).ToUTF8();
-	static const char *smsg = msg.c_str();
+	//static wxString msg = wxString(szString).ToUTF8();
+	static wxString msg(szString);
+
+	static const char *smsg = msg.ToUTF8();
 
 	tqslTrace(NULL, "%s", smsg);
 
@@ -775,8 +777,8 @@ class LogStderr : public wxLog {
 };
 
 void LogStderr::DoLogString(const wxChar *szString, time_t) {
-	static wxString msg = wxString(szString).ToUTF8();
-	static const char *smsg = msg.c_str();
+	static wxString msg(szString);
+	static const char *smsg = msg.ToUTF8();
 
 	tqslTrace(NULL, "%s", smsg);
 
@@ -2632,6 +2634,7 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 		strncpy(caBundle, caBundlePath.ToUTF8(), sizeof caBundle);
 		curl_easy_setopt(curlReq, CURLOPT_CAINFO, caBundle);
 	} else {
+		verifyCA = false;		// Can't verify if no trusted roots
 		tqslTrace("tqsl_curl_init", "Can't find ca-bundle.crt in the docpaths!");
 	}
 	// Get the proxy configuration and pass it to cURL
@@ -2828,7 +2831,7 @@ int MyFrame::UploadFile(const wxString& infile, const char* filename, int numrec
 
 	} else {
 		tqslTrace("MyFrame::UploadFile", "cURL Error: %s (%s)\n", curl_easy_strerror((CURLcode)retval), errorbuf);
-		if (retval == CURLE_SSL_CACERT && verifyCA) {
+		if ((retval == CURLE_SSL_CACERT || retval == CURLE_PEER_FAILED_VERIFICATION) && verifyCA) {
 			tqslTrace("MyFrame::UploadFile", "cURL SSL Certificate error - disabling verify and retry");
 			verifyCA = false;
 			goto retry_upload;
@@ -4063,6 +4066,12 @@ get_address_field(const char *callsign, const char *field, string& result) {
 	return 0;
 }
 
+/*
+ * Lookup of ULS info for a call.
+ * Returns: 0 - Success
+ * 	    1 - Unable to check
+ *	    2 - Not found
+ */
 int
 GetULSInfo(const char *callsign, wxString &name, wxString &attn, wxString &street, wxString &city, wxString &state, wxString &zip) {
 	if (callsign == NULL) {
@@ -4123,7 +4132,7 @@ GetULSInfo(const char *callsign, wxString &name, wxString &attn, wxString &stree
 			zip = root[wxT("zip")].AsString();
 			return 0;
 		} else {
-			return 1;	// Not valid
+			return 2;	// Not valid
 		}
 	} else {
 		tqslTrace("GetULSInfo", "cURL Error during cert status check: %s (%s)\n", curl_easy_strerror((CURLcode)retval), errorbuf);
@@ -5598,7 +5607,7 @@ QSLApp::OnInit() {
 	if (wxIsEmpty(infile)) {	// Nothing to sign
 		if (quiet) {
 			wxLogError(_("No logfile to sign!"));
-			tqslTrace(NULL, "%s", _("No logfile to sign!"));
+			tqslTrace(NULL, "%s", "No logfile to sign!");
 			exitNow(TQSL_EXIT_COMMAND_ERROR, quiet);
 			return false;
 		}
@@ -6592,8 +6601,15 @@ void MyFrame::OnChooseLanguage(wxCommandEvent& WXUNUSED(event)) {
 			break;
 		}	
 	}
+#if wxMAJOR_VERSION > 2
 	long lng = wxGetSingleChoiceIndex(_("Please choose language:"),
 					 _("Language"), langNames, sel, this);
+#else
+	wxSingleChoiceDialog dialog(this, _("Please choose language:"), _("Language"), langNames);
+
+	dialog.SetSelection(sel);
+	long lng = dialog.ShowModal() == wxID_OK ? dialog.GetSelection() : -1;
+#endif
 	tqslTrace("MyFrame::OnChooseLanguage", "Language chosen: %d", lng);
 	if (lng == -1 || langWX2toWX3(langIds[lng]) == lang)		// Cancel or No change
 		return;
