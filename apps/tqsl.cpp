@@ -742,7 +742,6 @@ class LogList : public wxLog {
 
 void LogList::DoLogString(const wxChar *szString, time_t) {
 	wxTextCtrl *_logwin = 0;
-	//static wxString msg = wxString(szString).ToUTF8();
 	static wxString msg(szString);
 
 	static const char *smsg = msg.ToUTF8();
@@ -2592,6 +2591,14 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 	if (!curlReq)
 		return NULL;
 
+	wxString uri(url);
+
+ retry:
+
+	if (!verifyCA) {
+		uri.Replace(wxT("https:"), wxT("http:"));
+	}
+
 	wxString filename = wxString::FromUTF8(tQSL_BaseDir);
 #ifdef _WIN32
 	filename = filename + wxT("\\curl.log");
@@ -2611,7 +2618,7 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 		fprintf(*curlLogFile, "%s:\n", logTitle);
 	}
 	//set up options
-	curl_easy_setopt(curlReq, CURLOPT_URL, url);
+	curl_easy_setopt(curlReq, CURLOPT_URL, uri.ToUTF8());
 
 #ifdef __WXMAC__
 	DocPaths docpaths(wxT("tqsl.app"));
@@ -2628,15 +2635,18 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 	wxFileName::SplitPath(sp.GetExecutablePath(), &exePath, 0, 0);
 	docpaths.Add(exePath);
 #endif
+
 	wxString caBundlePath = docpaths.FindAbsoluteValidPath(wxT("ca-bundle.crt"));
 	if (!caBundlePath.IsEmpty()) {
 		char caBundle[256];
 		strncpy(caBundle, caBundlePath.ToUTF8(), sizeof caBundle);
 		curl_easy_setopt(curlReq, CURLOPT_CAINFO, caBundle);
 	} else {
-		verifyCA = false;		// Can't verify if no trusted roots
+		verifyCA = false;               // Can't verify if no trusted roots
 		tqslTrace("tqsl_curl_init", "Can't find ca-bundle.crt in the docpaths!");
+		goto retry;
 	}
+
 	// Get the proxy configuration and pass it to cURL
 	wxConfig *config = reinterpret_cast<wxConfig *>(wxConfig::Get());
 	config->SetPath(wxT("/Proxy"));
@@ -2663,7 +2673,6 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 	} else if (pType == wxT("Socks5")) {
 		curl_easy_setopt(curlReq, CURLOPT_PROXYTYPE, CURLPROXY_SOCKS5);
 	}
-	curl_easy_setopt(curlReq, CURLOPT_SSL_VERIFYPEER, verifyCA);
 	return curlReq;
 }
 
@@ -2735,7 +2744,7 @@ int MyFrame::UploadFile(const wxString& infile, const char* filename, int numrec
 			wxLogMessage(_("Attempting to upload %d QSOs"), numrecs);
 		}
 	} else {
-		wxLogMessage(_("Attempting to upload %s"), fileType.c_str());
+		wxLogMessage(_("Attempting to upload %s"), fileType);
 	}
 
 	if (frame && !quiet) {
@@ -2831,7 +2840,7 @@ int MyFrame::UploadFile(const wxString& infile, const char* filename, int numrec
 
 	} else {
 		tqslTrace("MyFrame::UploadFile", "cURL Error: %s (%s)\n", curl_easy_strerror((CURLcode)retval), errorbuf);
-		if ((retval == CURLE_SSL_CACERT || retval == CURLE_PEER_FAILED_VERIFICATION) && verifyCA) {
+		if ((retval == CURLE_PEER_FAILED_VERIFICATION) && verifyCA) {
 			tqslTrace("MyFrame::UploadFile", "cURL SSL Certificate error - disabling verify and retry");
 			verifyCA = false;
 			goto retry_upload;
@@ -3254,7 +3263,7 @@ void MyFrame::UpdateConfigFile() {
 		}
 	} else {
 		tqslTrace("MyFrame::UpdateConfigFile", "cURL Error during config file download: %s (%s)\n", curl_easy_strerror((CURLcode)retval), errorbuf);
-		if (retval == CURLE_SSL_CACERT && verifyCA) {
+		if ((retval == CURLE_PEER_FAILED_VERIFICATION) && verifyCA) {
 			tqslTrace("MyFrame::UpdateConfigFile", "cURL SSL Certificate error - disabling verify and retry");
 			verifyCA = false;
 			goto retry;
@@ -3321,7 +3330,7 @@ void MyFrame::UpdateTQSL(wxString& url) {
 		wxExit();
 	} else {
 		tqslTrace("MyFrame::UpdateTQSL", "cURL Error during file download: %s (%s)\n", curl_easy_strerror((CURLcode)retval), errorbuf);
-		if (retval == CURLE_SSL_CACERT && verifyCA) {
+		if ((retval == CURLE_PEER_FAILED_VERIFICATION) && verifyCA) {
 			tqslTrace("MyFrame::UpdateTQSL", "cURL SSL Certificate error - disabling verify and retry");
 			verifyCA = false;
 			goto retry;
@@ -3361,6 +3370,9 @@ bool MyFrame::CheckCertStatus(long serial, wxString& result) {
 	certCheckURL = certCheckURL + wxString::Format(wxT("%ld"), serial);
 	bool needToCleanUp = false;
 
+	if (!verifyCA) {
+		certCheckURL.Replace(wxT("https:"), wxT("http:"));
+	}
 	if (curlReq == NULL) {
 		needToCleanUp = true;
 		curlReq = tqsl_curl_init("checkCert", certCheckURL.ToUTF8(), &curlLogFile, false);
@@ -3395,7 +3407,7 @@ bool MyFrame::CheckCertStatus(long serial, wxString& result) {
 		if (curlLogFile) {
 			fprintf(curlLogFile, "cURL Error during cert status check: %s (%s)\n", curl_easy_strerror((CURLcode)retval), errorbuf);
 		}
-		if (retval == CURLE_SSL_CACERT && verifyCA) {
+		if ((retval == CURLE_PEER_FAILED_VERIFICATION) && verifyCA) {
 			verifyCA = false;
 		}
 	}
@@ -3698,6 +3710,10 @@ MyFrame::DoCheckForUpdates(bool silent, bool noGUI) {
 
 	bool needToCleanUp = false;
  retry:
+	if (!verifyCA) {
+		updateURL.Replace(wxT("https:"), wxT("http:"));
+	}
+
 	if (curlReq) {
 		curl_easy_setopt(curlReq, CURLOPT_URL, (const char *)updateURL.ToUTF8());
 	} else {
@@ -3821,7 +3837,7 @@ MyFrame::DoCheckForUpdates(bool silent, bool noGUI) {
 		}
 	} else {
 		tqslTrace("MyFrame::DoCheckForUpdates", "cURL Error during program revision check: %d: %s (%s)\n", retval, curl_easy_strerror((CURLcode)retval), errorbuf);
-		if (retval == CURLE_SSL_CACERT && verifyCA) {
+		if ((retval == CURLE_PEER_FAILED_VERIFICATION) && verifyCA) {
 			tqslTrace("MyFrame::DoCheckForUpdates", "cURL SSL Certificate error - disabling verify and retry");
 			verifyCA = false;
 			goto retry;
@@ -4099,7 +4115,10 @@ GetULSInfo(const char *callsign, wxString &name, wxString &attn, wxString &stree
 	char errorbuf[CURL_ERROR_SIZE];
 	errorbuf[0] = '\0';
 	curl_easy_setopt(curlReq, CURLOPT_ERRORBUFFER, errorbuf);
+
 	int retval = curl_easy_perform(curlReq);
+
+	tqslTrace("GetULSInfo", "upload result = %d", retval);
 
 	if (needToCleanUp) {
 		if (curlLogFile)
@@ -4135,7 +4154,7 @@ GetULSInfo(const char *callsign, wxString &name, wxString &attn, wxString &stree
 			return 2;	// Not valid
 		}
 	} else {
-		tqslTrace("GetULSInfo", "cURL Error during cert status check: %s (%s)\n", curl_easy_strerror((CURLcode)retval), errorbuf);
+		tqslTrace("GetULSInfo", "cURL Error %d during ULS check: %s (%s)\n", retval, curl_easy_strerror((CURLcode)retval), errorbuf);
 		return 1;
 	}
 
