@@ -94,6 +94,7 @@ class TQSL_CONVERTER {
 	bool allow_dupes;
 	bool need_ident_rec;
 	char *appName;
+	int dxcc;
 };
 
 #if !defined(__APPLE__) && !defined(_WIN32) && !defined(__clang__)
@@ -234,6 +235,19 @@ static tqsl_adifFieldDefinitions adif_qso_record_fields[] = {
 	{ "BAND_RX", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_BAND_MAX, 0, 0, NULL },
 	{ "SAT_NAME", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_SATNAME_MAX, 0, 0, NULL },
 	{ "PROP_MODE", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_PROPMODE_MAX, 0, 0, NULL },
+	/* Fields specifying contents of the location for a QSO */
+	{ "MY_CNTY", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_CNTY_MAX, 0, 0, NULL },
+	{ "MY_COUNTRY", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_COUNTRY_MAX, 0, 0, NULL },
+	{ "MY_CQ_ZONE", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_ZONE_MAX, 0, 0, NULL },
+	{ "MY_DXCC", "", TQSL_ADIF_RANGE_TYPE_NONE, 10, 0, 0, NULL },
+	{ "MY_GRIDSQUARE", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_GRID_MAX, 0, 0, NULL },
+	{ "MY_IOTA", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_IOTA_MAX, 0, 0, NULL },
+	{ "MY_ITU_ZONE", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_ZONE_MAX, 0, 0, NULL },
+	{ "MY_STATE", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_STATE_MAX, 0, 0, NULL },
+	{ "MY_VUCC_GRIDS", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_GRID_MAX, 0, 0, NULL },
+	{ "OPERATOR", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_CALLSIGN_MAX, 0, 0, NULL },
+	{ "STATION_CALLSIGN", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_CALLSIGN_MAX, 0, 0, NULL },
+	{ "OWNER_CALLSIGN", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_CALLSIGN_MAX, 0, 0, NULL },
 	{ "eor", "", TQSL_ADIF_RANGE_TYPE_NONE, 0, 0, 0, NULL },
 };
 
@@ -1075,6 +1089,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		const char *tStation = tqsl_getGABBItSTATION(conv->loc, uid, uid);
 		tqsl_getCertificateSerialExt(conv->certs[conv->cert_idx], conv->serial, sizeof conv->serial);
 		tqsl_getCertificateCallSign(conv->certs[conv->cert_idx], conv->callsign, sizeof conv->callsign);
+		tqsl_getCertificateDXCCEntity(conv->certs[conv->cert_idx], &conv->dxcc);
 		return tStation;
 	}
 	if (!conv->allow_dupes && !conv->db_open) {
@@ -1086,7 +1101,6 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 	TQSL_ADIF_GET_FIELD_ERROR stat;
 
 	if (conv->rec_done) {
-//cerr << "Getting rec" << endl;
 		conv->rec_done = false;
 		conv->clearRec();
 		int cstat = 0;
@@ -1103,13 +1117,13 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 				if (!strcasecmp(result.name, "CALL") && result.data) {
 					conv->rec.callsign_set = true;
 					strncpy(conv->rec.callsign, reinterpret_cast<char *>(result.data), sizeof conv->rec.callsign);
-				} else if (!strcasecmp(result.name, "BAND") && result.data) {
+				} else if (!strcasecmp(result.name, "BAND") && result.data) { 
 					conv->rec.band_set = true;
-				  	strncpy(conv->rec.band, reinterpret_cast<char *>(result.data), sizeof conv->rec.band);
-				} else if (!strcasecmp(result.name, "MODE") && result.data) {
+					strncpy(conv->rec.band, reinterpret_cast<char *>(result.data), sizeof conv->rec.band);
+				} else if (!strcasecmp(result.name, "MODE") && result.data) { 
 					conv->rec.mode_set = true;
 					strncpy(conv->rec.mode, reinterpret_cast<char *>(result.data), sizeof conv->rec.mode);
-				} else if (!strcasecmp(result.name, "SUBMODE") && result.data) {
+				} else if (!strcasecmp(result.name, "SUBMODE") && result.data) { 
 					strncpy(conv->rec.submode, reinterpret_cast<char *>(result.data), sizeof conv->rec.submode);
 				} else if (!strcasecmp(result.name, "FREQ") && result.data) {
 					conv->rec.band_set = true;
@@ -1120,11 +1134,11 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 					strncpy(conv->rec.rxfreq, fix_freq(reinterpret_cast<char *>(result.data)), sizeof conv->rec.rxfreq);
 					if (atof(conv->rec.rxfreq) == 0.0)
 						conv->rec.rxfreq[0] = '\0';
-				} else if (!strcasecmp(result.name, "BAND_RX") && result.data) {
+				} else if (!strcasecmp(result.name, "BAND_RX") && result.data) { 
 					strncpy(conv->rec.rxband, reinterpret_cast<char *>(result.data), sizeof conv->rec.rxband);
-				} else if (!strcasecmp(result.name, "SAT_NAME") && result.data) {
+				} else if (!strcasecmp(result.name, "SAT_NAME") && result.data) { 
 					strncpy(conv->rec.satname, reinterpret_cast<char *>(result.data), sizeof conv->rec.satname);
-				} else if (!strcasecmp(result.name, "PROP_MODE") && result.data) {
+				} else if (!strcasecmp(result.name, "PROP_MODE") && result.data) { 
 					strncpy(conv->rec.propmode, reinterpret_cast<char *>(result.data), sizeof conv->rec.propmode);
 				} else if (!strcasecmp(result.name, "QSO_DATE") && result.data) {
 					conv->rec.date_set = true;
@@ -1136,7 +1150,34 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 					cstat = tqsl_initTime(&(conv->rec.time), (const char *)result.data);
 					if (cstat)
 						saveErr = tQSL_Error;
+				} else if (!strcasecmp(result.name, "MY_CNTY") && result.data) { 
+					strncpy(conv->rec.my_county, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_county);
+				} else if (!strcasecmp(result.name, "MY_COUNTRY") && result.data) { 
+					strncpy(conv->rec.my_country, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_country);
+				} else if (!strcasecmp(result.name, "MY_CQ_ZONE") && result.data) { 
+					strncpy(conv->rec.my_cq_zone, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_cq_zone);
+				} else if (!strcasecmp(result.name, "MY_DXCC") && result.data) {
+					conv->rec.my_dxcc = strtol(reinterpret_cast<char *>(result.data), NULL, 10);
+				} else if (!strcasecmp(result.name, "MY_GRIDSQUARE") && result.data) { 
+					strncpy(conv->rec.my_gridsquare, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_gridsquare);
+				} else if (!strcasecmp(result.name, "MY_IOTA") && result.data) { 
+					strncpy(conv->rec.my_iota, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_iota);
+				} else if (!strcasecmp(result.name, "MY_ITU_ZONE") && result.data) { 
+					strncpy(conv->rec.my_itu_zone, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_itu_zone);
+				} else if (!strcasecmp(result.name, "MY_STATE") && result.data) { 
+					strncpy(conv->rec.my_state, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_state);
+				} else if (!strcasecmp(result.name, "MY_VUCC_GRIDS") && result.data) { 
+					strncpy(conv->rec.my_vucc_grids, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_vucc_grids);
+				} else if (!strcasecmp(result.name, "OPERATOR") && result.data) { 
+					strncpy(conv->rec.my_operator, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_operator);
+				} else if (!strcasecmp(result.name, "OWNER_CALLSIGN") && result.data) { 
+					strncpy(conv->rec.my_owner, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_owner);
+				} else if (!strcasecmp(result.name, "STATION_CALLSIGN") && result.data) { 
+					strncpy(conv->rec.my_call, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_call);
+				} else {
+					tqslTrace("tqsl_getConverterGABBI", "Unknown ADIF field %s", result.name);
 				}
+
 				if (stat == TQSL_ADIF_GET_FIELD_SUCCESS) {
 					conv->rec_text += string(reinterpret_cast<char *>(result.name)) + ": ";
 					if (result.data)
@@ -1163,6 +1204,31 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 				strncpy(conv->rec.band, tqsl_infer_band(conv->rec.freq), sizeof conv->rec.band);
 			if (conv->rec.rxband[0] == 0)
 				strncpy(conv->rec.rxband, tqsl_infer_band(conv->rec.rxfreq), sizeof conv->rec.rxband);
+			// Normalize the DXCC country
+			if (conv->rec.my_country[0] != 0) {
+				int num_dxcc = 0;
+				tqsl_getNumDXCCEntity(&num_dxcc);
+				const char *entity;
+				int ent_num;
+				for (int i = 0; i < num_dxcc; i++) {
+					tqsl_getDXCCEntity(i, &ent_num, &entity);
+					if (strcasecmp(entity, conv->rec.my_country) == 0) {
+						conv->rec.my_dxcc = ent_num;
+						break;
+					}
+				}
+			}
+			// Normalize the grids
+			if (conv->rec.my_vucc_grids[0] != 0) {
+				strncpy(conv->rec.my_gridsquare, conv->rec.my_vucc_grids, TQSL_GRID_MAX);
+			}
+			// Normalize callsign
+			if (conv->rec.my_owner[0] != 0) {		// OWNER_CALLSIGN set
+				strncpy(conv->rec.my_call, conv->rec.my_owner, TQSL_CALLSIGN_MAX);
+			}
+			if (conv->rec.my_call[0] == 0 && conv->rec.my_operator[0] != 0) {	// Else try operator
+				strncpy(conv->rec.my_call, conv->rec.my_operator, TQSL_CALLSIGN_MAX);
+			}
 		} else if (conv->cab) {
 			TQSL_CABRILLO_ERROR_TYPE stat;
 			do {
@@ -1372,6 +1438,71 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 			conv->need_station_rec = true;
 			conv->certs_used[conv->cert_idx] = true;
 			return tqsl_getGABBItCERT(conv->certs[conv->cert_idx], conv->cert_idx + conv->base_idx);
+		}
+	}
+
+	// At this point, conv->certs[conv->cert_idx] has the certificate
+	// conv->loc has the location.
+	// Is the call right?
+	if (conv->rec.my_call[0]) {
+		if (strcmp(conv->rec.my_call, conv->callsign)) {
+			conv->rec_done = true;
+			snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Callsign mismatch. Callsign certificate is for %s but QSO details state it is for %s", conv->rec.my_call, conv->callsign);
+			tQSL_Error = TQSL_CUSTOM_ERROR;
+			return 0;
+		}
+	}
+
+	// Is the DXCC right?
+	if (conv->rec.my_dxcc) {
+		if (conv->rec.my_dxcc != conv->dxcc) {
+			conv->rec_done = true;
+			snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Country mismatch. Callsign certificate is for DXCC %d but QSO details state it is for %d", conv->rec.my_dxcc, conv->dxcc);
+			tQSL_Error = TQSL_CUSTOM_ERROR;
+			return 0;
+		}
+	}
+
+	char stnloc[128];
+	if (tqsl_getLocationStationDetails(conv->loc, stnloc, sizeof stnloc)) {
+		stnloc[0] = '\0';
+	}
+	if (stnloc[0]) {
+		char *tok = strtok(stnloc, ",");
+		while (tok) {
+			if (*tok == ' ') tok++;
+			char fld[128], val[128];
+			fld[0] = val[0] = 0;
+			int toks;
+			if ((toks = sscanf(tok, "%[^:]: %s", fld, val)) == 2) {
+#define CHKSTN(FIELD, MY, ERR) \
+				if (strcmp(fld, FIELD) == 0) { \
+					if (conv->rec.MY[0]) { \
+						if (strcasecmp(conv->rec.MY, val)) { \
+							conv->rec_done = true; \
+							snprintf(tQSL_CustomError, sizeof tQSL_CustomError, ERR, val, conv->rec.MY); \
+							tQSL_Error = TQSL_CUSTOM_ERROR; \
+							return 0; \
+						} \
+					} \
+				}
+
+				CHKSTN("GRIDSQUARE", my_gridsquare, "Gridsquare mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+				CHKSTN("ITUZ", my_itu_zone, "ITU Zone mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+				CHKSTN("CQZ", my_cq_zone, "CQ Zone mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+				CHKSTN("IOTA", my_iota, "IOTA mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+				CHKSTN("US_STATE", my_state, "US State mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+				CHKSTN("US_COUNTY", my_county, "US County mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+				CHKSTN("CA_PROVINCE", my_state, "CA Province mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+				CHKSTN("RU_OBLAST", my_state, "RU Oblast mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+				CHKSTN("CN_PROVINCE", my_state, "CN Province mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+				CHKSTN("AU_STATE", my_state, "AU State mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+				CHKSTN("JA_PREFECTURE", my_state, "JA Prefecture mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+         			CHKSTN("JA_CITY_GUN_KU", my_county, "JA City/Gun/Ku mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+				CHKSTN("FI_KUNTA", my_state, "FI Kunta mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+			}
+#undef CHKSTN
+			tok = strtok(NULL, ",");
 		}
 	}
 	const char *grec = tqsl_getGABBItCONTACTData(conv->certs[conv->cert_idx], conv->loc, &(conv->rec),

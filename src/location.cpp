@@ -2832,7 +2832,7 @@ tqsl_getStationLocationField(tQSL_Location locp, const char *name, char *namebuf
 	do {
 		int numf;
 		if (tqsl_getNumLocationField(loc, &numf)) {
-			tqslTrace("tqsl_getStationLocationField", "erro getting num fields %d", tQSL_Error);
+			tqslTrace("tqsl_getStationLocationField", "error getting num fields %d", tQSL_Error);
 			return 1;
 		}
 		for (int i = 0; i < numf; i++) {

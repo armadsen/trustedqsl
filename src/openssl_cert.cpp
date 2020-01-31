@@ -585,7 +585,8 @@ tqsl_createCertRequest(const char *filename, TQSL_CERT_REQ *userreq,
 	int libmaj, libmin, configmaj, configmin;
 	tqsl_getVersion(&libmaj, &libmin);
 	tqsl_getConfigVersion(&configmaj, &configmin);
-	snprintf(buf, sizeof buf, "Lib: V%d.%d, Config: %d, %d", libmaj, libmin, configmaj, configmin);
+	snprintf(buf, sizeof buf, "TQSL: %d.%d.%d, Lib: V%d.%d, Config: %d.%d", TQSL_VERSION_MAJOR,
+			TQSL_VERSION_MINOR, TQSL_VERSION_UPDATE, libmaj, libmin, configmaj, configmin);
 	tqsl_write_adif_field(out, "TQSL_IDENT", 0, (unsigned char *)buf, -1);
 	tqsl_write_adif_field(out, type, 0, NULL, 0);
 	tqsl_write_adif_field(out, "TQSL_CRQ_PROVIDER", 0, (unsigned char *)req->providerName, -1);

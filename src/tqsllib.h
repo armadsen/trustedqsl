@@ -51,6 +51,12 @@
 #define TQSL_FREQ_MAX                20		///< Max length of a frequency
 #define TQSL_SATNAME_MAX             20		///< Max length of a sat name
 #define TQSL_PROPMODE_MAX            20		///< Max length of a prop mode
+#define TQSL_STATE_MAX		     30		///< Max length of a state name
+#define TQSL_GRID_MAX		     30		///< Max length of a grid set
+#define TQSL_CNTY_MAX		     30		///< Max length of a county name
+#define TQSL_COUNTRY_MAX	     60		///< Max length of a country name
+#define TQSL_ZONE_MAX		     5		///< Max length of a zone number
+#define TQSL_IOTA_MAX		     10		///< Max length of a IOTA identifier
 
 #define TQSL_CERT_CB_USER            0		///< Callback is for user cert
 #define TQSL_CERT_CB_CA              1		///< Callback is for CA cert
@@ -132,6 +138,18 @@ typedef struct {
 	bool band_set;				///< QSO specifies a band or frequency
 	bool date_set;				///< QSO specifies a date
 	bool time_set;				///< QSO specifies a time
+	char my_state[TQSL_STATE_MAX+1];	///< QSO specifies MY_STATE
+	char my_gridsquare[TQSL_GRID_MAX+1];	///< QSO specifies MY_GRIDSQUARE
+	char my_vucc_grids[TQSL_GRID_MAX+1];	///< QSO specifies MY_VUCC_GRIDS
+	char my_county[TQSL_CNTY_MAX+1];	///< QSO specifies MY_CNTY
+	char my_country[TQSL_COUNTRY_MAX+1];	///< QSO specifies MY_COUNTRY
+	char my_cq_zone[TQSL_ZONE_MAX+1];	///< QSO specifies MY_CQ_ZONE
+	char my_itu_zone[TQSL_ZONE_MAX+1];	///< QSO specifies MY_ITU_ZONE
+	int my_dxcc;				///< QSO specifies MY_DXCC
+	char my_call[TQSL_CALLSIGN_MAX+1];	///< Station Callsign
+	char my_owner[TQSL_CALLSIGN_MAX+1];	///< Station Owner Callsign
+	char my_operator[TQSL_CALLSIGN_MAX+1];	///< Operator's callsign
+	char my_iota[TQSL_IOTA_MAX+1];		///< QSO specifies MY_IOTA_
 } TQSL_QSO_RECORD;
 
 /// Base directory for tQSL library working files.
