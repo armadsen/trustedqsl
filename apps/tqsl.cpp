@@ -2591,7 +2591,7 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 	if (!curlReq)
 		return NULL;
 
-	wxString uri(url);
+	wxString uri = wxString::FromUTF8(url);
 
  retry:
 
