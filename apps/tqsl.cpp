@@ -2618,7 +2618,7 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 		fprintf(*curlLogFile, "%s:\n", logTitle);
 	}
 	//set up options
-	curl_easy_setopt(curlReq, CURLOPT_URL, uri.ToUTF8());
+	curl_easy_setopt(curlReq, CURLOPT_URL, (const char *)uri.ToUTF8());
 	curl_easy_setopt(curlReq, CURLOPT_USERAGENT, "tqsl/" VERSION);
 
 #ifdef __WXMAC__
@@ -2745,7 +2745,7 @@ int MyFrame::UploadFile(const wxString& infile, const char* filename, int numrec
 			wxLogMessage(_("Attempting to upload %d QSOs"), numrecs);
 		}
 	} else {
-		wxLogMessage(_("Attempting to upload %s"), fileType);
+		wxLogMessage(_("Attempting to upload %s"), fileType.c_str());
 	}
 
 	if (frame && !quiet) {
