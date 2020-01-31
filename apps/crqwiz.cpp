@@ -1184,7 +1184,7 @@ CRQ_CallsignPage::TransferDataFromWindow() {
 				break;
 			case 1:
 				break;						// Error reading ULS info
-			case 2:							
+			case 2:
 				switch (_parent->certType) {			// Not found
 					case CERT_CURRENT_PERSONAL:
 					case CERT_NEW_PERSONAL:

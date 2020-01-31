@@ -2619,6 +2619,7 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 	}
 	//set up options
 	curl_easy_setopt(curlReq, CURLOPT_URL, uri.ToUTF8());
+	curl_easy_setopt(curlReq, CURLOPT_USERAGENT, "tqsl/" VERSION);
 
 #ifdef __WXMAC__
 	DocPaths docpaths(wxT("tqsl.app"));
@@ -3745,6 +3746,7 @@ MyFrame::DoCheckForUpdates(bool silent, bool noGUI) {
 		// Add the config.xml text to the result
 		wxString configURL = config->Read(wxT("ConfigFileVerURL"), DEFAULT_UPD_CONFIG_URL);
 		curl_easy_setopt(curlReq, CURLOPT_URL, (const char*)configURL.ToUTF8());
+		curl_easy_setopt(curlReq, CURLOPT_USERAGENT, "tqsl/" VERSION);
 
 		retval = curl_easy_perform(curlReq);
 		if (retval == CURLE_OK) {
@@ -5471,9 +5473,6 @@ QSLApp::OnInit() {
 		password = strdup(pwd.ToUTF8());
 		utf8_to_ucs2(password, unipwd, sizeof unipwd);
 	}
-	if (parser.Found(wxT("o"), &outfile)) {
-	}
-
 	if (parser.Found(wxT("d"))) {
 		suppressdate = true;
 	}
@@ -6612,13 +6611,13 @@ void MyFrame::OnChooseLanguage(wxCommandEvent& WXUNUSED(event)) {
 	tqslTrace("MyFrame::OnChooseLanguage", "Language choice dialog");
 
 	wxLanguage lang = wxGetApp().GetLang();
-	
+
 	int sel = 0;
 	for (size_t i = 0; i < langIds.size(); i++) {
 		if (langWX2toWX3(langIds[i]) == lang) {
 			sel = i;
 			break;
-		}	
+		}
 	}
 #if wxMAJOR_VERSION > 2
 	long lng = wxGetSingleChoiceIndex(_("Please choose language:"),
