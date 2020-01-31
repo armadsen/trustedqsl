@@ -26,71 +26,72 @@ endif()
 
 include_directories(${tqsllib_SOURCE_DIR} ${ZLIB_INCLUDE_DIR} ${EXPAT_INCLUDE_DIR} ${CURL_INCLUDE_DIR} ${CARBON_INCLUDE_DIR} ${OPENSSL_INCLUDE_DIR} ${BDB_INCLUDE_DIR} ${LMDB_INCLUDE_DIR})
 
-#get version from file
-
-file(STRINGS "tqslversion.ver" TQSLVERSION)
-string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\1" TQSL_VERSION_MAJOR ${TQSLVERSION})
-string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\2" TQSL_VERSION_MINOR ${TQSLVERSION})
-string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\3" TQSL_VERSION_UPDATE ${TQSLVERSION})
-
-# Handle case where version number does not have an update i.e. 2.0
-if (TQSL_VERSION_MAJOR STREQUAL ${TQSLVERSION}) 
-	string(REGEX REPLACE "([0-9]+)\\.([0-9]+)" "\\1" TQSL_VERSION_MAJOR ${TQSLVERSION})
-	string(REGEX REPLACE "([0-9]+)\\.([0-9]+)" "\\2" TQSL_VERSION_MINOR ${TQSLVERSION})
-	set(TQSL_VERSION_UPDATE "0")
-endif()
-
-#get build # with git
-
-find_program(GIT_PROG git "C:\\Program Files (x86)\\Git\\bin" "C:\\Program Files\\Git\\bin")
-
-if(GIT_PROG) #we can use git
-	execute_process(COMMAND ${GIT_PROG} describe RESULT_VARIABLE GITERROR ERROR_QUIET OUTPUT_VARIABLE HEAD_COMMIT OUTPUT_STRIP_TRAILING_WHITESPACE)
-	if(NOT GITERROR) #git ran alright
-		set(BUILD ${HEAD_COMMIT})
-	else()		# Git error - hope this is a source distro
-		if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h)
-			file(STRINGS ${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h BUILDSTR REGEX "\\[.*\\]")
-			string(REGEX REPLACE ".*\\[(.*)\\].*" "\\1" BUILD ${BUILDSTR})
-		endif()
-	endif()
-else()	# No git, again grab from source
-	if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h)
-		file(STRINGS ${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h BUILDSTR REGEX "\\[.*\\]")
-		string(REGEX REPLACE ".*\\[(.*)\\].*" "\\1" BUILD ${BUILDSTR})
-	endif()
-endif()
-
-# If BUILD is set (we have a version) and BUILDSTR is not (we got that build from
-# git), then write a tqslbuild.h. Else leave it alone.
-if(BUILD AND NOT BUILDSTR)
-	configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h")
-else() #hope this is a source distribution, which will always include a correct tqslbuild
-	if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h")
-		#but otherwise someone downloaded a snapshot without a buildfile
-		set(BUILD "unknown")
-		configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h")
-	endif()
-endif()
-
-# In case the versions couldn't be deduced, set them
-if(NOT ${TQSL_VERSION_MAJOR})
-	set(TQSL_VERSION_MAJOR 2)
-endif()
-
-if(NOT TQSL_VERSION_MINOR)
-	set(TQSL_VERSION_MINOR 1)
-endif()
-
-if (NOT TQSL_VERSION_UPDATE)
-	set(TQSL_VERSION_UPDATE 0)
-endif()
-
-IF(TQSL_VERSION_UPDATE AND NOT TQSL_VERSION_UPDATE EQUAL 0) 
-	set(TQSLVERSION "${TQSL_VERSION_MAJOR}.${TQSL_VERSION_MINOR}.${TQSL_VERSION_UPDATE}")
-else()
-	set(TQSLVERSION "${TQSL_VERSION_MAJOR}.${TQSL_VERSION_MINOR}")
-endif()
+#rhm #get version from file
+#rhm 
+#rhm file(STRINGS "tqslversion.ver" TQSLVERSION)
+#rhm string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\1" TQSL_VERSION_MAJOR ${TQSLVERSION})
+#rhm string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\2" TQSL_VERSION_MINOR ${TQSLVERSION})
+#rhm string(REGEX REPLACE "([0-9]+)\\.([0-9]+)\\.([0-9]+)" "\\3" TQSL_VERSION_UPDATE ${TQSLVERSION})
+#rhm 
+#rhm # Handle case where version number does not have an update i.e. 2.0
+#rhm if (TQSL_VERSION_MAJOR STREQUAL ${TQSLVERSION}) 
+	#rhm string(REGEX REPLACE "([0-9]+)\\.([0-9]+)" "\\1" TQSL_VERSION_MAJOR ${TQSLVERSION})
+	#rhm string(REGEX REPLACE "([0-9]+)\\.([0-9]+)" "\\2" TQSL_VERSION_MINOR ${TQSLVERSION})
+	#rhm set(TQSL_VERSION_UPDATE "0")
+#rhm endif()
+#rhm 
+#rhm #get build # with git
+#rhm 
+#rhm find_program(GIT_PROG git "C:\\Program Files (x86)\\Git\\bin" "C:\\Program Files\\Git\\bin")
+#rhm 
+#rhm if(GIT_PROG) #we can use git
+	#rhm execute_process(COMMAND ${GIT_PROG} describe RESULT_VARIABLE GITERROR ERROR_QUIET OUTPUT_VARIABLE HEAD_COMMIT OUTPUT_STRIP_TRAILING_WHITESPACE)
+	#rhm if(NOT GITERROR) #git ran alright
+		#rhm set(BUILD ${HEAD_COMMIT})
+	#rhm else()		# Git error - hope this is a source distro
+		#rhm if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h)
+			#rhm file(STRINGS ${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h BUILDSTR REGEX "\\[.*\\]")
+			#rhm string(REGEX REPLACE ".*\\[(.*)\\].*" "\\1" BUILD ${BUILDSTR})
+		#rhm endif()
+	#rhm endif()
+#rhm else()	# No git, again grab from source
+	#rhm if (EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h)
+		#rhm file(STRINGS ${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h BUILDSTR REGEX "\\[.*\\]")
+		#rhm string(REGEX REPLACE ".*\\[(.*)\\].*" "\\1" BUILD ${BUILDSTR})
+	#rhm endif()
+#rhm endif()
+#rhm 
+#rhm # If BUILD is set (we have a version) and BUILDSTR is not (we got that build from
+#rhm # git), then write a tqslbuild.h. Else leave it alone.
+#rhm if(BUILD AND NOT BUILDSTR)
+	#rhm configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h")
+#rhm else() #hope this is a source distribution, which will always include a correct tqslbuild
+	#rhm if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h")
+		#rhm #but otherwise someone downloaded a snapshot without a buildfile
+		#rhm set(BUILD "unknown")
+		#rhm configure_file("${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h.in" "${CMAKE_CURRENT_SOURCE_DIR}/tqslbuild.h")
+	#rhm endif()
+#rhm endif()
+#rhm 
+#rhm # In case the versions couldn't be deduced, set them
+#rhm if(NOT ${TQSL_VERSION_MAJOR})
+	#rhm set(TQSL_VERSION_MAJOR 2)
+#rhm endif()
+#rhm 
+#rhm if(NOT TQSL_VERSION_MINOR)
+	#rhm set(TQSL_VERSION_MINOR 1)
+#rhm endif()
+#rhm 
+#rhm if (NOT TQSL_VERSION_UPDATE)
+	#rhm set(TQSL_VERSION_UPDATE 0)
+#rhm endif()
+#rhm 
+#rhm IF(TQSL_VERSION_UPDATE AND NOT TQSL_VERSION_UPDATE EQUAL 0) 
+	#rhm set(TQSLVERSION "${TQSL_VERSION_MAJOR}.${TQSL_VERSION_MINOR}.${TQSL_VERSION_UPDATE}")
+#rhm else()
+	#rhm set(TQSLVERSION "${TQSL_VERSION_MAJOR}.${TQSL_VERSION_MINOR}")
+#rhm endif()
+#rhm 
 
 if(${BUILD} MATCHES "-(alpha|beta|test|rc[0-9])")
 	message("${BUILD} is a test build")
