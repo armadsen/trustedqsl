@@ -1058,40 +1058,139 @@ static bool open_db(TQSL_CONVERTER *conv, bool readonly) {
 }
 #endif // USE_LMDB
 
+static const char* get_ident_rec(TQSL_CONVERTER *conv) {
+	int major = 0, minor = 0, config_major = 0, config_minor = 0;
+
+	tqsl_getVersion(&major, &minor);
+	tqsl_getConfigVersion(&config_major, &config_minor);
+	char temp[512];
+	static char ident[512];
+	snprintf(temp, sizeof temp, "%s Lib: V%d.%d Config: V%d.%d AllowDupes: %s",
+		conv->appName ? conv->appName : "Unknown",
+		major, minor, config_major, config_minor,
+		conv->allow_dupes ? "true" : "false");
+	temp[sizeof temp - 1] = '\0';
+	int len = strlen(temp);
+	snprintf(ident, sizeof ident, "<TQSL_IDENT:%d>%s\n", len, temp);
+	ident[sizeof ident - 1] = '\0';
+	conv->need_ident_rec = false;
+	return ident;
+}
+
+static const char* get_station_rec(TQSL_CONVERTER *conv) {
+	int uid = conv->cert_idx + conv->base_idx;
+	conv->need_station_rec = false;
+	const char *tStation = tqsl_getGABBItSTATION(conv->loc, uid, uid);
+	tqsl_getCertificateSerialExt(conv->certs[conv->cert_idx], conv->serial, sizeof conv->serial);
+	tqsl_getCertificateCallSign(conv->certs[conv->cert_idx], conv->callsign, sizeof conv->callsign);
+	tqsl_getCertificateDXCCEntity(conv->certs[conv->cert_idx], &conv->dxcc);
+	return tStation;
+}
+
+
+static void parse_adif_qso(TQSL_CONVERTER *conv, int *saveErr, TQSL_ADIF_GET_FIELD_ERROR *stat) {
+	int cstat = 0;
+	while (1) {
+		tqsl_adifFieldResults result;
+		if (tqsl_getADIFField(conv->adif, &result, stat, adif_qso_record_fields, notypes, adif_allocate))
+			break;
+		if (*stat != TQSL_ADIF_GET_FIELD_SUCCESS && *stat != TQSL_ADIF_GET_FIELD_NO_NAME_MATCH)
+			break;
+		if (!strcasecmp(result.name, "eor"))
+			break;
+		if (!strcasecmp(result.name, "CALL") && result.data) {
+			conv->rec.callsign_set = true;
+			strncpy(conv->rec.callsign, reinterpret_cast<char *>(result.data), sizeof conv->rec.callsign);
+		} else if (!strcasecmp(result.name, "BAND") && result.data) {
+			conv->rec.band_set = true;
+			strncpy(conv->rec.band, reinterpret_cast<char *>(result.data), sizeof conv->rec.band);
+		} else if (!strcasecmp(result.name, "MODE") && result.data) {
+			conv->rec.mode_set = true;
+			strncpy(conv->rec.mode, reinterpret_cast<char *>(result.data), sizeof conv->rec.mode);
+		} else if (!strcasecmp(result.name, "SUBMODE") && result.data) {
+			strncpy(conv->rec.submode, reinterpret_cast<char *>(result.data), sizeof conv->rec.submode);
+		} else if (!strcasecmp(result.name, "FREQ") && result.data) {
+			conv->rec.band_set = true;
+			strncpy(conv->rec.freq, fix_freq(reinterpret_cast<char *>(result.data)), sizeof conv->rec.freq);
+			if (atof(conv->rec.freq) == 0.0)
+				conv->rec.freq[0] = '\0';
+		} else if (!strcasecmp(result.name, "FREQ_RX") && result.data) {
+			strncpy(conv->rec.rxfreq, fix_freq(reinterpret_cast<char *>(result.data)), sizeof conv->rec.rxfreq);
+			if (atof(conv->rec.rxfreq) == 0.0)
+				conv->rec.rxfreq[0] = '\0';
+		} else if (!strcasecmp(result.name, "BAND_RX") && result.data) {
+			strncpy(conv->rec.rxband, reinterpret_cast<char *>(result.data), sizeof conv->rec.rxband);
+		} else if (!strcasecmp(result.name, "SAT_NAME") && result.data) {
+			strncpy(conv->rec.satname, reinterpret_cast<char *>(result.data), sizeof conv->rec.satname);
+		} else if (!strcasecmp(result.name, "PROP_MODE") && result.data) {
+			strncpy(conv->rec.propmode, reinterpret_cast<char *>(result.data), sizeof conv->rec.propmode);
+		} else if (!strcasecmp(result.name, "QSO_DATE") && result.data) {
+			conv->rec.date_set = true;
+			cstat = tqsl_initDate(&(conv->rec.date), (const char *)result.data);
+			if (cstat)
+				*saveErr = tQSL_Error;
+		} else if (!strcasecmp(result.name, "TIME_ON") && result.data) {
+			conv->rec.time_set = true;
+			cstat = tqsl_initTime(&(conv->rec.time), (const char *)result.data);
+			if (cstat)
+				*saveErr = tQSL_Error;
+		} else if (!strcasecmp(result.name, "MY_CNTY") && result.data) {
+			strncpy(conv->rec.my_county, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_county);
+		} else if (!strcasecmp(result.name, "MY_COUNTRY") && result.data) {
+			strncpy(conv->rec.my_country, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_country);
+		} else if (!strcasecmp(result.name, "MY_CQ_ZONE") && result.data) {
+			strncpy(conv->rec.my_cq_zone, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_cq_zone);
+		} else if (!strcasecmp(result.name, "MY_DXCC") && result.data) {
+			conv->rec.my_dxcc = strtol(reinterpret_cast<char *>(result.data), NULL, 10);
+		} else if (!strcasecmp(result.name, "MY_GRIDSQUARE") && result.data) {
+			strncpy(conv->rec.my_gridsquare, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_gridsquare);
+		} else if (!strcasecmp(result.name, "MY_IOTA") && result.data) {
+			strncpy(conv->rec.my_iota, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_iota);
+		} else if (!strcasecmp(result.name, "MY_ITU_ZONE") && result.data) {
+			strncpy(conv->rec.my_itu_zone, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_itu_zone);
+		} else if (!strcasecmp(result.name, "MY_STATE") && result.data) {
+			strncpy(conv->rec.my_state, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_state);
+		} else if (!strcasecmp(result.name, "MY_VUCC_GRIDS") && result.data) {
+			strncpy(conv->rec.my_vucc_grids, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_vucc_grids);
+		} else if (!strcasecmp(result.name, "OPERATOR") && result.data) {
+			strncpy(conv->rec.my_operator, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_operator);
+		} else if (!strcasecmp(result.name, "OWNER_CALLSIGN") && result.data) {
+			strncpy(conv->rec.my_owner, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_owner);
+		} else if (!strcasecmp(result.name, "STATION_CALLSIGN") && result.data) {
+			strncpy(conv->rec.my_call, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_call);
+		} else {
+			tqslTrace("tqsl_getConverterGABBI", "Unknown ADIF field %s", result.name);
+		}
+
+		if (*stat == TQSL_ADIF_GET_FIELD_SUCCESS) {
+			conv->rec_text += string(reinterpret_cast<char *>(result.name)) + ": ";
+			if (result.data)
+				conv->rec_text += string(reinterpret_cast<char *>(result.data));
+			conv->rec_text += "\n";
+		}
+		if (result.data)
+			delete[] result.data;
+	}
+	return;
+}
+
 DLLEXPORT const char* CALLCONVENTION
 tqsl_getConverterGABBI(tQSL_Converter convp) {
 	TQSL_CONVERTER *conv;
 	char signdata[1024];
+	int cstat = 0;
 
 	if (!(conv = check_conv(convp)))
 		return 0;
+
 	if (conv->need_ident_rec) {
-		int major = 0, minor = 0, config_major = 0, config_minor = 0;
-		tqsl_getVersion(&major, &minor);
-		tqsl_getConfigVersion(&config_major, &config_minor);
-		char temp[512];
-		static char ident[512];
-		snprintf(temp, sizeof temp, "%s Lib: V%d.%d Config: V%d.%d AllowDupes: %s",
-			conv->appName ? conv->appName : "Unknown",
-			major, minor, config_major, config_minor,
-			conv->allow_dupes ? "true" : "false");
-		temp[sizeof temp - 1] = '\0';
-		int len = strlen(temp);
-		snprintf(ident, sizeof ident, "<TQSL_IDENT:%d>%s\n", len, temp);
-		ident[sizeof ident - 1] = '\0';
-		conv->need_ident_rec = false;
-		return ident;
+		return get_ident_rec(conv);
 	}
 
 	if (conv->need_station_rec) {
-		int uid = conv->cert_idx + conv->base_idx;
-		conv->need_station_rec = false;
-		const char *tStation = tqsl_getGABBItSTATION(conv->loc, uid, uid);
-		tqsl_getCertificateSerialExt(conv->certs[conv->cert_idx], conv->serial, sizeof conv->serial);
-		tqsl_getCertificateCallSign(conv->certs[conv->cert_idx], conv->callsign, sizeof conv->callsign);
-		tqsl_getCertificateDXCCEntity(conv->certs[conv->cert_idx], &conv->dxcc);
-		return tStation;
+		return get_station_rec(conv);
 	}
+
 	if (!conv->allow_dupes && !conv->db_open) {
 		if (!open_db(conv, false)) {	// If can't open dupes DB
 			return 0;
@@ -1103,90 +1202,9 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 	if (conv->rec_done) {
 		conv->rec_done = false;
 		conv->clearRec();
-		int cstat = 0;
 		int saveErr = 0;
 		if (conv->adif) {
-	 		while (1) {
-				tqsl_adifFieldResults result;
-				if (tqsl_getADIFField(conv->adif, &result, &stat, adif_qso_record_fields, notypes, adif_allocate))
-					break;
-				if (stat != TQSL_ADIF_GET_FIELD_SUCCESS && stat != TQSL_ADIF_GET_FIELD_NO_NAME_MATCH)
-					break;
-				if (!strcasecmp(result.name, "eor"))
-					break;
-				if (!strcasecmp(result.name, "CALL") && result.data) {
-					conv->rec.callsign_set = true;
-					strncpy(conv->rec.callsign, reinterpret_cast<char *>(result.data), sizeof conv->rec.callsign);
-				} else if (!strcasecmp(result.name, "BAND") && result.data) { 
-					conv->rec.band_set = true;
-					strncpy(conv->rec.band, reinterpret_cast<char *>(result.data), sizeof conv->rec.band);
-				} else if (!strcasecmp(result.name, "MODE") && result.data) { 
-					conv->rec.mode_set = true;
-					strncpy(conv->rec.mode, reinterpret_cast<char *>(result.data), sizeof conv->rec.mode);
-				} else if (!strcasecmp(result.name, "SUBMODE") && result.data) { 
-					strncpy(conv->rec.submode, reinterpret_cast<char *>(result.data), sizeof conv->rec.submode);
-				} else if (!strcasecmp(result.name, "FREQ") && result.data) {
-					conv->rec.band_set = true;
-					strncpy(conv->rec.freq, fix_freq(reinterpret_cast<char *>(result.data)), sizeof conv->rec.freq);
-					if (atof(conv->rec.freq) == 0.0)
-						conv->rec.freq[0] = '\0';
-				} else if (!strcasecmp(result.name, "FREQ_RX") && result.data) {
-					strncpy(conv->rec.rxfreq, fix_freq(reinterpret_cast<char *>(result.data)), sizeof conv->rec.rxfreq);
-					if (atof(conv->rec.rxfreq) == 0.0)
-						conv->rec.rxfreq[0] = '\0';
-				} else if (!strcasecmp(result.name, "BAND_RX") && result.data) { 
-					strncpy(conv->rec.rxband, reinterpret_cast<char *>(result.data), sizeof conv->rec.rxband);
-				} else if (!strcasecmp(result.name, "SAT_NAME") && result.data) { 
-					strncpy(conv->rec.satname, reinterpret_cast<char *>(result.data), sizeof conv->rec.satname);
-				} else if (!strcasecmp(result.name, "PROP_MODE") && result.data) { 
-					strncpy(conv->rec.propmode, reinterpret_cast<char *>(result.data), sizeof conv->rec.propmode);
-				} else if (!strcasecmp(result.name, "QSO_DATE") && result.data) {
-					conv->rec.date_set = true;
-					cstat = tqsl_initDate(&(conv->rec.date), (const char *)result.data);
-					if (cstat)
-						saveErr = tQSL_Error;
-				} else if (!strcasecmp(result.name, "TIME_ON") && result.data) {
-					conv->rec.time_set = true;
-					cstat = tqsl_initTime(&(conv->rec.time), (const char *)result.data);
-					if (cstat)
-						saveErr = tQSL_Error;
-				} else if (!strcasecmp(result.name, "MY_CNTY") && result.data) { 
-					strncpy(conv->rec.my_county, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_county);
-				} else if (!strcasecmp(result.name, "MY_COUNTRY") && result.data) { 
-					strncpy(conv->rec.my_country, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_country);
-				} else if (!strcasecmp(result.name, "MY_CQ_ZONE") && result.data) { 
-					strncpy(conv->rec.my_cq_zone, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_cq_zone);
-				} else if (!strcasecmp(result.name, "MY_DXCC") && result.data) {
-					conv->rec.my_dxcc = strtol(reinterpret_cast<char *>(result.data), NULL, 10);
-				} else if (!strcasecmp(result.name, "MY_GRIDSQUARE") && result.data) { 
-					strncpy(conv->rec.my_gridsquare, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_gridsquare);
-				} else if (!strcasecmp(result.name, "MY_IOTA") && result.data) { 
-					strncpy(conv->rec.my_iota, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_iota);
-				} else if (!strcasecmp(result.name, "MY_ITU_ZONE") && result.data) { 
-					strncpy(conv->rec.my_itu_zone, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_itu_zone);
-				} else if (!strcasecmp(result.name, "MY_STATE") && result.data) { 
-					strncpy(conv->rec.my_state, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_state);
-				} else if (!strcasecmp(result.name, "MY_VUCC_GRIDS") && result.data) { 
-					strncpy(conv->rec.my_vucc_grids, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_vucc_grids);
-				} else if (!strcasecmp(result.name, "OPERATOR") && result.data) { 
-					strncpy(conv->rec.my_operator, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_operator);
-				} else if (!strcasecmp(result.name, "OWNER_CALLSIGN") && result.data) { 
-					strncpy(conv->rec.my_owner, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_owner);
-				} else if (!strcasecmp(result.name, "STATION_CALLSIGN") && result.data) { 
-					strncpy(conv->rec.my_call, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_call);
-				} else {
-					tqslTrace("tqsl_getConverterGABBI", "Unknown ADIF field %s", result.name);
-				}
-
-				if (stat == TQSL_ADIF_GET_FIELD_SUCCESS) {
-					conv->rec_text += string(reinterpret_cast<char *>(result.name)) + ": ";
-					if (result.data)
-						conv->rec_text += string(reinterpret_cast<char *>(result.data));
-					conv->rec_text += "\n";
-				}
-				if (result.data)
-					delete[] result.data;
-			}
+			parse_adif_qso(conv, &saveErr, &stat);
 			if (saveErr) {
 				tQSL_Error = saveErr;
 				conv->rec_done = true;
@@ -1447,8 +1465,8 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 	if (conv->rec.my_call[0]) {
 		if (strcmp(conv->rec.my_call, conv->callsign)) {
 			conv->rec_done = true;
-			snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Callsign mismatch. Callsign certificate is for %s but QSO details state it is for %s", conv->rec.my_call, conv->callsign);
-			tQSL_Error = TQSL_CUSTOM_ERROR;
+			snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Callsign/%s/%s", conv->rec.my_call, conv->callsign);
+			tQSL_Error = TQSL_CERT_MISMATCH;
 			return 0;
 		}
 	}
@@ -1457,8 +1475,12 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 	if (conv->rec.my_dxcc) {
 		if (conv->rec.my_dxcc != conv->dxcc) {
 			conv->rec_done = true;
-			snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Country mismatch. Callsign certificate is for DXCC %d but QSO details state it is for %d", conv->rec.my_dxcc, conv->dxcc);
-			tQSL_Error = TQSL_CUSTOM_ERROR;
+			const char *d1, *d2;
+			tqsl_getDXCCEntityName(conv->rec.my_dxcc, &d1);
+			tqsl_getDXCCEntityName(conv->dxcc, &d2);
+
+			snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "DXCC Entity/%s (%d)/%s (%d)", d1, conv->rec.my_dxcc, d2, conv->dxcc);
+			tQSL_Error = TQSL_CERT_MISMATCH;
 			return 0;
 		}
 	}
@@ -1475,31 +1497,31 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 			fld[0] = val[0] = 0;
 			int toks;
 			if ((toks = sscanf(tok, "%[^:]: %s", fld, val)) == 2) {
-#define CHKSTN(FIELD, MY, ERR) \
+#define CHKSTN(FIELD, MY, ERRFMT) \
 				if (strcmp(fld, FIELD) == 0) { \
 					if (conv->rec.MY[0]) { \
 						if (strcasecmp(conv->rec.MY, val)) { \
 							conv->rec_done = true; \
-							snprintf(tQSL_CustomError, sizeof tQSL_CustomError, ERR, val, conv->rec.MY); \
-							tQSL_Error = TQSL_CUSTOM_ERROR; \
+							snprintf(tQSL_CustomError, sizeof tQSL_CustomError, ERRFMT, val, conv->rec.MY); \
+							tQSL_Error = TQSL_LOCATION_MISMATCH; \
 							return 0; \
 						} \
 					} \
 				}
 
-				CHKSTN("GRIDSQUARE", my_gridsquare, "Gridsquare mismatch. Station Location specifies '%s' but QSO details provide '%s'")
-				CHKSTN("ITUZ", my_itu_zone, "ITU Zone mismatch. Station Location specifies '%s' but QSO details provide '%s'")
-				CHKSTN("CQZ", my_cq_zone, "CQ Zone mismatch. Station Location specifies '%s' but QSO details provide '%s'")
-				CHKSTN("IOTA", my_iota, "IOTA mismatch. Station Location specifies '%s' but QSO details provide '%s'")
-				CHKSTN("US_STATE", my_state, "US State mismatch. Station Location specifies '%s' but QSO details provide '%s'")
-				CHKSTN("US_COUNTY", my_county, "US County mismatch. Station Location specifies '%s' but QSO details provide '%s'")
-				CHKSTN("CA_PROVINCE", my_state, "CA Province mismatch. Station Location specifies '%s' but QSO details provide '%s'")
-				CHKSTN("RU_OBLAST", my_state, "RU Oblast mismatch. Station Location specifies '%s' but QSO details provide '%s'")
-				CHKSTN("CN_PROVINCE", my_state, "CN Province mismatch. Station Location specifies '%s' but QSO details provide '%s'")
-				CHKSTN("AU_STATE", my_state, "AU State mismatch. Station Location specifies '%s' but QSO details provide '%s'")
-				CHKSTN("JA_PREFECTURE", my_state, "JA Prefecture mismatch. Station Location specifies '%s' but QSO details provide '%s'")
-         			CHKSTN("JA_CITY_GUN_KU", my_county, "JA City/Gun/Ku mismatch. Station Location specifies '%s' but QSO details provide '%s'")
-				CHKSTN("FI_KUNTA", my_state, "FI Kunta mismatch. Station Location specifies '%s' but QSO details provide '%s'")
+				CHKSTN("GRIDSQUARE", my_gridsquare, "Gridsquare/%s/%s")
+				CHKSTN("ITUZ", my_itu_zone, "ITU Zone/%s/%s")
+				CHKSTN("CQZ", my_cq_zone, "CQ Zone/%s/%s")
+				CHKSTN("IOTA", my_iota, "IOTA/%s/%s")
+				CHKSTN("US_STATE", my_state, "US State/%s/%s")
+				CHKSTN("US_COUNTY", my_county, "US County/%s/%s")
+				CHKSTN("CA_PROVINCE", my_state, "CA Province/%s/%s")
+				CHKSTN("RU_OBLAST", my_state, "RU Oblast/%s/%s")
+				CHKSTN("CN_PROVINCE", my_state, "CN Province/%s/%s")
+				CHKSTN("AU_STATE", my_state, "AU State/%s/%s")
+				CHKSTN("JA_PREFECTURE", my_state, "JA Prefecture/%s/%s")
+         			CHKSTN("JA_CITY_GUN_KU", my_county, "JA City/Gun/Ku/%s/%s")
+				CHKSTN("FI_KUNTA", my_state, "FI Kunta/%s/%s")
 			}
 #undef CHKSTN
 			tok = strtok(NULL, ",");

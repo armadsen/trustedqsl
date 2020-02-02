@@ -161,6 +161,8 @@ static const char *error_strings[] = {
 	__("This file can not be processed due to a system error"),	/* TQSL_FILE_SYSTEM_ERROR */
 	__("The format of this file is incorrect."),		/* TQSL_FILE_SYNTAX_ERROR */
 	__("Callsign certificate could not be installed"),	/* TQSL_CERT_ERROR */
+        __("Callsign Certificate does not match QSO details"),	/* TQSL_CERT_MISMATCH */
+        __("Station Location does not match QSO details"),	/* TQSL_LOCATION_MISMATCH */
 };
 
 static wxString
@@ -242,6 +244,19 @@ getLocalizedErrorString_v(int err) {
 	    adjusted_err >=
 		static_cast<int>(sizeof error_strings / sizeof error_strings[0])) {
 		return wxString::Format(_("Invalid error code: %d"), err);
+	}
+
+	if (err == TQSL_CERT_MISMATCH || err == TQSL_LOCATION_MISMATCH) {
+		char *fld, *cert, *qso;
+		fld = strtok(tQSL_CustomError, "/");
+		cert = strtok(NULL, "/");
+		qso = strtok(NULL, "/");
+		wxString tp(_("Callsign Certificate"));
+		if (err == TQSL_LOCATION_MISMATCH)
+			tp = wxString(_("Station Location"));
+	 	wxString composed = wxGetTranslation(wxString::FromUTF8(error_strings[adjusted_err]));
+		composed = composed + wxT("\n") + wxString::Format(_("The %s '%s' has value '%s' while QSO has '%s'"), tp, fld, cert, qso);
+		return composed;
 	}
 	return wxGetTranslation(wxString::FromUTF8(error_strings[adjusted_err]));
 }
