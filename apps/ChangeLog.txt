@@ -2,6 +2,10 @@ TQSL changes
 ============
 2.5.2
 ----------
+When an ADIF log provides station details, detect mismatches and report
+those when signing a log. This allows improperly chosen callsign certificates
+and Station Locations to be detected.
+
 When https (Secure) connections to Logbook fail, fall back to trying http
 requests. This allows systems with anti-virus that interferes with network
 connections to recover.
