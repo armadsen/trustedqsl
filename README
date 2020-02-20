@@ -95,7 +95,8 @@ information.
 
 When using "-f update", the ideal practice should be to either
 specify all QTH information (state, county, grid, zones) in the
-ADIF "MY_" fields.
+ADIF "MY_" fields, or use an minimal Station Location with no
+QTH data.
 
   -l <str>      Select Station Location.
 
