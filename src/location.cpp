@@ -3400,6 +3400,105 @@ tqsl_setLocationCallSign(tQSL_Location locp, const char *buf) {
 }
 
 DLLEXPORT int CALLCONVENTION
+tqsl_getLocationField(tQSL_Location locp, const char *field, char *buf, int bufsiz) {
+	TQSL_LOCATION *loc;
+	if (!(loc = check_loc(locp, false))) {
+		tqslTrace("tqsl_getLocationField", "loc error %d", tQSL_Error);
+		return 1;
+	}
+	if (buf == NULL || bufsiz <= 0) {
+		tqslTrace("tqsl_getLocationField", "arg error buf=0x%lx, bufsiz=%d", buf, bufsiz);
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+	*buf = '\0';
+	int old_page = loc->page;
+	tqsl_setStationLocationCapturePage(loc, 1);
+
+	do {
+		TQSL_LOCATION_PAGE& p = loc->pagelist[loc->page-1];
+		for (int i = 0; i < static_cast<int>(p.fieldlist.size()); i++) {
+			TQSL_LOCATION_FIELD f = p.fieldlist[i];
+			if (f.gabbi_name == field) {
+				strncpy(buf, f.cdata.c_str(), bufsiz);
+				buf[bufsiz-1] = 0;
+				if (static_cast<int>(f.cdata.size()) >= bufsiz) {
+					tqslTrace("tqsl_getLocationField", "buf error req=%d avail=%d", static_cast<int>(f.cdata.size()), bufsiz);
+					tQSL_Error = TQSL_BUFFER_ERROR;
+					return 1;
+				}
+				tqsl_setStationLocationCapturePage(loc, old_page);
+				return 0;
+			}
+		}
+		int rval;
+		if (tqsl_hasNextStationLocationCapture(loc, &rval) || !rval)
+			break;
+		tqsl_nextStationLocationCapture(loc);
+	} while (1);
+
+	tQSL_Error = TQSL_CALL_NOT_FOUND;
+	return 1;
+}
+
+DLLEXPORT int CALLCONVENTION
+tqsl_setLocationField(tQSL_Location locp, const char *field, const char *buf) {
+	TQSL_LOCATION *loc;
+	if (!(loc = check_loc(locp, false))) {
+		tqslTrace("tqsl_setLocationField", "loc error %d", tQSL_Error);
+		return 1;
+	}
+	if (buf == NULL) {
+		tqslTrace("tqsl_setLocationField", "arg error buf=null");
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+	int old_page = loc->page;
+	tqsl_setStationLocationCapturePage(loc, 1);
+
+	do {
+		TQSL_LOCATION_PAGE& p = loc->pagelist[loc->page-1];
+
+		for (int i = 0; i < static_cast<int>(p.fieldlist.size()); i++) {
+			TQSL_LOCATION_FIELD *pf = &p.fieldlist[i];
+			if (pf->gabbi_name == field) {
+				pf->cdata = string(buf).substr(0, pf->data_len);
+				if (pf->flags & TQSL_LOCATION_FIELD_UPPER)
+					pf->cdata = string_toupper(pf->cdata);
+
+				if (pf->input_type == TQSL_LOCATION_FIELD_DDLIST || pf->input_type == TQSL_LOCATION_FIELD_LIST) {
+					if (pf->cdata == "") {
+						pf->idx = 0;
+						pf->idata = pf->items[0].ivalue;
+					} else {
+						for (int i = 0; i < static_cast<int>(pf->items.size()); i++) {
+							if (string_toupper(pf->items[i].text) == string_toupper(pf->cdata)) {
+								pf->cdata = pf->items[i].text;
+								pf->idx = i;
+								pf->idata = pf->items[i].ivalue;
+								break;
+							}
+						}
+					}
+				} else if (pf->data_type == TQSL_LOCATION_FIELD_INT) {
+					pf->idata = strtol(pf->cdata.c_str(), NULL, 10);
+				}
+				tqsl_setStationLocationCapturePage(loc, old_page);
+				return 0;
+			}
+		}
+		int rval;
+		if (tqsl_hasNextStationLocationCapture(loc, &rval) || !rval)
+			break;
+		tqsl_nextStationLocationCapture(loc);
+	} while (1);
+
+	tqsl_setStationLocationCapturePage(loc, old_page);
+	tQSL_Error = TQSL_CALL_NOT_FOUND;
+	return 1;
+}
+
+DLLEXPORT int CALLCONVENTION
 tqsl_getLocationDXCCEntity(tQSL_Location locp, int *dxcc) {
 	TQSL_LOCATION *loc;
 	if (!(loc = check_loc(locp, false))) {

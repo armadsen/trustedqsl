@@ -2,6 +2,14 @@ TQSL changes
 ============
 2.5.2
 ----------
+Report when TQSL is unable to open the files needed to connect to Logbook.
+
+Allow ADIF log QTH data to override Station Location Details. Add a ommand
+line option and a preference field to control this behavior.
+
+Move the log signing preferences to a separate preference page to keep it
+from growing too large.
+
 When an ADIF log provides station details, detect mismatches and report
 those when signing a log. This allows improperly chosen callsign certificates
 and Station Locations to be detected.

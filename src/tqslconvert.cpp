@@ -65,9 +65,11 @@ class TQSL_CONVERTER {
 	TQSL_QSO_RECORD rec;
 	bool rec_done;
 	int cert_idx;
-	int base_idx;
+	int next_cert_uid;
+	int cert_uid;
+	int loc_uid;
 	bool need_station_rec;
-	bool *certs_used;
+	int *cert_uids;
 	bool allow_bad_calls;
 	set <string> modes;
 	set <string> bands;
@@ -75,6 +77,7 @@ class TQSL_CONVERTER {
 	set <string> satellites;
 	string rec_text;
 	tQSL_Date start, end;
+	int location_handling;
 	bool db_open;
 #ifdef USE_LMDB
 	MDB_dbi seendb;
@@ -106,11 +109,15 @@ inline TQSL_CONVERTER::TQSL_CONVERTER()  : sentinel(0x4445) {
 	adif = 0;
 	cab = 0;
 	cert_idx = -1;
-	base_idx = 1;
-	certs_used = 0;
+	dxcc = -1;
+	loc_uid = 0;
+	cert_uid = 0;
+	next_cert_uid = 1;
+	cert_uids = NULL;
 	need_station_rec = false;
 	rec_done = true;
 	allow_bad_calls = false;
+	location_handling = TQSL_LOC_UPDATE;
 	allow_dupes = true; //by default, don't change existing behavior (also helps with commit)
 	memset(&rec, 0, sizeof rec);
 	memset(&start, 0, sizeof start);
@@ -172,8 +179,8 @@ inline TQSL_CONVERTER::~TQSL_CONVERTER() {
 //	if (file)
 //		fclose(file);
 	tqsl_endADIF(&adif);
-	if (certs_used)
-		delete[] certs_used;
+	if (cert_uids)
+		delete[] cert_uids;
 	sentinel = 0;
 }
 
@@ -287,12 +294,15 @@ tqsl_beginADIFConverter(tQSL_Converter *convp, const char *filename, tQSL_Cert *
 	conv->certs = certs;
 	conv->ncerts = ncerts;
 	if (ncerts > 0) {
-		conv->certs_used = new bool[ncerts];
+		conv->cert_uids = new int[ncerts];
 		for (int i = 0; i < ncerts; i++)
-			conv->certs_used[i] = false;
+			conv->cert_uids[i] = -1;
 	}
 	conv->loc = loc;
 	*convp = conv;
+
+	tqsl_getLocationCallSign(loc, conv->callsign, sizeof conv->callsign);
+
 	return 0;
 }
 
@@ -318,9 +328,9 @@ tqsl_beginCabrilloConverter(tQSL_Converter *convp, const char *filename, tQSL_Ce
 	conv->certs = certs;
 	conv->ncerts = ncerts;
 	if (ncerts > 0) {
-		conv->certs_used = new bool[ncerts];
+		conv->cert_uids = new int[ncerts];
 		for (int i = 0; i < ncerts; i++)
-			conv->certs_used[i] = false;
+			conv->cert_uids[i] = -1;
 	}
 	conv->loc = loc;
 	*convp = conv;
@@ -385,7 +395,12 @@ find_matching_cert(TQSL_CONVERTER *conv) {
 	int i;
 	for (i = 0; i < conv->ncerts; i++) {
 		tQSL_Date cdate;
+		char call[256];
 
+		if (tqsl_getCertificateCallSign(conv->certs[i], call, sizeof call))
+			return -1;
+		if (strcasecmp(conv->callsign, call))		// Not for this call
+			continue;
 		if (tqsl_getCertificateQSONotBeforeDate(conv->certs[i], &cdate))
 			return -1;
 		if (tqsl_compareDates(&(conv->rec.date), &cdate) < 0)
@@ -1078,9 +1093,8 @@ static const char* get_ident_rec(TQSL_CONVERTER *conv) {
 }
 
 static const char* get_station_rec(TQSL_CONVERTER *conv) {
-	int uid = conv->cert_idx + conv->base_idx;
 	conv->need_station_rec = false;
-	const char *tStation = tqsl_getGABBItSTATION(conv->loc, uid, uid);
+	const char *tStation = tqsl_getGABBItSTATION(conv->loc, conv->loc_uid, conv->cert_uid);
 	tqsl_getCertificateSerialExt(conv->certs[conv->cert_idx], conv->serial, sizeof conv->serial);
 	tqsl_getCertificateCallSign(conv->certs[conv->cert_idx], conv->callsign, sizeof conv->callsign);
 	tqsl_getCertificateDXCCEntity(conv->certs[conv->cert_idx], &conv->dxcc);
@@ -1185,10 +1199,6 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 
 	if (conv->need_ident_rec) {
 		return get_ident_rec(conv);
-	}
-
-	if (conv->need_station_rec) {
-		return get_station_rec(conv);
 	}
 
 	if (!conv->allow_dupes && !conv->db_open) {
@@ -1442,6 +1452,13 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		return 0;
 	}
 
+	if (conv->location_handling == TQSL_LOC_UPDATE) {
+		// Is the call right?
+		if (conv->rec.my_call[0]) {
+			strncpy(conv->callsign, conv->rec.my_call, sizeof conv->callsign);
+		}
+	}
+
 	int cidx = find_matching_cert(conv);
 	if (cidx < 0) {
 		conv->rec_done = true;
@@ -1450,85 +1467,128 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 	}
 	if (cidx != conv->cert_idx) {
 		// Switching certs
+		if (conv->dxcc != -1) {
+			tqsl_setLocationCallSign(conv->loc, conv->callsign);	// Set callsign
+        		tqsl_setStationLocationCapturePage(conv->loc, 1);	// Update to relevant fields
+			tqsl_updateStationLocationCapture(conv->loc);
+		}
 		conv->cert_idx = cidx;
-		if (!conv->certs_used[conv->cert_idx]) {
+		if (conv->cert_uids[conv->cert_idx] == -1) {
 			// Need to output tCERT, tSTATION
-			conv->need_station_rec = true;
-			conv->certs_used[conv->cert_idx] = true;
-			return tqsl_getGABBItCERT(conv->certs[conv->cert_idx], conv->cert_idx + conv->base_idx);
+			conv->need_station_rec = true;		// Need a new station record
+			conv->cert_uid = conv->cert_uids[conv->cert_idx] = conv->next_cert_uid;
+			conv->next_cert_uid++;
+			return tqsl_getGABBItCERT(conv->certs[conv->cert_idx], conv->cert_uid);
+		} else {
+			conv->cert_uid = conv->cert_uids[conv->cert_idx];
 		}
 	}
 
-	// At this point, conv->certs[conv->cert_idx] has the certificate
-	// conv->loc has the location.
-	// Is the call right?
-	if (conv->rec.my_call[0]) {
-		if (strcmp(conv->rec.my_call, conv->callsign)) {
-			conv->rec_done = true;
-			snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Callsign/%s/%s", conv->rec.my_call, conv->callsign);
-			tQSL_Error = TQSL_CERT_MISMATCH;
-			return 0;
+	if (conv->location_handling != TQSL_LOC_IGNORE) { // Care about MY_* fields
+		// At this point, conv->certs[conv->cert_idx] has the certificate
+		// conv->loc has the location.
+		// First, refresh the certificate data
+		tqsl_getCertificateSerialExt(conv->certs[conv->cert_idx], conv->serial, sizeof conv->serial);
+		tqsl_getCertificateCallSign(conv->certs[conv->cert_idx], conv->callsign, sizeof conv->callsign);
+		tqsl_getCertificateDXCCEntity(conv->certs[conv->cert_idx], &conv->dxcc);
+
+		// Is the call right?
+		if (conv->rec.my_call[0]) {		// Update case handled above when switching certs
+			if (strcmp(conv->rec.my_call, conv->callsign)) {
+				conv->rec_done = true;
+				snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Callsign/%s/%s", conv->rec.my_call, conv->callsign);
+				tQSL_Error = TQSL_CERT_MISMATCH;
+				return 0;
+			}
 		}
-	}
 
-	// Is the DXCC right?
-	if (conv->rec.my_dxcc) {
-		if (conv->rec.my_dxcc != conv->dxcc) {
-			conv->rec_done = true;
-			const char *d1, *d2;
-			tqsl_getDXCCEntityName(conv->rec.my_dxcc, &d1);
-			tqsl_getDXCCEntityName(conv->dxcc, &d2);
+		// Is the DXCC right?
+		if (conv->rec.my_dxcc) {
+			if (conv->rec.my_dxcc != conv->dxcc) {
+				if (conv->location_handling == TQSL_LOC_UPDATE) { // Care about MY_* fields
+					tqsl_setLocationField(conv->loc, "CALL", conv->callsign);
+					tqsl_updateStationLocationCapture(conv->loc);
+				} else {
+					conv->rec_done = true;
+					const char *d1, *d2;
+					tqsl_getDXCCEntityName(conv->rec.my_dxcc, &d1);
+					tqsl_getDXCCEntityName(conv->dxcc, &d2);
 
-			snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "DXCC Entity/%s (%d)/%s (%d)", d1, conv->rec.my_dxcc, d2, conv->dxcc);
-			tQSL_Error = TQSL_CERT_MISMATCH;
-			return 0;
-		}
-	}
-
-	char stnloc[128];
-	if (tqsl_getLocationStationDetails(conv->loc, stnloc, sizeof stnloc)) {
-		stnloc[0] = '\0';
-	}
-	if (stnloc[0]) {
-		char *tok = strtok(stnloc, ",");
-		while (tok) {
-			if (*tok == ' ') tok++;
-			char fld[128], val[128];
-			fld[0] = val[0] = 0;
-			int toks;
-			if ((toks = sscanf(tok, "%[^:]: %s", fld, val)) == 2) {
-#define CHKSTN(FIELD, MY, ERRFMT) \
-				if (strcmp(fld, FIELD) == 0) { \
-					if (conv->rec.MY[0]) { \
-						if (strcasecmp(conv->rec.MY, val)) { \
-							conv->rec_done = true; \
-							snprintf(tQSL_CustomError, sizeof tQSL_CustomError, ERRFMT, val, conv->rec.MY); \
-							tQSL_Error = TQSL_LOCATION_MISMATCH; \
-							return 0; \
-						} \
-					} \
+					snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "DXCC Entity/%s (%d)/%s (%d)", d1, conv->rec.my_dxcc, d2, conv->dxcc);
+					tQSL_Error = TQSL_CERT_MISMATCH;
+					return 0;
 				}
+			}
+		}
 
-				CHKSTN("GRIDSQUARE", my_gridsquare, "Gridsquare/%s/%s")
-				CHKSTN("ITUZ", my_itu_zone, "ITU Zone/%s/%s")
-				CHKSTN("CQZ", my_cq_zone, "CQ Zone/%s/%s")
-				CHKSTN("IOTA", my_iota, "IOTA/%s/%s")
+		bool newstation = false;
+
+#define CHKSTN(FIELD, MY, ERRFMT) \
+		if (conv->rec.MY[0] && !tqsl_getLocationField(conv->loc, FIELD, val, sizeof val)) { \
+			if (strcasecmp(conv->rec.MY, val)) { \
+				if (conv->location_handling == TQSL_LOC_UPDATE) { \
+					tqsl_setLocationField(conv->loc, FIELD, conv->rec.MY); \
+					newstation = true; \
+				} else { \
+					conv->rec_done = true; \
+					snprintf(tQSL_CustomError, sizeof tQSL_CustomError, ERRFMT, val, conv->rec.MY); \
+					tQSL_Error = TQSL_LOCATION_MISMATCH; \
+					return 0; \
+				} \
+			}  \
+		}
+
+		CHKSTN("GRIDSQUARE", my_gridsquare, "Gridsquare/%s/%s")
+		CHKSTN("ITUZ", my_itu_zone, "ITU Zone/%s/%s")
+		CHKSTN("CQZ", my_cq_zone, "CQ Zone/%s/%s")
+		CHKSTN("IOTA", my_iota, "IOTA/%s/%s")
+
+		switch (conv->dxcc) {
+			case 6:		// Alaska
+			case 110:	// Hawaii
+			case 291:	// Cont US
 				CHKSTN("US_STATE", my_state, "US State/%s/%s")
 				CHKSTN("US_COUNTY", my_county, "US County/%s/%s")
+				break;
+			case 1:		// Canada
 				CHKSTN("CA_PROVINCE", my_state, "CA Province/%s/%s")
+				break;
+			case 15:	// Asiatic Russia
+			case 54:	// European Russia
+			case 61:	// FJL
+			case 125:	// Juan Fernandez
+			case 151:	// Malyj Vysotskij
 				CHKSTN("RU_OBLAST", my_state, "RU Oblast/%s/%s")
+				break;
+			case 318:	// China
 				CHKSTN("CN_PROVINCE", my_state, "CN Province/%s/%s")
+				break;
+			case 150:	// Australia
 				CHKSTN("AU_STATE", my_state, "AU State/%s/%s")
+				break;
+			case 339:	// Japan
 				CHKSTN("JA_PREFECTURE", my_state, "JA Prefecture/%s/%s")
-         			CHKSTN("JA_CITY_GUN_KU", my_county, "JA City/Gun/Ku/%s/%s")
+				CHKSTN("JA_CITY_GUN_KU", my_county, "JA City/Gun/Ku/%s/%s")
+				break;
+			case 5:		// Finland
 				CHKSTN("FI_KUNTA", my_state, "FI Kunta/%s/%s")
-			}
-#undef CHKSTN
-			tok = strtok(NULL, ",");
+				break;
 		}
+
+		if (newstation) {
+			conv->loc_uid++;
+			return get_station_rec(conv);
+		}
+#undef CHKSTN
+	}	// if ignoring MY_ fields
+
+	if (conv->need_station_rec) {
+		conv->loc_uid++;
+		return get_station_rec(conv);
 	}
+
 	const char *grec = tqsl_getGABBItCONTACTData(conv->certs[conv->cert_idx], conv->loc, &(conv->rec),
-		conv->cert_idx + conv->base_idx, signdata, sizeof(signdata));
+		conv->loc_uid, signdata, sizeof(signdata));
 	if (grec) {
 		conv->rec_done = true;
 		if (!conv->allow_dupes) {
@@ -1734,6 +1794,15 @@ tqsl_setConverterAppName(tQSL_Converter convp, const char *app) {
 		return 1;
 	}
 	conv->appName = strdup(app);
+	return 0;
+}
+
+DLLEXPORT int CALLCONVENTION
+tqsl_setConverterQTHDetails(tQSL_Converter convp, int logverify) {
+	TQSL_CONVERTER *conv;
+	if (!(conv = check_conv(convp)))
+		return 1;
+	conv->location_handling = logverify;
 	return 0;
 }
 

@@ -1868,8 +1868,8 @@ MyFrame::EnterQSOData(wxCommandEvent& WXUNUSED(event)) {
 	}
 }
 
-int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxString& output, int& n, bool suppressdate, tQSL_Date* startdate, tQSL_Date* enddate, int action, const char* password, const char* defcall) {
-	tqslTrace("MyFrame::ConvertLogToString", "loc = %lx, infile=%s, suppressdate=%d, startdate=0x%lx, enddate=0x%lx, action=%d, defcall=%s", reinterpret_cast<void *>(loc), S(infile), suppressdate, reinterpret_cast<void *>(startdate), reinterpret_cast<void *>(enddate), action, defcall ? defcall : "");
+int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxString& output, int& n, bool suppressdate, tQSL_Date* startdate, tQSL_Date* enddate, int action, int logverify, const char* password, const char* defcall) {
+	tqslTrace("MyFrame::ConvertLogToString", "loc = %lx, infile=%s, suppressdate=%d, startdate=0x%lx, enddate=0x%lx, action=%d, logverify=%d defcall=%s", reinterpret_cast<void *>(loc), S(infile), suppressdate, reinterpret_cast<void *>(startdate), reinterpret_cast<void *>(enddate), action, logverify, defcall ? defcall : "");
 	static const char *iam = "TQSL V" VERSION;
 	const char *cp;
 	char callsign[40];
@@ -1879,9 +1879,19 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 	bool restarting = false;
 	bool ignore_err = false;
 	bool show_dupes = false;
+	int tmp;
 
 	wxConfig *config = reinterpret_cast<wxConfig *>(wxConfig::Get());
 	config->Read(wxT("DispDupes"), &show_dupes, DEFAULT_DISP_DUPES);
+
+	if (logverify == -1) {		// Not on command line
+		config->Read(wxT("LogVerify"), &tmp, TQSL_LOC_REPORT);
+		if (tmp == TQSL_LOC_IGNORE || tmp == TQSL_LOC_REPORT || tmp == TQSL_LOC_UPDATE) {
+			logverify = tmp;
+		} else {
+			logverify = TQSL_LOC_REPORT;
+		}
+	}
 
 	try {
 		if (defcall) {
@@ -1993,6 +2003,10 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 		return TQSL_EXIT_TQSL_ERROR;
 	}
 
+	// Re-load the certificate list with all valid calls
+	free_certlist();
+	get_certlist("", 0, false, false, false);
+
 	wxString msg = _("Signing using Callsign %hs, DXCC Entity %hs");
 	msg += wxT("\n");
 	wxLogMessage(msg, callsign, dx.name());
@@ -2064,6 +2078,7 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 		tqsl_setConverterAllowBadCall(logConv, allow);
 		tqsl_setConverterAllowDuplicates(logConv, allow_dupes);
 		tqsl_setConverterAppName(logConv, iam);
+		tqsl_setConverterQTHDetails(logConv, logverify);
 
 		wxFileName::SplitPath(infile, 0, &name, &ext);
 		if (ext != wxT(""))
@@ -2350,8 +2365,8 @@ static const char* qsoerrs[] = {
 
 int
 MyFrame::ConvertLogFile(tQSL_Location loc, const wxString& infile, const wxString& outfile,
-	bool compressed, bool suppressdate, tQSL_Date* startdate, tQSL_Date* enddate, int action, const char *password, const char *defcall) {
-	tqslTrace("MyFrame::ConvertLogFile", "loc=%lx, infile=%s, outfile=%s, compressed=%d, suppressdate=%d, startdate=0x%lx enddate=0x%lx action=%d", reinterpret_cast<void *>(loc), S(infile), S(outfile), compressed, suppressdate, reinterpret_cast<void *>(startdate), reinterpret_cast<void*>(enddate), action);
+	bool compressed, bool suppressdate, tQSL_Date* startdate, tQSL_Date* enddate, int action, int logverify, const char *password, const char *defcall) {
+	tqslTrace("MyFrame::ConvertLogFile", "loc=%lx, infile=%s, outfile=%s, compressed=%d, suppressdate=%d, startdate=0x%lx enddate=0x%lx action=%d, logverify=%d", reinterpret_cast<void *>(loc), S(infile), S(outfile), compressed, suppressdate, reinterpret_cast<void *>(startdate), reinterpret_cast<void*>(enddate), action, logverify);
 	gzFile gout = 0;
 #ifdef _WIN32
 	int fd = -1;
@@ -2385,7 +2400,7 @@ MyFrame::ConvertLogFile(tQSL_Location loc, const wxString& infile, const wxStrin
 
 	wxString output;
 	int numrecs = 0;
-	int status = this->ConvertLogToString(loc, infile, output, numrecs, suppressdate, startdate, enddate, action, password, defcall);
+	int status = this->ConvertLogToString(loc, infile, output, numrecs, suppressdate, startdate, enddate, action, logverify, password, defcall);
 
 	if (numrecs == 0) {
 		wxLogMessage(_("No records output"));
@@ -2516,13 +2531,13 @@ class UploadThread: public wxThread {
 	}
 };
 
-int MyFrame::UploadLogFile(tQSL_Location loc, const wxString& infile, bool compressed, bool suppressdate, tQSL_Date* startdate, tQSL_Date* enddate, int action, const char* password, const char *defcall) {
-	tqslTrace("MyFrame::UploadLogFile", "infile=%s, compressed=%d, suppressdate=%d, action=%d", S(infile), compressed, suppressdate, action);
+int MyFrame::UploadLogFile(tQSL_Location loc, const wxString& infile, bool compressed, bool suppressdate, tQSL_Date* startdate, tQSL_Date* enddate, int action, int logverify, const char* password, const char *defcall) {
+	tqslTrace("MyFrame::UploadLogFile", "infile=%s, compressed=%d, suppressdate=%d, action=%d, logverify=%d", S(infile), compressed, suppressdate, action, logverify);
 	int numrecs = 0;
 	wxString signedOutput;
 
 	tqslTrace("MyFrame::UploadLogFile", "About to convert log to string");
-	int status = this->ConvertLogToString(loc, infile, signedOutput, numrecs, suppressdate, startdate, enddate, action, password, defcall);
+	int status = this->ConvertLogToString(loc, infile, signedOutput, numrecs, suppressdate, startdate, enddate, action, logverify, password, defcall);
 	tqslTrace("MyFrame::UploadLogFile", "Log converted, status = %d, numrecs=%d", status, numrecs);
 
 	if (numrecs == 0) {
@@ -2644,6 +2659,7 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 		curl_easy_setopt(curlReq, CURLOPT_CAINFO, caBundle);
 	} else {
 		verifyCA = false;               // Can't verify if no trusted roots
+		wxLogMessage(_("Unable to open ca-bundle.crt. Your TQSL installation is incomplete"));
 		tqslTrace("tqsl_curl_init", "Can't find ca-bundle.crt in the docpaths!");
 		goto retry;
 	}
@@ -5315,6 +5331,7 @@ QSLApp::OnInit() {
 	wxString locname;
 	bool suppressdate = false;
 	int action = TQSL_ACTION_UNSPEC;
+	int logverify = TQSL_LOC_REPORT;
 	bool upload = false;
 	char *password = NULL;
 	char *defcall = NULL;
@@ -5332,24 +5349,34 @@ QSLApp::OnInit() {
 #define arg(x) wxT(x)
 #define i18narg(x) _(x)
 #endif
+	// arg letters used abcde..hi..lmnopq.stuvwx..
 	static const wxCmdLineEntryDesc cmdLineDesc[] = {
 		{ wxCMD_LINE_OPTION, arg("a"), arg("action"),	i18narg("Specify dialog action - abort, all, compliant or ask") },
 		{ wxCMD_LINE_OPTION, arg("b"), arg("begindate"), i18narg("Specify start date for QSOs to sign") },
 		{ wxCMD_LINE_OPTION, arg("c"), arg("callsign"),	i18narg("Specify default callsign for log signing") },
-		{ wxCMD_LINE_OPTION, arg("e"), arg("enddate"),	i18narg("Specify end date for QSOs to sign") },
 		{ wxCMD_LINE_SWITCH, arg("d"), arg("nodate"),	i18narg("Suppress date range dialog") },
+		{ wxCMD_LINE_OPTION, arg("e"), arg("enddate"),	i18narg("Specify end date for QSOs to sign") },
+		{ wxCMD_LINE_OPTION, arg("f"), arg("verify"),	i18narg("Specify QSO verification action - ignore, report or update") },
+		// not used - "g"
+		{ wxCMD_LINE_SWITCH, arg("h"), arg("help"),	i18narg("Display command line help"), wxCMD_LINE_VAL_NONE, wxCMD_LINE_OPTION_HELP },
 		{ wxCMD_LINE_OPTION, arg("i"), arg("import"),	i18narg("Import a certificate file (.p12 or .tq6)") },
+		// not used - "j", "k"
 		{ wxCMD_LINE_OPTION, arg("l"), arg("location"),	i18narg("Selects Station Location") },
-		{ wxCMD_LINE_SWITCH, arg("s"), arg("editlocation"), i18narg("Edit (if used with -l) or create Station Location") },
+		// not used - "m"
+		{ wxCMD_LINE_SWITCH, arg("n"), arg("updates"),	i18narg("Check for updates to tqsl and the configuration file") },
 		{ wxCMD_LINE_OPTION, arg("o"), arg("output"),	i18narg("Output file name (defaults to input name minus extension plus .tq8") },
-		{ wxCMD_LINE_SWITCH, arg("u"), arg("upload"),	i18narg("Upload after signing instead of saving") },
-		{ wxCMD_LINE_SWITCH, arg("x"), arg("batch"),	i18narg("Exit after processing log (otherwise start normally)") },
 		{ wxCMD_LINE_OPTION, arg("p"), arg("password"),	i18narg("Password for the signing key") },
 		{ wxCMD_LINE_SWITCH, arg("q"), arg("quiet"),	i18narg("Quiet Mode - same behavior as -x") },
+		// not used - "r"
+
+		{ wxCMD_LINE_SWITCH, arg("s"), arg("editlocation"), i18narg("Edit (if used with -l) or create Station Location") },
 		{ wxCMD_LINE_OPTION, arg("t"), arg("diagnose"),	i18narg("File name for diagnostic tracking log") },
+		{ wxCMD_LINE_SWITCH, arg("u"), arg("upload"),	i18narg("Upload after signing instead of saving") },
 		{ wxCMD_LINE_SWITCH, arg("v"), arg("version"),  i18narg("Display the version information and exit") },
-		{ wxCMD_LINE_SWITCH, arg("n"), arg("updates"),	i18narg("Check for updates to tqsl and the configuration file") },
-		{ wxCMD_LINE_SWITCH, arg("h"), arg("help"),	i18narg("Display command line help"), wxCMD_LINE_VAL_NONE, wxCMD_LINE_OPTION_HELP },
+		// not used - "w"
+		{ wxCMD_LINE_SWITCH, arg("x"), arg("batch"),	i18narg("Exit after processing log (otherwise start normally)") },
+		// not used - "y", "z"
+
 		{ wxCMD_LINE_PARAM,  NULL, NULL,		i18narg("Input ADIF or Cabrillo log file to sign"), wxCMD_LINE_VAL_STRING, wxCMD_LINE_PARAM_OPTIONAL },
 		{ wxCMD_LINE_NONE }
 	};
@@ -5531,6 +5558,27 @@ QSLApp::OnInit() {
 			exitNow(TQSL_EXIT_COMMAND_ERROR, quiet);
 		}
 	}
+
+	wxString verify;
+	if (parser.Found(wxT("f"), &verify)) {			// action for verifying QSOs
+		if (!verify.CmpNoCase(wxT("ignore"))) {
+			logverify = TQSL_LOC_IGNORE;
+		} else if (!verify.CmpNoCase(wxT("report"))) {
+			logverify = TQSL_LOC_REPORT;
+		} else if (!verify.CmpNoCase(wxT("update"))) {
+			logverify = TQSL_LOC_UPDATE;
+		} else {
+			char tmp[100];
+			strncpy(tmp, (const char *)verify.ToUTF8(), sizeof tmp);
+			tmp[sizeof tmp -1] = '\0';
+			if (quiet)
+				wxLogMessage(_("The -f parameter %hs is not recognized"), tmp);
+			else
+				cerr << "The verify parameter " << tmp << " is not recognized" << endl;
+			exitNow(TQSL_EXIT_COMMAND_ERROR, quiet);
+		}
+	}
+
 	if (parser.Found(wxT("u"))) {
 		upload = true;
 	}
@@ -5688,7 +5736,7 @@ QSLApp::OnInit() {
 	}
 	if (upload) {
 		try {
-			int val = frame->UploadLogFile(loc, infile, true, suppressdate, startdate, enddate, action, password, defcall);
+			int val = frame->UploadLogFile(loc, infile, true, suppressdate, startdate, enddate, action, logverify, password, defcall);
 			if (quiet)
 				exitNow(val, quiet);
 			else
@@ -5709,7 +5757,7 @@ QSLApp::OnInit() {
 		}
 	} else {
 		try {
-			int val = frame->ConvertLogFile(loc, infile, path, true, suppressdate, startdate, enddate, action, password, defcall);
+			int val = frame->ConvertLogFile(loc, infile, path, true, suppressdate, startdate, enddate, action, logverify, password, defcall);
 			if (quiet)
 				exitNow(val, quiet);
 			else
