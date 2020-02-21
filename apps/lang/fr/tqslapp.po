@@ -2146,7 +2146,7 @@ msgstr "Sélectionnez le fichier de configuration enregistré"
 
 #: tqsl.cpp:4978
 msgid "Saved configuration files (*.tbk)|*.tbk"
-msgstr "Sauvegardé les fichiers de configuration (*.tbk) | * .tbk"
+msgstr "Sauvegardé les fichiers de configuration (*.tbk)|*.tbk"
 
 #: tqsl.cpp:5008
 #, c-format
