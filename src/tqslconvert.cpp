@@ -1459,6 +1459,19 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		}
 	}
 
+	// For check-only case, need to check callsign now.
+	if (conv->location_handling == TQSL_LOC_REPORT) {
+		// Is the call right?
+		if (conv->rec.my_call[0]) {		// Update case handled above when switching certs
+			if (strcmp(conv->rec.my_call, conv->callsign)) {
+				conv->rec_done = true;
+				snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Callsign/%s/%s", conv->callsign, conv->rec.my_call);
+				tQSL_Error = TQSL_CERT_MISMATCH;
+				return 0;
+			}
+		}
+	}
+
 	int cidx = find_matching_cert(conv);
 	if (cidx < 0) {
 		conv->rec_done = true;
@@ -1511,10 +1524,10 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 				} else {
 					conv->rec_done = true;
 					const char *d1, *d2;
-					tqsl_getDXCCEntityName(conv->rec.my_dxcc, &d1);
-					tqsl_getDXCCEntityName(conv->dxcc, &d2);
+					tqsl_getDXCCEntityName(conv->dxcc, &d1);
+					tqsl_getDXCCEntityName(conv->rec.my_dxcc, &d2);
 
-					snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "DXCC Entity/%s (%d)/%s (%d)", d1, conv->rec.my_dxcc, d2, conv->dxcc);
+					snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "DXCC Entity/%s (%d)/%s (%d)", d1, conv->dxcc, d2, conv->rec.my_dxcc);
 					tQSL_Error = TQSL_CERT_MISMATCH;
 					return 0;
 				}
