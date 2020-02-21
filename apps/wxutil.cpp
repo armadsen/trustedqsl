@@ -255,7 +255,7 @@ getLocalizedErrorString_v(int err) {
 		if (err == TQSL_LOCATION_MISMATCH)
 			tp = wxString(_("Station Location"));
 	 	wxString composed = wxGetTranslation(wxString::FromUTF8(error_strings[adjusted_err]));
-		composed = composed + wxT("\n") + wxString::Format(_("The %s '%s' has value '%s' while QSO has '%s'"), const_cast<const char *>(tp.ToUTF8().data()), fld, cert, qso);
+		composed = composed + wxT("\n") + wxString::Format(_("The %s '%hs' has value '%hs' while QSO has '%hs'"), tp.c_str(), fld, cert, qso);
 		return composed;
 	}
 	return wxGetTranslation(wxString::FromUTF8(error_strings[adjusted_err]));
