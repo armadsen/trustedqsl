@@ -259,7 +259,8 @@ LoadCertWiz::LoadCertWiz(wxWindow *parent, wxHtmlHelpController *help, const wxS
 			_final->SetPrev(0);
 			if (tqsl_importTQSLFile(filename.ToUTF8(), notifyImport, GetNotifyData())) {
 				if (tQSL_Error != TQSL_CERT_ERROR) {  // if not already reported by the callback
-					wxMessageBox(getLocalizedErrorString(), _("Error"), wxOK | wxICON_ERROR, _parent);
+					//wxMessageBox(getLocalizedErrorString(), _("Error"), wxOK | wxICON_ERROR, _parent);
+					_nd->status = getLocalizedErrorString();
 				}
 			} else {
 				if (tQSL_ImportCall[0] != '\0') {

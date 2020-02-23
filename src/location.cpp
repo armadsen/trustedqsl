@@ -3608,19 +3608,25 @@ tqsl_importTQSLFile(const char *file, int(*cb)(int type, const char *, void *), 
 			foundcerts = true;
 			if (tqsl_import_cert(cert.getText().c_str(), ROOTCERT, cb, userdata)) {
 				tqslTrace("tqsl_importTQSLFile", "duplicate root cert");
+				rval = 1;
+			} else {
+				rval = 0;
 			}
 			cstat = section.getNextElement(cert);
 		}
 		cstat = section.getFirstElement("cacert", cert);
-		while (cstat) {
+		while (rval == 0 && cstat) {
 			foundcerts = true;
 			if (tqsl_import_cert(cert.getText().c_str(), CACERT, cb, userdata)) {
 				tqslTrace("tqsl_importTQSLFile", "duplicate ca cert");
+				rval = 1;
+			} else {
+				rval = 0;
 			}
 			cstat = section.getNextElement(cert);
 		}
 		cstat = section.getFirstElement("usercert", cert);
-		while (cstat) {
+		while (rval == 0 && cstat) {
 			foundcerts = true;
 			if (tqsl_import_cert(cert.getText().c_str(), USERCERT, cb, userdata)) {
 				tqslTrace("tqsl_importTQSLFile", "error importing user cert");
