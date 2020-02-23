@@ -1008,7 +1008,7 @@ tqsl_openDiagFile(const char *fname) {
 const char*
 tqsl_openssl_error(void) {
 	static char buf[256];
-	int openssl_err;
+	unsigned long openssl_err;
 
 	openssl_err = ERR_peek_error();
 	if (openssl_err)
