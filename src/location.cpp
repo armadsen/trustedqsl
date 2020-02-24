@@ -3573,8 +3573,6 @@ tqsl_importTQSLFile(const char *file, int(*cb)(int type, const char *, void *), 
 	tQSL_ImportCall[0] = '\0';
 	tQSL_ImportSerial = 0;
 	int rval = 0;
-	bool goodroot = false;
-	bool goodca = false;
 
 	if (file == NULL) {
 		tqslTrace("tqsl_importTQSLFile", "file=NULL");
@@ -3610,25 +3608,19 @@ tqsl_importTQSLFile(const char *file, int(*cb)(int type, const char *, void *), 
 			foundcerts = true;
 			if (tqsl_import_cert(cert.getText().c_str(), ROOTCERT, cb, userdata)) {
 				tqslTrace("tqsl_importTQSLFile", "duplicate/expired root cert");
-				rval = 1;
-			} else {
-				goodroot = true;
 			}
 			cstat = section.getNextElement(cert);
 		}
 		cstat = section.getFirstElement("cacert", cert);
-		while (goodroot && cstat) {
+		while (cstat) {
 			foundcerts = true;
 			if (tqsl_import_cert(cert.getText().c_str(), CACERT, cb, userdata)) {
 				tqslTrace("tqsl_importTQSLFile", "duplicate/expired ca cert");
-				rval = 1;
-			} else {
-				goodca = true;
 			}
 			cstat = section.getNextElement(cert);
 		}
 		cstat = section.getFirstElement("usercert", cert);
-		while (goodroot && goodca && cstat) {
+		while (cstat) {
 			foundcerts = true;
 			if (tqsl_import_cert(cert.getText().c_str(), USERCERT, cb, userdata)) {
 				tqslTrace("tqsl_importTQSLFile", "error importing user cert");
@@ -3641,9 +3633,6 @@ tqsl_importTQSLFile(const char *file, int(*cb)(int type, const char *, void *), 
 	// If any of the user certificates failed import, return the error status.
 	if (rval) {
 		return rval;
-	} else if (!goodroot || !goodca) {
-		return 1;
-	
 	}
 
 	stat = tqsldata.getFirstElement("tqslconfig", section);

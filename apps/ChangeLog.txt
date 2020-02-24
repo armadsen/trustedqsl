@@ -4,7 +4,7 @@ TQSL changes
 ----------
 Report when TQSL is unable to open the files needed to connect to Logbook.
 
-Allow ADIF log QTH data to override Station Location Details. Add a ommand
+Allow ADIF log QTH data to override Station Location Details. Add a command
 line option and a preference field to control this behavior.
 
 Move the log signing preferences to a separate preference page to keep it

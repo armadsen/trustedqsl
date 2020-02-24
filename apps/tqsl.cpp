@@ -5965,7 +5965,9 @@ void MyFrame::OnLoadCertificateFile(wxCommandEvent& WXUNUSED(event)) {
 			CheckCertStatus(tQSL_ImportSerial, status);		// Update from LoTW's "CRL"
 			tqsl_setCertificateStatus(tQSL_ImportSerial, (const char *)status.ToUTF8());
 		}
-		if (tQSL_ImportCall[0] != '\0' && tQSL_ImportSerial != 0 && tqsl_getCertificateStatus(tQSL_ImportSerial) == TQSL_CERT_STATUS_OK) {
+		int certstat = tqsl_getCertificateStatus(tQSL_ImportSerial);
+
+		if (tQSL_ImportCall[0] != '\0' && tQSL_ImportSerial != 0 && (certstat == TQSL_CERT_STATUS_OK || certstat == TQSL_CERT_STATUS_UNK)) {
 			get_certlist(tQSL_ImportCall, 0, true, true, true);	// Get any superceded ones for this call
 			for (int i = 0; i < ncerts; i++) {
 				long serial = 0;

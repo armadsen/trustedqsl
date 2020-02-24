@@ -3,6 +3,12 @@ TQSLLIB changes
 
 2.5
 ---
+Ensure that expired or otherwise invalid certificates in the chain
+verifying a user Callsign Certificate are properly reported. This
+fixes an issue where in some cases (TQSL on Mac) trying to install an expired
+callsign certificate (an out-of-date TQ6 file), would cause an unexpected
+error "unable to get local issuer certificate". 
+
 If a BAND is provided for a QSO along with a FREQ, where that frequency
 (or receive frequency) is outside the related ham band, ignore the FREQ
 setting.

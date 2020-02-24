@@ -113,13 +113,23 @@ notifyImport(int type, const char *message, void *data) {
 					break;
 				case TQSL_CERT_CB_ERROR:
 					if (message) {
-						// Suppress expiration message other than for user certs
-						if (strcmp(message, "certificate has expired") || TQSL_CERT_CB_CERT_TYPE(type) == TQSL_CERT_CB_USER) {
-							nd->status = nd->status + wxString::FromUTF8(message) + wxT("\n");
-							counts->error++;
+						switch (TQSL_CERT_CB_CERT_TYPE(type)) {
+							case TQSL_CERT_CB_ROOT:
+								nd->status = nd->status + _("Trusted root certificate");
+								break;
+							case TQSL_CERT_CB_CA:
+								nd->status = nd->status + _("Certificate Authority certificate");
+								break;
+							case TQSL_CERT_CB_USER:
+								nd->status = nd->status + _("Callsign certificate");
+								break;
+						}
+						nd->status = nd->status + wxT(": ") + wxString::FromUTF8(message) + wxT("\n");	
+						counts->error++;
+						if (TQSL_CERT_CB_CERT_TYPE(type) == TQSL_CERT_CB_USER) {
+							wxMessageBox(wxString::FromUTF8(message), _("Error"));
 						}
 					}
-					// wxMessageBox(wxString::FromUTF8(message), _("Error"));
 					break;
 				case TQSL_CERT_CB_LOADED:
 					if (TQSL_CERT_CB_CERT_TYPE(type) == TQSL_CERT_CB_USER)
