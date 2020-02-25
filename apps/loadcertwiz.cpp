@@ -124,7 +124,7 @@ notifyImport(int type, const char *message, void *data) {
 								nd->status = nd->status + _("Callsign certificate");
 								break;
 						}
-						nd->status = nd->status + wxT(": ") + wxString::FromUTF8(message) + wxT("\n");	
+						nd->status = nd->status + wxT(": ") + wxString::FromUTF8(message) + wxT("\n");
 						counts->error++;
 						if (TQSL_CERT_CB_CERT_TYPE(type) == TQSL_CERT_CB_USER) {
 							wxMessageBox(wxString::FromUTF8(message), _("Error"));

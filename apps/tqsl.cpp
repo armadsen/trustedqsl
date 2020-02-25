@@ -2608,7 +2608,9 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 
 	wxString uri = wxString::FromUTF8(url);
 
+#if defined(_WIN32)
  retry:
+#endif
 
 	if (!verifyCA) {
 		uri.Replace(wxT("https:"), wxT("http:"));
@@ -2657,12 +2659,17 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 		char caBundle[256];
 		strncpy(caBundle, caBundlePath.ToUTF8(), sizeof caBundle);
 		curl_easy_setopt(curlReq, CURLOPT_CAINFO, caBundle);
+#if defined(_WIN32)
 	} else {
-		verifyCA = false;               // Can't verify if no trusted roots
-		wxLogMessage(_("Unable to open ca-bundle.crt. Your TQSL installation is incomplete"));
-		tqslTrace("tqsl_curl_init", "Can't find ca-bundle.crt in the docpaths!");
-		goto retry;
+		if (verifyCA) {
+			verifyCA = false;               // Can't verify if no trusted roots
+			wxLogMessage(_("Unable to open ca-bundle.crt. Your TQSL installation is incomplete"));
+			tqslTrace("tqsl_curl_init", "Can't find ca-bundle.crt in the docpaths!");
+			goto retry;
+		}
+#endif
 	}
+
 
 	// Get the proxy configuration and pass it to cURL
 	wxConfig *config = reinterpret_cast<wxConfig *>(wxConfig::Get());
