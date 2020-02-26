@@ -4114,7 +4114,7 @@ get_address_field(const char *callsign, const char *field, string& result) {
  *	    2 - Not found
  */
 int
-GetULSInfo(const char *callsign, wxString &name, wxString &attn, wxString &street, wxString &city, wxString &state, wxString &zip) {
+GetULSInfo(const char *callsign, wxString &name, wxString &attn, wxString &street, wxString &city, wxString &state, wxString &zip, wxString &updateDate) {
 	if (callsign == NULL) {
 		tQSL_Error = TQSL_ARGUMENT_ERROR;
 		return 1;
@@ -4174,6 +4174,7 @@ GetULSInfo(const char *callsign, wxString &name, wxString &attn, wxString &stree
 			city = root[wxT("city")].AsString();
 			state = root[wxT("state")].AsString();
 			zip = root[wxT("zip")].AsString();
+			updateDate = root[wxT("ULS Last Updated")].AsString();
 			return 0;
 		} else {
 			return 2;	// Not valid

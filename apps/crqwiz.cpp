@@ -28,7 +28,7 @@
 
 extern int SaveAddressInfo(const char *callsign);
 
-extern int GetULSInfo(const char *callsign, wxString &name, wxString &attn, wxString &street, wxString &city, wxString &state, wxString &zip);
+extern int GetULSInfo(const char *callsign, wxString &name, wxString &attn, wxString &street, wxString &city, wxString &state, wxString &zip, wxString &updateDate);
 
 using std::string;
 
@@ -1139,8 +1139,8 @@ CRQ_CallsignPage::TransferDataFromWindow() {
 	// Is this in the ULS?
 	if (valMsg.Len() == 0 && _parent->usa && !_parent->onebyone) {
 		wxString callsign = _parent->callsign;
-		wxString name, attn, addr1, city, state, zip;
-		int stat = GetULSInfo(callsign.ToUTF8(), name, attn, addr1, city, state, zip);
+		wxString name, attn, addr1, city, state, zip, update;
+		int stat = GetULSInfo(callsign.ToUTF8(), name, attn, addr1, city, state, zip, update);
 		switch (stat) {
 			case 0:
 				_parent->validusa = true;		// Good data returned
@@ -1185,13 +1185,17 @@ CRQ_CallsignPage::TransferDataFromWindow() {
 			case 1:
 				break;						// Error reading ULS info
 			case 2:
+
+				int stat2 = GetULSInfo("W1AW", name, attn, addr1, city, state, zip, update);
+				if (stat2 == 2)					// Also nothing for a good call
+					break;
 				switch (_parent->certType) {			// Not found
 					case CERT_CURRENT_PERSONAL:
 					case CERT_NEW_PERSONAL:
 					case CERT_PRIMARY_CLUB:
 					case CERT_DXP_MULTIOP:
 					case CERT_EVENT_MULTIOP:
-						valMsg = wxString::Format(wxT("The callsign %s is not currently registered in the FCC ULS database.\nIf this is a newly registered call, you must wait at least one business day for it to be valid. Please enter a currently valid callsign."), callsign.c_str());
+						valMsg = wxString::Format(wxT("The callsign %s is not currently registered in the FCC ULS database as of %s.\nIf this is a newly registered call, you must wait at least one business day for it to be valid. Please enter a currently valid callsign."), callsign.c_str(), update.c_str());
 					break;
 				}
 				break;
