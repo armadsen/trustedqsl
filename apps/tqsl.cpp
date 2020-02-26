@@ -2,7 +2,7 @@
                                   tqsl.cpp
                              -------------------
     begin                : Mon Nov 4 2002
-    copyright            : (C) 2002-2019 by ARRL and the TrustedQSL Developers
+    copyright            : (C) 2002-2020 by ARRL and the TrustedQSL Developers
     author               : Jon Bloom
     email                : jbloom@arrl.org
  ***************************************************************************/
@@ -1545,7 +1545,7 @@ static wxString getAbout() {
 #ifdef OSX_PLATFORM
 	msg += wxT("\nBuilt for ") wxT(OSX_PLATFORM);
 #endif
-	msg += wxT("\n(c) 2001-2019 American Radio Relay League\n\n");
+	msg += wxT("\n(c) 2001-2020 American Radio Relay League\n\n");
 	int major, minor;
 	if (tqsl_getVersion(&major, &minor))
 		wxLogError(getLocalizedErrorString());

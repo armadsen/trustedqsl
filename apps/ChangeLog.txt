@@ -2,6 +2,10 @@ TQSL changes
 ============
 2.5.2
 ----------
+Do additional checks for ULS lookup failures to ensure that the data is
+not corrupt. Add the last update date for the ULS database to the message
+displayed saying that the ULS data is missing.
+
 Report when TQSL is unable to open the files needed to connect to Logbook.
 
 Allow ADIF log QTH data to override Station Location Details. Add a command
