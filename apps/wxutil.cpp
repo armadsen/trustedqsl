@@ -239,7 +239,7 @@ getLocalizedErrorString_v(int err) {
 			_("The private key for callsign %hs serial %ld is not present on this computer; you can obtain it by loading a .tbk or .p12 file"),
 			tQSL_ImportCall, tQSL_ImportSerial);
 	}
-	adjusted_err = err - TQSL_ERROR_ENUM_BASE;
+	adjusted_err = (err - TQSL_ERROR_ENUM_BASE) & ~0x1000;
 	if (adjusted_err < 0 ||
 	    adjusted_err >=
 		static_cast<int>(sizeof error_strings / sizeof error_strings[0])) {
@@ -248,9 +248,9 @@ getLocalizedErrorString_v(int err) {
 
 	if (err == TQSL_CERT_MISMATCH || err == TQSL_LOCATION_MISMATCH) {
 		const char *fld, *cert, *qso;
-		fld = strtok(tQSL_CustomError, "~");
-		cert = strtok(NULL, "~");
-		qso = strtok(NULL, "~");
+		fld = strtok(tQSL_CustomError, "|");
+		cert = strtok(NULL, "|");
+		qso = strtok(NULL, "|");
 		if (qso == NULL) {		// Nothing in the cert
 			qso = cert;
 			cert = "none";
@@ -260,6 +260,11 @@ getLocalizedErrorString_v(int err) {
 			tp = wxString(_("Station Location"));
 	 	wxString composed = wxGetTranslation(wxString::FromUTF8(error_strings[adjusted_err]));
 		composed = composed + wxT("\n") + wxString::Format(_("The %s '%hs' has value '%hs' while QSO has '%hs'"), tp.c_str(), fld, cert, qso);
+		return composed;
+	}
+	if (err == (TQSL_CERT_NOT_FOUND | 0x1000)) {
+		err = TQSL_CERT_NOT_FOUND;
+		wxString composed = wxString::Format(_("There is no valid callsign certificate for %hs available. This QSO cannot be signed"), tQSL_CustomError);
 		return composed;
 	}
 	return wxGetTranslation(wxString::FromUTF8(error_strings[adjusted_err]));
