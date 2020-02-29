@@ -247,10 +247,14 @@ getLocalizedErrorString_v(int err) {
 	}
 
 	if (err == TQSL_CERT_MISMATCH || err == TQSL_LOCATION_MISMATCH) {
-		char *fld, *cert, *qso;
-		fld = strtok(tQSL_CustomError, "/");
-		cert = strtok(NULL, "/");
-		qso = strtok(NULL, "/");
+		const char *fld, *cert, *qso;
+		fld = strtok(tQSL_CustomError, "~");
+		cert = strtok(NULL, "~");
+		qso = strtok(NULL, "~");
+		if (qso == NULL) {		// Nothing in the cert
+			qso = cert;
+			cert = "none";
+		}
 		wxString tp(_("Callsign Certificate"));
 		if (err == TQSL_LOCATION_MISMATCH)
 			tp = wxString(_("Station Location"));

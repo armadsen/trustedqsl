@@ -1465,7 +1465,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		if (conv->rec.my_call[0]) {		// Update case handled above when switching certs
 			if (strcmp(conv->rec.my_call, conv->callsign)) {
 				conv->rec_done = true;
-				snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Callsign/%s/%s", conv->callsign, conv->rec.my_call);
+				snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Callsign~%s~%s", conv->callsign, conv->rec.my_call);
 				tQSL_Error = TQSL_CERT_MISMATCH;
 				return 0;
 			}
@@ -1509,7 +1509,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		if (conv->rec.my_call[0]) {		// Update case handled above when switching certs
 			if (strcmp(conv->rec.my_call, conv->callsign)) {
 				conv->rec_done = true;
-				snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Callsign/%s/%s", conv->rec.my_call, conv->callsign);
+				snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Callsign~%s~%s", conv->rec.my_call, conv->callsign);
 				tQSL_Error = TQSL_CERT_MISMATCH;
 				return 0;
 			}
@@ -1527,7 +1527,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 					tqsl_getDXCCEntityName(conv->dxcc, &d1);
 					tqsl_getDXCCEntityName(conv->rec.my_dxcc, &d2);
 
-					snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "DXCC Entity/%s (%d)/%s (%d)", d1, conv->dxcc, d2, conv->rec.my_dxcc);
+					snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "DXCC Entity~%s (%d)~%s (%d)", d1, conv->dxcc, d2, conv->rec.my_dxcc);
 					tQSL_Error = TQSL_CERT_MISMATCH;
 					return 0;
 				}
@@ -1551,40 +1551,40 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 			}  \
 		}
 
-		CHKSTN("GRIDSQUARE", my_gridsquare, "Gridsquare/%s/%s")
-		CHKSTN("ITUZ", my_itu_zone, "ITU Zone/%s/%s")
-		CHKSTN("CQZ", my_cq_zone, "CQ Zone/%s/%s")
-		CHKSTN("IOTA", my_iota, "IOTA/%s/%s")
+		CHKSTN("GRIDSQUARE", my_gridsquare, "Gridsquare~%s~%s")
+		CHKSTN("ITUZ", my_itu_zone, "ITU Zone~%s~%s")
+		CHKSTN("CQZ", my_cq_zone, "CQ Zone~%s~%s")
+		CHKSTN("IOTA", my_iota, "IOTA~%s~%s")
 
 		switch (conv->dxcc) {
 			case 6:		// Alaska
 			case 110:	// Hawaii
 			case 291:	// Cont US
-				CHKSTN("US_STATE", my_state, "US State/%s/%s")
-				CHKSTN("US_COUNTY", my_county, "US County/%s/%s")
+				CHKSTN("US_STATE", my_state, "US State~%s~%s")
+				CHKSTN("US_COUNTY", my_county, "US County~%s~%s")
 				break;
 			case 1:		// Canada
-				CHKSTN("CA_PROVINCE", my_state, "CA Province/%s/%s")
+				CHKSTN("CA_PROVINCE", my_state, "CA Province~%s~%s")
 				break;
 			case 15:	// Asiatic Russia
 			case 54:	// European Russia
 			case 61:	// FJL
 			case 125:	// Juan Fernandez
 			case 151:	// Malyj Vysotskij
-				CHKSTN("RU_OBLAST", my_state, "RU Oblast/%s/%s")
+				CHKSTN("RU_OBLAST", my_state, "RU Oblast~%s~%s")
 				break;
 			case 318:	// China
-				CHKSTN("CN_PROVINCE", my_state, "CN Province/%s/%s")
+				CHKSTN("CN_PROVINCE", my_state, "CN Province~%s~%s")
 				break;
 			case 150:	// Australia
-				CHKSTN("AU_STATE", my_state, "AU State/%s/%s")
+				CHKSTN("AU_STATE", my_state, "AU State~%s~%s")
 				break;
 			case 339:	// Japan
-				CHKSTN("JA_PREFECTURE", my_state, "JA Prefecture/%s/%s")
-				CHKSTN("JA_CITY_GUN_KU", my_county, "JA City/Gun/Ku/%s/%s")
+				CHKSTN("JA_PREFECTURE", my_state, "JA Prefecture~%s~%s")
+				CHKSTN("JA_CITY_GUN_KU", my_county, "JA City/Gun/Ku~%s~%s")
 				break;
 			case 5:		// Finland
-				CHKSTN("FI_KUNTA", my_state, "FI Kunta/%s/%s")
+				CHKSTN("FI_KUNTA", my_state, "FI Kunta~%s~%s")
 				break;
 		}
 
