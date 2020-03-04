@@ -334,6 +334,9 @@ tqsl_beginCabrilloConverter(tQSL_Converter *convp, const char *filename, tQSL_Ce
 	}
 	conv->loc = loc;
 	*convp = conv;
+
+	tqsl_getLocationCallSign(loc, conv->callsign, sizeof conv->callsign);
+
 	return 0;
 }
 
@@ -1257,6 +1260,9 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 			if (conv->rec.my_call[0] == 0 && conv->rec.my_operator[0] != 0) {	// Else try operator
 				strncpy(conv->rec.my_call, conv->rec.my_operator, TQSL_CALLSIGN_MAX);
 			}
+			if (conv->rec.my_call[0]) {
+				strncpy(conv->callsign, conv->rec.my_call, sizeof conv->callsign);
+			}
 		} else if (conv->cab) {
 			TQSL_CABRILLO_ERROR_TYPE stat;
 			do {
@@ -1287,6 +1293,8 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 						cstat = tqsl_initTime(&(conv->rec.time), field.value);
 						if (cstat)
 							saveErr = tQSL_Error;
+					} else if (!strcasecmp(field.name, "MYCALL")) {
+						strncpy(conv->rec.my_call, field.value, sizeof conv->rec.my_call);
 					}
 					if (conv->rec_text != "")
 						conv->rec_text += "\n";
@@ -1476,7 +1484,11 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 	if (cidx < 0) {
 		conv->rec_done = true;
 		if (conv->location_handling == TQSL_LOC_UPDATE) {
-			strncpy(tQSL_CustomError, conv->rec.my_call, sizeof tQSL_CustomError);
+			if (conv->rec.my_call[0]) {
+				strncpy(tQSL_CustomError, conv->rec.my_call, sizeof tQSL_CustomError);
+			} else {
+				strncpy(tQSL_CustomError, conv->callsign, sizeof tQSL_CustomError);
+			}
 			tQSL_Error = TQSL_CERT_NOT_FOUND | 0x1000;
 		} else {
 			tQSL_Error = TQSL_CERT_DATE_MISMATCH;
