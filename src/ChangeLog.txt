@@ -3,6 +3,9 @@ TQSLLIB changes
 
 2.5
 ---
+Attempt to recover from Unicode/UTF-8 format Cabrillo files by ignoring
+the extra bytes before the "START-OF-LOG" signal.
+`
 Ensure that expired or otherwise invalid certificates in the chain
 verifying a user Callsign Certificate are properly reported. This
 fixes an issue where in some cases (TQSL on Mac) trying to install an expired

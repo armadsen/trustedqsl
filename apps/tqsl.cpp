@@ -1554,6 +1554,7 @@ static wxString getAbout() {
 	msg+=wxT("\n\n\nTranslators:\n");
 	msg+=wxT("Chinese: Caros, BH4TXN\n");
 	msg+=wxT("Finnish: Juhani Tapaninen, OH8MXL\n");
+	msg+=wxT("French: Laurent BEUGNET, F6GOX\n");
 	msg+=wxT("German: Andreas Rehberg, DF4WC\n");
 	msg+=wxT("Hindi: Manmohan Bhagat, VU3YBH\n");
 	msg+=wxT("Italian: Salvatore Besso, I4FYV\n");
