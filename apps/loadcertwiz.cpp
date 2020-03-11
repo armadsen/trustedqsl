@@ -288,6 +288,9 @@ LoadCertWiz::LoadCertWiz(wxWindow *parent, wxHtmlHelpController *help, const wxS
 					_first = _p12pw;
 					_p12pw->SetPrev(0);
 					p12pw->SetFilename(filename);
+				} else if (tQSL_Error == TQSL_OPENSSL_ERROR) {
+					wxMessageBox(_("This file is not a valid P12 file"), _("Error"), wxOK | wxICON_ERROR, _parent);
+					_first = 0;	// Cancel
 				} else {
 					_first = 0;	// Cancel
 				}
@@ -360,6 +363,8 @@ LCW_P12PasswordPage::TransferDataFromWindow() {
 		if (tQSL_Error == TQSL_PASSWORD_ERROR) {
 			tc_status->SetLabel(_("Password error"));
 			return false;
+		} else if (tQSL_Error == TQSL_OPENSSL_ERROR) {
+			wxMessageBox(_("This file is not a valid P12 file"), _("Error"), wxOK | wxICON_ERROR, _parent);
 		} else {
 			wxMessageBox(getLocalizedErrorString(), _("Error"), wxOK | wxICON_ERROR, _parent);
 		}

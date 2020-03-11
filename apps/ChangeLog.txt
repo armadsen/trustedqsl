@@ -2,6 +2,9 @@ TQSL changes
 ============
 2.5.2
 ----------
+TQSL now issues an error message when an unrecognized file is loaded
+as a callsign certificate file.
+
 Do additional checks for ULS lookup failures to ensure that the data is
 not corrupt. Add the last update date for the ULS database to the message
 displayed saying that the ULS data is missing.

@@ -195,6 +195,7 @@ getLocalizedErrorString_v(int err) {
 		return buf;
 	}
 	if (err == TQSL_FILE_SYNTAX_ERROR) {
+		tqslTrace("SyntaxError", "File (partial) content '%s'", tQSL_CustomError);
 		if (strlen(tQSL_ErrorFile) > 0) {
 			buf = wxString::Format(_("File syntax error: %hs"),
 				tQSL_ErrorFile);

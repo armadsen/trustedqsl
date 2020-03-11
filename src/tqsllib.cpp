@@ -427,6 +427,7 @@ tqsl_getErrorString_v(int err) {
 		return buf;
 	}
 	if (err == TQSL_FILE_SYNTAX_ERROR) {
+		tqslTrace("SyntaxError", "File (partial) content '%s'", tQSL_CustomError);
 		if (strlen(tQSL_ErrorFile) > 0) {
 			snprintf(buf, sizeof buf, "File syntax error: %s",
 				tQSL_ErrorFile);
