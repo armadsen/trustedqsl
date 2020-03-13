@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: V2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-02 06:25-0500\n"
-"PO-Revision-Date: 2019-10-05 14:14+0200\n"
+"PO-Revision-Date: 2020-03-12 11:11+0100\n"
 "Last-Translator: Andreas Rehberg\n"
 "Language-Team: TQSL Developers\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.2.3\n"
 
 #: certtree.cpp:104
 msgid "tQSL Certificates"
@@ -543,15 +543,15 @@ msgstr "Dieses Rufzeichen-Zertifikat ist bereits installiert"
 
 #: loadcertwiz.cpp:118
 msgid "Trusted root certificate"
-msgstr ""
+msgstr "vertrauenswürdiges Root-Zertifikat"
 
 #: loadcertwiz.cpp:121
 msgid "Certificate Authority certificate"
-msgstr ""
+msgstr "Zertifikat der Zertifizierungsstelle"
 
 #: loadcertwiz.cpp:124 wxutil.cpp:258
 msgid "Callsign Certificate"
-msgstr ""
+msgstr "Rufzeichen-Zertifikat"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a password for this callsign certificate."
@@ -1651,6 +1651,8 @@ msgstr "Fehler beim Komprimieren vor dem Hochladen"
 #: tqsl.cpp:2649
 msgid "Unable to open ca-bundle.crt. Your TQSL installation is incomplete"
 msgstr ""
+"Kann ca-bundle.crt nicht öffnen. Ihre TQSL-Installation ist nicht "
+"vollständig."
 
 #: tqsl.cpp:2714
 msgid "Error: Could not upload file (CURL Init error)"
@@ -2196,7 +2198,7 @@ msgstr "Geben Sie das Enddatum für die zu signierenden QSOs an"
 
 #: tqsl.cpp:5350
 msgid "Specify QSO verification action - ignore, report or update"
-msgstr ""
+msgstr "QSO-Überprüfungsaktion angeben - ignorieren, melden oder aktualisieren"
 
 #: tqsl.cpp:5352
 msgid "Display command line help"
@@ -2264,13 +2266,13 @@ msgstr "Enddatum von %s ist ungültig"
 #: tqsl.cpp:5546
 #, c-format
 msgid "The -a parameter %hs is not recognized"
-msgstr "Der Parameter -a '%hs' wird nicht erkannt"
+msgstr "Der Parameter -a %hs wird nicht erkannt"
 
 #. TRANSLATORS: -f is the command line switch for log QTH handling
 #: tqsl.cpp:5567
 #, c-format
 msgid "The -f parameter %hs is not recognized"
-msgstr ""
+msgstr "Der Parameter -f %hs wird nicht erkannt"
 
 #: tqsl.cpp:5667
 msgid "No logfile to sign!"
@@ -2692,7 +2694,7 @@ msgstr "Optionen"
 
 #: tqsl_prefs.cpp:76
 msgid "Log Handling"
-msgstr ""
+msgstr "Log-Behandlung"
 
 #: tqsl_prefs.cpp:79
 msgid "ADIF Modes"
@@ -2798,7 +2800,7 @@ msgstr "Zeige Details der bereits hochgeladenen QSOs beim Signieren eines Logs"
 
 #: tqsl_prefs.cpp:485
 msgid "Handle QTH information in ADIF logs with what action?"
-msgstr ""
+msgstr "QTH-Informationen in ADIF-Protokollen mit welcher Aktion behandeln?"
 
 #: tqsl_prefs.cpp:670
 msgid ""
@@ -3086,11 +3088,11 @@ msgstr "Das Rufzeichen-Zertifikat konnte nicht installiert werden"
 
 #: wxutil.cpp:164
 msgid "Callsign Certificate does not match QSO details"
-msgstr ""
+msgstr "Rufzeichen-Zertifikat stimmt nicht mit QSO-Details überein"
 
 #: wxutil.cpp:165
 msgid "Station Location does not match QSO details"
-msgstr ""
+msgstr "Standort stimmt nicht mit den QSO-Details überein."
 
 #: wxutil.cpp:174
 msgid "NO ERROR"
@@ -3140,13 +3142,13 @@ msgstr "Ungültiger Fehlercode: %d"
 
 #: wxutil.cpp:260
 msgid "Station Location"
-msgstr ""
+msgstr "Standort"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The GRIDSQUARE has value FM18ju while QSO has FM18jt'
 #: wxutil.cpp:263
 #, c-format
 msgid "The %s '%hs' has value '%hs' while QSO has '%hs'"
-msgstr ""
+msgstr "%s '%hs' hat den Wert '%hs' das QSO jedoch '%hs'"
 
 #: wxutil.cpp:268
 #, c-format
@@ -3154,6 +3156,8 @@ msgid ""
 "There is no valid callsign certificate for %hs available. This QSO cannot be "
 "signed"
 msgstr ""
+"Es ist kein gültiges Rufzeichenzertifikat für %hs verfügbar. Dieses QSO kann "
+"nicht signiert werden."
 
 #: getpassword.h:51
 msgid "New password"

@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: TQSL v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-02 06:25-0500\n"
-"PO-Revision-Date: 2019-10-04 22:46+0200\n"
+"PO-Revision-Date: 2020-03-11 22:25+0100\n"
 "Last-Translator: Roman Bagiński\n"
 "Language-Team: \n"
 "Language: pl_PL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.6\n"
+"X-Generator: Poedit 2.2\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
 
@@ -529,15 +529,15 @@ msgstr "Ten certyfikat jest już zainstalowany"
 
 #: loadcertwiz.cpp:118
 msgid "Trusted root certificate"
-msgstr ""
+msgstr "Zaufany certyfikat główny"
 
 #: loadcertwiz.cpp:121
 msgid "Certificate Authority certificate"
-msgstr ""
+msgstr "Certyfikat urzędu certyfikacji"
 
 #: loadcertwiz.cpp:124 wxutil.cpp:258
 msgid "Callsign Certificate"
-msgstr ""
+msgstr "Certyfikat znaku wywoławczego"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a password for this callsign certificate."
@@ -1215,7 +1215,7 @@ msgstr "Kopia lokalizacji Stacji, certyfikatów i preferencji ..."
 
 #: tqsl.cpp:1090
 msgid "&Restore Station Locations, Certificates, and Preferences..."
-msgstr "Przywróć lokalizacje certyfikaty i preferencje stacji ..."
+msgstr "Przywróć lokalizacje, certyfikaty i preferencje stacji ..."
 
 #: tqsl.cpp:1092
 msgid "Create &New ADIF file..."
@@ -1630,6 +1630,8 @@ msgstr "Błąd kompresji przed przesłaniem"
 #: tqsl.cpp:2649
 msgid "Unable to open ca-bundle.crt. Your TQSL installation is incomplete"
 msgstr ""
+"Nie można otworzyc pliku ca-bundle.crt.  Twoja instalacja TQSL jest "
+"niekompletna"
 
 #: tqsl.cpp:2714
 msgid "Error: Could not upload file (CURL Init error)"
@@ -2173,7 +2175,7 @@ msgstr "Podaj datę końcową dla QSO do podpisania"
 
 #: tqsl.cpp:5350
 msgid "Specify QSO verification action - ignore, report or update"
-msgstr ""
+msgstr "Określ akcję weryfikacji QSO - zignoruj zgłoś lub zaktualizuj"
 
 #: tqsl.cpp:5352
 msgid "Display command line help"
@@ -2247,7 +2249,7 @@ msgstr "Parametr -a %hs nie został rozpoznany"
 #: tqsl.cpp:5567
 #, c-format
 msgid "The -f parameter %hs is not recognized"
-msgstr ""
+msgstr "Parametr f %hs nie jest rozpoznawany"
 
 #: tqsl.cpp:5667
 msgid "No logfile to sign!"
@@ -2666,7 +2668,7 @@ msgstr "Opcje"
 
 #: tqsl_prefs.cpp:76
 msgid "Log Handling"
-msgstr ""
+msgstr "Obsługa dzienników"
 
 #: tqsl_prefs.cpp:79
 msgid "ADIF Modes"
@@ -2768,12 +2770,11 @@ msgstr "Pytaj o zakres dat łączności przy podpisywaniu"
 
 #: tqsl_prefs.cpp:472
 msgid "Display details of already uploaded QSOs when signing a log"
-msgstr ""
-"Wyświetlanie szczegółów już przesłanych QSOs podczas podpisywania dziennika"
+msgstr "Wyświetl szczegóły już przesłanych QSOs podczas podpisywania dziennika"
 
 #: tqsl_prefs.cpp:485
 msgid "Handle QTH information in ADIF logs with what action?"
-msgstr ""
+msgstr "Za pomocą jakich działań zmienimy info o QTH w dzienniku ADIF?"
 
 #: tqsl_prefs.cpp:670
 msgid ""
@@ -3058,11 +3059,11 @@ msgstr "Nie można zainstalować certyfikatu stacji"
 
 #: wxutil.cpp:164
 msgid "Callsign Certificate does not match QSO details"
-msgstr ""
+msgstr "Certyfikat znaku stacji nie pasuje do QSO"
 
 #: wxutil.cpp:165
 msgid "Station Location does not match QSO details"
-msgstr ""
+msgstr "Lokalizacja stacji nie pasuje do QSO"
 
 #: wxutil.cpp:174
 msgid "NO ERROR"
@@ -3112,13 +3113,13 @@ msgstr "Nieprawidłowy kod błędu: %d"
 
 #: wxutil.cpp:260
 msgid "Station Location"
-msgstr ""
+msgstr "Lokalizacja stacji"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The GRIDSQUARE has value FM18ju while QSO has FM18jt'
 #: wxutil.cpp:263
 #, c-format
 msgid "The %s '%hs' has value '%hs' while QSO has '%hs'"
-msgstr ""
+msgstr "Wartość %s '%hs' ma wartość '%hs' podczas gdy QSO ma '%hs'"
 
 #: wxutil.cpp:268
 #, c-format
@@ -3126,6 +3127,8 @@ msgid ""
 "There is no valid callsign certificate for %hs available. This QSO cannot be "
 "signed"
 msgstr ""
+"Brak dostępnego ważnego certyfikatu znaku dla %hs.  Tego QSO nie można "
+"podpisać"
 
 #: getpassword.h:51
 msgid "New password"

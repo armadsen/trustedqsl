@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: TQSL v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-02 06:25-0500\n"
-"PO-Revision-Date: 2019-10-06 13:35+0300\n"
+"PO-Revision-Date: 2020-03-12 11:07+0200\n"
 "Last-Translator: Vic Goncharsky\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -530,15 +530,15 @@ msgstr "Сертификат позывного уже установлен"
 
 #: loadcertwiz.cpp:118
 msgid "Trusted root certificate"
-msgstr ""
+msgstr "Достоверный сертификат пользователя root"
 
 #: loadcertwiz.cpp:121
 msgid "Certificate Authority certificate"
-msgstr ""
+msgstr "Сертификат авторизации"
 
 #: loadcertwiz.cpp:124 wxutil.cpp:258
 msgid "Callsign Certificate"
-msgstr ""
+msgstr "Сертификат позывного"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a password for this callsign certificate."
@@ -1626,7 +1626,7 @@ msgstr "Ошибка при сжатии перед загрузкой"
 
 #: tqsl.cpp:2649
 msgid "Unable to open ca-bundle.crt. Your TQSL installation is incomplete"
-msgstr ""
+msgstr "Невозможно открыть ca-bundle.crt. Установка TQSL не завершена."
 
 #: tqsl.cpp:2714
 msgid "Error: Could not upload file (CURL Init error)"
@@ -2168,6 +2168,7 @@ msgstr "Установите конечную дату для подписыва
 #: tqsl.cpp:5350
 msgid "Specify QSO verification action - ignore, report or update"
 msgstr ""
+"Выберите действие по верификации QSO - игнорировать, сообщить или обновить"
 
 #: tqsl.cpp:5352
 msgid "Display command line help"
@@ -2243,7 +2244,7 @@ msgstr "Параметр -a для %hs не распознается"
 #: tqsl.cpp:5567
 #, c-format
 msgid "The -f parameter %hs is not recognized"
-msgstr ""
+msgstr "Параметр -f %hs не распознан"
 
 #: tqsl.cpp:5667
 msgid "No logfile to sign!"
@@ -2661,7 +2662,7 @@ msgstr "Опции"
 
 #: tqsl_prefs.cpp:76
 msgid "Log Handling"
-msgstr ""
+msgstr "Обработка лога"
 
 #: tqsl_prefs.cpp:79
 msgid "ADIF Modes"
@@ -2768,7 +2769,7 @@ msgstr "Показать детали уже загруженных QSOs при 
 
 #: tqsl_prefs.cpp:485
 msgid "Handle QTH information in ADIF logs with what action?"
-msgstr ""
+msgstr "Сохранить информацию о QTH этим действием?"
 
 #: tqsl_prefs.cpp:670
 msgid ""
@@ -3058,11 +3059,11 @@ msgstr "Сертификат позывного не может быть уст�
 
 #: wxutil.cpp:164
 msgid "Callsign Certificate does not match QSO details"
-msgstr ""
+msgstr "Данные QSO не соответствуют Сертификату позывного "
 
 #: wxutil.cpp:165
 msgid "Station Location does not match QSO details"
-msgstr ""
+msgstr "Местоположение станции не соответствует Сертификату позывного "
 
 #: wxutil.cpp:174
 msgid "NO ERROR"
@@ -3112,13 +3113,13 @@ msgstr "Hеверный код ошибки: %d"
 
 #: wxutil.cpp:260
 msgid "Station Location"
-msgstr ""
+msgstr "Местоположение станции"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The GRIDSQUARE has value FM18ju while QSO has FM18jt'
 #: wxutil.cpp:263
 #, c-format
 msgid "The %s '%hs' has value '%hs' while QSO has '%hs'"
-msgstr ""
+msgstr "%s '%hs' имеет значение '%hs' в то время, как QSO имеет '%hs'"
 
 #: wxutil.cpp:268
 #, c-format
@@ -3126,6 +3127,8 @@ msgid ""
 "There is no valid callsign certificate for %hs available. This QSO cannot be "
 "signed"
 msgstr ""
+"Действующего сертификата позывного для %hs нет. Это QSO не может быть "
+"подписано."
 
 #: getpassword.h:51
 msgid "New password"
