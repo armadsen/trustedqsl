@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: TQSL v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-02 06:25-0500\n"
-"PO-Revision-Date: 2019-10-03 22:40+0300\n"
+"PO-Revision-Date: 2020-03-14 11:16+0200\n"
 "Last-Translator: Juhani Tapaninen\n"
 "Language-Team: \n"
 "Language: fi_FI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: certtree.cpp:104
@@ -124,7 +124,7 @@ msgstr "Sähköposti: "
 
 #: crqwiz.cpp:216
 msgid "URL: "
-msgstr "URL-osoite:"
+msgstr "URL-osoite: "
 
 #: crqwiz.cpp:252
 msgid "DXCC entity:"
@@ -281,7 +281,7 @@ msgid ""
 "selected DXCC Entity %hs"
 msgstr ""
 "Ensimmäisen yhteytesi päivämäärä on ennen ensimmäistä hyväksyttävää "
-"päivämäärää (%hs) valitulle DXCC-maalle %hs "
+"päivämäärää (%hs) valitulle DXCC-maalle %hs"
 
 #: crqwiz.cpp:1001
 #, c-format
@@ -299,7 +299,7 @@ msgid ""
 "selected DXCC Entity %hs"
 msgstr ""
 "Viimeisen yhteytesi päivämäärä on ennen ensimmäistä hyväksyttävää "
-"päivämäärää (%hs) valitulle DXCC-maalle %hs "
+"päivämäärää (%hs) valitulle DXCC-maalle %hs"
 
 #: crqwiz.cpp:1009
 #, c-format
@@ -408,7 +408,7 @@ msgid ""
 msgstr ""
 "Et voi pyytää varmennetta 1x1-kutsulle koska sinun täytyy allekirjoittaa "
 "tämä pyyntö, mutta sinulla ei ole voimassa olevaa kutsumerkin varmennetta, "
-"jolla voisit allekirjoittaa pyynnön. "
+"jolla voisit allekirjoittaa pyynnön."
 
 #: crqwiz.cpp:1219
 msgid ""
@@ -525,7 +525,7 @@ msgstr "Tuonti onnistui"
 
 #: loadcertwiz.cpp:75
 msgid "OK to install "
-msgstr "Valmis asentamaan"
+msgstr "Valmis asentamaan "
 
 #: loadcertwiz.cpp:76
 msgid "certificate?"
@@ -545,11 +545,11 @@ msgstr ""
 
 #: loadcertwiz.cpp:121
 msgid "Certificate Authority certificate"
-msgstr ""
+msgstr "Varmentajan varmenne"
 
 #: loadcertwiz.cpp:124 wxutil.cpp:258
 msgid "Callsign Certificate"
-msgstr ""
+msgstr "Kutsumerkin varmenne"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a password for this callsign certificate."
@@ -652,7 +652,7 @@ msgstr "YLÖS"
 
 #: qsodatadialog.cpp:251
 msgid "Call Sign:"
-msgstr "Kutsumerkki"
+msgstr "Kutsumerkki:"
 
 #: qsodatadialog.cpp:259
 msgid "UTC Date (YYYY-MM-DD):"
@@ -852,7 +852,7 @@ msgstr "Maanosa"
 
 #: stationdial.cpp:355
 msgid "CQ Zone"
-msgstr "CQ-zone:"
+msgstr "CQ-zone"
 
 #: stationdial.cpp:356
 msgid "DXCC Entity"
@@ -864,15 +864,15 @@ msgstr "Lokaattori"
 
 #: stationdial.cpp:358
 msgid "IOTA ID"
-msgstr "IOTA-tunnus:"
+msgstr "IOTA-tunnus"
 
 #: stationdial.cpp:359
 msgid "ITU Zone"
-msgstr "ITU-zone:"
+msgstr "ITU-zone"
 
 #: stationdial.cpp:360
 msgid "Oblast"
-msgstr "Oblast:"
+msgstr "Oblast"
 
 #: stationdial.cpp:361
 msgid "County"
@@ -926,7 +926,7 @@ msgstr "Virhe avattaessa syötetiedostoa"
 
 #: tqsl.cpp:182
 msgid "Error opening output file"
-msgstr "Virhe avattaessa tulostetiedostoa."
+msgstr "Virhe avattaessa tulostetiedostoa"
 
 #: tqsl.cpp:183
 msgid "No QSOs written"
@@ -1182,7 +1182,7 @@ msgstr ""
 
 #: tqsl.cpp:573
 msgid "Are you sure you want to proceed? Click 'No' to review the choices"
-msgstr "Haluatko varmasti jatkaa? Valitse \"Ei\", jotta voit valita uudelleen."
+msgstr "Haluatko varmasti jatkaa? Valitse \"Ei\", jotta voit valita uudelleen"
 
 #: tqsl.cpp:574
 msgid "Are you sure?"
@@ -1240,7 +1240,7 @@ msgstr "&Muokkaa olemassaolevaa ADIF-tiedostoa..."
 
 #: tqsl.cpp:1096
 msgid "&Preferences..."
-msgstr "&Asetukset"
+msgstr "&Asetukset..."
 
 #: tqsl.cpp:1098
 msgid "Display or Modify &Preferences..."
@@ -1606,7 +1606,7 @@ msgstr "Tämä kutsumerkin varmenne on jo aktiivinen eikä sitä voida palauttaa
 #: tqsl.cpp:2380
 #, c-format
 msgid "Unable to open %s for output"
-msgstr "Ei pystytä avaamaan %s:ää ulostuloon."
+msgstr "Ei pystytä avaamaan %s:ää ulostuloon"
 
 #: tqsl.cpp:2389
 msgid "No records output"
@@ -1644,6 +1644,7 @@ msgstr "Virhe kompressoinnissa ennen lähetystä"
 #: tqsl.cpp:2649
 msgid "Unable to open ca-bundle.crt. Your TQSL installation is incomplete"
 msgstr ""
+"Ei voitu avata tiedostoa ca-bundle.crt. TQSL-asennuksesi on epätäydellinen."
 
 #: tqsl.cpp:2714
 msgid "Error: Could not upload file (CURL Init error)"
@@ -2186,7 +2187,7 @@ msgstr "Määrittele loppumispäivä allekirjoitettaville QSO:ille"
 
 #: tqsl.cpp:5350
 msgid "Specify QSO verification action - ignore, report or update"
-msgstr ""
+msgstr "Määrittele QSO.vahvistustoiminto: ohita, raportoi tai päivitä"
 
 #: tqsl.cpp:5352
 msgid "Display command line help"
@@ -2261,7 +2262,7 @@ msgstr "-a-parametria %hs ei tunnisteta"
 #: tqsl.cpp:5567
 #, c-format
 msgid "The -f parameter %hs is not recognized"
-msgstr ""
+msgstr "-f parametriä %hs ei tunnistettu"
 
 #: tqsl.cpp:5667
 msgid "No logfile to sign!"
@@ -2400,7 +2401,7 @@ msgstr "vastaanottaja:"
 
 #: tqsl.cpp:6236
 msgid "or "
-msgstr "tai"
+msgstr "tai "
 
 #: tqsl.cpp:6237
 msgid "see:"
@@ -2424,7 +2425,7 @@ msgstr "Uudista kutsumerkin varmenne kutsulle"
 
 #: tqsl.cpp:6366
 msgid "Enter the name for the new Certificate Container file"
-msgstr "Syötä nimi uudelle varmenteen säilötiedostolle."
+msgstr "Syötä nimi uudelle varmenteiden säilötiedostolle"
 
 #: tqsl.cpp:6367
 msgid "Certificate Container files (*.p12)|*.p12|All files (*.*)|*.*"
@@ -2483,7 +2484,7 @@ msgstr "jos olet luonut sellaisen Kutsumerkin varmenne -valikon"
 
 #: tqsl.cpp:6432
 msgid "'Save Callsign Certificate' command."
-msgstr "\"Tallenna kutsumerkin varmenne\"-komennolla"
+msgstr "\"Tallenna kutsumerkin varmenne\"-komennolla."
 
 #: tqsl.cpp:6434
 msgid "Are you sure you want to delete the certificate?"
@@ -2499,7 +2500,7 @@ msgstr "Poiston perumisen virhe"
 
 #: tqsl.cpp:6483
 msgid "Choose a Callsign Certificate to restore"
-msgstr "Valitse palautettava kutsumerkin varmenne "
+msgstr "Valitse palautettava kutsumerkin varmenne"
 
 #: tqsl.cpp:6512
 msgid "Select a Station Location to process"
@@ -2543,7 +2544,7 @@ msgstr "Varmenteen tiedot"
 
 #: tqsl.cpp:6732
 msgid "Begins: "
-msgstr "Alkaa:"
+msgstr "Alkaa: "
 
 #: tqsl.cpp:6733
 msgid "Expires: "
@@ -2551,7 +2552,7 @@ msgstr "Päättyy: "
 
 #: tqsl.cpp:6734
 msgid "Organization: "
-msgstr "Organisaatio:"
+msgstr "Organisaatio: "
 
 #: tqsl.cpp:6736
 msgid "Serial: "
@@ -2559,15 +2560,15 @@ msgstr "Sarjanumero: "
 
 #: tqsl.cpp:6737
 msgid "Operator: "
-msgstr "Operaattori:"
+msgstr "Operaattori: "
 
 #: tqsl.cpp:6738 tqsl.cpp:6928
 msgid "Call sign: "
-msgstr "Kutsumerkki:"
+msgstr "Kutsumerkki: "
 
 #: tqsl.cpp:6739 tqsl.cpp:6929
 msgid "DXCC Entity: "
-msgstr "DXCC-maa:"
+msgstr "DXCC-maa: "
 
 #: tqsl.cpp:6740
 msgid "QSO Start Date: "
@@ -2639,7 +2640,7 @@ msgstr "ITU-zone: "
 
 #: tqsl.cpp:6932
 msgid "CQ Zone: "
-msgstr "CQ-zone:"
+msgstr "CQ-zone: "
 
 #: tqsl.cpp:6933
 msgid "IOTA Locator: "
@@ -2663,7 +2664,7 @@ msgstr "Maakunta: "
 
 #: tqsl.cpp:6939
 msgid "Oblast: "
-msgstr "Oblast:"
+msgstr "Oblast: "
 
 #: tqsl.cpp:7021
 msgid "Enter the password to unlock the callsign certificate"
@@ -2679,7 +2680,7 @@ msgstr "Lisävalinnat"
 
 #: tqsl_prefs.cpp:76
 msgid "Log Handling"
-msgstr ""
+msgstr "Lokitoiminnot"
 
 #: tqsl_prefs.cpp:79
 msgid "ADIF Modes"
@@ -2695,7 +2696,7 @@ msgstr "Verkkovälityspalvelin (proxy)"
 
 #: tqsl_prefs.cpp:166
 msgid "Custom ADIF mode mappings:"
-msgstr "Erityiset ADIF-lähetelajien kuvaukset"
+msgstr "Erityiset ADIF-lähetelajien kuvaukset:"
 
 #: tqsl_prefs.cpp:175 tqsl_prefs.cpp:799
 msgid "Add..."
@@ -2787,7 +2788,7 @@ msgstr ""
 
 #: tqsl_prefs.cpp:485
 msgid "Handle QTH information in ADIF logs with what action?"
-msgstr ""
+msgstr "Miten ADIF-lokien QTH-tieto käsitellään?"
 
 #: tqsl_prefs.cpp:670
 msgid ""
@@ -2813,7 +2814,7 @@ msgstr "Käytä välityspalvelinta (proxy)"
 
 #: tqsl_prefs.cpp:682
 msgid "Proxy Address:"
-msgstr "Välityspalvelimen osoite"
+msgstr "Välityspalvelimen osoite: "
 
 #: tqsl_prefs.cpp:690
 msgid "Port Number:"
@@ -2829,7 +2830,7 @@ msgstr "Välityspalvelimen tyyppi"
 
 #: tqsl_prefs.cpp:762
 msgid "Cabrillo CONTEST definitions:"
-msgstr "Cabrillo KILPAILU-määrittelyt"
+msgstr "Cabrillo KILPAILU-määrittelyt:"
 
 #: tqsl_prefs.cpp:774 tqsl_prefs.cpp:785
 msgid "CONTEST"
@@ -3074,11 +3075,11 @@ msgstr "Kutsumerkin varmennetta ei voitu asentaa"
 
 #: wxutil.cpp:164
 msgid "Callsign Certificate does not match QSO details"
-msgstr ""
+msgstr "Kutsumerkin varmenne ei vastaa QSO-tietoja"
 
 #: wxutil.cpp:165
 msgid "Station Location does not match QSO details"
-msgstr ""
+msgstr "Aseman sijainti ei vastaa QSO-tietoja"
 
 #: wxutil.cpp:174
 msgid "NO ERROR"
@@ -3128,13 +3129,13 @@ msgstr "Virheellinen virhekoodi: %d"
 
 #: wxutil.cpp:260
 msgid "Station Location"
-msgstr ""
+msgstr "Aseman sijainti"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The GRIDSQUARE has value FM18ju while QSO has FM18jt'
 #: wxutil.cpp:263
 #, c-format
 msgid "The %s '%hs' has value '%hs' while QSO has '%hs'"
-msgstr ""
+msgstr "%s '%hs':lla on arvo '%hs' mutta QSO-tiedoissa on arvo '%hs'"
 
 #: wxutil.cpp:268
 #, c-format
@@ -3142,6 +3143,8 @@ msgid ""
 "There is no valid callsign certificate for %hs available. This QSO cannot be "
 "signed"
 msgstr ""
+"Kutsumerkille %hs ei ole voimassaolevaa kutsumerkin varmennetta. Tätä QSO:a "
+"ei voida allekirjoittaa"
 
 #: getpassword.h:51
 msgid "New password"

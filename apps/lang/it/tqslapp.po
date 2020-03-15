@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: V2.5 - Update\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-02 06:25-0500\n"
-"PO-Revision-Date: 2019-10-10 19:44+0200\n"
+"PO-Revision-Date: 2020-03-15 12:28+0100\n"
 "Last-Translator: Rick Murphy <k1mu@arrl.net>\n"
 "Language-Team: I4FYV Salvatore Besso <salvatore.besso@outlook.it>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.4\n"
+"X-Generator: Poedit 2.3\n"
 
 #: certtree.cpp:104
 msgid "tQSL Certificates"
@@ -544,15 +544,15 @@ msgstr "Questo certificato del nominativo è già installato"
 
 #: loadcertwiz.cpp:118
 msgid "Trusted root certificate"
-msgstr ""
+msgstr "Certificato radice attendibile"
 
 #: loadcertwiz.cpp:121
 msgid "Certificate Authority certificate"
-msgstr ""
+msgstr "Certificato dell'autorità di certificazione"
 
 #: loadcertwiz.cpp:124 wxutil.cpp:258
 msgid "Callsign Certificate"
-msgstr ""
+msgstr "Certificato del nominativo"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a password for this callsign certificate."
@@ -1653,7 +1653,7 @@ msgstr "Errore di compressione prima del caricamento"
 
 #: tqsl.cpp:2649
 msgid "Unable to open ca-bundle.crt. Your TQSL installation is incomplete"
-msgstr ""
+msgstr "Impossibile aprire ca-bundle.crt. L'installazione di tQSL è incompleta"
 
 #: tqsl.cpp:2714
 msgid "Error: Could not upload file (CURL Init error)"
@@ -2199,7 +2199,7 @@ msgstr "Specifica la data di fine per i QSO da firmare"
 
 #: tqsl.cpp:5350
 msgid "Specify QSO verification action - ignore, report or update"
-msgstr ""
+msgstr "Specifica l'azione di verifica dei QSO - ignora, rapporto o aggiorna"
 
 #: tqsl.cpp:5352
 msgid "Display command line help"
@@ -2274,7 +2274,7 @@ msgstr "Il parametro -a %hs non è riconosciuto"
 #: tqsl.cpp:5567
 #, c-format
 msgid "The -f parameter %hs is not recognized"
-msgstr ""
+msgstr "Il parametro -f %hs non è riconosciuto"
 
 #: tqsl.cpp:5667
 msgid "No logfile to sign!"
@@ -2699,7 +2699,7 @@ msgstr "Opzioni"
 
 #: tqsl_prefs.cpp:76
 msgid "Log Handling"
-msgstr ""
+msgstr "Gestione dei log"
 
 #: tqsl_prefs.cpp:79
 msgid "ADIF Modes"
@@ -2806,7 +2806,7 @@ msgstr "Mostra i dettagli dei QSO già caricati quando firmi un log"
 
 #: tqsl_prefs.cpp:485
 msgid "Handle QTH information in ADIF logs with what action?"
-msgstr ""
+msgstr "Con quale azione gestire le informazioni sul QTH nel file ADIF?"
 
 #: tqsl_prefs.cpp:670
 msgid ""
@@ -3096,11 +3096,11 @@ msgstr "Il certificato del nominativo non può essere installato"
 
 #: wxutil.cpp:164
 msgid "Callsign Certificate does not match QSO details"
-msgstr ""
+msgstr "Il certificato del nominativo non corrisponde con i dettagli del QSO"
 
 #: wxutil.cpp:165
 msgid "Station Location does not match QSO details"
-msgstr ""
+msgstr "L'ubicazione della stazione non corrisponde con i dettagli del QSO"
 
 #: wxutil.cpp:174
 msgid "NO ERROR"
@@ -3150,13 +3150,13 @@ msgstr "Codice di errore non valido: %d"
 
 #: wxutil.cpp:260
 msgid "Station Location"
-msgstr ""
+msgstr "Ubicazione della stazione"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The GRIDSQUARE has value FM18ju while QSO has FM18jt'
 #: wxutil.cpp:263
 #, c-format
 msgid "The %s '%hs' has value '%hs' while QSO has '%hs'"
-msgstr ""
+msgstr "Il %s '%hs' ha un valore '%hs' mentre il QSO ha '%hs'"
 
 #: wxutil.cpp:268
 #, c-format
@@ -3164,6 +3164,8 @@ msgid ""
 "There is no valid callsign certificate for %hs available. This QSO cannot be "
 "signed"
 msgstr ""
+"Non è disponibile alcun certificato del nominativo valido per %hs. Questo "
+"QSO non può essere firmato"
 
 #: getpassword.h:51
 msgid "New password"
