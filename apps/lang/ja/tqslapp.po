@@ -530,15 +530,15 @@ msgstr "このコールサイン証明書はすでにインストールされて
 
 #: loadcertwiz.cpp:118
 msgid "Trusted root certificate"
-msgstr ""
+msgstr "信頼できるルート証明書"
 
 #: loadcertwiz.cpp:121
 msgid "Certificate Authority certificate"
-msgstr ""
+msgstr "認証局(CA)の証明書"
 
 #: loadcertwiz.cpp:124 wxutil.cpp:258
 msgid "Callsign Certificate"
-msgstr ""
+msgstr "コールサイン証明書"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a password for this callsign certificate."
@@ -2176,7 +2176,7 @@ msgstr "署名する QSO の終了日を指定"
 
 #: tqsl.cpp:5350
 msgid "Specify QSO verification action - ignore, report or update"
-msgstr ""
+msgstr "QSOの確認結果に対しての動作を指定 - ignore（無視） report（報告） update（更新）"
 
 #: tqsl.cpp:5352
 msgid "Display command line help"
@@ -2671,7 +2671,7 @@ msgstr "オプション"
 
 #: tqsl_prefs.cpp:76
 msgid "Log Handling"
-msgstr ""
+msgstr "ログの取扱"
 
 #: tqsl_prefs.cpp:79
 msgid "ADIF Modes"
@@ -2774,7 +2774,7 @@ msgstr "ログに署名するときアップロード済QSOの詳細を表示"
 
 #: tqsl_prefs.cpp:485
 msgid "Handle QTH information in ADIF logs with what action?"
-msgstr ""
+msgstr "ADIF ログ中の QTH　情報をどのように取り扱いますか?"
 
 #: tqsl_prefs.cpp:670
 msgid ""
@@ -2974,11 +2974,11 @@ msgstr "正しくないパスワード"
 
 #: wxutil.cpp:144
 msgid "Expected name"
-msgstr "名前が期待される"
+msgstr "名称が必要"
 
 #: wxutil.cpp:145
 msgid "Name exists"
-msgstr "この名前は存在する"
+msgstr "この名称は存在する"
 
 #: wxutil.cpp:146
 msgid "Data for this DXCC entity could not be found"
@@ -3059,11 +3059,11 @@ msgstr "コールサイン証明書をインストールできない"
 
 #: wxutil.cpp:164
 msgid "Callsign Certificate does not match QSO details"
-msgstr ""
+msgstr "コールサイン証明書は QSO データの詳細と一致していない"
 
 #: wxutil.cpp:165
 msgid "Station Location does not match QSO details"
-msgstr ""
+msgstr "局の所在地は QSO データの詳細と一致していない"
 
 #: wxutil.cpp:174
 msgid "NO ERROR"
@@ -3113,20 +3113,20 @@ msgstr "無効なエラーコード：　%d"
 
 #: wxutil.cpp:260
 msgid "Station Location"
-msgstr ""
+msgstr "局の所在地"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The GRIDSQUARE has value FM18ju while QSO has FM18jt'
 #: wxutil.cpp:263
 #, c-format
 msgid "The %s '%hs' has value '%hs' while QSO has '%hs'"
-msgstr ""
+msgstr "%s '%hs' の値は '%hs' ですが、QSO データの値は '%hs' です。"
 
 #: wxutil.cpp:268
 #, c-format
 msgid ""
 "There is no valid callsign certificate for %hs available. This QSO cannot be "
 "signed"
-msgstr ""
+msgstr "%hs の有効なコールサイン証明書がありません。この QSO データはサインできません。"
 
 #: getpassword.h:51
 msgid "New password"

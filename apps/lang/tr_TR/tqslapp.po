@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: TQSL v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-02 06:25-0500\n"
-"PO-Revision-Date: 2019-10-02 10:24+0300\n"
+"PO-Revision-Date: 2020-03-15 18:34+0300\n"
 "Last-Translator: Oguzhan Kayhan\n"
 "Language-Team: \n"
 "Language: tr_TR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.3\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: certtree.cpp:104
@@ -514,15 +514,15 @@ msgstr "Bu çağrı işareti sertifikası zaten kurulu"
 
 #: loadcertwiz.cpp:118
 msgid "Trusted root certificate"
-msgstr ""
+msgstr "Güvenilir kök sertifikası"
 
 #: loadcertwiz.cpp:121
 msgid "Certificate Authority certificate"
-msgstr ""
+msgstr "Sertifika Yetkilisi sertifikası"
 
 #: loadcertwiz.cpp:124 wxutil.cpp:258
 msgid "Callsign Certificate"
-msgstr ""
+msgstr "Çağrı adı sertifikası"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a password for this callsign certificate."
@@ -1102,7 +1102,7 @@ msgstr ""
 "davranışlarda bulunabilir. Eski programlar TrustedQSL programının "
 "çıktılarını kontrol etmiyorsa, loğları yüklenmiş olarak gösterebilir Ya da "
 "boş dosya yükleyebilir. Bu yüzden eski prgramlarda 'İptal' seçeneği de "
-"güvenle kullanılabilir."
+"güvenle kullanılabilir"
 
 #: tqsl.cpp:533
 msgid ""
@@ -1127,7 +1127,7 @@ msgid ""
 "server failure"
 msgstr ""
 "Daha önce yüklenmiş QSO'ları yeniden yüklemek sadece gönderilmiş dosyalar "
-"LOTW ye erişmemişse ya da geçici bir sunucu hatası alınmışsa gereklidir."
+"LOTW ye erişmemişse ya da geçici bir sunucu hatası alınmışsa gereklidir"
 
 #: tqsl.cpp:573
 msgid "Are you sure you want to proceed? Click 'No' to review the choices"
@@ -1522,7 +1522,7 @@ msgstr "%d QSO'dan  %d  tanesi daha önce yüklendi. İptal edildi"
 #: tqsl.cpp:2311
 #, c-format
 msgid "%s: %d QSO records were already uploaded"
-msgstr "%s: QSO'dan %d adedi daha önce yüklendi."
+msgstr "%s: QSO'dan %d adedi daha önce yüklendi"
 
 #: tqsl.cpp:2339
 msgid "Invalid contact - QSO does not specify a Callsign"
@@ -1588,7 +1588,7 @@ msgstr "Yükleme öncesi sıkıştırma başarısız"
 
 #: tqsl.cpp:2649
 msgid "Unable to open ca-bundle.crt. Your TQSL installation is incomplete"
-msgstr ""
+msgstr "ca-bundle.crt dosyası açılamadı. TQSL kurulumu tamamlanamadı"
 
 #: tqsl.cpp:2714
 msgid "Error: Could not upload file (CURL Init error)"
@@ -2124,7 +2124,7 @@ msgstr "İmzalanacak QSO için bitiş tarihi seçin"
 
 #: tqsl.cpp:5350
 msgid "Specify QSO verification action - ignore, report or update"
-msgstr ""
+msgstr "QSO doğrulama işlemini seçiniz. yoksay, raporla, güncelle"
 
 #: tqsl.cpp:5352
 msgid "Display command line help"
@@ -2197,7 +2197,7 @@ msgstr "%hs için -a parametresi tanınmıyor"
 #: tqsl.cpp:5567
 #, c-format
 msgid "The -f parameter %hs is not recognized"
-msgstr ""
+msgstr "%hs için  -f parametresi tanınmıyor"
 
 #: tqsl.cpp:5667
 msgid "No logfile to sign!"
@@ -2612,7 +2612,7 @@ msgstr "Özellikler"
 
 #: tqsl_prefs.cpp:76
 msgid "Log Handling"
-msgstr ""
+msgstr "Log kullanımı"
 
 #: tqsl_prefs.cpp:79
 msgid "ADIF Modes"
@@ -2716,7 +2716,7 @@ msgstr "İmzalarken daha önceden yüklenmiş QSO'ların detaylarını göster"
 
 #: tqsl_prefs.cpp:485
 msgid "Handle QTH information in ADIF logs with what action?"
-msgstr ""
+msgstr "ADIF Loglarındaki QTH bilgileri için hangi işlem yapılmalı?"
 
 #: tqsl_prefs.cpp:670
 msgid ""
@@ -3001,11 +3001,11 @@ msgstr "Sertifika kurulamadı"
 
 #: wxutil.cpp:164
 msgid "Callsign Certificate does not match QSO details"
-msgstr ""
+msgstr "Çağrı adı sertifikası QSO bilgileri ile uyuşmuyor"
 
 #: wxutil.cpp:165
 msgid "Station Location does not match QSO details"
-msgstr ""
+msgstr "İstasyon lokasyon bilgileri QSO bilgileri ile uyuşmuyor"
 
 #: wxutil.cpp:174
 msgid "NO ERROR"
@@ -3055,13 +3055,13 @@ msgstr "Geçersiz Hata kodu : %d"
 
 #: wxutil.cpp:260
 msgid "Station Location"
-msgstr ""
+msgstr "İstasyon lokasyonu"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The GRIDSQUARE has value FM18ju while QSO has FM18jt'
 #: wxutil.cpp:263
 #, c-format
 msgid "The %s '%hs' has value '%hs' while QSO has '%hs'"
-msgstr ""
+msgstr "%s '%hs' değeri '%hs' iken, QSO'da  '%hs' bilgisi var."
 
 #: wxutil.cpp:268
 #, c-format
@@ -3069,6 +3069,8 @@ msgid ""
 "There is no valid callsign certificate for %hs available. This QSO cannot be "
 "signed"
 msgstr ""
+" %hs için geçerli bir çağrı işareti sertifikası bulunamadı. Bu QSO "
+"imzalanmayacak"
 
 #: getpassword.h:51
 msgid "New password"

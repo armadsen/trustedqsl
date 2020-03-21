@@ -115,7 +115,7 @@ CRQWiz::CRQWiz(TQSL_CERT_REQ *crq, tQSL_Cert xcert, wxWindow *parent, wxHtmlHelp
 	if (!cert)
 		wxWizardPageSimple::Chain(pwPage, signPage);
 	if (nprov == 1)
-		if (!renewal) // rhm		if (validcerts && !renewal)
+		if (!renewal) // was		if (validcerts && !renewal)
 			_first = typePage;
 		else
 			_first = callsignPage;

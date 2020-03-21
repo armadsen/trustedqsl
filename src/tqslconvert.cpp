@@ -1722,7 +1722,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 				memcpy(olddup, dbdata.data, dbdata.size);
 				olddup[dbdata.size] = '\0';
 #endif
-				// rhm - here olddup = "GRIDSQUARE: ML01OX", stnloc "GRIDSQUARE: MLO2oa".
+				// here olddup = "GRIDSQUARE: ML01OX", stnloc "GRIDSQUARE: MLO2oa".
 
 				snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "%s|%s", olddup, stnloc);
 				free(olddup);

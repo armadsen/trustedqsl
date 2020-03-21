@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: V2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-02 06:25-0500\n"
-"PO-Revision-Date: 2020-02-18 22:56+0100\n"
+"PO-Revision-Date: 2020-03-15 21:08+0100\n"
 "Last-Translator: Rick Murphy <k1mu@arrl.net>\n"
 "Language-Team: TQSL Developers\n"
 "MIME-Version: 1.0\n"
@@ -30,8 +30,9 @@ msgid "Error parsing certificate for issuer"
 msgstr "Erreur d'analyse du certificateur émis"
 
 #: certtree.cpp:118
+#, fuzzy
 msgid "Error parsing certificate for call sign"
-msgstr "Erreur d'analyse du certificat d'indicatif"
+msgstr "Erreur d'analyse d'indicatif du certificat"
 
 #: certtree.cpp:125
 msgid "Error parsing certificate for DXCC entity"
@@ -534,15 +535,15 @@ msgstr "Ce certificat d'indicatif est déjà installé"
 
 #: loadcertwiz.cpp:118
 msgid "Trusted root certificate"
-msgstr ""
+msgstr "Certificat validé "
 
 #: loadcertwiz.cpp:121
 msgid "Certificate Authority certificate"
-msgstr ""
+msgstr "Certificat de l'autorité de certification"
 
 #: loadcertwiz.cpp:124 wxutil.cpp:258
 msgid "Callsign Certificate"
-msgstr ""
+msgstr "Certificat d'indicatif"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a password for this callsign certificate."
@@ -1650,6 +1651,8 @@ msgstr "Erreur de compression avant téléchargement"
 #: tqsl.cpp:2649
 msgid "Unable to open ca-bundle.crt. Your TQSL installation is incomplete"
 msgstr ""
+"Impossibilité d'ouvrir \"ca-bundle.crt\". Votre installation TQSL est "
+"incomplète."
 
 #: tqsl.cpp:2714
 msgid "Error: Could not upload file (CURL Init error)"
@@ -1799,8 +1802,9 @@ msgid ""
 "There are no current callsign certificates for callsign %hs. This station "
 "location cannot be used to sign a log file."
 msgstr ""
-"Il n'y a aucun certificat d'indicatif d'appel actuel pour indicatif d'appel %"
-"hs. Cet emplacement de la station ne peut servir à signer un fichier journal."
+"Il n'y a aucun certificat d'indicatif d'appel actuel pour indicatif d'appel "
+"%hs. Cet emplacement de la station ne peut servir à signer un fichier "
+"journal."
 
 #: tqsl.cpp:2960 tqsl.cpp:2980 tqsl.cpp:6626
 msgid "Station Location data error"
@@ -2191,6 +2195,7 @@ msgstr "Spécifier la date de fin pour les QSOs à signer"
 #: tqsl.cpp:5350
 msgid "Specify QSO verification action - ignore, report or update"
 msgstr ""
+"Précisez l'action de vérification du QSO - ignorer, valider ou mettre à jour"
 
 #: tqsl.cpp:5352
 msgid "Display command line help"
@@ -2263,7 +2268,7 @@ msgstr "Le paramètre - a %hs n'est pas reconnu"
 #: tqsl.cpp:5567
 #, c-format
 msgid "The -f parameter %hs is not recognized"
-msgstr ""
+msgstr "Le paramètre -f %hs n'est pas reconnu."
 
 #: tqsl.cpp:5667
 msgid "No logfile to sign!"
@@ -2689,7 +2694,7 @@ msgstr "Options de"
 
 #: tqsl_prefs.cpp:76
 msgid "Log Handling"
-msgstr ""
+msgstr "Manipulation du Log"
 
 #: tqsl_prefs.cpp:79
 msgid "ADIF Modes"
@@ -2798,7 +2803,7 @@ msgstr ""
 
 #: tqsl_prefs.cpp:485
 msgid "Handle QTH information in ADIF logs with what action?"
-msgstr ""
+msgstr "Quelle action pour manipuler l'information du QTH dans les log ADIF"
 
 #: tqsl_prefs.cpp:670
 msgid ""
@@ -3088,11 +3093,12 @@ msgstr "Ce certificat d’indicatif ne peut être installé"
 
 #: wxutil.cpp:164
 msgid "Callsign Certificate does not match QSO details"
-msgstr ""
+msgstr "Le certificat d'indicatif ne correspond pas aux informations du QSO"
 
 #: wxutil.cpp:165
 msgid "Station Location does not match QSO details"
 msgstr ""
+"La localisation de la station ne correspond pas aux informations du QSO"
 
 #: wxutil.cpp:174
 msgid "NO ERROR"
@@ -3142,13 +3148,13 @@ msgstr "Code d'erreur non valide : %d"
 
 #: wxutil.cpp:260
 msgid "Station Location"
-msgstr ""
+msgstr "Localisation de la station"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The GRIDSQUARE has value FM18ju while QSO has FM18jt'
 #: wxutil.cpp:263
 #, c-format
 msgid "The %s '%hs' has value '%hs' while QSO has '%hs'"
-msgstr ""
+msgstr "Le %s '%hs' a pour valeur '%hs' pendant que le QSO a '%hs'"
 
 #: wxutil.cpp:268
 #, c-format
@@ -3156,6 +3162,8 @@ msgid ""
 "There is no valid callsign certificate for %hs available. This QSO cannot be "
 "signed"
 msgstr ""
+"Il n'y a pas de certificat d'indicatif valide disponible pour %hs. Le QSO ne "
+"peut êter signé"
 
 #: getpassword.h:51
 msgid "New password"

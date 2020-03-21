@@ -3678,12 +3678,7 @@ MyFrame::OnUpdateCheckDone(wxCommandEvent& event) {
 	ri->condition->Signal();
 }
 
-// The macro for declaring a hash map defines a couple of typedefs
-// that it never uses. Current GCC warns about those. The pragma
-// below suppresses those warnings for those.
-#if !defined(__APPLE__) && !defined(_WIN32) && !defined(__clang__)
-	#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#endif
+
 void
 MyFrame::DoCheckForUpdates(bool silent, bool noGUI) {
 	tqslTrace("MyFrame::DoCheckForUpdates", "silent=%d noGUI=%d", silent, noGUI);
@@ -3760,6 +3755,13 @@ MyFrame::DoCheckForUpdates(bool silent, bool noGUI) {
 			tqslTrace("MyFrame::DoCheckForUpdates", "Prog + Config rev returns %d chars, %s", handler.s.size(), handler.s.c_str());
 			wxString result = wxString::FromAscii(handler.s.c_str());
 			wxString url;
+
+// The macro for declaring a hash map defines a couple of typedefs
+// that it never uses. Current GCC warns about those. The pragma
+// below suppresses those warnings for those.
+#if defined(__GNUC__) && !defined(__clang__)
+	#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
+#endif
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunused-local-typedef"
@@ -3767,6 +3769,9 @@ MyFrame::DoCheckForUpdates(bool silent, bool noGUI) {
 			WX_DECLARE_STRING_HASH_MAP(wxString, URLHashMap);
 #ifdef __clang__
 #pragma clang diagnostic pop
+#endif
+#if defined(__GNUC__) && !defined(__clang__)
+	#pragma GCC diagnostic warning "-Wunused-local-typedefs"
 #endif
 			URLHashMap map;
 			ri->newProgramRev = NULL;
@@ -3904,9 +3909,6 @@ MyFrame::DoCheckForUpdates(bool silent, bool noGUI) {
 		DoCheckExpiringCerts(noGUI);
 	return;
 }
-#if !defined(__APPLE__) && !defined(_WIN32) && !defined(__clang__)
-	#pragma GCC diagnostic warning "-Wunused-local-typedefs"
-#endif
 
 static void
 wx_tokens(const wxString& str, vector<wxString> &toks) {
