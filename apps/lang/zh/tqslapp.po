@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: V2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-02 06:25-0500\n"
-"PO-Revision-Date: 2019-10-07 16:19+0800\n"
+"PO-Revision-Date: 2020-03-22 12:53+0800\n"
 "Last-Translator: caros <bh4txn@gmail.com>\n"
 "Language-Team: TQSL Developers\n"
 "Language: zh\n"
@@ -489,15 +489,15 @@ msgstr "这份呼号证书已安装"
 
 #: loadcertwiz.cpp:118
 msgid "Trusted root certificate"
-msgstr ""
+msgstr "可信的根证书"
 
 #: loadcertwiz.cpp:121
 msgid "Certificate Authority certificate"
-msgstr ""
+msgstr "证书颁发机构证书"
 
 #: loadcertwiz.cpp:124 wxutil.cpp:258
 msgid "Callsign Certificate"
-msgstr ""
+msgstr "呼号证书"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a password for this callsign certificate."
@@ -1538,7 +1538,7 @@ msgstr "上传前压缩错误"
 
 #: tqsl.cpp:2649
 msgid "Unable to open ca-bundle.crt. Your TQSL installation is incomplete"
-msgstr ""
+msgstr "无法打开ca-bundle.crt。您的TQSL安装不完整"
 
 #: tqsl.cpp:2714
 msgid "Error: Could not upload file (CURL Init error)"
@@ -2056,7 +2056,7 @@ msgstr "指定要签名QSO的结束日期"
 
 #: tqsl.cpp:5350
 msgid "Specify QSO verification action - ignore, report or update"
-msgstr ""
+msgstr "指定QSO验证操作-忽略、报告或更新"
 
 #: tqsl.cpp:5352
 msgid "Display command line help"
@@ -2129,7 +2129,7 @@ msgstr " -a 参数 '%hs' 不认识"
 #: tqsl.cpp:5567
 #, c-format
 msgid "The -f parameter %hs is not recognized"
-msgstr ""
+msgstr "无法识别 -f 参数 %hs"
 
 #: tqsl.cpp:5667
 msgid "No logfile to sign!"
@@ -2542,7 +2542,7 @@ msgstr "选项"
 
 #: tqsl_prefs.cpp:76
 msgid "Log Handling"
-msgstr ""
+msgstr "日志处理"
 
 #: tqsl_prefs.cpp:79
 msgid "ADIF Modes"
@@ -2645,7 +2645,7 @@ msgstr "签名日志时显示已经上传过的日志详情"
 
 #: tqsl_prefs.cpp:485
 msgid "Handle QTH information in ADIF logs with what action?"
-msgstr ""
+msgstr "用什么动作处理ADIF日志中的QTH信息？"
 
 #: tqsl_prefs.cpp:670
 msgid ""
@@ -2923,11 +2923,11 @@ msgstr "呼号证书不能装入"
 
 #: wxutil.cpp:164
 msgid "Callsign Certificate does not match QSO details"
-msgstr ""
+msgstr "呼号证书与QSO详细信息不匹配"
 
 #: wxutil.cpp:165
 msgid "Station Location does not match QSO details"
-msgstr ""
+msgstr "台站位置与QSO详细信息不匹配"
 
 #: wxutil.cpp:174
 msgid "NO ERROR"
@@ -2976,20 +2976,20 @@ msgstr "无效的错误代码： %d"
 
 #: wxutil.cpp:260
 msgid "Station Location"
-msgstr ""
+msgstr "台站位置"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The GRIDSQUARE has value FM18ju while QSO has FM18jt'
 #: wxutil.cpp:263
 #, c-format
 msgid "The %s '%hs' has value '%hs' while QSO has '%hs'"
-msgstr ""
+msgstr "%s '%hs' 的值 '%hs' 与 QSO 中的 '%hs' 不匹配"
 
 #: wxutil.cpp:268
 #, c-format
 msgid ""
 "There is no valid callsign certificate for %hs available. This QSO cannot be "
 "signed"
-msgstr ""
+msgstr "%hs没有有效的呼号证书。此QSO无法签名"
 
 #: getpassword.h:51
 msgid "New password"
