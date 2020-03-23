@@ -1553,6 +1553,32 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 
 		bool newstation = false;
 
+		/*
+		 * Gridsquare handling - if the four-character grid matches the station loc
+		 * then don't complain; this is common for FT8/FT4 which have four char grids
+		 * and we don't want to reject every WSJT-X QSO just because the station
+		 * location has a higher precision grid.
+		 */
+		if (conv->rec.my_gridsquare[0] && !tqsl_getLocationField(conv->loc, "GRIDSQUARE", val, sizeof val)) {
+			bool okgrid;
+			if (conv->location_handling == TQSL_LOC_UPDATE) {
+				okgrid = (strcasecmp(conv->rec.my_gridsquare, val) == 0);
+			} else {
+				okgrid = (strncasecmp(conv->rec.my_gridsquare, val, strlen(conv->rec.my_gridsquare)) == 0);
+			}
+			if (!okgrid) {
+				if (conv->location_handling == TQSL_LOC_UPDATE) {
+					tqsl_setLocationField(conv->loc, "GRIDSQUARE", conv->rec.my_gridsquare);
+					newstation = true;
+				} else {
+					conv->rec_done = true;
+					snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Gridsquare|%s|%s", val, conv->rec.my_gridsquare);
+					tQSL_Error = TQSL_LOCATION_MISMATCH;
+					return 0;
+				}
+			}
+		}
+
 #define CHKSTN(FIELD, MY, ERRFMT) \
 		if (conv->rec.MY[0] && !tqsl_getLocationField(conv->loc, FIELD, val, sizeof val)) { \
 			if (strcasecmp(conv->rec.MY, val)) { \
@@ -1567,8 +1593,6 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 				} \
 			}  \
 		}
-
-		CHKSTN("GRIDSQUARE", my_gridsquare, "Gridsquare|%s|%s")
 		CHKSTN("ITUZ", my_itu_zone, "ITU Zone|%s|%s")
 		CHKSTN("CQZ", my_cq_zone, "CQ Zone|%s|%s")
 		CHKSTN("IOTA", my_iota, "IOTA|%s|%s")
