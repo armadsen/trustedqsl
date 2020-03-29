@@ -3387,10 +3387,10 @@ msgstr "Hora"
 #~ "Seleccione \"Sí\" para firmar la petición, \"No\" para continuar sin firma."
 
 #~ msgid "Can't write new configuration file %s: %hs"
-#~ msgstr "No se puede escribir nuevo archivo de configuración %s: %hs"
+#~ msgstr "No se puede escribir nuevo fichero de configuración %s: %hs"
 
 #~ msgid "Checking for TQSL updates...\n"
 #~ msgstr "Comprobación de actualizaciones TQSL ...\n"
 
 #~ msgid "A new TrustedQSL configuration file (V%s) is available!"
-#~ msgstr "Un nuevo archivo de configuración TrustedQSL (V%s) está disponible!"
+#~ msgstr "Un nuevo fichero de configuración TrustedQSL (V%s) está disponible!"
