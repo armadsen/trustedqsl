@@ -863,11 +863,15 @@ CRQ_CallsignPage::validate() {
 	int USEntities[] = { 6, 9, 20, 43, 103, 105, 110, 123, 138, 166, 174, 182, 197, 202, 285, 291, 297, 515, -1 };
 	if (!initialized)
 		return 0;
-	valMsg = wxT("");
-	_parent->callsign = tc_call->GetValue().MakeUpper();
-	bool ok = true;
-	int sel;
 	const char *dxccname = NULL;
+	bool ok = true;
+	valMsg = wxT("");
+	if (tc_call->GetValue().Len() > TQSL_CALLSIGN_MAX) {
+		valMsg = wxString::Format(_("The callsign is too long. Only %d characters are allowed."), TQSL_CALLSIGN_MAX);
+		goto notok;
+	}
+	_parent->callsign = tc_call->GetValue().MakeUpper();
+	int sel;
 
 	_parent->onebyone = false;
 	if (_parent->callsign.Len() < 3)

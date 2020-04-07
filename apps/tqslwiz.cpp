@@ -41,7 +41,7 @@ BEGIN_EVENT_TABLE(TQSLWizCertPage, TQSLWizPage)
 #endif
 END_EVENT_TABLE()
 
-static char callsign[TQSL_CALLSIGN_MAX];
+static char callsign[TQSL_CALLSIGN_MAX+1];
 
 void
 TQSLWizard::OnPageChanged(wxWizardEvent& ev) {

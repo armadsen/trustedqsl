@@ -3847,7 +3847,7 @@ DLLEXPORT int CALLCONVENTION
 tqsl_getLocationQSODetails(tQSL_Location locp, char *buf, int buflen) {
 	TQSL_LOCATION *loc;
 	if (!(loc = check_loc(locp, false))) {
-		tqslTrace("tqsl_getLocationDXCCEntity", "loc error %d", tQSL_Error);
+		tqslTrace("tqsl_getLocationQSODetails", "loc error %d", tQSL_Error);
 		return 1;
 	}
 	if (buf == NULL) {

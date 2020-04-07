@@ -38,7 +38,7 @@
 #define TQSL_MAX_PATH_LEN            256	///< Max length of a FS path
 #define TQSL_PASSWORD_MAX            80		///< Max password length
 #define TQSL_NAME_ELEMENT_MAX        256	///< Max Org name length
-#define TQSL_CALLSIGN_MAX            13		///< Max callsign length
+#define TQSL_CALLSIGN_MAX            20		///< Max callsign length
 #define TQSL_CRQ_NAME_MAX            60		///< Max length of request name
 #define TQSL_CRQ_ADDR_MAX            80		///< Max length of request addr
 #define TQSL_CRQ_CITY_MAX            80		///< Max length of request city
