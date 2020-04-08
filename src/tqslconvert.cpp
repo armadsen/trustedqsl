@@ -1170,7 +1170,11 @@ static void parse_adif_qso(TQSL_CONVERTER *conv, int *saveErr, TQSL_ADIF_GET_FIE
 		} else if (!strcasecmp(result.name, "MY_VUCC_GRIDS") && result.data) {
 			strncpy(conv->rec.my_vucc_grids, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_vucc_grids);
 		} else if (!strcasecmp(result.name, "OPERATOR") && result.data) {
-			strncpy(conv->rec.my_operator, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_operator);
+			// Only use the OPERATOR field if it looks like a callsign
+			string op(reinterpret_cast<char *>(result.data));
+			if (!checkCallSign(op)) {
+				strncpy(conv->rec.my_operator, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_operator);
+			}
 		} else if (!strcasecmp(result.name, "OWNER_CALLSIGN") && result.data) {
 			strncpy(conv->rec.my_owner, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_owner);
 		} else if (!strcasecmp(result.name, "STATION_CALLSIGN") && result.data) {
