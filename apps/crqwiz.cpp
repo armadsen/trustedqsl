@@ -263,6 +263,7 @@ CRQ_CallsignPage::CRQ_CallsignPage(CRQWiz *parent, TQSL_CERT_REQ *crq) :  CRQ_Pa
 	if (crq && crq->callSign[0])
 		cs = wxString::FromUTF8(crq->callSign);
 	tc_call = new wxTextCtrl(this, ID_CRQ_CALL, cs, wxDefaultPosition, wxSize(em_w*15, -1));
+	tc_call->SetMaxLength(TQSL_CALLSIGN_MAX);
 	hsizer->Add(tc_call, 0, wxEXPAND, 0);
 	sizer->Add(hsizer, 0, wxLEFT|wxRIGHT|wxTOP|wxEXPAND, 10);
 	if (crq && crq->callSign[0])
