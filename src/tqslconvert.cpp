@@ -1117,84 +1117,107 @@ static void parse_adif_qso(TQSL_CONVERTER *conv, int *saveErr, TQSL_ADIF_GET_FIE
 			break;
 		if (!strcasecmp(result.name, "eor"))
 			break;
-		if (!strcasecmp(result.name, "CALL") && result.data) {
+		char *resdata = reinterpret_cast<char *>(result.data);
+		// Strip leading whitespace
+		if (resdata) {
+			while (isspace(*resdata))
+				resdata++;
+
+			// Strip trailing whitespace
+			char *end = resdata + strlen(resdata) - 1;
+			while (isspace(*end))
+				*end-- = '\0';
+		}
+
+		if (!strcasecmp(result.name, "CALL") && resdata) {
 			conv->rec.callsign_set = true;
-			strncpy(conv->rec.callsign, reinterpret_cast<char *>(result.data), sizeof conv->rec.callsign);
-		} else if (!strcasecmp(result.name, "BAND") && result.data) {
+			strncpy(conv->rec.callsign, resdata, sizeof conv->rec.callsign);
+		} else if (!strcasecmp(result.name, "BAND") && resdata) {
 			conv->rec.band_set = true;
-			strncpy(conv->rec.band, reinterpret_cast<char *>(result.data), sizeof conv->rec.band);
-		} else if (!strcasecmp(result.name, "MODE") && result.data) {
+			strncpy(conv->rec.band, resdata, sizeof conv->rec.band);
+		} else if (!strcasecmp(result.name, "MODE") && resdata) {
 			conv->rec.mode_set = true;
-			strncpy(conv->rec.mode, reinterpret_cast<char *>(result.data), sizeof conv->rec.mode);
-		} else if (!strcasecmp(result.name, "SUBMODE") && result.data) {
-			strncpy(conv->rec.submode, reinterpret_cast<char *>(result.data), sizeof conv->rec.submode);
-		} else if (!strcasecmp(result.name, "FREQ") && result.data) {
+			strncpy(conv->rec.mode, resdata, sizeof conv->rec.mode);
+		} else if (!strcasecmp(result.name, "SUBMODE") && resdata) {
+			strncpy(conv->rec.submode, resdata, sizeof conv->rec.submode);
+		} else if (!strcasecmp(result.name, "FREQ") && resdata) {
 			conv->rec.band_set = true;
-			strncpy(conv->rec.freq, fix_freq(reinterpret_cast<char *>(result.data)), sizeof conv->rec.freq);
+			strncpy(conv->rec.freq, fix_freq(resdata), sizeof conv->rec.freq);
 			if (atof(conv->rec.freq) == 0.0)
 				conv->rec.freq[0] = '\0';
-		} else if (!strcasecmp(result.name, "FREQ_RX") && result.data) {
-			strncpy(conv->rec.rxfreq, fix_freq(reinterpret_cast<char *>(result.data)), sizeof conv->rec.rxfreq);
+		} else if (!strcasecmp(result.name, "FREQ_RX") && resdata) {
+			strncpy(conv->rec.rxfreq, fix_freq(resdata), sizeof conv->rec.rxfreq);
 			if (atof(conv->rec.rxfreq) == 0.0)
 				conv->rec.rxfreq[0] = '\0';
-		} else if (!strcasecmp(result.name, "BAND_RX") && result.data) {
-			strncpy(conv->rec.rxband, reinterpret_cast<char *>(result.data), sizeof conv->rec.rxband);
-		} else if (!strcasecmp(result.name, "SAT_NAME") && result.data) {
-			strncpy(conv->rec.satname, reinterpret_cast<char *>(result.data), sizeof conv->rec.satname);
-		} else if (!strcasecmp(result.name, "PROP_MODE") && result.data) {
-			strncpy(conv->rec.propmode, reinterpret_cast<char *>(result.data), sizeof conv->rec.propmode);
-		} else if (!strcasecmp(result.name, "QSO_DATE") && result.data) {
+		} else if (!strcasecmp(result.name, "BAND_RX") && resdata) {
+			strncpy(conv->rec.rxband, resdata, sizeof conv->rec.rxband);
+		} else if (!strcasecmp(result.name, "SAT_NAME") && resdata) {
+			strncpy(conv->rec.satname, resdata, sizeof conv->rec.satname);
+		} else if (!strcasecmp(result.name, "PROP_MODE") && resdata) {
+			strncpy(conv->rec.propmode, resdata, sizeof conv->rec.propmode);
+		} else if (!strcasecmp(result.name, "QSO_DATE") && resdata) {
 			conv->rec.date_set = true;
-			cstat = tqsl_initDate(&(conv->rec.date), (const char *)result.data);
+			cstat = tqsl_initDate(&(conv->rec.date), resdata);
 			if (cstat)
 				*saveErr = tQSL_Error;
-		} else if (!strcasecmp(result.name, "TIME_ON") && result.data) {
+		} else if (!strcasecmp(result.name, "TIME_ON") && resdata) {
 			conv->rec.time_set = true;
-			cstat = tqsl_initTime(&(conv->rec.time), (const char *)result.data);
+			cstat = tqsl_initTime(&(conv->rec.time), resdata);
 			if (cstat)
 				*saveErr = tQSL_Error;
-		} else if (!strcasecmp(result.name, "MY_CNTY") && result.data) {
-			char *resdata = reinterpret_cast<char *>(result.data);
+		} else if (!strcasecmp(result.name, "MY_CNTY") && resdata) {
 			char *p = strstr(resdata, ",");			// Find the comma in "VA,Fairfax"
 			if (p) {
 				resdata = p;
 				while (isblank(*resdata) || *resdata == ',') resdata++;	// Skip spaces and comma
 			}
 			strncpy(conv->rec.my_county, resdata, sizeof conv->rec.my_county);
-		} else if (!strcasecmp(result.name, "MY_COUNTRY") && result.data) {
-			strncpy(conv->rec.my_country, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_country);
-		} else if (!strcasecmp(result.name, "MY_CQ_ZONE") && result.data) {
-			strncpy(conv->rec.my_cq_zone, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_cq_zone);
-		} else if (!strcasecmp(result.name, "MY_DXCC") && result.data) {
-			conv->rec.my_dxcc = strtol(reinterpret_cast<char *>(result.data), NULL, 10);
-		} else if (!strcasecmp(result.name, "MY_GRIDSQUARE") && result.data) {
-			strncpy(conv->rec.my_gridsquare, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_gridsquare);
-		} else if (!strcasecmp(result.name, "MY_IOTA") && result.data) {
-			strncpy(conv->rec.my_iota, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_iota);
-		} else if (!strcasecmp(result.name, "MY_ITU_ZONE") && result.data) {
-			strncpy(conv->rec.my_itu_zone, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_itu_zone);
-		} else if (!strcasecmp(result.name, "MY_STATE") && result.data) {
-			strncpy(conv->rec.my_state, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_state);
-		} else if (!strcasecmp(result.name, "MY_VUCC_GRIDS") && result.data) {
-			strncpy(conv->rec.my_vucc_grids, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_vucc_grids);
-		} else if (!strcasecmp(result.name, "OPERATOR") && result.data) {
-			// Only use the OPERATOR field if it looks like a callsign
-			string op(reinterpret_cast<char *>(result.data));
-			if (!checkCallSign(op)) {
-				strncpy(conv->rec.my_operator, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_operator);
+		} else if (!strcasecmp(result.name, "MY_COUNTRY") && resdata) {
+			strncpy(conv->rec.my_country, resdata, sizeof conv->rec.my_country);
+		} else if (!strcasecmp(result.name, "MY_CQ_ZONE") && resdata) {
+			char *endptr;
+			long zone = strtol(resdata, &endptr, 10);
+			if (*endptr == '\0') { 	// If the conversion was correct
+				snprintf(conv->rec.my_cq_zone, sizeof conv->rec.my_cq_zone, "%ld", zone);
+			} else {		// It wasn't a valid number
+				strncpy(conv->rec.my_cq_zone, resdata, sizeof conv->rec.my_cq_zone);
 			}
-		} else if (!strcasecmp(result.name, "OWNER_CALLSIGN") && result.data) {
-			strncpy(conv->rec.my_owner, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_owner);
-		} else if (!strcasecmp(result.name, "STATION_CALLSIGN") && result.data) {
-			strncpy(conv->rec.my_call, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_call);
+		} else if (!strcasecmp(result.name, "MY_DXCC") && resdata) {
+			conv->rec.my_dxcc = strtol(resdata, NULL, 10);
+		} else if (!strcasecmp(result.name, "MY_GRIDSQUARE") && resdata) {
+			strncpy(conv->rec.my_gridsquare, resdata, sizeof conv->rec.my_gridsquare);
+		} else if (!strcasecmp(result.name, "MY_IOTA") && resdata) {
+			strncpy(conv->rec.my_iota, resdata, sizeof conv->rec.my_iota);
+		} else if (!strcasecmp(result.name, "MY_ITU_ZONE") && resdata) {
+			char *endptr;
+			long zone = strtol(resdata, &endptr, 10);
+			if (*endptr == '\0') { 	// If the conversion was correct
+				snprintf(conv->rec.my_itu_zone, sizeof conv->rec.my_itu_zone, "%ld", zone);
+			} else {		// It wasn't a valid number
+				strncpy(conv->rec.my_itu_zone, resdata, sizeof conv->rec.my_itu_zone);
+			}
+		} else if (!strcasecmp(result.name, "MY_STATE") && resdata) {
+			strncpy(conv->rec.my_state, resdata, sizeof conv->rec.my_state);
+		} else if (!strcasecmp(result.name, "MY_VUCC_GRIDS") && resdata) {
+			strncpy(conv->rec.my_vucc_grids, resdata, sizeof conv->rec.my_vucc_grids);
+		} else if (!strcasecmp(result.name, "OPERATOR") && resdata) {
+			// Only use the OPERATOR field if it looks like a callsign
+			string op(resdata);
+			if (checkCallSign(op)) {
+				strncpy(conv->rec.my_operator, resdata, sizeof conv->rec.my_operator);
+			}
+		} else if (!strcasecmp(result.name, "OWNER_CALLSIGN") && resdata) {
+			strncpy(conv->rec.my_owner, resdata, sizeof conv->rec.my_owner);
+		} else if (!strcasecmp(result.name, "STATION_CALLSIGN") && resdata) {
+			strncpy(conv->rec.my_call, resdata, sizeof conv->rec.my_call);
 		} else {
-			tqslTrace("tqsl_getConverterGABBI", "Unknown ADIF field %s", result.name);
+			tqslTrace("parse_adif_qso", "Unknown ADIF field %s", result.name);
 		}
 
 		if (*stat == TQSL_ADIF_GET_FIELD_SUCCESS) {
 			conv->rec_text += string(reinterpret_cast<char *>(result.name)) + ": ";
-			if (result.data)
-				conv->rec_text += string(reinterpret_cast<char *>(result.data));
+			if (resdata)
+				conv->rec_text += string(resdata);
 			conv->rec_text += "\n";
 		}
 		if (result.data)
@@ -1496,18 +1519,14 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 	int cidx = find_matching_cert(conv, &anyfound);
 	if (cidx < 0) {
 		conv->rec_done = true;
+		strncpy(tQSL_CustomError, conv->callsign, sizeof tQSL_CustomError);
+		tQSL_Error = TQSL_CERT_NOT_FOUND | 0x1000;
 		if (conv->location_handling == TQSL_LOC_UPDATE) {
 			if (conv->rec.my_call[0]) {
 				strncpy(tQSL_CustomError, conv->rec.my_call, sizeof tQSL_CustomError);
-			} else {
-				strncpy(tQSL_CustomError, conv->callsign, sizeof tQSL_CustomError);
 			}
-			tQSL_Error = TQSL_CERT_NOT_FOUND | 0x1000;
 		} else {
-			if (!anyfound) {
-				strncpy(tQSL_CustomError, conv->callsign, sizeof tQSL_CustomError);
-				tQSL_Error = TQSL_CERT_NOT_FOUND | 0x1000;
-			} else {
+			if (anyfound) {
 				tQSL_Error = TQSL_CERT_DATE_MISMATCH;
 			}
 		}
@@ -1800,7 +1819,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		}
 	}
 	return grec;
-}
+} // NOLINT(readability/fn_size)
 
 DLLEXPORT int CALLCONVENTION
 tqsl_getConverterCert(tQSL_Converter convp, tQSL_Cert *certp) {

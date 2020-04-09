@@ -3,6 +3,10 @@ TQSLLIB changes
 
 2.5
 ---
+Allow leading zeroes in MY_CQZ and MY_ITUZ.
+
+Strip leading and trailing whitespace in ADIF field data
+
 Attempt to recover from Unicode/UTF-8 format Cabrillo files by ignoring
 the extra bytes before the "START-OF-LOG" signal.
 `
