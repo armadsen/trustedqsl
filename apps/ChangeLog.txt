@@ -2,6 +2,12 @@ TQSL changes
 ============
 2.5.3
 ----------
+Ignore OPERATOR fields in an ADIF file if the value does not look like
+a callsign.
+
+Properly report callsigns where there are no callsign certificates
+available for that call versus reporting this as a date range error.
+
 Allow callsigns of up to 20 characters. Detect when a callsign is too
 long.
 

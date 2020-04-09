@@ -394,8 +394,9 @@ adif_allocate(size_t size) {
 }
 
 static int
-find_matching_cert(TQSL_CONVERTER *conv) {
+find_matching_cert(TQSL_CONVERTER *conv, bool *anyfound) {
 	int i;
+	*anyfound = false;
 	for (i = 0; i < conv->ncerts; i++) {
 		tQSL_Date cdate;
 		char call[256];
@@ -404,6 +405,7 @@ find_matching_cert(TQSL_CONVERTER *conv) {
 			return -1;
 		if (strcasecmp(conv->callsign, call))		// Not for this call
 			continue;
+		*anyfound = true;
 		if (tqsl_getCertificateQSONotBeforeDate(conv->certs[i], &cdate))
 			return -1;
 		if (tqsl_compareDates(&(conv->rec.date), &cdate) < 0)
@@ -1152,7 +1154,13 @@ static void parse_adif_qso(TQSL_CONVERTER *conv, int *saveErr, TQSL_ADIF_GET_FIE
 			if (cstat)
 				*saveErr = tQSL_Error;
 		} else if (!strcasecmp(result.name, "MY_CNTY") && result.data) {
-			strncpy(conv->rec.my_county, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_county);
+			char *resdata = reinterpret_cast<char *>(result.data);
+			char *p = strstr(resdata, ",");			// Find the comma in "VA,Fairfax"
+			if (p) {
+				resdata = p;
+				while (isblank(*resdata) || *resdata == ',') resdata++;	// Skip spaces and comma
+			}
+			strncpy(conv->rec.my_county, resdata, sizeof conv->rec.my_county);
 		} else if (!strcasecmp(result.name, "MY_COUNTRY") && result.data) {
 			strncpy(conv->rec.my_country, reinterpret_cast<char *>(result.data), sizeof conv->rec.my_country);
 		} else if (!strcasecmp(result.name, "MY_CQ_ZONE") && result.data) {
@@ -1484,7 +1492,8 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		}
 	}
 
-	int cidx = find_matching_cert(conv);
+	bool anyfound;
+	int cidx = find_matching_cert(conv, &anyfound);
 	if (cidx < 0) {
 		conv->rec_done = true;
 		if (conv->location_handling == TQSL_LOC_UPDATE) {
@@ -1495,7 +1504,12 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 			}
 			tQSL_Error = TQSL_CERT_NOT_FOUND | 0x1000;
 		} else {
-			tQSL_Error = TQSL_CERT_DATE_MISMATCH;
+			if (!anyfound) {
+				strncpy(tQSL_CustomError, conv->callsign, sizeof tQSL_CustomError);
+				tQSL_Error = TQSL_CERT_NOT_FOUND | 0x1000;
+			} else {
+				tQSL_Error = TQSL_CERT_DATE_MISMATCH;
+			}
 		}
 		return 0;
 	}
