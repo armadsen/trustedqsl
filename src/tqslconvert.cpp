@@ -1169,7 +1169,7 @@ static void parse_adif_qso(TQSL_CONVERTER *conv, int *saveErr, TQSL_ADIF_GET_FIE
 			char *p = strstr(resdata, ",");			// Find the comma in "VA,Fairfax"
 			if (p) {
 				resdata = p;
-				while (isblank(*resdata) || *resdata == ',') resdata++;	// Skip spaces and comma
+				while (isspace(*resdata) || *resdata == ',') resdata++;	// Skip spaces and comma
 			}
 			strncpy(conv->rec.my_county, resdata, sizeof conv->rec.my_county);
 		} else if (!strcasecmp(result.name, "MY_COUNTRY") && resdata) {
