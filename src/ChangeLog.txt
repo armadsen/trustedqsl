@@ -3,6 +3,9 @@ TQSLLIB changes
 
 2.5
 ---
+Fix callsign certificate selection while signing to also check for
+matching DXCC entity.
+
 Allow leading zeroes in MY_CQZ and MY_ITUZ.
 
 Strip leading and trailing whitespace in ADIF field data

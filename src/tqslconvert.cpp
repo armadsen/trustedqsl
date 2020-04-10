@@ -302,6 +302,8 @@ tqsl_beginADIFConverter(tQSL_Converter *convp, const char *filename, tQSL_Cert *
 	*convp = conv;
 
 	tqsl_getLocationCallSign(loc, conv->callsign, sizeof conv->callsign);
+	tqsl_getLocationDXCCEntity(loc, &conv->dxcc);
+
 
 	return 0;
 }
@@ -336,6 +338,7 @@ tqsl_beginCabrilloConverter(tQSL_Converter *convp, const char *filename, tQSL_Ce
 	*convp = conv;
 
 	tqsl_getLocationCallSign(loc, conv->callsign, sizeof conv->callsign);
+	tqsl_getLocationDXCCEntity(loc, &conv->dxcc);
 
 	return 0;
 }
@@ -400,18 +403,23 @@ find_matching_cert(TQSL_CONVERTER *conv, bool *anyfound) {
 	for (i = 0; i < conv->ncerts; i++) {
 		tQSL_Date cdate;
 		char call[256];
+		int dxcc;
 
 		if (tqsl_getCertificateCallSign(conv->certs[i], call, sizeof call))
 			return -1;
 		if (strcasecmp(conv->callsign, call))		// Not for this call
 			continue;
+		if (tqsl_getCertificateDXCCEntity(conv->certs[i], &dxcc))
+			return -1;
+		if (dxcc != conv->dxcc)
+			continue;				// Not for this call and DXCC
 		*anyfound = true;
 		if (tqsl_getCertificateQSONotBeforeDate(conv->certs[i], &cdate))
-			return -1;
+			continue;
 		if (tqsl_compareDates(&(conv->rec.date), &cdate) < 0)
 			continue;
 		if (tqsl_getCertificateQSONotAfterDate(conv->certs[i], &cdate))
-			return -1;
+			continue;
 		if (tqsl_compareDates(&(conv->rec.date), &cdate) > 0)
 			continue;
 		return i;
