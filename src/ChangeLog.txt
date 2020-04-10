@@ -7,7 +7,9 @@ Don't complain about logs providing data that is empty in the station
 location.
 
 Fix callsign certificate selection while signing to also check for
-matching DXCC entity.
+matching DXCC entity. This fixes the problem where the wrong callsign
+certificate is chosen for a call with callsign certificates for multiple
+DXCC entities.
 
 Allow leading zeroes in MY_CQZ and MY_ITUZ.
 
