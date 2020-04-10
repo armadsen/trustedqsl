@@ -3,6 +3,9 @@ TQSLLIB changes
 
 2.5
 ---
+Don't complain about logs providing data that is empty in the station
+location.
+
 Fix callsign certificate selection while signing to also check for
 matching DXCC entity.
 

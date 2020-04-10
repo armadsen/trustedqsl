@@ -1605,12 +1605,14 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		 * and we don't want to reject every WSJT-X QSO just because the station
 		 * location has a higher precision grid.
 		 */
+
+		tqsl_getLocationField(conv->loc, "GRIDSQUARE", val, sizeof val);
 		if (conv->rec.my_gridsquare[0] && !tqsl_getLocationField(conv->loc, "GRIDSQUARE", val, sizeof val)) {
 			bool okgrid;
 			if (conv->location_handling == TQSL_LOC_UPDATE) {
 				okgrid = (strcasecmp(conv->rec.my_gridsquare, val) == 0);
 			} else {
-				okgrid = (strncasecmp(conv->rec.my_gridsquare, val, strlen(conv->rec.my_gridsquare)) == 0);
+				okgrid = (strlen(val) == 0 || strncasecmp(conv->rec.my_gridsquare, val, strlen(conv->rec.my_gridsquare)) == 0);
 			}
 			if (!okgrid) {
 				if (conv->location_handling == TQSL_LOC_UPDATE) {
@@ -1631,7 +1633,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 				if (conv->location_handling == TQSL_LOC_UPDATE) { \
 					tqsl_setLocationField(conv->loc, FIELD, conv->rec.MY); \
 					newstation = true; \
-				} else { \
+				} else if (strlen(val) > 0) { \
 					conv->rec_done = true; \
 					snprintf(tQSL_CustomError, sizeof tQSL_CustomError, ERRFMT, val, conv->rec.MY); \
 					tQSL_Error = TQSL_LOCATION_MISMATCH; \
