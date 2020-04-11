@@ -1612,17 +1612,22 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 			if (conv->location_handling == TQSL_LOC_UPDATE) {
 				okgrid = (strcasecmp(conv->rec.my_gridsquare, val) == 0);
 			} else {
-				okgrid = (strlen(val) == 0 || strncasecmp(conv->rec.my_gridsquare, val, strlen(conv->rec.my_gridsquare)) == 0);
+				okgrid = (strncasecmp(conv->rec.my_gridsquare, val, strlen(conv->rec.my_gridsquare)) == 0);
 			}
 			if (!okgrid) {
 				if (conv->location_handling == TQSL_LOC_UPDATE) {
 					tqsl_setLocationField(conv->loc, "GRIDSQUARE", conv->rec.my_gridsquare);
 					newstation = true;
 				} else {
-					conv->rec_done = true;
-					snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Gridsquare|%s|%s", val, conv->rec.my_gridsquare);
-					tQSL_Error = TQSL_LOCATION_MISMATCH;
-					return 0;
+					if (val[0] == '\0') {		// If station location has an empty grid
+						tqsl_setLocationField(conv->loc, "GRIDSQUARE", conv->rec.my_gridsquare);
+						newstation = true;
+					} else {
+						conv->rec_done = true;
+						snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Gridsquare|%s|%s", val, conv->rec.my_gridsquare);
+						tQSL_Error = TQSL_LOCATION_MISMATCH;
+						return 0;
+					}
 				}
 			}
 		}
@@ -1638,6 +1643,9 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 					snprintf(tQSL_CustomError, sizeof tQSL_CustomError, ERRFMT, val, conv->rec.MY); \
 					tQSL_Error = TQSL_LOCATION_MISMATCH; \
 					return 0; \
+				} else { \
+					tqsl_setLocationField(conv->loc, FIELD, conv->rec.MY); \
+					newstation = true; \
 				} \
 			}  \
 		}
