@@ -1216,9 +1216,17 @@ static void parse_adif_qso(TQSL_CONVERTER *conv, int *saveErr, TQSL_ADIF_GET_FIE
 				strncpy(conv->rec.my_operator, resdata, sizeof conv->rec.my_operator);
 			}
 		} else if (!strcasecmp(result.name, "OWNER_CALLSIGN") && resdata) {
-			strncpy(conv->rec.my_owner, resdata, sizeof conv->rec.my_owner);
+			// Only use the OWNER_CALLSIGN field if it looks like a callsign
+			string op(resdata);
+			if (checkCallSign(op)) {
+				strncpy(conv->rec.my_owner, resdata, sizeof conv->rec.my_owner);
+			}
 		} else if (!strcasecmp(result.name, "STATION_CALLSIGN") && resdata) {
-			strncpy(conv->rec.my_call, resdata, sizeof conv->rec.my_call);
+			// Only use the STATION_CALLSIGN field if it looks like a callsign
+			string op(resdata);
+			if (checkCallSign(op)) {
+				strncpy(conv->rec.my_call, resdata, sizeof conv->rec.my_call);
+			}
 		} else {
 			tqslTrace("parse_adif_qso", "Unknown ADIF field %s", result.name);
 		}
@@ -1298,14 +1306,16 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 				strncpy(conv->rec.my_gridsquare, conv->rec.my_vucc_grids, TQSL_GRID_MAX);
 			}
 			// Normalize callsign
-			if (conv->rec.my_owner[0] != 0) {		// OWNER_CALLSIGN set
-				strncpy(conv->rec.my_call, conv->rec.my_owner, TQSL_CALLSIGN_MAX);
-			}
-			if (conv->rec.my_call[0] == 0 && conv->rec.my_operator[0] != 0) {	// Else try operator
+			// Priority - OPERATOR, then STATION_CALLSIGN, then OWNER_CALLSIGN
+			// my_call has STATION_CALLSIGN already.
+			if (conv->rec.my_operator[0] != 0) {						// OPERATOR set
 				strncpy(conv->rec.my_call, conv->rec.my_operator, TQSL_CALLSIGN_MAX);
 			}
-			if (conv->rec.my_call[0]) {
-				strncpy(conv->callsign, conv->rec.my_call, sizeof conv->callsign);
+			if (conv->rec.my_call[0] == '\0' && conv->rec.my_owner[0] != 0) {		// OWNER_CALLSIGN set
+				strncpy(conv->rec.my_call, conv->rec.my_owner, TQSL_CALLSIGN_MAX);
+			}
+			if (conv->rec.my_call[0]) {							// If any of these
+				strncpy(conv->callsign, conv->rec.my_call, sizeof conv->callsign);	// got a callsign
 			}
 		} else if (conv->cab) {
 			TQSL_CABRILLO_ERROR_TYPE stat;
@@ -1735,6 +1745,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 #endif
 			if (0 == dbget_err) {
 				//lookup was successful; thus this is a duplicate.
+				tqslTrace("tqsl_getConverterGABBI", "Duplicate QSO signdata=%s", signdata);
 				tQSL_Error = TQSL_DUPLICATE_QSO;
 				tQSL_CustomError[0] = '\0';
 				// delete the old record
@@ -1790,6 +1801,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 #endif
 			if (0 == dbget_err) {
 				//lookup was successful; thus this is a duplicate.
+				tqslTrace("tqsl_getConverterGABBI", "Duplicate QSO dupekey=%s", dupekey);
 				tQSL_Error = TQSL_DUPLICATE_QSO;
 				// Save the original and new station location details so those can be provided
 				// with an error by the caller

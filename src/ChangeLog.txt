@@ -3,6 +3,10 @@ TQSLLIB changes
 
 2.5
 ---
+Prioritize callsign to try to use OPERATOR over OWNER_CALLSIGN.
+
+Ignore non-calls in STATION_CALLSIGN and OWNER_CALLSIGN.
+
 Don't complain about logs providing data that is empty in the station
 location. Just use the data from the log.
 
