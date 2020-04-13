@@ -872,7 +872,7 @@ MyFrame::SaveOldBackups(const wxString& directory, const wxString& filename, con
 #else
 	int ret = rename(bfile.ToUTF8(), newName.ToUTF8());
 #endif
-	if (ret) {
+	if (ret && errno != EEXIST) {			// EEXIST means that there's been another backup this minute.
 		tQSL_Error = TQSL_SYSTEM_ERROR;
 		tQSL_Errno = errno;
 		tqslTrace("MyFrame::SaveOldBackups", "Error renaming: %s", strerror(errno));
