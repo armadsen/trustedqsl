@@ -3420,7 +3420,11 @@ tqsl_getLocationField(tQSL_Location locp, const char *field, char *buf, int bufs
 		for (int i = 0; i < static_cast<int>(p.fieldlist.size()); i++) {
 			TQSL_LOCATION_FIELD f = p.fieldlist[i];
 			if (f.gabbi_name == field) {
-				strncpy(buf, f.cdata.c_str(), bufsiz);
+				if ((f.gabbi_name == "ITUZ" || f.gabbi_name == "CQZ") && f.cdata == "0") {
+					buf[0] = '\0';
+				} else {
+					strncpy(buf, f.cdata.c_str(), bufsiz);
+				}
 				buf[bufsiz-1] = 0;
 				if (static_cast<int>(f.cdata.size()) >= bufsiz) {
 					tqslTrace("tqsl_getLocationField", "buf error req=%d avail=%d", static_cast<int>(f.cdata.size()), bufsiz);
@@ -3481,7 +3485,7 @@ tqsl_setLocationField(tQSL_Location locp, const char *field, const char *buf) {
 						}
 					}
 				} else if (pf->data_type == TQSL_LOCATION_FIELD_INT) {
-					pf->idata = strtol(pf->cdata.c_str(), NULL, 10);
+					pf->idata = strtol(buf, NULL, 10);
 				}
 				tqsl_setStationLocationCapturePage(loc, old_page);
 				return 0;

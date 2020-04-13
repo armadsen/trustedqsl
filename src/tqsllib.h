@@ -147,7 +147,9 @@ typedef struct {
 	char my_itu_zone[TQSL_ZONE_MAX+1];	///< QSO specifies MY_ITU_ZONE
 	int my_dxcc;				///< QSO specifies MY_DXCC
 	char my_call[TQSL_CALLSIGN_MAX+1];	///< Station Callsign
+#ifdef USE_OWNER_CALLSIGN
 	char my_owner[TQSL_CALLSIGN_MAX+1];	///< Station Owner Callsign
+#endif
 	char my_operator[TQSL_CALLSIGN_MAX+1];	///< Operator's callsign
 	char my_iota[TQSL_IOTA_MAX+1];		///< QSO specifies MY_IOTA_
 } TQSL_QSO_RECORD;

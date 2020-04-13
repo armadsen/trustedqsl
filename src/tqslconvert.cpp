@@ -254,7 +254,9 @@ static tqsl_adifFieldDefinitions adif_qso_record_fields[] = {
 	{ "MY_VUCC_GRIDS", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_GRID_MAX, 0, 0, NULL },
 	{ "OPERATOR", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_CALLSIGN_MAX, 0, 0, NULL },
 	{ "STATION_CALLSIGN", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_CALLSIGN_MAX, 0, 0, NULL },
+#ifdef USE_OWNER_CALLSIGN
 	{ "OWNER_CALLSIGN", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_CALLSIGN_MAX, 0, 0, NULL },
+#endif
 	{ "eor", "", TQSL_ADIF_RANGE_TYPE_NONE, 0, 0, 0, NULL },
 };
 
@@ -1215,12 +1217,14 @@ static void parse_adif_qso(TQSL_CONVERTER *conv, int *saveErr, TQSL_ADIF_GET_FIE
 			if (checkCallSign(op)) {
 				strncpy(conv->rec.my_operator, resdata, sizeof conv->rec.my_operator);
 			}
+#ifdef USE_OWNER_CALLSIGN
 		} else if (!strcasecmp(result.name, "OWNER_CALLSIGN") && resdata) {
 			// Only use the OWNER_CALLSIGN field if it looks like a callsign
 			string op(resdata);
 			if (checkCallSign(op)) {
 				strncpy(conv->rec.my_owner, resdata, sizeof conv->rec.my_owner);
 			}
+#endif
 		} else if (!strcasecmp(result.name, "STATION_CALLSIGN") && resdata) {
 			// Only use the STATION_CALLSIGN field if it looks like a callsign
 			string op(resdata);
@@ -1306,15 +1310,17 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 				strncpy(conv->rec.my_gridsquare, conv->rec.my_vucc_grids, TQSL_GRID_MAX);
 			}
 			// Normalize callsign
-			// Priority - OPERATOR, then STATION_CALLSIGN, then OWNER_CALLSIGN
+			// Priority - STATION_CALLSIGN, then OPERATOR, then OWNER_CALLSIGN
 			// my_call has STATION_CALLSIGN already.
-			if (conv->rec.my_operator[0] != 0) {						// OPERATOR set
+			if (conv->rec.my_call[0] == '\0' && conv->rec.my_operator[0] != 0) {		// OPERATOR set
 				strncpy(conv->rec.my_call, conv->rec.my_operator, TQSL_CALLSIGN_MAX);
 			}
+#ifdef USE_OWNER_CALLSIGN
 			if (conv->rec.my_call[0] == '\0' && conv->rec.my_owner[0] != 0) {		// OWNER_CALLSIGN set
 				strncpy(conv->rec.my_call, conv->rec.my_owner, TQSL_CALLSIGN_MAX);
 			}
-			if (conv->rec.my_call[0]) {							// If any of these
+#endif
+			if (conv->rec.my_call[0] != '\0') {						// If any of these
 				strncpy(conv->callsign, conv->rec.my_call, sizeof conv->callsign);	// got a callsign
 			}
 		} else if (conv->cab) {

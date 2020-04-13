@@ -3,7 +3,10 @@ TQSLLIB changes
 
 2.5
 ---
-Prioritize callsign to try to use OPERATOR over OWNER_CALLSIGN.
+Ignore OWNER_CALLSIGN as that's not intended to be used as any kind of
+call used during an operation, it's who owns the station.
+
+Prioritize callsign search to try to use OPERATOR.
 
 Ignore non-calls in STATION_CALLSIGN and OWNER_CALLSIGN.
 
