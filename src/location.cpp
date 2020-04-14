@@ -3475,13 +3475,23 @@ tqsl_setLocationField(tQSL_Location locp, const char *field, const char *buf) {
 						pf->idx = 0;
 						pf->idata = pf->items[0].ivalue;
 					} else {
+						bool found = false;
 						for (int i = 0; i < static_cast<int>(pf->items.size()); i++) {
 							if (string_toupper(pf->items[i].text) == string_toupper(pf->cdata)) {
 								pf->cdata = pf->items[i].text;
 								pf->idx = i;
 								pf->idata = pf->items[i].ivalue;
+								found = true;
 								break;
 							}
+						}
+						if (!found) {
+							TQSL_LOCATION_ITEM item;
+							item.text = buf;
+							item.ivalue = strtol(buf, NULL, 10);
+							pf->items.push_back(item);
+							pf->idx = pf->items.size() - 1;
+							pf->idata = item.ivalue;
 						}
 					}
 				} else if (pf->data_type == TQSL_LOCATION_FIELD_INT) {

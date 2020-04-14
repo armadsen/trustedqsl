@@ -399,7 +399,7 @@ adif_allocate(size_t size) {
 }
 
 static int
-find_matching_cert(TQSL_CONVERTER *conv, bool *anyfound) {
+find_matching_cert(TQSL_CONVERTER *conv, int targetdxcc, bool *anyfound) {
 	int i;
 	*anyfound = false;
 	for (i = 0; i < conv->ncerts; i++) {
@@ -413,7 +413,7 @@ find_matching_cert(TQSL_CONVERTER *conv, bool *anyfound) {
 			continue;
 		if (tqsl_getCertificateDXCCEntity(conv->certs[i], &dxcc))
 			return -1;
-		if (dxcc != conv->dxcc)
+		if (dxcc != targetdxcc)
 			continue;				// Not for this call and DXCC
 		*anyfound = true;
 		if (tqsl_getCertificateQSONotBeforeDate(conv->certs[i], &cdate))
@@ -1300,7 +1300,21 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 				for (int i = 0; i < num_dxcc; i++) {
 					tqsl_getDXCCEntity(i, &ent_num, &entity);
 					if (strcasecmp(entity, conv->rec.my_country) == 0) {
-						conv->rec.my_dxcc = ent_num;
+						// Consistent DXCC ?
+						if (conv->rec.my_dxcc == 0) {
+							conv->rec.my_dxcc = ent_num;
+						} else {
+							// MY_DXCC and MY_COUNTRY do not match. Report this.
+							if (conv->rec.my_dxcc != ent_num) {
+								conv->rec_done = true;
+								const char *d1;
+								tqsl_getDXCCEntityName(conv->rec.my_dxcc, &d1);
+
+								snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "DXCC Entity|%s (%d)|%s (%d)", d1, conv->rec.my_dxcc, conv->rec.my_country, i);
+								tQSL_Error = TQSL_CERT_MISMATCH;
+								return 0;
+							}
+						}
 						break;
 					}
 				}
@@ -1320,7 +1334,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 				strncpy(conv->rec.my_call, conv->rec.my_owner, TQSL_CALLSIGN_MAX);
 			}
 #endif
-			if (conv->rec.my_call[0] != '\0') {						// If any of these
+			if (conv->location_handling == TQSL_LOC_UPDATE && conv->rec.my_call[0] != '\0') {						// If any of these
 				strncpy(conv->callsign, conv->rec.my_call, sizeof conv->callsign);	// got a callsign
 			}
 		} else if (conv->cab) {
@@ -1540,19 +1554,28 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		}
 	}
 
+	// Lookup cert - start with conv->dxcc
+	int targetdxcc = conv->dxcc;
+
+	// If we're in update mode, use the DXCC from the log
+	if (conv->location_handling == TQSL_LOC_UPDATE) {
+		if (conv->rec.my_dxcc != 0) {
+			targetdxcc = conv->rec.my_dxcc;
+		}
+	}
+
 	bool anyfound;
-	int cidx = find_matching_cert(conv, &anyfound);
+	int cidx = find_matching_cert(conv, targetdxcc, &anyfound);
 	if (cidx < 0) {
 		conv->rec_done = true;
 		strncpy(tQSL_CustomError, conv->callsign, sizeof tQSL_CustomError);
 		tQSL_Error = TQSL_CERT_NOT_FOUND | 0x1000;
+		if (anyfound) {
+			tQSL_Error = TQSL_CERT_DATE_MISMATCH;
+		}
 		if (conv->location_handling == TQSL_LOC_UPDATE) {
 			if (conv->rec.my_call[0]) {
 				strncpy(tQSL_CustomError, conv->rec.my_call, sizeof tQSL_CustomError);
-			}
-		} else {
-			if (anyfound) {
-				tQSL_Error = TQSL_CERT_DATE_MISMATCH;
 			}
 		}
 		return 0;
