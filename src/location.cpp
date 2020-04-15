@@ -3466,6 +3466,7 @@ tqsl_setLocationField(tQSL_Location locp, const char *field, const char *buf) {
 		for (int i = 0; i < static_cast<int>(p.fieldlist.size()); i++) {
 			TQSL_LOCATION_FIELD *pf = &p.fieldlist[i];
 			if (pf->gabbi_name == field) {
+				bool found = false;
 				pf->cdata = string(buf).substr(0, pf->data_len);
 				if (pf->flags & TQSL_LOCATION_FIELD_UPPER)
 					pf->cdata = string_toupper(pf->cdata);
@@ -3475,7 +3476,6 @@ tqsl_setLocationField(tQSL_Location locp, const char *field, const char *buf) {
 						pf->idx = 0;
 						pf->idata = pf->items[0].ivalue;
 					} else {
-						bool found = false;
 						for (int i = 0; i < static_cast<int>(pf->items.size()); i++) {
 							if (string_toupper(pf->items[i].text) == string_toupper(pf->cdata)) {
 								pf->cdata = pf->items[i].text;
@@ -3485,19 +3485,23 @@ tqsl_setLocationField(tQSL_Location locp, const char *field, const char *buf) {
 								break;
 							}
 						}
-						if (!found) {
-							TQSL_LOCATION_ITEM item;
-							item.text = buf;
-							item.ivalue = strtol(buf, NULL, 10);
-							pf->items.push_back(item);
-							pf->idx = pf->items.size() - 1;
-							pf->idata = item.ivalue;
-						}
+// This was being used to force-add fields to enumerations, but that's wrong.
+// Keeping it around in case it's useful later.
+//						if (!found) {
+//							TQSL_LOCATION_ITEM item;
+//							item.text = buf;
+//							item.ivalue = strtol(buf, NULL, 10);
+//							pf->items.push_back(item);
+//							pf->idx = pf->items.size() - 1;
+//							pf->idata = item.ivalue;
+//						}
 					}
 				} else if (pf->data_type == TQSL_LOCATION_FIELD_INT) {
 					pf->idata = strtol(buf, NULL, 10);
 				}
 				tqsl_setStationLocationCapturePage(loc, old_page);
+				if (!found)
+					return -1;
 				return 0;
 			}
 		}

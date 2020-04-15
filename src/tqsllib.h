@@ -142,6 +142,7 @@ typedef struct {
 	char my_gridsquare[TQSL_GRID_MAX+1];	///< QSO specifies MY_GRIDSQUARE
 	char my_vucc_grids[TQSL_GRID_MAX+1];	///< QSO specifies MY_VUCC_GRIDS
 	char my_county[TQSL_CNTY_MAX+1];	///< QSO specifies MY_CNTY
+	char my_cnty_state[TQSL_STATE_MAX+1];	///< QSO specifies a state with MY_CNTY
 	char my_country[TQSL_COUNTRY_MAX+1];	///< QSO specifies MY_COUNTRY
 	char my_cq_zone[TQSL_ZONE_MAX+1];	///< QSO specifies MY_CQ_ZONE
 	char my_itu_zone[TQSL_ZONE_MAX+1];	///< QSO specifies MY_ITU_ZONE

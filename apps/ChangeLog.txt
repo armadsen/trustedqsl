@@ -2,6 +2,9 @@ TQSL changes
 ============
 2.5.3
 ----------
+Report on invalid data in ADIF fields - County misspelled, state in
+the county field is wrong, zones incorrect for the Entity/State.
+
 Ignore OPERATOR fields in an ADIF file if the value does not look like
 a callsign.
 

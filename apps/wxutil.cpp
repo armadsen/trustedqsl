@@ -260,8 +260,17 @@ getLocalizedErrorString_v(int err) {
 		if (err == TQSL_LOCATION_MISMATCH)
 			tp = wxString(_("Station Location"));
 	 	wxString composed = wxGetTranslation(wxString::FromUTF8(error_strings[adjusted_err]));
-		// TRANSLATORS: This message is for QSO details. For example, 'The GRIDSQUARE has value FM18ju while QSO has FM18jt'
+		// TRANSLATORS: This message is for QSO details. For example, 'The Station Location GRIDSQUARE has value FM18ju while QSO has FM18jt'
 		composed = composed + wxT("\n") + wxString::Format(_("The %s '%hs' has value '%hs' while QSO has '%hs'"), tp.c_str(), fld, cert, qso);
+		return composed;
+	}
+	if (err == (TQSL_LOCATION_MISMATCH | 0x1000)) {
+		const char *fld, *val;
+		fld = strtok(tQSL_CustomError, "|");
+		val = strtok(NULL, "|");
+	 	wxString composed(_("This log has invalid QSO information"));
+		// TRANSLATORS: This message is for QSO details. For example, 'The log being signed has 'US County' set to Foobar which is not valid'
+		composed = composed + wxT("\n") + wxString::Format(_("The log being signed has '%hs' set to value '%hs' which is not valid"), fld, val);
 		return composed;
 	}
 	if (err == (TQSL_CERT_NOT_FOUND | 0x1000)) {

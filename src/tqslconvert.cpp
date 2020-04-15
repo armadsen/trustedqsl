@@ -1178,7 +1178,9 @@ static void parse_adif_qso(TQSL_CONVERTER *conv, int *saveErr, TQSL_ADIF_GET_FIE
 		} else if (!strcasecmp(result.name, "MY_CNTY") && resdata) {
 			char *p = strstr(resdata, ",");			// Find the comma in "VA,Fairfax"
 			if (p) {
-				while (isspace(*p) || *p == ',') p++;	// Skip spaces and comma
+				*p++ = '\0';
+				strncpy(conv->rec.my_cnty_state, resdata, sizeof conv->rec.my_cnty_state); 
+				while (isspace(*p)) p++;		// Skip spaces and comma
 				strncpy(conv->rec.my_county, p, sizeof conv->rec.my_county);
 			} else {
 				strncpy(conv->rec.my_county, resdata, sizeof conv->rec.my_county);
@@ -1671,11 +1673,21 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 			}
 		}
 
-#define CHKSTN(FIELD, MY, ERRFMT) \
+// UPDATE below is a boolean that when a change is made, that change
+// is propagated to the downstream values. STATE -> COUNTY and STATE->ZONES
+//
+#define CHKSTN(FIELD, MY, ERRFMT, UPDATE) \
 		if (conv->rec.MY[0] && !tqsl_getLocationField(conv->loc, FIELD, val, sizeof val)) { \
 			if (strcasecmp(conv->rec.MY, val)) { \
 				if (conv->location_handling == TQSL_LOC_UPDATE) { \
-					tqsl_setLocationField(conv->loc, FIELD, conv->rec.MY); \
+					/* -1 means trying to set a value that is not in the enumeration */ \
+					if (tqsl_setLocationField(conv->loc, FIELD, conv->rec.MY) == -1) {; \
+						conv->rec_done = true; \
+						snprintf(tQSL_CustomError, sizeof tQSL_CustomError, ERRFMT, conv->rec.MY, val); \
+						tQSL_Error = TQSL_LOCATION_MISMATCH | 0x1000; \
+						return 0; \
+					} \
+					if (UPDATE) tqsl_updateStationLocationCapture(conv->loc); \
 					newstation = true; \
 				} else if (strlen(val) > 0) { \
 					conv->rec_done = true; \
@@ -1684,46 +1696,58 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 					return 0; \
 				} else { \
 					tqsl_setLocationField(conv->loc, FIELD, conv->rec.MY); \
+					if (UPDATE) tqsl_updateStationLocationCapture(conv->loc); \
 					newstation = true; \
 				} \
 			}  \
 		}
-		CHKSTN("ITUZ", my_itu_zone, "ITU Zone|%s|%s")
-		CHKSTN("CQZ", my_cq_zone, "CQ Zone|%s|%s")
-		CHKSTN("IOTA", my_iota, "IOTA|%s|%s")
 
 		switch (conv->dxcc) {
 			case 6:		// Alaska
 			case 110:	// Hawaii
 			case 291:	// Cont US
-				CHKSTN("US_STATE", my_state, "US State|%s|%s")
-				CHKSTN("US_COUNTY", my_county, "US County|%s|%s")
+				CHKSTN("US_STATE", my_state, "US State|%s|%s", true)
+				CHKSTN("US_COUNTY", my_county, "US County|%s|%s", false)
 				break;
 			case 1:		// Canada
-				CHKSTN("CA_PROVINCE", my_state, "CA Province|%s|%s")
+				CHKSTN("CA_PROVINCE", my_state, "CA Province|%s|%s", true)
 				break;
 			case 15:	// Asiatic Russia
 			case 54:	// European Russia
 			case 61:	// FJL
 			case 125:	// Juan Fernandez
 			case 151:	// Malyj Vysotskij
-				CHKSTN("RU_OBLAST", my_state, "RU Oblast|%s|%s")
+				CHKSTN("RU_OBLAST", my_state, "RU Oblast|%s|%s", true)
 				break;
 			case 318:	// China
-				CHKSTN("CN_PROVINCE", my_state, "CN Province|%s|%s")
+				CHKSTN("CN_PROVINCE", my_state, "CN Province|%s|%s", true)
 				break;
 			case 150:	// Australia
-				CHKSTN("AU_STATE", my_state, "AU State|%s|%s")
+				CHKSTN("AU_STATE", my_state, "AU State|%s|%s", true)
 				break;
 			case 339:	// Japan
-				CHKSTN("JA_PREFECTURE", my_state, "JA Prefecture|%s|%s")
-				CHKSTN("JA_CITY_GUN_KU", my_county, "JA City/Gun/Ku|%s|%s")
+				CHKSTN("JA_PREFECTURE", my_state, "JA Prefecture|%s|%s", true)
+				CHKSTN("JA_CITY_GUN_KU", my_county, "JA City/Gun/Ku|%s|%s", false)
 				break;
 			case 5:		// Finland
-				CHKSTN("FI_KUNTA", my_state, "FI Kunta|%s|%s")
+				CHKSTN("FI_KUNTA", my_state, "FI Kunta|%s|%s", true)
 				break;
 		}
 
+		CHKSTN("ITUZ", my_itu_zone, "ITU Zone|%s|%s", false)
+		CHKSTN("CQZ", my_cq_zone, "CQ Zone|%s|%s", false)
+		CHKSTN("IOTA", my_iota, "IOTA|%s|%s", false)
+
+		if (conv->rec.my_cnty_state[0] != '\0') {
+			char locstate[5];
+			tqsl_getLocationField(conv->loc, "US_STATE", locstate, sizeof locstate);
+			if (strcmp(conv->rec.my_cnty_state, locstate)) {		// County does not match state
+				conv->rec_done = true; 
+				snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "US County State|%s|%s", conv->rec.my_cnty_state, locstate); 
+				tQSL_Error = TQSL_LOCATION_MISMATCH | 0x1000; 
+				return 0; 
+			}
+		}
 		if (newstation) {
 			conv->loc_uid++;
 			return get_station_rec(conv);
