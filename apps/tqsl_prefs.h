@@ -55,7 +55,7 @@ using std::vector;
 #define DEFAULT_BACKUP_VERSIONS 10
 #define DEFAULT_CERT_WARNING 60
 #define DEFAULT_ADIF_EDIT false
-#define DEFAULT_DISP_DUPES false
+#define DEFAULT_DISP_DUPES true
 #define DEFAULT_LOG_TAB false
 #define DEFAULT_CERTPWD false
 //online

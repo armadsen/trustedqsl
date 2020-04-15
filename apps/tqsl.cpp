@@ -1875,6 +1875,8 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 		} else {
 			logverify = TQSL_LOC_REPORT;
 		}
+	} else {			// Command line
+		show_dupes = true;	// So always display dupe details
 	}
 
 	try {
