@@ -1644,16 +1644,23 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		 * Gridsquare handling - if the four-character grid matches the station loc
 		 * then don't complain; this is common for FT8/FT4 which have four char grids
 		 * and we don't want to reject every WSJT-X QSO just because the station
-		 * location has a higher precision grid.
+		 * location has a higher precision grid. Similarly, if the Station Location has
+		 * a six-character grid and the log has 8, then just compare 6 for report mode.
 		 */
 
 		tqsl_getLocationField(conv->loc, "GRIDSQUARE", val, sizeof val);
 		if (conv->rec.my_gridsquare[0] && !tqsl_getLocationField(conv->loc, "GRIDSQUARE", val, sizeof val)) {
 			bool okgrid;
+			unsigned int stnLen = strlen(val);
+			unsigned int logLen = strlen(conv->rec.my_gridsquare);
+			unsigned int compareLen = (stnLen < logLen ? stnLen : logLen);
+			if (strstr(val, ",") || strstr(conv->rec.my_gridsquare, ",")) {	// If it's a corner/edge
+				compareLen = 99;			// Compare all of it.
+			}
 			if (conv->location_handling == TQSL_LOC_UPDATE) {
 				okgrid = (strcasecmp(conv->rec.my_gridsquare, val) == 0);
 			} else {
-				okgrid = (strncasecmp(conv->rec.my_gridsquare, val, strlen(conv->rec.my_gridsquare)) == 0);
+				okgrid = (strncasecmp(conv->rec.my_gridsquare, val, compareLen) == 0);
 			}
 			if (!okgrid) {
 				if (conv->location_handling == TQSL_LOC_UPDATE) {
