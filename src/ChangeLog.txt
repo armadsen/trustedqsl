@@ -3,6 +3,10 @@ TQSLLIB changes
 
 2.5
 ---
+Don't issue error when CA cert has expired when importing a .p12 file.
+
+Fuzzy match county names to allow existing variations to work.
+
 Ignore OWNER_CALLSIGN as that's not intended to be used as any kind of
 call used during an operation, it's who owns the station.
 

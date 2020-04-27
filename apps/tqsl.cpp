@@ -1552,6 +1552,7 @@ static wxString getAbout() {
 	msg+=wxString::Format(wxT("%hs"), DB_VERSION_STRING);
 #endif
 	msg+=wxT("\n\n\nTranslators:\n");
+	msg+=wxT("Catalan: Xavier, EA3W\n);
 	msg+=wxT("Chinese: Caros, BH4TXN\n");
 	msg+=wxT("Finnish: Juhani Tapaninen, OH8MXL\n");
 	msg+=wxT("French: Laurent BEUGNET, F6GOX\n");
