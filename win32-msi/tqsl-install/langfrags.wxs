@@ -143,10 +143,10 @@
         <File Id="file5A6571619FB04AD58AF34552986B3017" KeyPath="yes" Source="$(var.langSrc)\tr_TR\wxstd.mo" />
       </Component>
 
-      <Component Id="cmpA15A521703D54A2C908076E3C9097864" Directory=""dirE4A716247CC340B3A903F82385867288"" Guid="*">
+      <Component Id="cmpA15A521703D54A2C908076E3C9097864" Directory="dirE4A716247CC340B3A903F82385867288" Guid="*">
         <File Id="fileAC3BBB37A8AF4E5789384B1507201AA1" KeyPath="yes" Source="$(var.langSrc)\ca_ES\tqslapp.mo" />
       </Component>
-      <Component Id="cmpBBEB7843204C4FEC94699E593BDE2ADA" Directory=""dirE4A716247CC340B3A903F82385867288"" Guid="*">
+      <Component Id="cmpBBEB7843204C4FEC94699E593BDE2ADA" Directory="dirE4A716247CC340B3A903F82385867288" Guid="*">
         <File Id="file6D669932EC6E459F808921E2DC63B814" KeyPath="yes" Source="$(var.langSrc)\ca_ES\wxstd.mo" />
       </Component>
 
