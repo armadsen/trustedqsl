@@ -37,6 +37,14 @@ bool
 DXCC::init() {
 	tqslTrace("DXCC::init", NULL);
 	if (!_init) {
+		// Don't leak the DCCC data when reloading
+		if (entity_list && num_entities != 0) {
+			for (int i = 0; i < num_entities; i++) {
+				if (entity_list && entity_list[i].name) free(const_cast<char *>(entity_list[i].name));
+				if (entity_list && entity_list[i].zonemap) free(const_cast<char *>(entity_list[i].zonemap));
+			}
+			delete entity_list;
+		}
 		// TRANSLATORS: This is part of an deleted DXCC entity name
 		wxString del = wxGetTranslation(_("DELETED"));
 		char cdel[128];
@@ -44,12 +52,6 @@ DXCC::init() {
 		cdel[sizeof cdel - 1] = '\0';
 		if (tqsl_getNumDXCCEntity(&num_entities))
 			return false;
-		// Don't leak the DCCC data when reloading
-		for (int i = 0; i < num_entities; i++) {
-			if (entity_list[i].name) free(const_cast<char *>(entity_list[i].name));
-			if (entity_list[i].zonemap) free(const_cast<char *>(entity_list[i].zonemap));
-		}
-		if (entity_list) delete entity_list;
 		entity_list = new struct _dxcc_entity[num_entities];
 		deleted_entity_list = new struct _dxcc_entity[num_entities];
 		int activeEntities = 0;
@@ -78,11 +80,19 @@ DXCC::init() {
 				strncat(fixedName, p, sizeof fixedName - strlen(fixedName) - 1);
 				deleted_entity_list[deletedEntities].number = entityNum;
 				deleted_entity_list[deletedEntities].name = strdup(fixedName);
-				deleted_entity_list[deletedEntities++].zonemap = strdup(zonemap);
+				if (zonemap) {
+					deleted_entity_list[deletedEntities++].zonemap = strdup(zonemap);
+				} else {
+					deleted_entity_list[deletedEntities++].zonemap = NULL;
+				}
 			} else {
 				entity_list[activeEntities].number = entityNum;
 				entity_list[activeEntities].name = strdup(entityName);
-				entity_list[activeEntities++].zonemap = strdup(zonemap);
+				if (zonemap) {
+					entity_list[activeEntities++].zonemap = strdup(zonemap);
+				} else {
+					entity_list[activeEntities++].zonemap = NULL;
+				}
 			}
 		}
 		qsort(entity_list, activeEntities, sizeof(struct _dxcc_entity), &_ent_cmp);
