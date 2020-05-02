@@ -44,8 +44,12 @@ DXCC::init() {
 		cdel[sizeof cdel - 1] = '\0';
 		if (tqsl_getNumDXCCEntity(&num_entities))
 			return false;
+		// Don't leak the DCCC data when reloading
+		for (int i = 0; i < num_entities; i++) {
+			if (entity_list[i].name) free(const_cast<char *>(entity_list[i].name));
+			if (entity_list[i].zonemap) free(const_cast<char *>(entity_list[i].zonemap));
+		}
 		if (entity_list) delete entity_list;
-		if (deleted_entity_list) delete deleted_entity_list;
 		entity_list = new struct _dxcc_entity[num_entities];
 		deleted_entity_list = new struct _dxcc_entity[num_entities];
 		int activeEntities = 0;
@@ -74,11 +78,11 @@ DXCC::init() {
 				strncat(fixedName, p, sizeof fixedName - strlen(fixedName) - 1);
 				deleted_entity_list[deletedEntities].number = entityNum;
 				deleted_entity_list[deletedEntities].name = strdup(fixedName);
-				deleted_entity_list[deletedEntities++].zonemap = zonemap;
+				deleted_entity_list[deletedEntities++].zonemap = strdup(zonemap);
 			} else {
 				entity_list[activeEntities].number = entityNum;
-				entity_list[activeEntities].name = entityName;
-				entity_list[activeEntities++].zonemap = zonemap;
+				entity_list[activeEntities].name = strdup(entityName);
+				entity_list[activeEntities++].zonemap = strdup(zonemap);
 			}
 		}
 		qsort(entity_list, activeEntities, sizeof(struct _dxcc_entity), &_ent_cmp);
@@ -86,6 +90,8 @@ DXCC::init() {
 		for (int j = 0; activeEntities < num_entities; ) {
 			entity_list[activeEntities++] = deleted_entity_list[j++];
 		}
+		delete deleted_entity_list;
+		deleted_entity_list = NULL;
 	}
 	_init = true;
 	return _init;
