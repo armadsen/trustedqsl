@@ -3271,6 +3271,9 @@ void MyFrame::UpdateConfigFile() {
 		} else {
 			tqslTrace("UpdateConfigFile", "Config update success");
 			wxMessageBox(_("Configuration file successfully updated"), _("Update Completed"), wxOK | wxICON_INFORMATION, this);
+			// Reload the DXCC mapping
+			DXCC dx;
+			dx.reset();
 		}
 	} else {
 		tqslTrace("MyFrame::UpdateConfigFile", "cURL Error during config file download: %s (%s)\n", curl_easy_strerror((CURLcode)retval), errorbuf);

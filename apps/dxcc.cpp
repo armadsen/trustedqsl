@@ -44,6 +44,8 @@ DXCC::init() {
 		cdel[sizeof cdel - 1] = '\0';
 		if (tqsl_getNumDXCCEntity(&num_entities))
 			return false;
+		if (entity_list) delete entity_list;
+		if (deleted_entity_list) delete deleted_entity_list;
 		entity_list = new struct _dxcc_entity[num_entities];
 		deleted_entity_list = new struct _dxcc_entity[num_entities];
 		int activeEntities = 0;
@@ -131,5 +133,10 @@ DXCC::getByEntity(int e) {
 	}
 	return false;
 }
-
-
+//
+// Reload the DXCC map after a config file change
+//
+void
+DXCC::reset() {
+	 _init = false;
+}
