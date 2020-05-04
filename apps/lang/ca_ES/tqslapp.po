@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: TQSL v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-03-02 06:25-0500\n"
-"PO-Revision-Date: 2020-04-21 00:54+0200\n"
+"PO-Revision-Date: 2020-05-04 10:28+0200\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1343,11 +1343,11 @@ msgstr "Crea un fitxer ADIF per signar i penjar"
 
 #: tqsl.cpp:1243 tqsl.cpp:1247
 msgid "Log in to the Logbook of the World Site"
-msgstr "Inicieu sessió al lloc Logbook of the World"
+msgstr "Inicia sessió al lloc Logbook of the World"
 
 #: tqsl.cpp:1280
 msgid "Select a Station Location to process      "
-msgstr "Selecciona una ubicació d'estació a gestionar      "
+msgstr "Selecciona una ubicació de l'estació a gestionar      "
 
 #: tqsl.cpp:1311
 msgid "Create a new Station Location"
@@ -1359,7 +1359,7 @@ msgstr "Edita una ubicació de l'estació"
 
 #: tqsl.cpp:1342 tqsl.cpp:6508 tqsl.cpp:6509
 msgid "Delete a Station Location"
-msgstr "Esborra una ubicació d'estació"
+msgstr "Esborra una ubicació de l'estació"
 
 #: tqsl.cpp:1358 tqsl.cpp:6510 tqsl.cpp:6511
 msgid "Display Station Location Properties"
@@ -1384,7 +1384,7 @@ msgstr "Renova un certificat d'indicatiu"
 
 #: tqsl.cpp:1459
 msgid "Display a Callsign Certificate's Properties"
-msgstr "Mostrar les característiques del certificat d'indicatiu"
+msgstr "Mostra les característiques del certificat d'indicatiu"
 
 #: tqsl.cpp:1464 tqsl.cpp:6484
 msgid "Callsign Certificates"
@@ -1427,11 +1427,11 @@ msgstr "Error de dades d'ubicació"
 #: tqsl.cpp:1684 tqsl.cpp:1710 tqsl.cpp:2964 tqsl.cpp:6630
 #, c-format
 msgid "Edit Station Location : %hs - %s"
-msgstr "Edita Ubicació de l'estació : %hs - %s"
+msgstr "Edita la ubicació de l'estació : %hs - %s"
 
 #: tqsl.cpp:1718 tqsl.cpp:5585
 msgid "Edit Station Location"
-msgstr "Edita Ubicació de l'estació"
+msgstr "Edita la ubicació de l'estació"
 
 #: tqsl.cpp:1718 tqsl.cpp:6893 tqsl.cpp:6999 tqsl_prefs.cpp:95
 msgid "Close"
@@ -2087,7 +2087,7 @@ msgstr "Desant QSO's"
 
 #: tqsl.cpp:4669
 msgid "Save operation complete."
-msgstr "Operació de desar completada"
+msgstr "Operació de desar completada."
 
 #: tqsl.cpp:4677
 #, c-format
@@ -2144,7 +2144,7 @@ msgstr "Error al analitzar el fitxer de configuració desat: %hs"
 
 #: tqsl.cpp:5002
 msgid "Restore Complete."
-msgstr "Restauració completa"
+msgstr "Restauració completa."
 
 #: tqsl.cpp:5016
 #, c-format
@@ -2508,7 +2508,7 @@ msgstr "si has creat un, amb el comanda 'Desar certificat d'indicatiu'"
 
 #: tqsl.cpp:6432
 msgid "'Save Callsign Certificate' command."
-msgstr "(Save Callsign Certificate) del menu Certificat d'Indicatiu."
+msgstr "(Desa el certificat de l'indicatiu) del menú Certificat d'Indicatiu."
 
 #: tqsl.cpp:6434
 msgid "Are you sure you want to delete the certificate?"
@@ -2532,11 +2532,11 @@ msgstr "Selecciona una ubicació d'estació a gestionar"
 
 #: tqsl.cpp:6532 tqsl.cpp:6534
 msgid "Edit Station Location "
-msgstr "Editar ubicació d'estació "
+msgstr "Editar la ubicació d'estació "
 
 #: tqsl.cpp:6535 tqsl.cpp:6537
 msgid "Delete Station Location "
-msgstr "Esborrar ubicació d'estació "
+msgstr "Esborrar la ubicació d'estació "
 
 #: tqsl.cpp:6538 tqsl.cpp:6540
 msgid "Display Station Location Properties for "
@@ -2652,7 +2652,7 @@ msgstr "Caducat"
 
 #: tqsl.cpp:6925
 msgid "Station Location Properties"
-msgstr "Característiques d'ubicació de l'estació"
+msgstr "Característiques de la ubicació de l'estació"
 
 #: tqsl.cpp:6930
 msgid "Grid Square: "
@@ -2964,11 +2964,11 @@ msgstr "Entrada de dades de l'estació completa"
 
 #: tqslwiz.cpp:659
 msgid "Select or enter name of this station location"
-msgstr "Selecciona o introdueix nom d'aquesta ubicació de l'estació"
+msgstr "Selecciona o introdueix el nom d'aquesta ubicació de l'estació"
 
 #: tqslwiz.cpp:682
 msgid "Station Location Name"
-msgstr "Nom ubicació estació"
+msgstr "Nom d'ubicació estació"
 
 #: tqslwiz.cpp:724
 msgid "Station name must be provided"

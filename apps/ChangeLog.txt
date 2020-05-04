@@ -1,5 +1,14 @@
 TQSL changes
 ============
+2.5.4
+----------
+Loosen matching for US counties as there is no single source of
+"proper" county names.
+
+Fix issue where installing a new LoTW configuration file could
+corrupt the DXCC entity names.
+
+
 2.5.3
 ----------
 Report on invalid data in ADIF fields - County misspelled, state in
