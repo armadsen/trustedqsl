@@ -171,6 +171,8 @@ static int lock_db(bool wait);
 static void unlock_db(void);
 int get_address_field(const char *callsign, const char *field, string& result);
 
+static void cert_cleanup(void);
+
 static void exitNow(int status, bool quiet) {
 	const char *errors[] = { __("Success"),
 				 __("User Cancelled"),
@@ -5624,38 +5626,7 @@ QSLApp::OnInit() {
 			}
 		} else {
 			wxLogMessage(nd.Message());
-			if (tQSL_ImportSerial != 0) {
-				wxString status;
-				frame->CheckCertStatus(tQSL_ImportSerial, status);		// Update from LoTW's "CRL"
-				tqsl_setCertificateStatus(tQSL_ImportSerial, (const char *)status.ToUTF8());
-			}
-			if (tQSL_ImportCall[0] != '\0' && tQSL_ImportSerial != 0 && tqsl_getCertificateStatus(tQSL_ImportSerial) == TQSL_CERT_STATUS_OK) {
-				get_certlist(tQSL_ImportCall, 0, true, true, true);	// Get any expired/superceded ones for this call
-				for (int i = 0; i < ncerts; i++) {
-					long serial = 0;
-					int keyonly = false;
-					tqsl_getCertificateKeyOnly(certlist[i], &keyonly);
-					if (keyonly) {
-						if (tQSL_ImportSerial != 0) {		// A full cert for this was imported
-							tqsl_deleteCertificate(certlist[i]);
-						}
-						continue;
-					}
-					if (tqsl_getCertificateSerial(certlist[i], &serial)) {
-						continue;
-					}
-					if (serial == tQSL_ImportSerial) {
-						continue;
-					}
-					// This is not the one we just imported
-					int sup, exp;
-					if (tqsl_isCertificateSuperceded(certlist[i], &sup) == 0 && sup) {
-						tqsl_deleteCertificate(certlist[i]);
-					} else if (tqsl_isCertificateExpired(certlist[i], &exp) == 0 && exp) {
-						tqsl_deleteCertificate(certlist[i]);
-					}
-				}
-			}
+			cert_cleanup();
 			frame->cert_tree->Build(CERTLIST_FLAGS);
 			wxString call = wxString::FromUTF8(tQSL_ImportCall);
 			wxString pending = wxConfig::Get()->Read(wxT("RequestPending"));
@@ -5954,16 +5925,13 @@ makeLocationMenu(bool enable) {
 	return loc_menu;
 }
 
-/////////// Frame /////////////
-
-void MyFrame::OnLoadCertificateFile(wxCommandEvent& WXUNUSED(event)) {
-	tqslTrace("MyFrame::OnLoadCertificateFile", NULL);
-	LoadCertWiz lcw(this, help, _("Load Certificate File"));
-	lcw.RunWizard();
+// Handle clean-up after a certificate is imported
+static void
+cert_cleanup() {
 	if (tQSL_ImportCall[0] != '\0') {				// If a user cert was imported
 		if (tQSL_ImportSerial != 0) {
 			wxString status;
-			CheckCertStatus(tQSL_ImportSerial, status);		// Update from LoTW's "CRL"
+			frame->CheckCertStatus(tQSL_ImportSerial, status);	// Update from LoTW's "CRL"
 			tqsl_setCertificateStatus(tQSL_ImportSerial, (const char *)status.ToUTF8());
 		}
 		int certstat = tqsl_getCertificateStatus(tQSL_ImportSerial);
@@ -5993,6 +5961,15 @@ void MyFrame::OnLoadCertificateFile(wxCommandEvent& WXUNUSED(event)) {
 			}
 		}
 	}
+}
+
+/////////// Frame /////////////
+
+void MyFrame::OnLoadCertificateFile(wxCommandEvent& WXUNUSED(event)) {
+	tqslTrace("MyFrame::OnLoadCertificateFile", NULL);
+	LoadCertWiz lcw(this, help, _("Load Certificate File"));
+	lcw.RunWizard();
+	cert_cleanup();
 	cert_tree->Build(CERTLIST_FLAGS);
 	CertTreeReset();
 }
