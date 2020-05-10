@@ -3518,7 +3518,12 @@ MyFrame::DoCheckExpiringCerts(bool noGUI) {
 		wxString grid;
 
 		// Get the user detail info for this callsign from the ARRL server
-		SaveAddressInfo(callsign);
+		int dxcc;
+		if (tqsl_getCertificateDXCCEntity(clist[i], &dxcc)) {
+			report_error(&ei);
+			continue;
+		}
+		SaveAddressInfo(callsign, dxcc);
 
 		int expired = 0;
 		tqsl_isCertificateExpired(clist[i], &expired);
@@ -3935,7 +3940,7 @@ wx_tokens(const wxString& str, vector<wxString> &toks) {
 }
 
 int
-SaveAddressInfo(const char *callsign) {
+SaveAddressInfo(const char *callsign, int dxcc) {
 	if (callsign == NULL) {
 		tQSL_Error = TQSL_ARGUMENT_ERROR;
 		return 1;
@@ -3943,8 +3948,8 @@ SaveAddressInfo(const char *callsign) {
 
 	bool needToCleanUp = false;
 	char url[512];
-	strncpy(url, (wxString::Format(wxT("https://lotw.arrl.org/tqsl-setup.php?callsign=%hs"), callsign)).ToUTF8(), sizeof url);
-	tqslTrace("SaveAddressInfo", "Call = %s, url = %s", callsign, url);
+	strncpy(url, (wxString::Format(wxT("https://lotw.arrl.org/tqsl-setup.php?callsign=%hs&dxcc=%d"), callsign, dxcc)).ToUTF8(), sizeof url);
+	tqslTrace("SaveAddressInfo", "Call = %s, Entity=%d, url = %s", callsign, dxcc, url);
 	if (curlReq) {
 		curl_easy_setopt(curlReq, CURLOPT_URL, url);
 	} else {
@@ -5608,37 +5613,63 @@ QSLApp::OnInit() {
 	// Handle "-i" (import cert), or bare cert file on command line
 
 	bool tq6File = false;
+	bool p12File = false;
 	if (!wxIsEmpty(infile)) {
 		if (ext.CmpNoCase(wxT("tq6")) == 0) {
 			tq6File = true;
 		}
+		if (ext.CmpNoCase(wxT("p12")) == 0) {
+			p12File = true;
+		}
 	}
 	if (parser.Found(wxT("i"), &infile) && (!wxIsEmpty(infile))) {
-		tq6File = true;
+		wxFileName::SplitPath(infile, &path, &name, &ext);
+		if (ext.CmpNoCase(wxT("tq6")) == 0) {
+			tq6File = true;
+		}
+		if (ext.CmpNoCase(wxT("p12")) == 0) {
+			p12File = true;
+		}
 	}
 
-	if (tq6File) {
+	if (tq6File || p12File) {
 		infile.Trim(true).Trim(false);
 		notifyData nd;
-		if (tqsl_importTQSLFile(infile.ToUTF8(), notifyImport, &nd)) {
-			if (tQSL_Error != TQSL_CERT_ERROR) {
-				wxLogError(getLocalizedErrorString());
+		if (tq6File) {
+			if (tqsl_importTQSLFile(infile.ToUTF8(), notifyImport, &nd)) {
+				if (tQSL_Error != TQSL_CERT_ERROR) {
+					if (tQSL_Error != 0) wxLogError(getLocalizedErrorString());
+				}
+			} else {
+				wxString call = wxString::FromUTF8(tQSL_ImportCall);
+				wxString pending = wxConfig::Get()->Read(wxT("RequestPending"));
+				pending.Replace(call, wxT(""), true);
+				wxString rest;
+				while (pending.StartsWith(wxT(","), &rest))
+					pending = rest;
+				while (pending.EndsWith(wxT(","), &rest))
+					pending = rest;
+				wxConfig::Get()->Write(wxT("RequestPending"), pending);
+				cert_cleanup();
+				frame->cert_tree->Build(CERTLIST_FLAGS);
 			}
-		} else {
 			wxLogMessage(nd.Message());
+			return(true);
+		} else if (p12File) {
+			// First try with no password
+			if (!tqsl_importPKCS12File(infile.ToUTF8(), "", 0, NULL, notifyImport, &nd) || tQSL_Error == TQSL_CERT_ERROR) {
+				if (tQSL_Error != 0) wxLogError(getLocalizedErrorString());
+			} else if (tQSL_Error == TQSL_PASSWORD_ERROR) {
+				wxLogError(_("Password protected P12 files cannot be imported on the command line"));
+			} else if (tQSL_Error == TQSL_OPENSSL_ERROR) {
+				wxLogError(_("This file is not a valid P12 file"));
+			}
 			cert_cleanup();
 			frame->cert_tree->Build(CERTLIST_FLAGS);
-			wxString call = wxString::FromUTF8(tQSL_ImportCall);
-			wxString pending = wxConfig::Get()->Read(wxT("RequestPending"));
-			pending.Replace(call, wxT(""), true);
-			wxString rest;
-			while (pending.StartsWith(wxT(","), &rest))
-				pending = rest;
-			while (pending.EndsWith(wxT(","), &rest))
-				pending = rest;
-			wxConfig::Get()->Write(wxT("RequestPending"), pending);
+			frame->CertTreeReset();
+			wxLogMessage(nd.Message());
+			return(true);
 		}
-		return(true);
 	}
 
 	// We need a logfile, else there's nothing to do.
