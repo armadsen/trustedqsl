@@ -1141,6 +1141,7 @@ static void parse_adif_qso(TQSL_CONVERTER *conv, int *saveErr, TQSL_ADIF_GET_FIE
 		}
 
 		if (!strcasecmp(result.name, "CALL") && resdata) {
+			tqsl_strtoupper(resdata);
 			conv->rec.callsign_set = true;
 			strncpy(conv->rec.callsign, resdata, sizeof conv->rec.callsign);
 		} else if (!strcasecmp(result.name, "BAND") && resdata) {
@@ -1216,6 +1217,7 @@ static void parse_adif_qso(TQSL_CONVERTER *conv, int *saveErr, TQSL_ADIF_GET_FIE
 			strncpy(conv->rec.my_vucc_grids, resdata, sizeof conv->rec.my_vucc_grids);
 		} else if (!strcasecmp(result.name, "OPERATOR") && resdata) {
 			// Only use the OPERATOR field if it looks like a callsign
+			tqsl_strtoupper(resdata);
 			string op(resdata);
 			if (checkCallSign(op)) {
 				strncpy(conv->rec.my_operator, resdata, sizeof conv->rec.my_operator);
@@ -1223,6 +1225,7 @@ static void parse_adif_qso(TQSL_CONVERTER *conv, int *saveErr, TQSL_ADIF_GET_FIE
 #ifdef USE_OWNER_CALLSIGN
 		} else if (!strcasecmp(result.name, "OWNER_CALLSIGN") && resdata) {
 			// Only use the OWNER_CALLSIGN field if it looks like a callsign
+			tqsl_strtoupper(resdata);
 			string op(resdata);
 			if (checkCallSign(op)) {
 				strncpy(conv->rec.my_owner, resdata, sizeof conv->rec.my_owner);
@@ -1230,6 +1233,7 @@ static void parse_adif_qso(TQSL_CONVERTER *conv, int *saveErr, TQSL_ADIF_GET_FIE
 #endif
 		} else if (!strcasecmp(result.name, "STATION_CALLSIGN") && resdata) {
 			// Only use the STATION_CALLSIGN field if it looks like a callsign
+			tqsl_strtoupper(resdata);
 			string op(resdata);
 			if (checkCallSign(op)) {
 				strncpy(conv->rec.my_call, resdata, sizeof conv->rec.my_call);
@@ -1410,6 +1414,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 							saveErr = tQSL_Error;
 					} else if (!strcasecmp(field.name, "MYCALL")) {
 						strncpy(conv->rec.my_call, field.value, sizeof conv->rec.my_call);
+						tqsl_strtoupper(conv->rec.my_call);
 					}
 					if (conv->rec_text != "")
 						conv->rec_text += "\n";
@@ -1653,7 +1658,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		if (conv->rec.my_call[0]) {		// Update case handled above when switching certs
 			if (strcmp(conv->rec.my_call, conv->callsign)) {
 				conv->rec_done = true;
-				snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Callsign|%s|%s", conv->rec.my_call, conv->callsign);
+				snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "Callsign|%s|%s", conv->callsign, conv->rec.my_call);
 				tQSL_Error = TQSL_CERT_MISMATCH;
 				return 0;
 			}
@@ -1758,7 +1763,7 @@ tqsl_getConverterGABBI(tQSL_Converter convp) {
 		if (conv->rec.my_cnty_state[0] != '\0') {
 			char locstate[5];
 			tqsl_getLocationField(conv->loc, "US_STATE", locstate, sizeof locstate);
-			if (strcmp(conv->rec.my_cnty_state, locstate)) {		// County does not match state
+			if (strcasecmp(conv->rec.my_cnty_state, locstate)) {		// County does not match state
 				conv->rec_done = true;
 				snprintf(tQSL_CustomError, sizeof tQSL_CustomError, "US County State|%s|%s", conv->rec.my_cnty_state, locstate);
 				tQSL_Error = TQSL_LOCATION_MISMATCH | 0x1000;
