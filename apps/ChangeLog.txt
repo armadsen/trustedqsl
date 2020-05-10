@@ -2,6 +2,12 @@ TQSL changes
 ============
 2.5.4
 ----------
+When looking up address information, use the DXCC entity number for the
+callsign certificate to ensure the right address is retrieved.
+
+Correct case sensitive callsign matches when comparing QSO data. This
+corrects a defect where OPERATOR set to 'k1mu' would issue an error.
+
 Loosen matching for US counties as there is no single source of
 "proper" county names.
 

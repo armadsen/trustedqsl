@@ -3,6 +3,9 @@ TQSLLIB changes
 
 2.5
 ---
+Callsigns, counties, etc. should not be case sensitive. Upper case
+before using.
+
 Don't issue error when CA cert has expired when importing a .p12 file.
 
 Fuzzy match county names to allow existing variations to work.
