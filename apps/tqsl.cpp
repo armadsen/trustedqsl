@@ -2331,7 +2331,7 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 	unlock_db();
 	if (cancelled)
 		return TQSL_EXIT_CANCEL;
-	if (processed == 0)
+	if (n == 0)
 		return TQSL_EXIT_NO_QSOS;
 	if (aborted || duplicates > 0 || out_of_range > 0 || errors > 0)
 		return TQSL_EXIT_QSOS_SUPPRESSED;

@@ -2,6 +2,11 @@ TQSL changes
 ============
 2.5.4
 ----------
+Add Catalan localization provided by Xavier, EA3W.
+
+Correct the command line exit status values to properly reflect all QSOs
+suppressed and some QSOs suppressed situations.
+
 When looking up address information, use the DXCC entity number for the
 callsign certificate to ensure the right address is retrieved.
 
