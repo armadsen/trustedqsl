@@ -52,6 +52,8 @@ using std::ios;
 using std::endl;
 using std::exception;
 
+static int init_adif_map(void);
+
 namespace tqsllib {
 
 class TQSL_LOCATION_ITEM {
@@ -280,6 +282,7 @@ static vector<Satellite> SatelliteList;
 static map<int, XMLElement> tqsl_page_map;
 static map<string, XMLElement> tqsl_field_map;
 static map<string, string> tqsl_adif_map;
+static vector<string> tqsl_adif_mode_map;
 static map<string, string> tqsl_adif_submode_map;
 static map<string, pair<int, int> > tqsl_cabrillo_map;
 static map<string, pair<int, int> > tqsl_cabrillo_user_map;
@@ -834,6 +837,45 @@ tqsl_getMode(int index, const char **mode, const char **group) {
 }
 
 DLLEXPORT int CALLCONVENTION
+tqsl_getNumADIFMode(int *number) {
+	if (tqsl_init())
+		return 1;
+	if (number == NULL) {
+		tqslTrace("tqsl_getNumADIFMode", "Argument error, number = 0x%lx", number);
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+	if (init_adif_map()) {
+		tqslTrace("tqsl_getNumADIFMode", "init_mode error %d", tQSL_Error);
+		return 1;
+	}
+	*number = tqsl_adif_mode_map.size();
+	return 0;
+}
+
+DLLEXPORT int CALLCONVENTION
+tqsl_getADIFModeEntry(int index, const char **mode) {
+	if (tqsl_init())
+		return 1;
+	if (mode == NULL) {
+		tqslTrace("tqsl_getADIFMode", "Argument error, mode = 0x%lx", mode);
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+	if (init_adif_map()) {
+		tqslTrace("tqsl_getADIFMode", "init_mode error %d", tQSL_Error);
+		return 1;
+	}
+	if (index < 0 || index > static_cast<int> (tqsl_adif_mode_map.size())) {
+		tqslTrace("tqsl_getADIFMode", "Argument error, index = %d", index);
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+	*mode = tqsl_adif_mode_map[index].c_str();
+	return 0;
+}
+
+DLLEXPORT int CALLCONVENTION
 tqsl_getNumDXCCEntity(int *number) {
 	if (number == NULL) {
 		tqslTrace("tqsl_getNumDXCCEntity", "Arg error - number=null");
@@ -1153,6 +1195,16 @@ init_adif_map() {
 		if (adifmode == "") { 		// Handle entries with just a mode element
 			adifmode = melem;
 		}
+		bool found = false;
+		for (unsigned int i = 0; i < tqsl_adif_mode_map.size(); i++) {
+			if (tqsl_adif_mode_map[i] == melem) {
+				found = true;
+			}
+		}
+		if (!found) {
+			tqsl_adif_mode_map.push_back(melem);
+		}
+
 		if (gabbi != "") {		// There should always be one
 			if (adifmode != "") {
 				tqsl_adif_map[adifmode] = gabbi;
@@ -1171,12 +1223,14 @@ init_adif_map() {
 		}
 		ok = adif_map.getNextElement(adif_item);
 	}
+	sort(tqsl_adif_mode_map.begin(), tqsl_adif_mode_map.end());
 	return 0;
 }
 
 DLLEXPORT int CALLCONVENTION
 tqsl_clearADIFModes() {
 	tqsl_adif_map.clear();
+	tqsl_adif_mode_map.clear();
 	return 0;
 }
 
@@ -3535,7 +3589,7 @@ tqsl_setLocationField(tQSL_Location locp, const char *field, const char *buf) {
 								found = true;
 								break;
 							}
-							// foo
+
 							if (fuzzy_match(pf->items[i].label, pf->cdata)) {
 								strncpy(tQSL_CustomError, pf->items[i].text.c_str(), sizeof tQSL_CustomError);
 								pf->cdata = pf->items[i].text;

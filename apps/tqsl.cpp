@@ -7200,6 +7200,7 @@ unlock_db(void) {
 	if (hFile) {
 		UnlockFileEx(hFile, 0, 0, 0x80000000, &ov);
 		tqslTrace("unlock_db", "unlocked");
+	}
 	if (lockfileFD != -1) {
 		tqslTrace("unlock_db", "closing lock");
 		_close(lockfileFD);

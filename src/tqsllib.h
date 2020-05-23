@@ -1250,6 +1250,16 @@ DLLEXPORT int CALLCONVENTION tqsl_getNumMode(int *number);
   */
 DLLEXPORT int CALLCONVENTION tqsl_getMode(int index, const char **mode, const char **group);
 
+/** Get the number of ADIF Mode entries in the Mode list */
+DLLEXPORT int CALLCONVENTION tqsl_getNumADIFMode(int *number);
+
+/** Get an ADIF mode by its index.
+  *
+  * \c mode - The ADIF mode name
+  *
+  */
+DLLEXPORT int CALLCONVENTION tqsl_getADIFModeEntry(int index, const char **mode);
+
 /** Get the number of Propagation Mode entries in the Propagation Mode list */
 DLLEXPORT int CALLCONVENTION tqsl_getNumPropagationMode(int *number);
 
