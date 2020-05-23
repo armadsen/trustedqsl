@@ -3,6 +3,8 @@ TQSLLIB changes
 
 2.5
 ---
+Allow ADIF parser to return arbitrary ADIF fields.
+
 Update to latest LoTW configuration file.
 
 Callsigns, counties, etc. should not be case sensitive. Upper case

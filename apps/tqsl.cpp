@@ -1741,6 +1741,7 @@ static tqsl_adifFieldDefinitions fielddefs[] = {
 	{ "TIME_ON", "", TQSL_ADIF_RANGE_TYPE_NONE, 6, 0, 0, 0, 0 },
 	{ "SAT_NAME", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_SATNAME_MAX, 0, 0, 0, 0 },
 	{ "PROP_MODE", "", TQSL_ADIF_RANGE_TYPE_NONE, TQSL_PROPMODE_MAX, 0, 0, 0, 0 },
+	{ "*", "", TQSL_ADIF_RANGE_TYPE_NONE, 2048, 0, 0, 0, 0 },
 	{ "EOR", "", TQSL_ADIF_RANGE_TYPE_NONE, 0, 0, 0, 0, 0 },
 	{ "", "", TQSL_ADIF_RANGE_TYPE_NONE, 0, 0, 0, 0, 0 },
 };
@@ -1808,9 +1809,14 @@ loadQSOfile(wxString& file, QSORecordList& recs) {
 					*(cp+2) = '\0';
 					rec._time.hour = strtol(cp, NULL, 10);
 				}
+			} else if (!strcasecmp(field.name, "EOH")) {
+				rec._extraFields.clear();
 			} else if (!strcasecmp(field.name, "EOR")) {
 				recs.push_back(rec);
 				rec = QSORecord();
+			} else {
+				// Not a field I recognize, add it to the extras
+				rec._extraFields[field.name] = reinterpret_cast<const char *>(field.data);
 			}
 			delete[] field.data;
 		}
@@ -3343,7 +3349,9 @@ void MyFrame::UpdateTQSL(wxString& url) {
 		}
 		tqslTrace("MyFrame::UpdateTQSL", "Executing msiexec \"%s\"", filename.ToUTF8());
 		wxExecute(wxString::Format(wxT("msiexec /i \"%s\""), filename), wxEXEC_ASYNC);
+		tqslTrace("MyFrame::UpdateTQSL", "GUI Destroy");
 		wxExit();
+		exit(0);
 	} else {
 		tqslTrace("MyFrame::UpdateTQSL", "cURL Error during file download: %s (%s)\n", curl_easy_strerror((CURLcode)retval), errorbuf);
 		if ((retval == CURLE_PEER_FAILED_VERIFICATION) && verifyCA) {
@@ -3646,6 +3654,17 @@ MyFrame::OnUpdateCheckDone(wxCommandEvent& event) {
 		ri->condition->Signal();
 		return;
 	}
+	// For win32, can't have config and program updates together.
+	// randomize which gets flagged
+#ifdef _WIN32
+	if (ri->newProgram && ri->newConfig) {
+		if (time(0) & 0x1) {
+			ri->newProgram = false;
+		} else {
+			ri->newConfig = false;
+		}
+	}
+#endif
 	if (ri->newProgram) {
 		if (ri->noGUI) {
 			wxLogMessage(_("A new TQSL release (V%s) is available."), ri->newProgramRev->Value().c_str());
@@ -7088,19 +7107,27 @@ lock_db(bool wait) {
 	fl.l_start = 0;
 	fl.l_len = 1;
 
+	tqslTrace("lock_db", "wait = %d", wait);
+
 	wxString lfname = wxString::FromUTF8(tQSL_BaseDir) + wxT("/dblock");
 
 	if (lockfileFD < 0) {
 		lockfileFD = open(lfname.ToUTF8(), O_RDWR| O_CREAT, 0644);
-		if (lockfileFD < 0)
+		if (lockfileFD < 0) {
+			tqslTrace("lock_db", "can't set lock: %m");
 			return 1;
+		}
 	}
 	if (wait) {
+		tqslTrace("lock_db", "waiting for lock");
 		fcntl(lockfileFD, F_SETLKW, &fl);
+		tqslTrace("lock_db", "got lock");
 		return 0;
 	}
 	int ret = fcntl(lockfileFD, F_SETLK, &fl);
+	tqslTrace("lock_db", "trying to set a lock");
 	if (ret < 0 && (errno == EACCES || errno == EAGAIN)) {
+		tqslTrace("lock_db", "Lock not taken : %m");
 		return -1;
 	}
 	return 0;
@@ -7108,9 +7135,14 @@ lock_db(bool wait) {
 
 static void
 unlock_db(void) {
-	if (lockfileFD < 0) return;
+	tqslTrace("unlock_db", "entered");
+	if (lockfileFD < 0) {
+		tqslTrace("unlock_db", "lock wasn't taken");
+		return;
+	}
 	close(lockfileFD);
 	lockfileFD = -1;
+	tqslTrace("unlock_db", "unlocked");
 	return;
 }
 #else /* _WIN32 */
@@ -7125,12 +7157,15 @@ lock_db(bool wait) {
 
 	wxString lfname = wxString::FromUTF8(tQSL_BaseDir) + wxT("\\dblock");
 
+	tqslTrace("lock_db", "wait = %d", wait);
 	if (lockfileFD < 0) {
 		wchar_t* wlfname = utf8_to_wchar(lfname.ToUTF8());
 		lockfileFD = _wopen(wlfname, O_RDWR| O_CREAT, 0644);
 		free_wchar(wlfname);
-		if (lockfileFD < 0)
+		if (lockfileFD < 0) {
+			tqslTrace("lock_db", "can't open file: %m");
 			return 1;
+		}
 		ZeroMemory(&ov, sizeof(ov));
 		ov.hEvent = NULL;
 		ov.Offset = 0;
@@ -7142,14 +7177,17 @@ lock_db(bool wait) {
 	if (!wait) {
 		locktype |= LOCKFILE_FAIL_IMMEDIATELY;
 	}
+	tqslTrace("lock_db", "trying to lock");
 	ret = LockFileEx(hFile, locktype, 0, 0, 0x80000000, &ov);
 	if (!ret) {
 		switch (GetLastError()) {
 			case ERROR_SHARING_VIOLATION:
 			case ERROR_LOCK_VIOLATION:
 			case ERROR_IO_PENDING:
+				tqslTrace("lock_db", "unable to lock");
 				return -1;
 			default:
+				tqslTrace("lock_db", "locked");
 				return 0;
 		}
 	}
@@ -7158,10 +7196,14 @@ lock_db(bool wait) {
 
 static void
 unlock_db(void) {
-	if (hFile)
+	tqslTrace("unlock_db", "hFile=%lx", hFile);
+	if (hFile) {
 		UnlockFileEx(hFile, 0, 0, 0x80000000, &ov);
-	if (lockfileFD != -1)
+		tqslTrace("unlock_db", "unlocked");
+	if (lockfileFD != -1) {
+		tqslTrace("unlock_db", "closing lock");
 		_close(lockfileFD);
+	}
 	lockfileFD = -1;
 	hFile = 0;
 }

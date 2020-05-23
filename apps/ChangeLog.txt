@@ -1,5 +1,18 @@
 TQSL changes
 ============
+2.5.5
+----------
+Fix issue on Windows systems when a TQSL update and a configuration file
+update both show up at the same time. Randomly choose one or the other
+for installation.
+
+Ensure that all ADIF modes are available in the TQSL ADIF Editor.
+
+Allow the TQSL ADIF editor to retain any ADIF field in the output. TQSL
+doesn't allow editing all fields, but it no longer discards fields that
+the editor does not handle.
+
+
 2.5.4
 ----------
 Add Catalan localization provided by Xavier, EA3W.
