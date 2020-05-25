@@ -667,7 +667,7 @@ QSODataDialog::WriteQSOFile(QSORecordList& recs, const char *fname) {
 			tqsl_adifMakeField("SAT_NAME", 0, (const unsigned char*)(const char *)it->_satellite.ToUTF8(), -1, buf, sizeof buf);
 			out << "   " << buf << endl;
 		}
-		map<string,string>::iterator xit;
+		map<string, string>::iterator xit;
 		for (xit = it->_extraFields.begin(); xit != it->_extraFields.end(); ++xit) {
 			const char *xtraName = xit->first.c_str();
 			const unsigned char *xtraVal = reinterpret_cast<const unsigned char*> (xit->second.c_str());

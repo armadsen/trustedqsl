@@ -1816,7 +1816,10 @@ loadQSOfile(wxString& file, QSORecordList& recs) {
 				rec = QSORecord();
 			} else {
 				// Not a field I recognize, add it to the extras
-				rec._extraFields[field.name] = reinterpret_cast<const char *>(field.data);
+				const char * val = reinterpret_cast<const char *>(field.data);
+				if (!val)
+					val = "";
+				rec._extraFields[field.name] = val;
 			}
 			delete[] field.data;
 		}
@@ -1839,7 +1842,6 @@ MyFrame::EditQSOData(wxCommandEvent& WXUNUSED(event)) {
 	if (file == wxT(""))
 		return;
 	loadQSOfile(file, recs);
-	wxMessageBox(_("Warning: The TQSL ADIF editor only processes a limited number of ADIF fields.\n\nUsing the editor on an ADIF file can cause QSO details to be lost!"), _("Warning"), wxOK | wxICON_EXCLAMATION, frame);
 	try {
 		QSODataDialog dial(this, file, help, &recs);
 		dial.ShowModal();
