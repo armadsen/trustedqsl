@@ -1983,19 +1983,12 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 	if (ncerts == 0) {
 		wxString msg;
 		wxString fmt = _("There are no valid callsign certificates for callsign");
-		if (dxcc != 0) {
-			fmt += wxT(" %hs ");
-			fmt += _("in entity");
-			fmt += wxT(" %hs.\n");
-			fmt += _("Signing aborted.");
-			fmt + wxT("\n");
-			msg = wxString::Format(fmt, callsign, dx.name());
-		} else {
-			fmt += wxT(" %hs.\n");
-			fmt += _("Signing aborted.");
-			fmt + wxT("\n");
-			msg = wxString::Format(fmt, callsign);
-		}
+		fmt += wxT(" %hs ");
+		fmt += _("in entity");
+		fmt += wxT(" %hs.\n");
+		fmt += _("Signing aborted.");
+		fmt + wxT("\n");
+		msg = wxString::Format(fmt, callsign, dx.name());
 		wxLogError(msg);
 		return TQSL_EXIT_TQSL_ERROR;
 	}
