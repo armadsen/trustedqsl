@@ -66,9 +66,7 @@
 #endif
 #include <zlib.h>
 #include <openssl/opensslv.h> // only for version info!
-#pragma push_macro("VERSION")
 #include <expat_config.h>     // also for version info
-#pragma pop_macro("VERSION")
 
 #ifdef USE_LMDB
 #include <lmdb.h> //only for version info!
@@ -1530,7 +1528,7 @@ MyFrame::OnHelpContents(wxCommandEvent& WXUNUSED(event)) {
 // Return the "About" string
 //
 static wxString getAbout() {
-	wxString msg = wxT("TQSL V") wxT(VERSION) wxT(" build ") wxT(BUILD);
+	wxString msg = wxT("TQSL V") wxT(TQSL_VERSION) wxT(" build ") wxT(TQSL_BUILD);
 #ifdef OSX_PLATFORM
 	msg += wxT("\nBuilt for ") wxT(OSX_PLATFORM);
 #endif
@@ -1549,7 +1547,7 @@ static wxString getAbout() {
 	if (wxUSE_UNICODE)
 		msg += wxT(" (Unicode)");
 #endif
-	msg+=wxString::Format(wxT("\nexpat v%s\n"), PACKAGE_VERSION);
+	msg+=wxString::Format(wxT("\nexpat v%hs\n"), PACKAGE_VERSION);
 	msg+=wxString::Format(wxT("libcurl V%hs\n"), LIBCURL_VERSION);
 	msg+=wxString::Format(wxT("%hs\n"), OPENSSL_VERSION_TEXT);
 	msg+=wxString::Format(wxT("zlib V%hs\n"), ZLIB_VERSION);
@@ -1870,7 +1868,7 @@ MyFrame::EnterQSOData(wxCommandEvent& WXUNUSED(event)) {
 
 int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxString& output, int& n, bool suppressdate, tQSL_Date* startdate, tQSL_Date* enddate, int action, int logverify, const char* password, const char* defcall) {
 	tqslTrace("MyFrame::ConvertLogToString", "loc = %lx, infile=%s, suppressdate=%d, startdate=0x%lx, enddate=0x%lx, action=%d, logverify=%d defcall=%s", reinterpret_cast<void *>(loc), S(infile), suppressdate, reinterpret_cast<void *>(startdate), reinterpret_cast<void *>(enddate), action, logverify, defcall ? defcall : "");
-	static const char *iam = "TQSL V" VERSION;
+	static const char *iam = "TQSL V" TQSL_VERSION;
 	const char *cp;
 	char callsign[40];
 	int dxcc = 0;
@@ -2631,7 +2629,7 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 	}
 	//set up options
 	curl_easy_setopt(curlReq, CURLOPT_URL, (const char *)uri.ToUTF8());
-	curl_easy_setopt(curlReq, CURLOPT_USERAGENT, "tqsl/" VERSION);
+	curl_easy_setopt(curlReq, CURLOPT_USERAGENT, "tqsl/" TQSL_VERSION);
 
 #ifdef __WXMAC__
 	DocPaths docpaths(wxT("tqsl.app"));
@@ -3702,7 +3700,7 @@ MyFrame::OnUpdateCheckDone(wxCommandEvent& event) {
 			fmt += _("TQSL Version %hs and Configuration Data Version %s");
 			fmt += wxT("\n");
 			fmt += _("are the newest available");
-			wxMessageBox(wxString::Format(fmt, VERSION, ri->configRev->Value().c_str()), _("No Updates"), wxOK | wxICON_INFORMATION, this);
+			wxMessageBox(wxString::Format(fmt, TQSL_VERSION, ri->configRev->Value().c_str()), _("No Updates"), wxOK | wxICON_INFORMATION, this);
 		}
 	}
 	// Tell the background thread that it's OK to continue
@@ -3735,7 +3733,7 @@ MyFrame::DoCheckForUpdates(bool silent, bool noGUI) {
 	revInfo* ri = new revInfo;
 	ri->noGUI = noGUI;
 	ri->silent = silent;
-	ri->programRev = new revLevel(wxT(VERSION));
+	ri->programRev = new revLevel(wxT(TQSL_VERSION));
 
 	int currentConfigMajor, currentConfigMinor;
 	tqsl_getConfigVersion(&currentConfigMajor, &currentConfigMinor);
@@ -3780,7 +3778,7 @@ MyFrame::DoCheckForUpdates(bool silent, bool noGUI) {
 		// Add the config.xml text to the result
 		wxString configURL = config->Read(wxT("ConfigFileVerURL"), DEFAULT_UPD_CONFIG_URL);
 		curl_easy_setopt(curlReq, CURLOPT_URL, (const char*)configURL.ToUTF8());
-		curl_easy_setopt(curlReq, CURLOPT_USERAGENT, "tqsl/" VERSION);
+		curl_easy_setopt(curlReq, CURLOPT_USERAGENT, "tqsl/" TQSL_VERSION);
 
 		retval = curl_easy_perform(curlReq);
 		if (retval == CURLE_OK) {
@@ -5431,7 +5429,7 @@ QSLApp::OnInit() {
 	}
 	// Always display TQSL version
 	if ((!parser.Found(wxT("n"))) || parser.Found(wxT("v"))) {
-		cerr << "TQSL Version " VERSION " " BUILD "\n";
+		cerr << "TQSL Version " TQSL_VERSION " " TQSL_BUILD "\n";
 	}
 	if (parseStatus != 0)  {
 		exitNow(TQSL_EXIT_COMMAND_ERROR, quiet);
