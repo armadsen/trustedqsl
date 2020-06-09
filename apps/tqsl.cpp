@@ -66,7 +66,6 @@
 #endif
 #include <zlib.h>
 #include <openssl/opensslv.h> // only for version info!
-#include <expat_config.h>     // also for version info
 
 #ifdef USE_LMDB
 #include <lmdb.h> //only for version info!
@@ -1547,7 +1546,9 @@ static wxString getAbout() {
 	if (wxUSE_UNICODE)
 		msg += wxT(" (Unicode)");
 #endif
-	msg+=wxString::Format(wxT("\nexpat v%hs\n"), PACKAGE_VERSION);
+	XML_Expat_Version xv = XML_ExpatVersionInfo();
+
+	msg+=wxString::Format(wxT("\nexpat v%d.%d.%d\n"), xv.major, xv.minor, xv.micro);
 	msg+=wxString::Format(wxT("libcurl V%hs\n"), LIBCURL_VERSION);
 	msg+=wxString::Format(wxT("%hs\n"), OPENSSL_VERSION_TEXT);
 	msg+=wxString::Format(wxT("zlib V%hs\n"), ZLIB_VERSION);
