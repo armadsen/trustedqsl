@@ -3,6 +3,10 @@ TQSLLIB changes
 
 2.5
 ---
+When comparing DXCC grid sets (multiple grids due to operating on a
+boundary between gridsquares) allow the grids to be in any order and
+stil match.
+
 Allow ADIF parser to return arbitrary ADIF fields.
 
 Update to latest LoTW configuration file.
