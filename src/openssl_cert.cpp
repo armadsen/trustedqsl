@@ -207,8 +207,8 @@ unsigned char *ASN1_seq_pack(void *safes, i2d_of_void *i2d,
 # define PKCS12_x5092certbag PKCS12_SAFEBAG_create_cert
 # define PKCS12_x509crl2certbag PKCS12_SAFEBAG_create_crl
 # define X509_STORE_CTX_trusted_stack X509_STORE_CTX_set0_trusted_stack
-# define X509_get_notAfter X509_get0_notAfter
-# define X509_get_notBefore X509_get0_notBefore
+//# define X509_get_notAfter X509_get0_notAfter
+//# define X509_get_notBefore X509_get0_notBefore
 # define PKCS12_MAKE_SHKEYBAG PKCS12_SAFEBAG_create_pkcs8_encrypt
 # define X509_V_FLAG_CB_ISSUER_CHECK 0x0
 #else
