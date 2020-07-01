@@ -1287,7 +1287,12 @@ static int check_station(TQSL_CONVERTER *conv, const char *field, char *my, size
 // is propagated to the downstream values. STATE -> COUNTY and STATE->ZONES
 //
 	char val[256];
-	if (my[0] && !tqsl_getLocationField(conv->loc, field, val, sizeof val)) {
+	char label[256];
+	if (my[0] && !tqsl_getLocationField(conv->loc, field, val, sizeof val) && 
+		     !tqsl_getLocationFieldLabel(conv->loc, field, label, sizeof label)) {
+		if (!strcasecmp(my, label)) {			// Label is correct, ADIF is not
+			strcpy(my, val);			// So use the value
+		}
 		if (strcasecmp(my, val)) {
 			if (conv->location_handling == TQSL_LOC_UPDATE) {
 				int res = tqsl_setLocationField(conv->loc, field, my);

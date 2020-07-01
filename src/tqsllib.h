@@ -1178,6 +1178,9 @@ DLLEXPORT int CALLCONVENTION tqsl_setLocationCallSign(tQSL_Location loc, const c
 /** Get a field from the station location. */
 DLLEXPORT int CALLCONVENTION tqsl_getLocationField(tQSL_Location locp, const char *field, char *buf, int bufsiz);
 
+/** Get a field label from the station location. */
+DLLEXPORT int CALLCONVENTION tqsl_getLocationFieldLabel(tQSL_Location locp, const char *field, char *buf, int bufsiz);
+
 /** Set a field in a station location. */
 DLLEXPORT int CALLCONVENTION tqsl_setLocationField(tQSL_Location locp, const char *field, const char *buf);
 

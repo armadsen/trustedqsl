@@ -3,6 +3,9 @@ TQSLLIB changes
 
 2.5
 ---
+Allow full administrative subdivision names so that loggers that emit
+"New York" versus "NY" in a MY_STATE field will be accepted.
+
 When comparing DXCC grid sets (multiple grids due to operating on a
 boundary between gridsquares) allow the grids to be in any order and
 stil match.

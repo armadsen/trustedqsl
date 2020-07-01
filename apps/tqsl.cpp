@@ -2642,9 +2642,8 @@ tqsl_curl_init(const char *logTitle, const char *url, FILE **curlLogFile, bool n
 	docpaths.Add(wxT(CONFDIR));
 #endif
 #ifdef _WIN32
-	wxStandardPaths sp;
 	wxString exePath;
-	wxFileName::SplitPath(sp.GetExecutablePath(), &exePath, 0, 0);
+	wxFileName::SplitPath(wxStandardPaths::Get().GetExecutablePath(), &exePath, 0, 0);
 	docpaths.Add(exePath);
 #endif
 

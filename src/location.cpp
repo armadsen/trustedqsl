@@ -3499,6 +3499,51 @@ tqsl_getLocationField(tQSL_Location locp, const char *field, char *buf, int bufs
 	return 1;
 }
 
+DLLEXPORT int CALLCONVENTION
+tqsl_getLocationFieldLabel(tQSL_Location locp, const char *field, char *buf, int bufsiz) {
+	TQSL_LOCATION *loc;
+	if (!(loc = check_loc(locp, false))) {
+		tqslTrace("tqsl_getLocationFieldLabel", "loc error %d", tQSL_Error);
+		return 1;
+	}
+	if (buf == NULL || bufsiz <= 0) {
+		tqslTrace("tqsl_getLocationFieldLabel", "arg error buf=0x%lx, bufsiz=%d", buf, bufsiz);
+		tQSL_Error = TQSL_ARGUMENT_ERROR;
+		return 1;
+	}
+	*buf = '\0';
+	int old_page = loc->page;
+	tqsl_setStationLocationCapturePage(loc, 1);
+
+	do {
+		TQSL_LOCATION_PAGE& p = loc->pagelist[loc->page-1];
+		for (int i = 0; i < static_cast<int>(p.fieldlist.size()); i++) {
+			TQSL_LOCATION_FIELD f = p.fieldlist[i];
+			if (f.gabbi_name == field) {
+				if ((f.gabbi_name == "ITUZ" || f.gabbi_name == "CQZ") && f.cdata == "0") {
+					buf[0] = '\0';
+				} else {
+					strncpy(buf, f.items[f.idx].label.c_str(), bufsiz);
+				}
+				buf[bufsiz-1] = 0;
+				if (static_cast<int>(f.label.size()) >= bufsiz) {
+					tqslTrace("tqsl_getLocationFieldLabel", "buf error req=%d avail=%d", static_cast<int>(f.cdata.size()), bufsiz);
+					tQSL_Error = TQSL_BUFFER_ERROR;
+					return 1;
+				}
+				tqsl_setStationLocationCapturePage(loc, old_page);
+				return 0;
+			}
+		}
+		int rval;
+		if (tqsl_hasNextStationLocationCapture(loc, &rval) || !rval)
+			break;
+		tqsl_nextStationLocationCapture(loc);
+	} while (1);
+
+	tQSL_Error = TQSL_CALL_NOT_FOUND;
+	return 1;
+}
 // Replaces all occurences of 'from' with 'to' in string 'str'
 
 static void replaceAll(string& str, const string& from, const string& to) {
