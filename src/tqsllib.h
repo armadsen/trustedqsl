@@ -27,6 +27,7 @@
 #define CALLCONVENTION	///< Symbol exports - Windows only
 #endif
 
+#include <stdbool.h>
 #include "adif.h"
 #include "cabrillo.h"
 
