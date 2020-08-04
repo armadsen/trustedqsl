@@ -1288,10 +1288,17 @@ static int check_station(TQSL_CONVERTER *conv, const char *field, char *my, size
 //
 	char val[256];
 	char label[256];
-	if (my[0] && !tqsl_getLocationField(conv->loc, field, val, sizeof val) && 
+	bool provinceFixed = false;
+	// CA_PROVINCE can be QC but TQSL lookup expects PQ
+	if (!strcasecmp(field, "CA_PROVINCE") && !strcasecmp(my, "QC")) {
+		provinceFixed = true;
+		strncpy(my, "PQ", len);
+	}
+
+	if (my[0] && !tqsl_getLocationField(conv->loc, field, val, sizeof val) &&
 		     !tqsl_getLocationFieldLabel(conv->loc, field, label, sizeof label)) {
 		if (!strcasecmp(my, label)) {			// Label is correct, ADIF is not
-			strcpy(my, val);			// So use the value
+			strncpy(my, val, len);		// So use the value
 		}
 		if (strcasecmp(my, val)) {
 			if (conv->location_handling == TQSL_LOC_UPDATE) {
@@ -1311,6 +1318,9 @@ static int check_station(TQSL_CONVERTER *conv, const char *field, char *my, size
 				conv->newstation = true;
 			} else if (strlen(val) > 0) {
 				conv->rec_done = true;
+				if (provinceFixed) {
+					strncpy(my, "QC", len);
+				}
 				snprintf(tQSL_CustomError, sizeof tQSL_CustomError, errfmt, val, my);
 				tQSL_Error = TQSL_LOCATION_MISMATCH;
 				return 1;
