@@ -264,6 +264,22 @@ static struct _dxcc_entity {
 	tQSL_Date start, end;
 } *entity_list = 0;
 
+template<typename T1, typename T2, typename T3>
+struct triplet {
+	T1 first;
+	T2 middle;
+	T3 last;
+};
+
+template<typename T1, typename T2, typename T3>
+triplet<T1, T2, T3>  make_triplet(const T1 &f, const T2 &m, const T3 &l) {
+	triplet<T1, T2, T3> trip;
+	trip.first = f;
+	trip.middle = m;
+	trip.last = l;
+	return trip;
+}
+
 // config data
 
 static XMLElement tqsl_xml_config;
@@ -284,7 +300,7 @@ static map<string, XMLElement> tqsl_field_map;
 static map<string, string> tqsl_adif_map;
 static vector<string> tqsl_adif_mode_map;
 static map<string, string> tqsl_adif_submode_map;
-static map<string, pair<int, int> > tqsl_cabrillo_map;
+static map<string, triplet<int, int, TQSL_CABRILLO_FREQ_TYPE> > tqsl_cabrillo_map;
 static map<string, pair<int, int> > tqsl_cabrillo_user_map;
 
 
@@ -1118,11 +1134,18 @@ init_cabrillo_map() {
 	}
 	XMLElement cabrillo_item;
 	bool ok = cabrillo_map.getFirstElement("cabrillocontest", cabrillo_item);
+	int call_field = 0;
+	int grid_field = 0;
 	while (ok) {
-		if (cabrillo_item.getText() != "" && strtol(cabrillo_item.getAttribute("field").first.c_str(), NULL, 10) > TQSL_MIN_CABRILLO_MAP_FIELD)
-			tqsl_cabrillo_map[cabrillo_item.getText()] =
-				make_pair(strtol(cabrillo_item.getAttribute("field").first.c_str(), NULL, 10)-1,
-					(cabrillo_item.getAttribute("type").first == "VHF") ? TQSL_CABRILLO_VHF : TQSL_CABRILLO_HF);
+		if (cabrillo_item.getText() != "") {
+			call_field = strtol(cabrillo_item.getAttribute("field").first.c_str(), NULL, 10);
+			grid_field = strtol(cabrillo_item.getAttribute("gridsquare").first.c_str(), NULL, 10);
+			if (call_field > TQSL_MIN_CABRILLO_MAP_FIELD) {
+				tqsl_cabrillo_map[cabrillo_item.getText()] =
+					make_triplet(call_field - 1, grid_field - 1,
+						(cabrillo_item.getAttribute("type").first == "VHF") ? TQSL_CABRILLO_VHF : TQSL_CABRILLO_HF);
+			}
+		}
 		ok = cabrillo_map.getNextElement(cabrillo_item);
 	}
 	return 0;
@@ -1158,16 +1181,22 @@ tqsl_getCabrilloMapEntry(const char *contest, int *fieldnum, int *contest_type) 
 		tqslTrace("tqsl_getCabrilloMapEntry", "init_cabrillo_map errror %d", tQSL_Error);
 		return 1;
 	}
-	map<string, pair<int, int> >::iterator it;
-	if ((it = tqsl_cabrillo_user_map.find(string_toupper(contest))) == tqsl_cabrillo_user_map.end()) {
+	map<string, triplet<int, int, TQSL_CABRILLO_FREQ_TYPE> >::iterator it;
+	map<string, pair<int, int> >::iterator uit;
+	if ((uit = tqsl_cabrillo_user_map.find(string_toupper(contest))) == tqsl_cabrillo_user_map.end()) {
 		if ((it = tqsl_cabrillo_map.find(string_toupper(contest))) == tqsl_cabrillo_map.end()) {
 			*fieldnum = 0;
 			return 0;
+		} else {
+			*fieldnum = it->second.first + 1 + ((it->second.middle + 1) * 1000);
 		}
+		if (contest_type)
+			*contest_type = it->second.last;
+	} else {
+		*fieldnum = uit->second.first + 1;
+		if (contest_type)
+			*contest_type = uit->second.second;
 	}
-	*fieldnum = it->second.first + 1;
-	if (contest_type)
-		*contest_type = it->second.second;
 	return 0;
 }
 
@@ -1439,6 +1468,7 @@ update_page(int page, TQSL_LOCATION *loc) {
 				// Build list of call signs from available certs
 				field.changed = true;
 				field.items.clear();
+				field.idx = 0;
 				loc->newflags = false;
 				field.flags = TQSL_LOCATION_FIELD_SELNXT;	// Must be selected
 				p.hash.clear();
@@ -1584,6 +1614,8 @@ update_page(int page, TQSL_LOCATION *loc) {
 					field.dependency = val;
 					field.changed = true;
 					field.items.clear();
+					string oldcdata = field.cdata;
+					field.idx = 0;
 					XMLElement enumlist;
 					bool ok = config_field.getFirstElement("enums", enumlist);
 					while (ok) {
@@ -1602,6 +1634,9 @@ update_page(int page, TQSL_LOCATION *loc) {
 								item.label = enumitem.getText();
 								item.zonemap = enumitem.getAttribute("zonemap").first;
 								field.items.push_back(item);
+								if (item.text == oldcdata) {
+									field.idx = field.items.size() - 1;
+								}
 								iok = enumlist.getNextElement(enumitem);
 							}
 						}
@@ -1624,6 +1659,8 @@ update_page(int page, TQSL_LOCATION *loc) {
 					XMLElement enumlist;
 					if (config_field.getFirstElement("enums", enumlist)) {
 						field.items.clear();
+						field.idx = 0;
+						string oldcdata = field.cdata;
 						field.changed = true;
 						if (!(field.flags & TQSL_LOCATION_FIELD_MUSTSEL)) {
 							TQSL_LOCATION_ITEM item;
@@ -1638,6 +1675,9 @@ update_page(int page, TQSL_LOCATION *loc) {
 							item.label = enumitem.getText();
 							item.zonemap = enumitem.getAttribute("zonemap").first;
 							field.items.push_back(item);
+							if (item.text == oldcdata) {
+								field.idx = field.items.size() - 1;
+							}
 							iok = enumlist.getNextElement(enumitem);
 						}
 					} else {
@@ -1660,6 +1700,8 @@ update_page(int page, TQSL_LOCATION *loc) {
 								return 1;
 							}
 							field.items.clear();
+							field.idx = 0;
+							string oldcdata = field.cdata;
 							field.changed = true;
 							if (cqz)
 								loaded_cqz = current_entity;
@@ -1678,6 +1720,9 @@ update_page(int page, TQSL_LOCATION *loc) {
 									item.text = buf;
 									item.ivalue = j;
 									field.items.push_back(item);
+									if (item.text == oldcdata) {
+										field.idx = field.items.size() - 1;
+									}
 								}
 							}
 						} // intype != TEXT
@@ -3523,7 +3568,8 @@ tqsl_getLocationFieldLabel(tQSL_Location locp, const char *field, char *buf, int
 				if ((f.gabbi_name == "ITUZ" || f.gabbi_name == "CQZ") && f.cdata == "0") {
 					buf[0] = '\0';
 				} else {
-					strncpy(buf, f.items[f.idx].label.c_str(), bufsiz);
+					if (static_cast<int>(f.items.size()) > f.idx)
+						strncpy(buf, f.items[f.idx].label.c_str(), bufsiz);
 				}
 				buf[bufsiz-1] = 0;
 				if (static_cast<int>(f.label.size()) >= bufsiz) {
