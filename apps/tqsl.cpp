@@ -359,12 +359,17 @@ void UploadDialog::OnDone(wxCommandEvent&) {
 }
 
 int UploadDialog::doUpdateProgress(double dltotal, double dlnow, double ultotal, double ulnow) {
+// This logging is just noise. No reason to bother.
+#ifdef LOG_DL_PROGRESS
 	static double lastDlnow = 0.0;
 	if (dlnow != lastDlnow) {
 		tqslTrace("UploadDialog::doUpdateProgresss", "dltotal=%f, dlnow=%f, ultotal=%f, ulnow=%f", dltotal, dlnow, ultotal, ulnow);
 		lastDlnow = dlnow;
 	}
+#endif
+	wxSafeYield();
 	if (cancelled) return 1;
+	// Avoid ultotal at zero.
 	if (ultotal > 0.0000001) progress->SetValue(static_cast<int>((100*(ulnow/ultotal))));
 	return 0;
 }
@@ -2892,7 +2897,7 @@ int MyFrame::UploadFile(const wxString& infile, const char* filename, int numrec
 
 	// If there's a GUI and we didn't successfully upload and weren't cancelled,
 	// ask the user if we should retry the upload.
-	if (frame && retval != TQSL_EXIT_CANCEL && retval != TQSL_EXIT_SUCCESS) {
+	if ((frame && !quiet) && retval != TQSL_EXIT_CANCEL && retval != TQSL_EXIT_SUCCESS) {
 		if (wxMessageBox(_("Your upload appears to have failed. Should TQSL try again?"), _("Retry?"), wxYES_NO | wxICON_QUESTION, this) == wxYES)
 			goto retry_upload;
 	}
@@ -5373,7 +5378,7 @@ QSLApp::OnInit() {
 #define arg(x) wxT(x)
 #define i18narg(x) _(x)
 #endif
-	// arg letters used abcde..hi..lmnopq.stuvwx..
+	// arg letters used abcdef.hi..lmnopq.stuvwx..
 	static const wxCmdLineEntryDesc cmdLineDesc[] = {
 		{ wxCMD_LINE_OPTION, arg("a"), arg("action"),	i18narg("Specify dialog action - abort, all, compliant or ask") },
 		{ wxCMD_LINE_OPTION, arg("b"), arg("begindate"), i18narg("Specify start date for QSOs to sign") },
