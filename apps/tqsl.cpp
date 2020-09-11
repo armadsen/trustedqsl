@@ -5412,18 +5412,29 @@ QSLApp::OnInit() {
 
 	// Lowercase command options
 	origCommandLine = argv[0];
+	char** myArgv = new char*[argc];
+	int myArgc;
+	myArgv[0] = strdup(argv[0]);
+	myArgc = 1;
 	for (int i = 1; i < argc; i++) {
-		origCommandLine += wxT(" ");
-		origCommandLine += argv[i];
+		if ((const wxChar *)argv[i]) {
+			if (argv[i] == "-p" && argv[i+1][0] == '\0') {		// -p with blank password
+				i++;						// skip -p and password
+				continue;
+			}
+			origCommandLine += wxT(" ");
+			myArgv[myArgc] = strdup(argv[i]);
 #ifdef _WIN32
-		if ((const wxChar *)argv[i])
-			if (argv[i][0] == wxT('-') || argv[i][0] == wxT('/'))
-				if (wxIsalpha(argv[i][1]) && wxIsupper(argv[i][1]))
-					argv[i][1] = wxTolower(argv[i][1]);
+			if (myArgv[myArgc][0] == '-' || myArgv[myArgc][0] == '/')
+				if (wxIsalpha(myArgv[myArgc][1]) && wxIsupper(myArgv[myArgc][1]))
+					myArgv[myArgc][1] = wxTolower(myArgv[myArgc][1]);
 #endif
+		}
+		origCommandLine += myArgv[myArgc];
+		myArgc++;
 	}
 
-	parser.SetCmdLine(argc, argv);
+	parser.SetCmdLine(myArgc, myArgv);
 	parser.SetDesc(cmdLineDesc);
 	// only allow "-" for options, otherwise "/path/something.adif"
 	// is parsed as "-path"
@@ -5529,6 +5540,7 @@ QSLApp::OnInit() {
 		password = strdup(pwd.ToUTF8());
 		utf8_to_ucs2(password, unipwd, sizeof unipwd);
 	}
+
 	if (parser.Found(wxT("d"))) {
 		suppressdate = true;
 	}
