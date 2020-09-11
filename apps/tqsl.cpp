@@ -5414,23 +5414,42 @@ QSLApp::OnInit() {
 	origCommandLine = argv[0];
 	char** myArgv = new char*[argc];
 	int myArgc;
+#if wxMAJOR_VERSION == 2
+	wxString av = argv[0];
+	myArgv[0] = strdup(av.ToUTF8());
+#else
 	myArgv[0] = strdup(argv[0]);
+#endif
 	myArgc = 1;
 	for (int i = 1; i < argc; i++) {
 		if ((const wxChar *)argv[i]) {
+#if wxMAJOR_VERSION == 2
+			av = argv[i];
+			wxString av1 = argv[i+1];
+			if (av == wxT("-p")  && av1.IsEmpty()) {		// -p with blank password
+#else
 			if (argv[i] == "-p" && argv[i+1][0] == '\0') {		// -p with blank password
+#endif
 				i++;						// skip -p and password
 				continue;
 			}
 			origCommandLine += wxT(" ");
+#if wxMAJOR_VERSION == 2
+			myArgv[myArgc] = strdup(wxString(argv[i]).ToUTF8());;
+#else
 			myArgv[myArgc] = strdup(argv[i]);
+#endif
 #ifdef _WIN32
 			if (myArgv[myArgc][0] == '-' || myArgv[myArgc][0] == '/')
 				if (wxIsalpha(myArgv[myArgc][1]) && wxIsupper(myArgv[myArgc][1]))
 					myArgv[myArgc][1] = wxTolower(myArgv[myArgc][1]);
 #endif
 		}
+#if wxMAJOR_VERSION == 2
+		origCommandLine += wxString::FromUTF8(myArgv[myArgc]);
+#else
 		origCommandLine += myArgv[myArgc];
+#endif
 		myArgc++;
 	}
 
