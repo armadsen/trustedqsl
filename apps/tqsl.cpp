@@ -5423,15 +5423,17 @@ QSLApp::OnInit() {
 	myArgc = 1;
 	for (int i = 1; i < argc; i++) {
 		if ((const wxChar *)argv[i]) {
+			if ((i + 1) < argc) {
+				wxString av1 = argv[i+1];
 #if wxMAJOR_VERSION == 2
-			av = argv[i];
-			wxString av1 = argv[i+1];
-			if (av == wxT("-p")  && av1.IsEmpty()) {		// -p with blank password
+				av = argv[i];
+				if (av == wxT("-p")  && av1.IsEmpty()) {		// -p with blank password
 #else
-			if (argv[i] == "-p" && argv[i+1][0] == '\0') {		// -p with blank password
+				if (argv[i] == "-p" && av1.IsEmpty()) {			// -p with blank password
 #endif
-				i++;						// skip -p and password
-				continue;
+					i++;						// skip -p and password
+					continue;
+				}
 			}
 			origCommandLine += wxT(" ");
 #if wxMAJOR_VERSION == 2
