@@ -1,8 +1,15 @@
 TQSL changes
 ============
+2.5.6
+----------
+Fix an error with command line handling introduced in TQSL 2.5.5 that could
+cause formerly correct command lines to be rejected (specifically passing an
+empty callsign certificate passphrase as -p "" rather than dropping the 
+password option.
+
 2.5.5
 ----------
-when unable to find a match for a callsign certificate where the station
+When unable to find a match for a callsign certificate where the station
 location is in DXCC Entity "None" don't suppress the entity name.
 
 Fix issue on Windows systems when a TQSL update and a configuration file

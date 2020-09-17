@@ -5839,7 +5839,8 @@ QSLApp::OnInit() {
 	if (quiet)
 		exitNow(TQSL_EXIT_SUCCESS, quiet);
 	return true;
-}
+} // NOLINT(readability/fn_size)
+
 
 void MyFrame::FirstTime(void) {
 	tqslTrace("MyFrame::FirstTime", NULL);
