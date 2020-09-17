@@ -2,6 +2,13 @@ TQSL changes
 ============
 2.5.6
 ----------
+Use 'passphrase' versus 'password' when discussing protecting Callsign
+Certificates. Change help from 'Postcard Password' to 'Postcard Validation
+Code'. The only place password should appear is with reference to the Logbook
+useraccount.
+
+Add Swedish translation from Roger, SM0LTV.
+
 Fix an error with command line handling introduced in TQSL 2.5.5 that could
 cause formerly correct command lines to be rejected (specifically passing an
 empty callsign certificate passphrase as -p "" rather than dropping the 

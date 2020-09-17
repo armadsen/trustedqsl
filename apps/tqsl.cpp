@@ -244,7 +244,7 @@ getCertPassword(char *buf, int bufsiz, tQSL_Cert cert) {
 	dx.getByEntity(dxcc);
 
 	// TRANSLATORS: this is followed by the callsign and entity name
-	wxString fmt = _("Enter the password to unlock the callsign certificate for %hs -- %hs\n(This is the password you made up when you installed the callsign certificate.)");
+	wxString fmt = _("Enter the passphrase to unlock the callsign certificate for %hs -- %hs\n(This is the passphrase you made up when you installed the callsign certificate.)");
 	wxString message = wxString::Format(fmt, call, dx.name());
 
 	wxWindow* top = wxGetApp().GetTopWindow();
@@ -255,7 +255,7 @@ getCertPassword(char *buf, int bufsiz, tQSL_Cert cert) {
 	top->Raise();
 
 	wxString pwd;
-	int ret = getPasswordFromUser(pwd, message, _("Enter password"), wxT(""), top);
+	int ret = getPasswordFromUser(pwd, message, _("Enter passphrase"), wxT(""), top);
 	if (ret != wxID_OK)
 		return 1;
 	strncpy(buf, pwd.ToUTF8(), bufsiz);
@@ -1575,6 +1575,7 @@ static wxString getAbout() {
 	msg+=wxT("Portuguese: Nuno Lopes, CT2IRY\n");
 	msg+=wxT("Russian: Vic Goncharsky, US5WE\n");
 	msg+=wxT("Spanish: Jordi Quintero, EA3GCV\n");
+	msg+=wxT("Swedish: Roger Jonsson, SM0LTV\n");
 	msg+=wxT("Turkish: Oguzhan Kayhan, TA2NC\n");
 	return msg;
 }
@@ -2135,7 +2136,7 @@ int MyFrame::ConvertLogToString(tQSL_Location loc, const wxString& infile, wxStr
 					if (tQSL_Error == TQSL_PASSWORD_ERROR) {
 						if ((rval = tqsl_beginSigning(cert, const_cast<char *>(unipwd), NULL, cert)) == 0)
 							break;
-						wxLogMessage(_("Password error"));
+						wxLogMessage(_("Passphrase error"));
 						if (password)
 							free(reinterpret_cast<void *>(const_cast<char *>(password)));
 						password = NULL;
@@ -5394,7 +5395,7 @@ QSLApp::OnInit() {
 		// not used - "m"
 		{ wxCMD_LINE_SWITCH, arg("n"), arg("updates"),	i18narg("Check for updates to tqsl and the configuration file") },
 		{ wxCMD_LINE_OPTION, arg("o"), arg("output"),	i18narg("Output file name (defaults to input name minus extension plus .tq8") },
-		{ wxCMD_LINE_OPTION, arg("p"), arg("password"),	i18narg("Password for the signing key") },
+		{ wxCMD_LINE_OPTION, arg("p"), arg("password"),	i18narg("Passphrase for the signing key") },
 		{ wxCMD_LINE_SWITCH, arg("q"), arg("quiet"),	i18narg("Quiet Mode - same behavior as -x") },
 		// not used - "r"
 
@@ -6442,15 +6443,15 @@ void MyFrame::OnCertExport(wxCommandEvent& WXUNUSED(event)) {
 	if (filename == wxT(""))
 		return;
 	wxConfig::Get()->Write(wxT("CertFilePath"), wxPathOnly(filename));
-	wxString msg = _("Enter the password for the certificate container file.");
+	wxString msg = _("Enter the passphrase for the certificate container file.");
 		msg += wxT("\n\n");
-		msg += _("If you are using a computer system that is shared with others, you should specify a password to protect this certificate. However, if you are using a computer in a private residence, no password need be specified.");
+		msg += _("If you are using a computer system that is shared with others, you should specify a passphrase to protect this certificate. However, if you are using a computer in a private residence, no passphrase need be specified.");
 		msg += wxT("\n\n");
-		msg += _("You will have to enter the password any time you load the file into TrustedQSL.");
+		msg += _("You will have to enter the passphrase any time you load the file into TrustedQSL.");
 		msg += wxT("\n\n");
-		msg += _("Leave the password blank and click 'OK' unless you want to use a password.");
+		msg += _("Leave the passphrase blank and click 'OK' unless you want to use a passphrase.");
 		msg += wxT("\n\n");
-	GetNewPasswordDialog dial(this, _("Certificate Container Password"), msg, true, help, wxT("save.htm"));
+	GetNewPasswordDialog dial(this, _("Certificate Container Passphrase"), msg, true, help, wxT("save.htm"));
 	if (dial.ShowModal() != wxID_OK)
 		return;	// Cancelled
 	int terr;
@@ -6812,7 +6813,7 @@ CertPropDial::CertPropDial(tQSL_Cert cert, wxWindow *parent)
 		__("DXCC Entity: "),
 		__("QSO Start Date: "),
 		__("QSO End Date: "),
-		__("Password: ")
+		__("Passphrase: ")
 	};
 
 	wxBoxSizer *topsizer = new wxBoxSizer(wxVERTICAL);
@@ -6929,7 +6930,7 @@ CertPropDial::CertPropDial(tQSL_Cert cert, wxWindow *parent)
 						strncpy(buf, __("None"), sizeof buf);
 						break;
 					case TQSL_PK_TYPE_ENC:
-						strncpy(buf, __("Password protected"), sizeof buf);
+						strncpy(buf, __("Passphrase protected"), sizeof buf);
 						break;
 				}
 				break;
@@ -7091,17 +7092,17 @@ displayLocProperties(LocTreeItemData *item, wxWindow *parent) {
 int
 getPassword(char *buf, int bufsiz, void *callsign) {
 	tqslTrace("getPassword", "buf=%lx, bufsiz=%d, callsign=%s", buf, bufsiz, callsign ? callsign : "NULL");
-	wxString prompt(_("Enter the password to unlock the callsign certificate"));
+	wxString prompt(_("Enter the Passphrase to unlock the callsign certificate"));
 
 	if (callsign)
-		prompt = wxString::Format(_T("Enter the password for your active %hs Callsign Certificate"),  reinterpret_cast<char *>(callsign));
+		prompt = wxString::Format(_T("Enter the Passphrase for your active %hs Callsign Certificate"),  reinterpret_cast<char *>(callsign));
 
 	tqslTrace("getPassword", "Probing for top window");
 	wxWindow* top = wxGetApp().GetTopWindow();
 	tqslTrace("getPassword", "Top window = 0x%lx", reinterpret_cast<void *>(top));
 	top->SetFocus();
 	tqslTrace("getPassword", "Focus grabbed. About to pop up password dialog");
-	GetPasswordDialog dial(top, _("Enter password"), prompt);
+	GetPasswordDialog dial(top, _("Enter passphrase"), prompt);
 	if (dial.ShowModal() != wxID_OK) {
 		tqslTrace("getPassword", "Password entry cancelled");
 		return 1;
