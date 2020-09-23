@@ -112,10 +112,10 @@ class MyFrame : public wxFrame {
 	void OnPreferences(wxCommandEvent& event);
 	void OnSaveConfig(wxCommandEvent& event);
 	void OnLoadConfig(wxCommandEvent& event);
-	int ConvertLogFile(tQSL_Location loc, const wxString& infile, const wxString& outfile, bool compress = false, bool suppressdate = false, tQSL_Date* startdate = NULL, tQSL_Date* enddate = NULL, int action = TQSL_ACTION_ASK, const char *password = NULL, const char *defcall = NULL);
+	int ConvertLogFile(tQSL_Location loc, const wxString& infile, const wxString& outfile, bool compress = false, bool suppressdate = false, tQSL_Date* startdate = NULL, tQSL_Date* enddate = NULL, int action = TQSL_ACTION_ASK, int logverify = -1, const char *password = NULL, const char *defcall = NULL);
 	tQSL_Location SelectStationLocation(const wxString& title = wxT(""), const wxString& okLabel = _("OK"), bool editonly = false);
-	int ConvertLogToString(tQSL_Location loc, const wxString& infile, wxString& output, int& n, bool suppressdate = false, tQSL_Date* startdate = NULL, tQSL_Date* enddate = NULL, int action = TQSL_ACTION_ASK, const char* password = NULL, const char* defcall = NULL);
-	int UploadLogFile(tQSL_Location loc, const wxString& infile, bool compress = false, bool suppressdate = false, tQSL_Date* startdate = NULL, tQSL_Date* enddate = NULL, int action = TQSL_ACTION_ASK, const char* password = NULL, const char *defcall = NULL);
+	int ConvertLogToString(tQSL_Location loc, const wxString& infile, wxString& output, int& n, bool suppressdate = false, tQSL_Date* startdate = NULL, tQSL_Date* enddate = NULL, int action = TQSL_ACTION_ASK, int logverify = -1, const char* password = NULL, const char* defcall = NULL);
+	int UploadLogFile(tQSL_Location loc, const wxString& infile, bool compress = false, bool suppressdate = false, tQSL_Date* startdate = NULL, tQSL_Date* enddate = NULL, int action = TQSL_ACTION_ASK, int logverify = -1, const char* password = NULL, const char *defcall = NULL);
 	int UploadFile(const wxString& infile, const char* filename, int numrecs, void *content, size_t clen, const wxString& fileType);
 
 	void CheckForUpdates(wxCommandEvent&);
@@ -162,8 +162,6 @@ class MyFrame : public wxFrame {
 	wxMenu* file_menu;
 	wxMenu *cert_menu;
 	wxMenu* help_menu;
-	FILE *curlLogFile;
-	CURL *curlReq;
 	tQSL_Converter logConv;
 
 	DECLARE_EVENT_TABLE()
@@ -194,39 +192,6 @@ class MyFrame : public wxFrame {
 	bool _quiet;
 };
 
-// language data
-static const wxLanguage langIds[] = {
-    wxLANGUAGE_DEFAULT,
-    wxLANGUAGE_CHINESE,
-    wxLANGUAGE_ENGLISH,
-    wxLANGUAGE_FINNISH,
-    wxLANGUAGE_FRENCH,
-    wxLANGUAGE_GERMAN,
-    wxLANGUAGE_ITALIAN,
-    wxLANGUAGE_JAPANESE,
-    wxLANGUAGE_PORTUGUESE,
-    wxLANGUAGE_RUSSIAN,
-    wxLANGUAGE_SPANISH,
-};
-
-// note that it makes no sense to translate these strings, they are
-// shown before we set the locale anyhow
-const wxString langNames[] = {
-    wxT("System default"),
-    wxT("Chinese"),
-    wxT("English"),
-    wxT("Finnish"),
-    wxT("French"),
-    wxT("German"),
-    wxT("Italian"),
-    wxT("Japanese"),
-    wxT("Portuguese"),
-    wxT("Russian"),
-    wxT("Spanish"),
-};
-
-// the arrays must be in sync
-wxCOMPILE_TIME_ASSERT(WXSIZEOF(langNames) == WXSIZEOF(langIds),
-                       LangArraysMismatch);
+int SaveAddressInfo(const char *callsign, int dxcc);
 
 #endif // __tqslapp_h

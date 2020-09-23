@@ -39,9 +39,11 @@
 #include "tqslctrls.h"
 
 #include <map>
+#include <vector>
 
 using std::map;
 using std::pair;
+using std::vector;
 
 #define DEFAULT_CABRILLO_FILES wxT("log cbr")
 #if !defined(__APPLE__) && !defined(_WIN32)
@@ -53,8 +55,9 @@ using std::pair;
 #define DEFAULT_BACKUP_VERSIONS 10
 #define DEFAULT_CERT_WARNING 60
 #define DEFAULT_ADIF_EDIT false
-#define DEFAULT_DISP_DUPES false
+#define DEFAULT_DISP_DUPES true
 #define DEFAULT_LOG_TAB false
+#define DEFAULT_CERTPWD false
 //online
 //#define ENABLE_ONLINE_PREFS
 #define DEFAULT_UPL_URL wxT("https://lotw.arrl.org/lotw/upload")
@@ -87,6 +90,8 @@ enum {		// Window IDs
 	ID_PREF_FILE_EDIT_ADIF,
 	ID_PREF_FILE_DISPLAY_DUPES,
 	ID_PREF_FILE_LOG_TAB,
+	ID_PREF_FILE_CERTPWD,
+	ID_PREF_FILE_LOGVFY,
 	ID_PREF_MODE_MAP,
 	ID_PREF_MODE_ADIF,
 	ID_PREF_MODE_DELETE,
@@ -96,6 +101,7 @@ enum {		// Window IDs
 	ID_PREF_CAB_DELETE,
 	ID_PREF_CAB_ADD,
 	ID_PREF_CAB_EDIT,
+	ID_PREF_CAB_MODEMAP,
 	ID_PREF_ONLINE_DEFAULT,
 	ID_PREF_ONLINE_URL,
 	ID_PREF_ONLINE_FIELD,
@@ -128,14 +134,26 @@ class FilePrefs : public PrefsPanel {
 	void OnShowHide(wxCommandEvent&) { ShowHide(); }
 	void ShowHide();
  private:
-	wxTextCtrl *cabrillo, *adif, *versions;
-	wxCheckBox *autobackup, *badcalls, *daterange, *adifedit, *dispdupes, *logtab;
+	wxTextCtrl *versions;
+	wxCheckBox *autobackup, *adifedit, *logtab, *certpwd;
 #if !defined(__APPLE__) && !defined(_WIN32)
 	wxTextCtrl *dirPick;
 #else
 	wxDirPickerCtrl *dirPick;
 #endif
 	DECLARE_EVENT_TABLE()
+};
+
+class LogPrefs : public PrefsPanel {
+ public:
+	explicit LogPrefs(wxWindow *parent);
+	virtual bool TransferDataFromWindow();
+	void OnShowHide(wxCommandEvent&) { ShowHide(); }
+	void ShowHide();
+ private:
+	wxTextCtrl *cabrillo, *adif;
+	wxCheckBox *badcalls, *daterange, *dispdupes;
+	wxRadioBox *handleQTH;
 };
 
 #if defined(ENABLE_ONLINE_PREFS)
@@ -182,9 +200,12 @@ class ContestMap : public PrefsPanel {
 	void OnAdd(wxCommandEvent &);
 	void OnEdit(wxCommandEvent &);
 	void Buttons();
+	void DoUpdateInfo(wxCommandEvent &);
 
 	wxButton *delete_but, *edit_but;
 	wxGrid *grid;
+	wxComboBox *dgmodes;
+	vector <const char *> modes;
 	ContestSet contestmap;
 	DECLARE_EVENT_TABLE()
 };
@@ -215,6 +236,7 @@ class Preferences : public wxFrame {
  private:
 	wxNotebook *notebook;
 	FilePrefs *fileprefs;
+	LogPrefs *logprefs;
 	ModeMap *modemap;
 	ContestMap *contestmap;
 	ProxyPrefs *proxyPrefs;

@@ -85,7 +85,7 @@ tqsl_beginADIF(tQSL_ADIF *adifp, const char *filename) {
 	tqslTrace("tqsl_beginADIF", "Preparing to open file");
 #ifdef _WIN32
 	wchar_t *wfilename = utf8_to_wchar(filename);
-	if ((adif->fp = _wfopen(wfilename, L"rb")) == NULL) {
+	if ((adif->fp = _wfopen(wfilename, L"rb, ccs=UTF-8")) == NULL) {
 		free_wchar(wfilename);
 #else
 	if ((adif->fp = fopen(filename, "rb")) == NULL) {
@@ -235,6 +235,7 @@ tqsl_adifGetField(tqsl_adifFieldResults *field, FILE *filehandle,
 	field->data = NULL;
 	field->adifNameIndex = 0;
 	field->userPointer = NULL;
+	field->line_no = -1;
 
 	while(adifState != TQSL_ADIF_STATE_DONE) {
 		if (EOF != (currentCharacter = fgetc(filehandle))) {
@@ -256,6 +257,7 @@ tqsl_adifGetField(tqsl_adifFieldResults *field, FILE *filehandle,
 					/* add field name characters to buffer, until '>' or ':' found */
 					if (('>' == currentCharacter) || (':' == currentCharacter)) {
 						/* find if the name is a match to a LoTW supported field name */
+						field->line_no = *line_no;
 						status = TQSL_ADIF_GET_FIELD_NO_NAME_MATCH;
 						adifState = TQSL_ADIF_STATE_GET_SIZE;
 
@@ -264,7 +266,8 @@ tqsl_adifGetField(tqsl_adifFieldResults *field, FILE *filehandle,
 							(0 != adifFields[iIndex].name[0]);
 							iIndex++) {
 							/* case insensitive compare */
-							if (0 == strcasecmp(field->name, adifFields[iIndex].name)) {
+							if (0 == strcasecmp(field->name, adifFields[iIndex].name) ||
+							    0 == strcasecmp(adifFields[iIndex].name, "*")) {
 								/* set name index */
 								field->adifNameIndex = iIndex;
 

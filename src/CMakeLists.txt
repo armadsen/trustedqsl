@@ -9,15 +9,7 @@ if(WIN32)
 endif()
 
 find_package(EXPAT REQUIRED)
-find_package(OpenSSL REQUIRED)
 find_package(ZLIB REQUIRED)
-# Prefer LMDB, fall back to BDB if that's not available
-FIND_PACKAGE(LMDB)
-if(NOT LMDB_FOUND)
-	FIND_PACKAGE(BDB REQUIRED)
-else()
-	add_definitions(-DUSE_LMDB)
-endif()
 
 set(TQSLLIB_VERSION_MAJOR 2)
 set(TQSLLIB_VERSION_MINOR 5)
@@ -25,6 +17,9 @@ set(TQSLLIB_VERSION "${TQSLLIB_VERSION_MAJOR}.${TQSLLIB_VERSION_MINOR}")
 
 add_definitions(-DTQSLLIB_VERSION_MAJOR=${TQSLLIB_VERSION_MAJOR})
 add_definitions(-DTQSLLIB_VERSION_MINOR=${TQSLLIB_VERSION_MINOR})
+add_definitions(-DTQSL_VERSION_MAJOR=${TQSL_VERSION_MAJOR})
+add_definitions(-DTQSL_VERSION_MINOR=${TQSL_VERSION_MINOR})
+add_definitions(-DTQSL_VERSION_UPDATE=${TQSL_VERSION_UPDATE})
 
 option(TQSLLIB_STATIC "Build static tqsllib" OFF)
 if (${TQSLLIB_STATIC})

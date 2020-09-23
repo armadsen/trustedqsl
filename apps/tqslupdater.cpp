@@ -64,6 +64,8 @@ static MyFrame *frame = 0;
 
 static bool quiet = false;
 
+CURL* curlReq = NULL;
+
 /////////// Application //////////////
 
 class QSLApp : public wxApp {
@@ -118,7 +120,7 @@ MyFrame::MyFrame(const wxString& title, int x, int y, int w, int h, bool checkUp
 
 static CURL*
 tqsl_curl_init(const char *logTitle, const char *url, bool newFile) {
-	CURL* curlReq = curl_easy_init();
+	curlReq = curl_easy_init();
 	if (!curlReq) {
 		return NULL;
 	}
@@ -129,9 +131,8 @@ tqsl_curl_init(const char *logTitle, const char *url, bool newFile) {
 	curl_easy_setopt(curlReq, CURLOPT_URL, url);
     curl_easy_setopt(curlReq, CURLOPT_SSL_VERIFYPEER, false);
 
-	wxStandardPaths sp;
 	wxString exePath;
-	wxFileName::SplitPath(sp.GetExecutablePath(), &exePath, 0, 0);
+	wxFileName::SplitPath(wxStandardPaths::Get().GetExecutablePath(), &exePath, 0, 0);
 	docpaths.Add(exePath);
 	wxString caBundlePath = docpaths.FindAbsoluteValidPath(wxT("ca-bundle.crt"));
 	if (!caBundlePath.IsEmpty()) {

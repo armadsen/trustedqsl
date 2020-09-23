@@ -44,7 +44,7 @@
 #define TQSL_PKCS12_ERROR 34	///< There is an error parsing the .p12 file
 #define TQSL_CERT_TYPE_ERROR 35	///< The certificate type is invalid
 #define TQSL_DATE_OUT_OF_RANGE 36	///< The date is out of the valid range
-#define TQSL_DUPLICATE_QSO 37	///< This QSO is a duplicate
+#define TQSL_DUPLICATE_QSO 37	///< This QSO is already uploaded
 #define TQSL_DB_ERROR 38	///< The dupe database could not be accessed
 #define TQSL_LOCATION_NOT_FOUND 39	///< The station location is invalid
 #define TQSL_CALL_NOT_FOUND 40	///< The callsign could not be located
@@ -52,5 +52,7 @@
 #define TQSL_FILE_SYSTEM_ERROR 42	///< There was a file system I/O error
 #define TQSL_FILE_SYNTAX_ERROR 43	///< The file format is invalid
 #define TQSL_CERT_ERROR 44	///< Callsign certificate could not be installed
+#define TQSL_CERT_MISMATCH 45	///< Callsign Certificate does not match QSO details
+#define TQSL_LOCATION_MISMATCH 46	///< Station Location does not match QSO details
 
 #endif /* __TQSLERRNO_H */

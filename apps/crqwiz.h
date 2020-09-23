@@ -42,29 +42,42 @@
 using std::vector;
 
 class CRQ_Page;
+class CRQ_NamePage;
 
 class CRQWiz : public ExtWizard {
  public:
 	CRQWiz(TQSL_CERT_REQ *crq, 	tQSL_Cert cert, wxWindow* parent, wxHtmlHelpController *help = 0,
 		const wxString& title = _("Request a new Callsign Certificate"));
 	CRQ_Page *GetCurrentPage() { return reinterpret_cast<CRQ_Page *>(wxWizard::GetCurrentPage()); }
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Woverloaded-virtual"
+#endif
 	bool RunWizard();
-	int ncerts;		// Number of valid certificates
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+	bool validcerts;	// True if there are valid certificates
 	int nprov;		// Number of providers
-	bool signIt;
+	bool signIt;		// Should this be signed?
+	bool CertPwd;		// Should we prompt for a password?
 	wxCoord maxWidth;	// Width of longest string
 	wxString signPrompt;
 	tQSL_Cert _cert;
+	bool renewal;		// True if this is a renewal
 	// ProviderPage data
 	CRQ_Page *providerPage;
 	TQSL_PROVIDER provider;
-	// IntroPage data
-	CRQ_Page *introPage;
+	// CallsignPage data
+	CRQ_Page *callsignPage;
 	wxString callsign;
 	tQSL_Date qsonotbefore, qsonotafter;
+	bool usa;		// Set true when a US entity
+	bool validusa;		// Set true when currently valid
 	int dxcc;
+	bool onebyone;		// US 1x1 callsign
 	// NamePage data
-	CRQ_Page *namePage;
+	CRQ_NamePage *namePage;
 	wxString name, addr1, addr2, city, state, zip, country;
 	// EmailPage data
 	CRQ_Page *emailPage;
@@ -78,6 +91,7 @@ class CRQWiz : public ExtWizard {
 	TQSL_CERT_REQ *_crq;
 	// TypePage data
 	CRQ_Page *typePage;
+	int certType;
 
  private:
 	CRQ_Page *_first;
@@ -104,9 +118,9 @@ class CRQ_ProviderPage : public CRQ_Page {
 	DECLARE_EVENT_TABLE()
 };
 
-class CRQ_IntroPage : public CRQ_Page {
+class CRQ_CallsignPage : public CRQ_Page {
  public:
-	explicit CRQ_IntroPage(CRQWiz *parent, TQSL_CERT_REQ *crq = 0);
+	explicit CRQ_CallsignPage(CRQWiz *parent, TQSL_CERT_REQ *crq = 0);
 	virtual bool TransferDataFromWindow();
 	virtual const char *validate();
 	virtual CRQ_Page *GetPrev() const;
@@ -129,6 +143,14 @@ class CRQ_NamePage : public CRQ_Page {
 	virtual const char *validate();
 	virtual CRQ_Page *GetPrev() const;
 	virtual CRQ_Page *GetNext() const;
+	void Preset(CRQ_CallsignPage *ip);
+	void setName(wxString &s) { tc_name->SetValue(s);}
+	void setAddr1(wxString &s) { tc_addr1->SetValue(s);}
+	void setAddr2(wxString &s) { tc_addr2->SetValue(s);}
+	void setCity(wxString &s) { tc_city->SetValue(s);}
+	void setState(wxString &s) { tc_state->SetValue(s);}
+	void setZip(wxString &s) { tc_zip->SetValue(s);}
+	void setCountry(wxString &s) { tc_country->SetValue(s);}
  private:
 	wxTextCtrl *tc_name, *tc_addr1, *tc_addr2, *tc_city, *tc_state,
 		*tc_zip, *tc_country;
@@ -144,7 +166,10 @@ class CRQ_EmailPage : public CRQ_Page {
 	explicit CRQ_EmailPage(CRQWiz *parent, TQSL_CERT_REQ *crq = 0);
 	virtual bool TransferDataFromWindow();
 	virtual const char *validate();
+	virtual CRQ_Page *GetPrev() const;
+	virtual CRQ_Page *GetNext() const;
  private:
+	CRQWiz *_parent;
 	wxTextCtrl *tc_email;
 	wxStaticText *tc_status;
 	bool initialized;
@@ -191,12 +216,14 @@ class CRQ_SignPage : public CRQ_Page {
 	void CertSelChanged(wxTreeEvent&);
 	virtual const char *validate();
 	virtual void refresh();
+	virtual CRQ_Page *GetPrev() const;
  private:
 	CertTree *cert_tree;
 	wxStaticText *tc_status;
 	bool initialized;
 	int em_w;
         void OnPageChanging(wxWizardEvent &);
+	CRQWiz *_parent;
 	DECLARE_EVENT_TABLE()
 };
 

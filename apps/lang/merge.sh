@@ -1,10 +1,4 @@
-msgmerge -N -U pt/tqslapp.po ../tqslapp.pot
-msgmerge -N -U ja/tqslapp.po ../tqslapp.pot
-msgmerge -N -U it/tqslapp.po ../tqslapp.pot
-msgmerge -N -U fi/tqslapp.po ../tqslapp.pot
-msgmerge -N -U fr/tqslapp.po ../tqslapp.pot
-msgmerge -N -U es/tqslapp.po ../tqslapp.pot
-msgmerge -N -U de/tqslapp.po ../tqslapp.pot
-msgmerge -N -U zh/tqslapp.po ../tqslapp.pot
-msgmerge -N -U ru/tqslapp.po ../tqslapp.pot
-msgmerge -N -U pl/tqslapp.po ../tqslapp.pot
+for lang in de es fi fr hi_IN it ja pl_PL pt ru sv_SE tr_TR zh
+do
+	msgmerge -N -U $lang/tqslapp.po ../tqslapp.pot
+done

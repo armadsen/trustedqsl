@@ -10,6 +10,7 @@
 
 #include "tqsl_prefs.h"
 #include <stdlib.h>
+#include <algorithm>
 #include <utility>
 #include <curl/curl.h>
 
@@ -23,6 +24,11 @@
 #include "tqsllib.h"
 #include "tqsltrace.h"
 #include "tqslapp.h"
+#include "winstrdefs.h"
+
+#if wxMAJOR_VERSION == 3 && wxMINOR_VERSION > 0
+#define WX31
+#endif
 
 using std::make_pair;
 
@@ -65,6 +71,10 @@ Preferences::Preferences(wxWindow *parent, wxHtmlHelpController *help)
 
 	notebook->AddPage(fileprefs, _("Options"));
 
+	logprefs = new LogPrefs(notebook);
+
+	notebook->AddPage(logprefs, _("Log Handling"));
+
 	modemap = new ModeMap(notebook);
 	notebook->AddPage(modemap, _("ADIF Modes"));
 
@@ -103,6 +113,8 @@ void Preferences::OnOK(wxCommandEvent& WXUNUSED(event)) {
 		return;
 #endif
 	if (!proxyPrefs->TransferDataFromWindow())
+		return;
+	if (!logprefs->TransferDataFromWindow())
 		return;
 	if (!fileprefs->TransferDataFromWindow())
 		return;
@@ -249,7 +261,7 @@ AddMode::AddMode(wxWindow *parent) : wxDialog(parent, -1, wxString(_("Add ADIF m
 
 	wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
 
-	hsizer->Add(new wxStaticText(this, -1, _("ADIF Mode:")), 0);
+	hsizer->Add(new wxStaticText(this, -1, _("ADIF Mode:")), 0, wxALIGN_CENTER_VERTICAL);
 
 	adif = new wxTextCtrl(this, ID_PREF_ADD_ADIF, wxT(""), wxPoint(0, 0),
 		wxSize(char_width, HEIGHT_ADJ(char_height)));
@@ -326,16 +338,6 @@ FilePrefs::FilePrefs(wxWindow *parent) : PrefsPanel(parent, wxT("pref-opt.htm"))
 	dc.GetTextExtent(wxString(wxT('M'), FILE_TEXT_WIDTH), &char_width, &char_height);
 
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
-	sizer->Add(new wxStaticText(this, -1, _("Cabrillo file extensions:")), 0, wxTOP|wxLEFT|wxRIGHT, 10);
-	wxString cab = config->Read(wxT("CabrilloFiles"), DEFAULT_CABRILLO_FILES);
-	cabrillo = new wxTextCtrl(this, ID_PREF_FILE_CABRILLO, cab, wxPoint(0, 0),
-		wxSize(char_width, HEIGHT_ADJ(char_height)));
-	sizer->Add(cabrillo, 0, wxLEFT|wxRIGHT, 10);
-	sizer->Add(new wxStaticText(this, -1, _("ADIF file extensions:")), 0, wxTOP|wxLEFT|wxRIGHT, 10);
-	wxString adi = config->Read(wxT("ADIFFiles"), DEFAULT_ADIF_FILES);
-	adif = new wxTextCtrl(this, ID_PREF_FILE_ADIF, adi, wxPoint(0, 0),
-		wxSize(char_width, HEIGHT_ADJ(char_height)));
-	sizer->Add(adif, 0, wxLEFT|wxRIGHT, 10);
 	bool ab;
 	config->Read(wxT("AutoBackup"), &ab, DEFAULT_AUTO_BACKUP);
 	autobackup = new wxCheckBox(this, ID_PREF_FILE_AUTO_BACKUP, _("Allow automatic configuration backup"));
@@ -354,40 +356,35 @@ FilePrefs::FilePrefs(wxWindow *parent) : PrefsPanel(parent, wxT("pref-opt.htm"))
 	dirPick->Enable(ab);
 	sizer->Add(dirPick, 0, wxEXPAND|wxLEFT|wxRIGHT, 10);
 
-	sizer->Add(new wxStaticText(this, -1, _("Number of Backups to retain:")), 0, wxTOP|wxLEFT|wxRIGHT, 10);
+	wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
+	hsizer->Add(new wxStaticText(this, -1, _("Number of Backups to retain:")), 0, wxTOP|wxLEFT|wxRIGHT, 10);
 
 	int bver;
 	config->Read(wxT("BackupVersions"), &bver, DEFAULT_BACKUP_VERSIONS);
 
 	versions = new wxTextCtrl(this, ID_PREF_FILE_BACKUP_VERSIONS, wxString::Format(wxT("%d"), bver),
 		wxDefaultPosition, wxSize(char_width / (FILE_TEXT_WIDTH / 3), HEIGHT_ADJ(char_height)));
-	sizer->Add(versions, 0, wxLEFT|wxRIGHT|wxBOTTOM, 10);
+	hsizer->Add(versions, 0, wxLEFT|wxRIGHT|wxBOTTOM, 10);
 
-	badcalls = new wxCheckBox(this, ID_PREF_FILE_BADCALLS, _("Allow nonamateur call signs"));
-	bool allow = false;
-	config->Read(wxT("BadCalls"), &allow);
-	badcalls->SetValue(allow);
-	sizer->Add(badcalls, 0, wxLEFT|wxRIGHT|wxTOP, 10);
-	daterange = new wxCheckBox(this, ID_PREF_FILE_BADCALLS, _("Prompt for QSO Date range when signing"));
-	allow = true;
-	config->Read(wxT("DateRange"), &allow);
-	daterange->SetValue(allow);
-	sizer->Add(daterange, 0, wxLEFT|wxRIGHT|wxTOP, 10);
+	sizer->Add(hsizer, 0, wxALL|wxALIGN_LEFT, 10);
+
 	adifedit = new wxCheckBox(this, ID_PREF_FILE_EDIT_ADIF, _("Open ADIF files in ADIF editor"));
-	allow = DEFAULT_ADIF_EDIT;
-	config->Read(wxT("AdifEdit"), &allow);
+
+	bool allow;
+	config->Read(wxT("AdifEdit"), &allow, DEFAULT_ADIF_EDIT);
 	adifedit->SetValue(allow);
 	sizer->Add(adifedit, 0, wxLEFT|wxRIGHT|wxTOP, 10);
-	dispdupes = new wxCheckBox(this, ID_PREF_FILE_DISPLAY_DUPES, _("Display details of duplicate QSOs when signing a log"));
-	allow = DEFAULT_DISP_DUPES;
-	config->Read(wxT("DispDupes"), &allow);
-	dispdupes->SetValue(allow);
-	sizer->Add(dispdupes, 0, wxLEFT|wxRIGHT|wxTOP, 10);
+
 	logtab = new wxCheckBox(this, ID_PREF_FILE_LOG_TAB, _("Display status messages in separate tab"));
-	allow = DEFAULT_LOG_TAB;
-	config->Read(wxT("LogTab"), &allow);
+	config->Read(wxT("LogTab"), &allow, DEFAULT_LOG_TAB);
 	logtab->SetValue(allow);
 	sizer->Add(logtab, 0, wxLEFT|wxRIGHT|wxTOP, 10);
+
+	certpwd = new wxCheckBox(this, ID_PREF_FILE_CERTPWD, _("Enable passphrases for Callsign Certificates"));
+	bool cp;
+	config->Read(wxT("CertPwd"), &cp, DEFAULT_CERTPWD);
+	certpwd->SetValue(cp);
+	sizer->Add(certpwd, 0, wxLEFT|wxRIGHT|wxTOP, 10);
 	SetSizer(sizer);
 	sizer->Fit(this);
 	sizer->SetSizeHints(this);
@@ -419,14 +416,11 @@ bool FilePrefs::TransferDataFromWindow() {
 	tqslTrace("FilePrefs::TransferDataFromWindow", NULL);
 	wxConfig *config = reinterpret_cast<wxConfig *>(wxConfig::Get());
 	config->SetPath(wxT("/"));
-	config->Write(wxT("CabrilloFiles"), fix_ext_str(cabrillo->GetValue()));
-	config->Write(wxT("ADIFFiles"), fix_ext_str(adif->GetValue()));
-	config->Write(wxT("BadCalls"), badcalls->GetValue());
-	config->Write(wxT("DateRange"), daterange->GetValue());
 	config->Write(wxT("AdifEdit"), adifedit->GetValue());
-	config->Write(wxT("DispDupes"), dispdupes->GetValue());
+	config->Write(wxT("CertPwd"), certpwd->GetValue());
+
 	bool oldLog;
-	config->Read(wxT("LogTab"), &oldLog);
+	config->Read(wxT("LogTab"), &oldLog, DEFAULT_LOG_TAB);
 	if (logtab->GetValue() != oldLog) {
 		wxMessageBox(_("Changes to the status message configuration will take affect when TQSL is restarted"), _("Warning"), wxOK | wxICON_INFORMATION, this);
 	}
@@ -442,6 +436,73 @@ bool FilePrefs::TransferDataFromWindow() {
 	if (vers <= 0)
 		vers = DEFAULT_BACKUP_VERSIONS;
 	config->Write(wxT("BackupVersions"), vers);
+	return true;
+}
+
+LogPrefs::LogPrefs(wxWindow *parent) : PrefsPanel(parent, wxT("pref-opt.htm")) {
+	tqslTrace("LogPrefs::LogPrefs", "parent=0x%lx", reinterpret_cast<void *>(parent));
+	wxConfig *config = reinterpret_cast<wxConfig *>(wxConfig::Get());
+	SetAutoLayout(true);
+
+	wxClientDC dc(this);
+	wxCoord char_width, char_height;
+	dc.GetTextExtent(wxString(wxT('M'), FILE_TEXT_WIDTH), &char_width, &char_height);
+
+	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
+	sizer->Add(new wxStaticText(this, -1, _("Cabrillo file extensions:")), 0, wxTOP|wxLEFT|wxRIGHT, 10);
+	wxString cab = config->Read(wxT("CabrilloFiles"), DEFAULT_CABRILLO_FILES);
+	cabrillo = new wxTextCtrl(this, ID_PREF_FILE_CABRILLO, cab, wxPoint(0, 0),
+		wxSize(char_width, HEIGHT_ADJ(char_height)));
+	sizer->Add(cabrillo, 0, wxLEFT|wxRIGHT, 10);
+	sizer->Add(new wxStaticText(this, -1, _("ADIF file extensions:")), 0, wxTOP|wxLEFT|wxRIGHT, 10);
+	wxString adi = config->Read(wxT("ADIFFiles"), DEFAULT_ADIF_FILES);
+	adif = new wxTextCtrl(this, ID_PREF_FILE_ADIF, adi, wxPoint(0, 0),
+		wxSize(char_width, HEIGHT_ADJ(char_height)));
+	sizer->Add(adif, 0, wxLEFT|wxRIGHT, 10);
+
+	badcalls = new wxCheckBox(this, ID_PREF_FILE_BADCALLS, _("Allow nonamateur call signs"));
+	bool allow;
+	config->Read(wxT("BadCalls"), &allow, false);
+	badcalls->SetValue(allow);
+	sizer->Add(badcalls, 0, wxLEFT|wxRIGHT|wxTOP, 10);
+	daterange = new wxCheckBox(this, ID_PREF_FILE_BADCALLS, _("Prompt for QSO Date range when signing"));
+	config->Read(wxT("DateRange"), &allow, true);
+	daterange->SetValue(allow);
+	sizer->Add(daterange, 0, wxLEFT|wxRIGHT|wxTOP, 10);
+	dispdupes = new wxCheckBox(this, ID_PREF_FILE_DISPLAY_DUPES, _("Display details of already uploaded QSOs when signing a log"));
+	config->Read(wxT("DispDupes"), &allow, DEFAULT_DISP_DUPES);
+	dispdupes->SetValue(allow);
+	sizer->Add(dispdupes, 0, wxLEFT|wxRIGHT|wxTOP, 10);
+
+	int logverify;
+        config->Read(wxT("LogVerify"), &logverify, TQSL_LOC_REPORT);
+	if (logverify != TQSL_LOC_IGNORE && logverify != TQSL_LOC_REPORT && logverify != TQSL_LOC_UPDATE) {
+                        logverify = TQSL_LOC_REPORT;
+	}
+
+	static wxString choices[] = { wxT("Ignore QTH details from your log"), wxT("Report on QTH differences") , wxT("Override Station Location with QTH detals from your log") };
+
+	handleQTH = new wxRadioBox(this, -1, _("Handle QTH information in ADIF logs with what action?"), wxDefaultPosition, wxDefaultSize,
+		3, choices, 3, wxRA_SPECIFY_ROWS);
+	sizer->Add(handleQTH, 0, wxALL|wxEXPAND, 10);
+	handleQTH->SetSelection(logverify);
+
+	SetSizer(sizer);
+	sizer->Fit(this);
+	sizer->SetSizeHints(this);
+}
+
+bool LogPrefs::TransferDataFromWindow() {
+	tqslTrace("LogPrefs::TransferDataFromWindow", NULL);
+	wxConfig *config = reinterpret_cast<wxConfig *>(wxConfig::Get());
+	config->SetPath(wxT("/"));
+	config->Write(wxT("CabrilloFiles"), fix_ext_str(cabrillo->GetValue()));
+	config->Write(wxT("ADIFFiles"), fix_ext_str(adif->GetValue()));
+	config->Write(wxT("BadCalls"), badcalls->GetValue());
+	config->Write(wxT("DateRange"), daterange->GetValue());
+	config->Write(wxT("DispDupes"), dispdupes->GetValue());
+	config->Write(wxT("LogVerify"), handleQTH->GetSelection());
+
 	return true;
 }
 
@@ -606,12 +667,9 @@ ProxyPrefs::ProxyPrefs(wxWindow *parent) : PrefsPanel(parent, wxT("pref-opt.htm"
 	wxBoxSizer *sizer = new wxBoxSizer(wxVERTICAL);
 
 	wxString msg = wxT("\n");
-		msg += _("Use these settings to configure a network proxy "
-		      "for Internet uploads and downloads. You should only "
-		      "enable a proxy if directed by your network administrator.");
+		msg += _("Use these settings to configure a network proxy for Internet uploads and downloads. You should only enable a proxy if directed by your network administrator.");
 		msg += wxT("\n");
-		msg += _("Incorrect settings can cause TQSL to be unable to upload "
-		      "logs or check for updates.");
+		msg += _("Incorrect settings can cause TQSL to be unable to upload logs or check for updates.");
 	wxStaticText *st = new wxStaticText(this, -1, msg, wxDefaultPosition, wxSize(char_width, char_height *8));
 	sizer->Add(st);
 
@@ -688,6 +746,7 @@ BEGIN_EVENT_TABLE(ContestMap, PrefsPanel)
 	EVT_BUTTON(ID_PREF_CAB_DELETE, ContestMap::OnDelete)
 	EVT_BUTTON(ID_PREF_CAB_ADD, ContestMap::OnAdd)
 	EVT_BUTTON(ID_PREF_CAB_EDIT, ContestMap::OnEdit)
+	EVT_COMBOBOX(ID_PREF_CAB_MODEMAP, ContestMap::DoUpdateInfo)
 END_EVENT_TABLE()
 
 ContestMap::ContestMap(wxWindow *parent) : PrefsPanel(parent, wxT("pref-cab.htm")) {
@@ -702,11 +761,11 @@ ContestMap::ContestMap(wxWindow *parent) : PrefsPanel(parent, wxT("pref-cab.htm"
 
 	sizer->Add(new wxStaticText(this, -1, _("Cabrillo CONTEST definitions:")), 0, wxTOP|wxLEFT|wxRIGHT, 10);
 
-	wxBoxSizer *hsizer = new wxBoxSizer(wxHORIZONTAL);
-
+	wxBoxSizer *subsizer = new wxBoxSizer(wxHORIZONTAL);
 	grid = new wxGrid(this, -1, wxDefaultPosition, wxDefaultSize);
 
 	grid->CreateGrid(10, 3);
+#ifndef WX31
 	grid->SetLabelSize(wxHORIZONTAL, HEIGHT_ADJ(char_height));
 	grid->SetLabelSize(wxVERTICAL, 0);
 	grid->SetColumnWidth(0, char_width*15);
@@ -716,10 +775,25 @@ ContestMap::ContestMap(wxWindow *parent) : PrefsPanel(parent, wxT("pref-cab.htm"
 	grid->SetLabelValue(wxHORIZONTAL, _("Type"), 1);
 	grid->SetLabelValue(wxHORIZONTAL, _("Field"), 2);
 	grid->SetEditable(false);
-	grid->SetDividerPen(wxNullPen);
+	grid->SetDividerPen(wxNullPen);		// No replacement in wx3.1?
+#else
+	grid->SetColLabelSize(HEIGHT_ADJ(char_height));
+	grid->SetRowLabelSize(0);
+	grid->SetColSize(0, char_width*15);
+	grid->SetColSize(1, char_width*4);
+	grid->SetColSize(2, char_width*5);
+	grid->SetColLabelValue(0, _("CONTEST"));
+	grid->SetColLabelValue(1, _("Type"));
+	grid->SetColLabelValue(2, _("Field"));
+	grid->EnableEditing(false);
+#endif
 
+#ifndef WX31
 	grid->SetSize(1, grid->GetRowHeight(0) * grid->GetRows());
-	hsizer->Add(grid, 1, wxLEFT|wxRIGHT|wxEXPAND, 10);
+#else
+	grid->SetSize(1, grid->GetRowHeight(0) * grid->GetNumberRows());
+#endif
+	subsizer->Add(grid, 1, wxLEFT|wxRIGHT|wxEXPAND, 10);
 
 	wxBoxSizer *vsizer = new wxBoxSizer(wxVERTICAL);
 	vsizer->Add(new wxButton(this, ID_PREF_CAB_ADD, _("Add...")), 0, wxBOTTOM, 10);
@@ -728,9 +802,9 @@ ContestMap::ContestMap(wxWindow *parent) : PrefsPanel(parent, wxT("pref-cab.htm"
 	delete_but = new wxButton(this, ID_PREF_CAB_DELETE, _("Delete"));
 	vsizer->Add(delete_but, 0);
 
-	hsizer->Add(vsizer, 0, wxRIGHT, 10);
+	subsizer->Add(vsizer, 0, wxRIGHT, 10);
 
-	sizer->Add(hsizer, 1, wxBOTTOM|wxEXPAND, 10);
+	sizer->Add(subsizer, 1, wxBOTTOM|wxEXPAND, 10);
 
 	SetSizer(sizer);
 	sizer->Fit(this);
@@ -740,7 +814,11 @@ ContestMap::ContestMap(wxWindow *parent) : PrefsPanel(parent, wxT("pref-cab.htm"
 }
 
 void ContestMap::Buttons() {
+#if wxMAJOR_VERSION > 2
+	bool editable = grid->GetGridCursorRow() >= 0;
+#else
 	bool editable = grid->GetCursorRow() >= 0;
+#endif
 	delete_but->Enable(editable);
 	edit_but->Enable(editable);
 }
@@ -752,8 +830,13 @@ void ContestMap::SetContestList() {
 	long cookie;
 
 	contestmap.clear();
+#ifndef WX31
 	if (grid->GetRows() > 0)
 		grid->DeleteRows(0, grid->GetRows());
+#else
+	if (grid->GetNumberRows() > 0)
+		grid->DeleteRows(0, grid->GetNumberRows());
+#endif
 
 	config->SetPath(wxT("/cabrilloMap"));
 	bool stat = config->GetFirstEntry(key, cookie);
@@ -772,13 +855,30 @@ void ContestMap::SetContestList() {
 		grid->AppendRows(vsize);
 	int idx = 0;
 	for (ContestSet::iterator it = contestmap.begin(); it != contestmap.end(); it++) {
+#ifndef WX31
 		grid->SetCellValue(it->first, idx, 0);
 		grid->SetCellValue(it->second.first == 1 ? wxT("VHF") : wxT("HF"), idx, 1);
 		grid->SetCellValue(wxString::Format(wxT("%d"), it->second.second), idx, 2);
+#else
+		grid->SetCellValue(idx, 0, it->first);
+		grid->SetCellValue(idx, 1, it->second.first == 1 ? wxT("VHF") : wxT("HF"));
+		grid->SetCellValue(idx, 2, wxString::Format(wxT("%d"), it->second.second));
+#endif
 		++idx;
 	}
 	config->SetPath(wxT("/"));
 	Buttons();
+}
+
+void ContestMap::DoUpdateInfo(wxCommandEvent&) {
+	wxConfig *config = reinterpret_cast<wxConfig *>(wxConfig::Get());
+        int sel = dgmodes->GetSelection();
+	if (sel != wxNOT_FOUND) {
+		const char* mapped = modes[sel];
+		config->Write(wxT("CabrilloDGMap"), wxString::FromUTF8(mapped));
+		config->Flush(false);
+	}
+	return;
 }
 
 bool ContestMap::TransferDataFromWindow() {
@@ -788,7 +888,11 @@ bool ContestMap::TransferDataFromWindow() {
 
 void ContestMap::OnDelete(wxCommandEvent &) {
 	tqslTrace("ContestMap::OnDelete", NULL);
+#if wxMAJOR_VERSION > 2
+	int row = grid->GetGridCursorRow();
+#else
 	int row = grid->GetCursorRow();
+#endif
 	if (row >= 0) {
 		wxString contest = grid->GetCellValue(row, 0);
 		if (contest != wxT("")) {
@@ -817,7 +921,11 @@ void ContestMap::OnEdit(wxCommandEvent &) {
 	tqslTrace("ContestMap::OnEdit", NULL);
 	wxString contest;
 	int contest_type = 0, callsign_field = TQSL_DEF_CABRILLO_MAP_FIELD;
+#if wxMAJOR_VERSION > 2
+	int row = grid->GetGridCursorRow();
+#else
 	int row = grid->GetCursorRow();
+#endif
 	if (row >= 0) {
 		contest = grid->GetCellValue(row, 0);
 		if (contest != wxT("")) {

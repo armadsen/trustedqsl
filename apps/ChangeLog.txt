@@ -1,8 +1,255 @@
 TQSL changes
 ============
+2.5.6
+----------
+Use 'passphrase' versus 'password' when discussing protecting Callsign
+Certificates. Change help from 'Postcard Password' to 'Postcard Validation
+Code'. The only place password should appear is with reference to the Logbook
+useraccount.
+
+Add Swedish translation from Roger, SM0LTV.
+
+Fix an error with command line handling introduced in TQSL 2.5.5 that could
+cause formerly correct command lines to be rejected (specifically passing an
+empty callsign certificate passphrase as -p "" rather than dropping the 
+password option.
+
+2.5.5
+----------
+When unable to find a match for a callsign certificate where the station
+location is in DXCC Entity "None" don't suppress the entity name.
+
+Fix issue on Windows systems when a TQSL update and a configuration file
+update both show up at the same time. Randomly choose one or the other
+for installation.
+
+Ensure that all ADIF modes are available in the TQSL ADIF Editor.
+
+Allow the TQSL ADIF editor to retain any ADIF field in the output. TQSL
+doesn't allow editing all fields, but it no longer discards fields that
+the editor does not handle.
+
+
+2.5.4
+----------
+Add Catalan localization provided by Xavier, EA3W.
+
+Correct the command line exit status values to properly reflect all QSOs
+suppressed and some QSOs suppressed situations.
+
+When looking up address information, use the DXCC entity number for the
+callsign certificate to ensure the right address is retrieved.
+
+Correct case sensitive callsign matches when comparing QSO data. This
+corrects a defect where OPERATOR set to 'k1mu' would issue an error.
+
+Loosen matching for US counties as there is no single source of
+"proper" county names.
+
+Fix issue where installing a new LoTW configuration file could
+corrupt the DXCC entity names.
+
+
+2.5.3
+----------
+Report on invalid data in ADIF fields - County misspelled, state in
+the county field is wrong, zones incorrect for the Entity/State.
+
+Ignore OPERATOR fields in an ADIF file if the value does not look like
+a callsign.
+
+Properly report callsigns where there are no callsign certificates
+available for that call versus reporting this as a date range error.
+
+Allow callsigns of up to 20 characters. Detect when a callsign is too
+long.
+
+2.5.2
+----------
+TQSL now issues an error message when an unrecognized file is loaded
+as a callsign certificate file.
+
+Do additional checks for ULS lookup failures to ensure that the data is
+not corrupt. Add the last update date for the ULS database to the message
+displayed saying that the ULS data is missing.
+
+Report when TQSL is unable to open the files needed to connect to Logbook.
+
+Allow ADIF log QTH data to override Station Location Details. Add a command
+line option and a preference field to control this behavior.
+
+Move the log signing preferences to a separate preference page to keep it
+from growing too large.
+
+When an ADIF log provides station details, detect mismatches and report
+those when signing a log. This allows improperly chosen callsign certificates
+and Station Locations to be detected.
+
+When https (Secure) connections to Logbook fail, fall back to trying http
+requests. This allows systems with anti-virus that interferes with network
+connections to recover.
+
+When fetching ULS data fails, do not reject callsign certificate requests -
+allow those to work without address data.
+
+Remove ULS check for US 1x1 callsigns.
+
+Add diagnostic log lines suggested by David, W1HKJ.
+
+Fix centering of date fields in the date range prompt dialog box.
+
+Select the current language in the language selection dialog.
+
+2.5.1
+----------
+Correct defect causing the entity name to not display properly when only
+one callsign certificate was active.
+
+2.5
+----------
+When installing a Callsign Certificate, don't display errors about expired
+root certificates.
+
+When listing DXCC entities, move the Deleted entities to the end of the list.
+This helps with the confusion between "Germany (DELETED)" and "FEDERAL
+REPUBLIC OF GERMANY", especially for persons where English is not a primary
+language. Allow the "DELETED" string in those names to be translated.
+
+Eliminate the use of the term "duplicates" when referring to already
+uploaded QSOs as that term means something else in normal usage.
+
+When editing a Station Location, do not force default values for station
+information fields. Only provide default values when a new station location is
+being created.
+
+Fix incorrect ADIF output for several modes when creating files using the
+ADIF editor built into TQSL.
+
+Use ARRL web service to validate US callsigns and pre-fill address info.
+
+Fix TQSL updates failing on Windows when the user's home directory has
+non-ASCII characters.
+
+Detect running TQSL "As Administrator" and warn the user. Allow this warning
+to be permanently overridden.
+
+Verify that the TQSL working directory is writable during startup.
+
+Disable prompting for callsign certificate password by default. Add a
+preference setting to allow this to be re-enabled if desired.
+
+Fix error that was not overriding station location details with the default
+values when editing an existing station location.
+
+Fix OSX error where the "Edit Station Location" icon was getting squashed.
+
+Update "Waiting for Callsign Certificate" icon to a clock versus the slashed
+circle. The latter was being interpreted as something broken versus something
+to wait for.
+
+Keep track of Callsign Certificate requests and reject attempts to request
+certificates for the same callsign more than 3 times in 24 hours. This limit
+will hopefully stop people from mistakenly re-requesting callsign certificates
+repeatedly for the same call because they don't realize that action needs to
+be taken by ARRL staff to complete the process.
+
+Correct defect that could cause TQSL to crash upon exit while attempting to
+back up.
+
+When requesting US 1x1 callsigns, which always require signing, don't ask for 
+a certificate type for the request. Require that the user have a valid 
+certificate for some other call to proceed. Remove the "1x1" callsign option
+from the certificate request type page.
+
+When creating callsign certificates, ask for the type of certificate first
+as that then drives the next set of questions to ask.
+
+2.4.7
+----------
+Correct defect that keeps TQSL updates on Windows from working properly.
+
+2.4.6
+----------
+Fix error messages for Windows command line users. The text was garbled due
+to changes made to implement Unicode on Windows (no changes for Linux or Mac).
+
+2.4.5
+----------
+Fix log messages for Windows command line users to not be a string of Hex
+characters.
+
+2.4.4
+----------
+Add localization for Turkish.
+
+Add support for a 64-bit build for MacOS. Add an indicator of what platforms
+are supported for an Mac build (i386/ppc or x86_64/i386).
+
+Fix error that was keeping the State and County from being defaulted when
+creating a new Station Location.
+
+Add another callsign certificate request type - one for a new callsign for
+the primary user.
+
+Add language support for Polish. Fix problem that was keeping Hindi from
+properly displaying on Windows.
+
+
+2.4.3
+----------
+Fix defect that was causing steate/province/oblast to be reset to "None" when
+editing a station location. This defect could also cause station location
+details to be forced to be the default location data for the callsign, making
+remote locations more difficult to edit.
+
+2.4.2
+----------
+Ensure that the exit status message emitted by TQSL appears in English
+so logging programs can use that to detect exit status.
+
+Improve setting of ITU and CQ zones when defining a Station Location. There
+were many cases where these were left empty.
+
+Fix issue with Windows updates of TQSL failing when the user's directory
+has a space embedded.
+
+Language fixes:
+Remove spurious error message when run on a system where the local
+language is not supported. 
+
+Allow adding translations without making code changes.
+
+When displaying a callsign certificate where the private key is missing
+from the local system, specifically state that the private key is not
+found. Add a specific message for keys that cannot be opened.
+
+
+2.4.1
+----------
+Display "No Private Key" versus an error message when displaying a callsign
+certificate with no installed private key.
+
+Fix defect that meant that some callsign certificates (those with missing
+private keys) could not be restored from a .TBK file containing a good copy.
+
+Fix defect that was causing callsign certificate renewals to have "null null
+null" as the Name in some conditions.
+
+Fix defect that was required deleting an existing callsign certificate before
+importing a replacement .P12 file
+
 
 2.4
 ----------
+Add Hindi translation.
+
+Pre-load callsign certificate requests from the ARRL address data when it
+is available for a given callsign.
+
+Provide default gridsquare, state, and county for station locations when
+available from the ARRL address data. Validate that gridsquares are 
+consistent with the station's address.
+
 Retain all certificate private keys. Mark as deleted and allow them to be
 recovered. This allows the .TQ6 file downloaded from LoTW to always be used
 to recover a user's callsign certificate.

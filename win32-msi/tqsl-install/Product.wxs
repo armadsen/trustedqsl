@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+<?define UpgradeCode = "BA40FA93-F9D6-44E2-BB81-82B0A676E731" ?>
+<?define BadUpgradeCode = "BA40FA94-F9D6-44E2-BB81-82B0A676E741" ?>
+<?define tqslVersion = "2.5.6" ?>
+<?define beta = "-beta" ?>
+
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
-  <Product Name="Trusted QSL v2.4-beta" Id="*" UpgradeCode="BA40FA93-F9D6-44E2-BB81-82B0A676E731" Version="2.4" Manufacturer="The TrustedQSL Developers" Language="1033">
-    <Package Id="*" Description="Installer for TrustedQSL 2.4" Compressed="yes"/>
+  <Product Name="Trusted QSL $(var.tqslVersion)$(var.beta)" Id="*" UpgradeCode="$(var.UpgradeCode)" Version="$(var.tqslVersion)" Manufacturer="The TrustedQSL Developers" Language="1033">
+    <Package Id="*" Description="Installer for TrustedQSL $(var.tqslVersion)" Compressed="yes"/>
     <MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." AllowSameVersionUpgrades="yes" MigrateFeatures="yes"/>
+    <!-- Remove versions with the bad upgrade code -->
+    <Upgrade Id="$(var.BadUpgradeCode)">
+	<UpgradeVersion Minimum="1.0.0.0" Maximum="2.4.7" 
+			Language="1033,1034" Property="BADOLDERINSTALLED"
+			IncludeMinimum="yes" IncludeMaximum="yes" />
+    </Upgrade>
+
     <Condition Message="This application requires Windows 2000 or newer">
       NOT Version9X
     </Condition>
@@ -28,6 +40,12 @@
           </Component>
           <Component Id="configXMLComp" Guid="A3CCC8F2-1958-4376-8B4C-C7783F839551">
             <File Id="configXML" Name="config.xml" Source="config.xml" KeyPath="yes"/>
+          </Component>
+          <Component Id="langDatComp" Guid="1C8A8FCA-3409-4F0D-B021-A3907ED271FD">
+            <File Id="langDat" Name="languages.dat" Source="languages.dat" KeyPath="yes"/>
+          </Component>
+          <Component Id="cabDatComp" Guid="60e0425e-7c0b-432e-92cb-6c187a9da851">
+            <File Id="cabDat" Name="cab_modes.dat" Source="cab_modes.dat" KeyPath="yes"/>
           </Component>
           <Component Id="MachineRegKeys" Guid="1A582184-DC79-470D-B322-1D18D1391603">
             <RegistryKey Root="HKLM" Key="Software\TrustedQSL">
@@ -78,12 +96,14 @@
       <ComponentGroupRef Id="HelpDir"/>
       <ComponentGroupRef Id="LangDirs" />
       <ComponentRef Id="configXMLComp"/>
+      <ComponentRef Id="langDatComp"/>
       <ComponentRef Id="MachineRegKeys"/>
       <ComponentRef Id="QuickStartComp"/>
       <ComponentRef Id="LicenseComp"/>
       <ComponentRef Id="ChangeLogComp"/>
       <ComponentRef Id="DesktopShortcut"/>
       <ComponentRef Id="CABundleComp"/>
+      <ComponentRef Id="cabDatComp"/>
     </Feature>
 
     <Icon Id="tqsl.exe" SourceFile="key.ico"/>
@@ -107,14 +127,17 @@
     
     <InstallExecuteSequence>
       <Custom Action="RemoveInnoVersion" After="InstallInitialize">ISINNOINSTALLED</Custom>
+      <!-- Not needed with MajorUpgrade -->
+      <!-- <RemoveExistingProducts Before="InstallInitialize" / -->
+      <Custom Action='NoDowngrade' After='FindRelatedProducts'>NEWERFOUND</Custom>
     </InstallExecuteSequence>
     <CustomAction Id="RemoveInnoVersion"  Property="ISINNOINSTALLED" ExeCommand="/silent /suppressmsgboxes" Return="check" Impersonate="no" Execute="deferred"/> <!-- don't UAC prompt twice -->
     
     <Property Id="NOTEPAD">notepad.exe</Property>
     <CustomAction Id="CAChangelog" Property="NOTEPAD" ExeCommand="[APPLICATIONFOLDER]ChangeLog.txt" Return="asyncNoWait"/>
     <CustomAction Id="CAQuickstart" Property="NOTEPAD" ExeCommand="[APPLICATIONFOLDER]quick.txt" Return="asyncNoWait"/>
-    
-    
+    <CustomAction Id='NoDowngrade' Error='A newer version of [ProductName] is already installed.' />
+
     <Property Id="QSONEXIT" Value="1"/>
     <UI>
       <Publish Dialog="MyExitDialog" Control="Finish" Event="DoAction" Value="CAChangelog">CLONEXIT AND NOT Installed</Publish>
