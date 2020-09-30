@@ -723,6 +723,14 @@ get_certlist(string callsign, int dxcc, bool expired, bool superceded, bool with
 		(callsign == "") ? 0 : callsign.c_str(), dxcc, 0, 0, select);
 }
 
+#if wxMAJOR_VERSION > 2
+class SimpleLogFormatter : public wxLogFormatter {
+	virtual wxString Format(wxLogLevel level, const wxString& msg, const wxLogRecordInfo& info) const {
+		return msg;
+	}
+};
+#endif
+
 class LogList : public wxLog {
  public:
 	explicit LogList(MyFrame *frame) : wxLog(), _frame(frame) {}
@@ -763,16 +771,24 @@ void LogList::DoLogString(const wxChar *szString, time_t) {
 class LogStderr : public wxLog {
  public:
 	LogStderr(void) : wxLog() {}
+#if wxMAJOR_VERSION > 2
+	virtual void DoLogText(const wxString& msg);
+#else
 	virtual void DoLogString(const wxChar *szString, time_t t);
+#endif
 };
 
+#if wxMAJOR_VERSION > 2
+void LogStderr::DoLogText(const wxString& msg) {
+	const wxChar* szString(msg);
+#else
 void LogStderr::DoLogString(const wxChar *szString, time_t) {
 	static wxString msg(szString);
+#endif
 	static const char *smsg = msg.ToUTF8();
 
 	tqslTrace(NULL, "%s", smsg);
-
-	if (wxString(szString).StartsWith(wxT("Debug:")))
+	if (msg.StartsWith(wxT("Debug:")))
 		return;
 #ifdef _WIN32
 	fwprintf(stderr, L"%ls\n", szString);
@@ -5480,7 +5496,11 @@ QSLApp::OnInit() {
 
 	if (parser.Found(wxT("x")) || parser.Found(wxT("q"))) {
 		quiet = true;
-		wxLog::SetActiveTarget(new LogStderr());
+		LogStderr *logger = new LogStderr();
+#if wxMAJOR_VERSION > 2
+		logger->SetFormatter(new SimpleLogFormatter);
+#endif
+		wxLog::SetActiveTarget(logger);
 	}
 
 	if (parser.Found(wxT("t"), &diagfile)) {
@@ -5524,14 +5544,17 @@ QSLApp::OnInit() {
 		frame = GUIinit(false, true);
 		frame->Show(false);
 		// Check for updates then bail out.
-		wxLog::SetActiveTarget(new LogStderr());
+		LogStderr *logger = new LogStderr();
+#if wxMAJOR_VERSION > 2
+		logger->SetFormatter(new SimpleLogFormatter);
+#endif
+		wxLog::SetActiveTarget(logger);
 		frame->DoUpdateCheck(false, true);
 		return(false);
 	}
 
 	frame = GUIinit(!quiet, quiet);
 	if (quiet) {
-		wxLog::SetActiveTarget(new LogStderr());
 		frame->Show(false);
 	}
 
