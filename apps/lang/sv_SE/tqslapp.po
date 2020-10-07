@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: TQSL v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-29 20:12-0400\n"
-"PO-Revision-Date: 2020-09-04 17:38+0200\n"
+"PO-Revision-Date: 2020-10-04 12:30+0200\n"
 "Last-Translator: Roger Caballero Jonsson <sm0ltv@ssa.se>\n"
 "Language-Team: \n"
 "Language: sv_SE\n"
@@ -55,6 +55,8 @@ msgid ""
 "My former personal callsign or a portable modifier for my current or former "
 "callsign"
 msgstr ""
+"Min tidigare personliga anropssignal eller en bärbar modifierare för min "
+"nuvarande eller tidigare anropssignal"
 
 #: crqwiz.cpp:55
 msgid "A primary club callsign"
@@ -169,7 +171,7 @@ msgstr "Stad"
 
 #: crqwiz.cpp:498 stationdial.cpp:351 stationdial.cpp:362
 msgid "State"
-msgstr "n/a"
+msgstr "Land"
 
 #: crqwiz.cpp:520 crqwiz.cpp:523
 msgid "Country"
@@ -194,32 +196,42 @@ msgid ""
 "passphrase to protect this Callsign Certificate. However, if you are using a "
 "computer in a private residence, no passphrase need be specified."
 msgstr ""
+"Du kan skydda detta Anropssignal Certifikat med en lösenordsfras. Om du "
+"använder ett datorsystem som delas med andra bör du ange en lösenordsfras "
+"för att skydda detta Anropssignal Certifikat. Men om du använder en dator i "
+"en privat bostad behövs ingen lösenordsfras anges."
 
 #: crqwiz.cpp:673 crqwiz.cpp:698
 msgid ""
 "Leave the passphrase blank and click 'Next' unless you want to use a "
 "passphrase."
 msgstr ""
+"Lämna lösenordsfrasen tom och klicka på \"Nästa\" om du inte vill använda en "
+"lösenordsfras."
 
 #: crqwiz.cpp:677
 msgid "Passphrase:"
-msgstr ""
+msgstr "Lösenordsfras:"
 
 #: crqwiz.cpp:681
 msgid "Enter the passphrase again for verification:"
-msgstr ""
+msgstr "Ange lösenordsfrasen igen för verifiering:"
 
 #: crqwiz.cpp:685
 msgid ""
 "DO NOT lose the passphrase you choose! You will be unable to use the "
 "Certificate without this passphrase!"
 msgstr ""
+"Tappa INTE lösenordsfrasen du väljer! Du kommer inte att kunna använda "
+"certifikatet utan denna lösenordsfras!"
 
 #: crqwiz.cpp:703
 msgid ""
 "Leave the passphrase blank and click 'Finish' unless you want to use a "
 "passphrase."
 msgstr ""
+"Lämna lösenordsfrasen tom och klicka på \"Slutför\" om du inte vill använda "
+"en lösenordsfras."
 
 #: crqwiz.cpp:749
 msgid "This Callsign Certificate is for:"
@@ -243,7 +255,7 @@ msgstr ""
 #: crqwiz.cpp:871
 #, c-format
 msgid "The callsign is too long. Only %d characters are allowed."
-msgstr ""
+msgstr "Anropssignalen är för lång. Endast%d tecken är tillåtna."
 
 #: crqwiz.cpp:909
 msgid "You must enter a valid call sign."
@@ -456,7 +468,7 @@ msgstr "Du måste ange en giltig e-postadress"
 
 #: crqwiz.cpp:1383
 msgid "The two copies of the passphrase do not match."
-msgstr ""
+msgstr "De två kopiorna av lösenordsfrasen matchar inte."
 
 #: crqwiz.cpp:1424
 msgid "Click 'Finish' to complete this Callsign Certificate request."
@@ -495,7 +507,7 @@ msgstr "Anulera"
 
 #: getpassword.cpp:111
 msgid "New passphrase:"
-msgstr ""
+msgstr "Ny lösenordsfras: "
 
 #: getpassword.cpp:114
 msgid "Enter again to confirm:"
@@ -503,11 +515,11 @@ msgstr "Ange igen för att verifiera :"
 
 #: getpassword.cpp:146
 msgid "Passphrase entries do not match"
-msgstr ""
+msgstr "Lösenordsfrasposter matchar inte"
 
 #: getpassword.cpp:157
 msgid "Passphrase confirmed"
-msgstr ""
+msgstr "Lösenordsfras bekräftad"
 
 #: loadcertwiz.cpp:41
 msgid "Import completed successfully"
@@ -543,7 +555,7 @@ msgstr "Anropssignalcertifikat"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a passphrase for this callsign certificate."
-msgstr ""
+msgstr "Ange en lösenordsfras för detta anropssignalcertifikat."
 
 #: loadcertwiz.cpp:161
 msgid ""
@@ -551,22 +563,29 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence no passphrase need be specified."
 msgstr ""
+"Om du använder ett datorsystem som delas med andra bör du ange en "
+"lösenordsfras för att skydda detta certifikat. Men om du använder en dator i "
+"en privat bostad behöves ingen lösenordsfras anges."
 
 #: loadcertwiz.cpp:163
 msgid ""
 "This passphrase will have to be entered each time you use this callsign "
 "certificate for signing or when saving the key."
 msgstr ""
+"Denna lösenordsfras måste anges varje gång du använder denna anropssignal "
+"för signering eller när du sparar nyckeln."
 
 #: loadcertwiz.cpp:165 tqsl.cpp:6475
 msgid ""
 "Leave the passphrase blank and click 'OK' unless you want to use a "
 "passphrase."
 msgstr ""
+"Lämna lösenordsfrasen tom och klicka på 'OK' om du inte vill använda en "
+"lösenordsfrasfras."
 
 #: loadcertwiz.cpp:167
 msgid "New Passphrase"
-msgstr ""
+msgstr "Ny lösenordsfras"
 
 #: loadcertwiz.cpp:202
 msgid ""
@@ -608,7 +627,7 @@ msgstr "Välj certifikatfil"
 
 #: loadcertwiz.cpp:292 loadcertwiz.cpp:367 tqsl.cpp:5744
 msgid "This file is not a valid P12 file"
-msgstr ""
+msgstr "Den här filen är inte en giltig P12-fil"
 
 #: loadcertwiz.cpp:308
 msgid "Loading complete"
@@ -620,11 +639,11 @@ msgstr "Ingen statusinformation tillgänglig"
 
 #: loadcertwiz.cpp:330
 msgid "Enter the passphrase to unlock the .p12 file:"
-msgstr ""
+msgstr "Ange lösenordsfrasen för att låsa upp .p12-filen:"
 
 #: loadcertwiz.cpp:364 tqsl.cpp:2155
 msgid "Passphrase error"
-msgstr ""
+msgstr "Lösenordsfrasfel"
 
 #: loctree.cpp:86 tqsl.cpp:1387 tqsl.cpp:6690
 msgid "Station Locations"
@@ -773,11 +792,11 @@ msgstr "Skrev %d QSO-poster till %s"
 
 #: qsodatadialog.cpp:739
 msgid "The file has not been saved. Should the QSOs be saved?"
-msgstr ""
+msgstr "Filen har inte sparats. Bör QSO sparas?"
 
 #: qsodatadialog.cpp:739
 msgid "Confirm Close"
-msgstr ""
+msgstr "Bekräfta stäng"
 
 #: qsodatadialog.cpp:863
 msgid "One QSO Record"
@@ -838,7 +857,7 @@ msgstr "Anropssignal"
 
 #: stationdial.cpp:353
 msgid "Province"
-msgstr "n/a "
+msgstr "Distrikt"
 
 #: stationdial.cpp:354
 msgid "Continent"
@@ -866,7 +885,7 @@ msgstr "ITU Zon"
 
 #: stationdial.cpp:360
 msgid "Oblast"
-msgstr "n/a "
+msgstr "Län"
 
 #: stationdial.cpp:361
 msgid "County"
@@ -957,10 +976,13 @@ msgid ""
 "(This is the passphrase you made up when you installed the callsign "
 "certificate.)"
 msgstr ""
+"Ange lösenordsfrasen för att låsa upp anropssignalcertifikatet för%hs -%hs\n"
+"(Det här är lösenordsfrasen som du gjorde när du installerade "
+"anropssignalcertifikatet.)"
 
 #: tqsl.cpp:258 tqsl.cpp:7128 getpassword.h:32 getpassword.h:33
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Ange lösenordsfras"
 
 #: tqsl.cpp:289
 msgid "Signing QSO Data"
@@ -2186,7 +2208,7 @@ msgstr "Utdatafilnamn (standard är inmatningsnamn minus tillägg plus .tq8"
 
 #: tqsl.cpp:5414
 msgid "Passphrase for the signing key"
-msgstr ""
+msgstr "Lösenordsfras för signeringsnyckeln"
 
 #: tqsl.cpp:5415
 msgid "Quiet Mode - same behavior as -x"
@@ -2239,7 +2261,7 @@ msgstr "Parametern -f %hs känns inte igen"
 
 #: tqsl.cpp:5742
 msgid "Password protected P12 files cannot be imported on the command line"
-msgstr ""
+msgstr "Lösenordsskyddade P12-filer kan inte importeras på kommandoraden"
 
 #: tqsl.cpp:5757
 msgid "No logfile to sign!"
@@ -2422,7 +2444,7 @@ msgstr "Certifikatbehållarfiler (* .p12) | * .p12 | Alla filer (*. *) | *. *"
 
 #: tqsl.cpp:6469
 msgid "Enter the passphrase for the certificate container file."
-msgstr ""
+msgstr "Ange lösenordsfrasen för certifikatbehållarfilen."
 
 #: tqsl.cpp:6471
 msgid ""
@@ -2430,16 +2452,19 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence, no passphrase need be specified."
 msgstr ""
+"Om du använder ett datorsystem som delas med andra bör du ange en "
+"lösenordsfras för att skydda detta certifikat. Men om du använder en dator i "
+"en privat bostad behöver ingen lösenordsfras anges."
 
 #: tqsl.cpp:6473
 msgid ""
 "You will have to enter the passphrase any time you load the file into "
 "TrustedQSL."
-msgstr ""
+msgstr "Du måste ange lösenordsfrasen när du laddar filen i TrustedQSL."
 
 #: tqsl.cpp:6477
 msgid "Certificate Container Passphrase"
-msgstr ""
+msgstr "Lösenfras för certifikatbehållare"
 
 #: tqsl.cpp:6508
 #, c-format
@@ -2565,7 +2590,7 @@ msgstr "QSO slutdatum: "
 
 #: tqsl.cpp:6839
 msgid "Passphrase: "
-msgstr ""
+msgstr "Lösenordsfras: "
 
 #: tqsl.cpp:6931
 msgid "Missing from this computer"
@@ -2593,7 +2618,7 @@ msgstr "Ingen"
 
 #: tqsl.cpp:6956
 msgid "Passphrase protected"
-msgstr ""
+msgstr "Lösenordsfrasen är skyddad"
 
 #: tqsl.cpp:6962
 msgid "Certificate Request:"
@@ -2633,7 +2658,7 @@ msgstr "IOTA Lokator: "
 
 #: tqsl.cpp:7031 tqsl.cpp:7038
 msgid "State: "
-msgstr "n/a "
+msgstr "Land: "
 
 #: tqsl.cpp:7032
 msgid "County: "
@@ -2645,15 +2670,15 @@ msgstr "Parkera: "
 
 #: tqsl.cpp:7034 tqsl.cpp:7037
 msgid "Province: "
-msgstr "n/a "
+msgstr "Distrikt: "
 
 #: tqsl.cpp:7036
 msgid "Oblast: "
-msgstr "n/a "
+msgstr "Län: "
 
 #: tqsl.cpp:7118
 msgid "Enter the Passphrase to unlock the callsign certificate"
-msgstr ""
+msgstr "Ange lösenordsfrasen för att låsa upp Anropssignal Certifikatet"
 
 #: tqsl_prefs.cpp:50
 msgid "Preferences"
@@ -2738,7 +2763,7 @@ msgstr "Visa statusmeddelanden i separat flik"
 
 #: tqsl_prefs.cpp:383
 msgid "Enable passphrases for Callsign Certificates"
-msgstr ""
+msgstr "Aktivera lösenordsfraser för Anropssignal Certifikat"
 
 #: tqsl_prefs.cpp:425
 msgid ""
@@ -2967,7 +2992,7 @@ msgstr "Certifikatet initialiserades inte för signering"
 
 #: wxutil.cpp:143
 msgid "Passphrase not correct"
-msgstr ""
+msgstr "Lösenordsfrasen är ej korrekt"
 
 #: wxutil.cpp:144
 msgid "Expected name"
@@ -3122,13 +3147,14 @@ msgstr "The %s '%hs' har värdet  '%hs' medan QSO har  '%hs'"
 
 #: wxutil.cpp:271
 msgid "This log has invalid QSO information"
-msgstr ""
+msgstr "Denna log har ogiltig QSO information"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The log being signed has 'US County' set to Foobar which is not valid'
 #: wxutil.cpp:273
 #, c-format
 msgid "The log being signed has '%hs' set to value '%hs' which is not valid"
 msgstr ""
+"Loggen som signeras har '%hs' inställt på värdet '%hs' vilket inte är giltigt"
 
 #: wxutil.cpp:278
 #, c-format
@@ -3141,11 +3167,11 @@ msgstr ""
 
 #: getpassword.h:51
 msgid "New passphrase"
-msgstr ""
+msgstr "Ny lösenordsfras"
 
 #: getpassword.h:52
 msgid "Enter new passphrase"
-msgstr ""
+msgstr "Ange ny lösenordsfras"
 
 #: qsodatadialog.h:85
 msgid "QSO Data"

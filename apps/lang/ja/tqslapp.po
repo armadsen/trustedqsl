@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: V2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-29 20:12-0400\n"
-"PO-Revision-Date: 2019-06-02 09:48-0400\n"
+"PO-Revision-Date: 2020-10-06 21:44-0400\n"
 "Last-Translator: Rick Murphy <k1mu@arrl.net>\n"
 "Language-Team: TQSL Developers\n"
 "Language: ja\n"
@@ -52,6 +52,8 @@ msgid ""
 "My former personal callsign or a portable modifier for my current or former "
 "callsign"
 msgstr ""
+"以前の個人局のコールサイン、または現行および以前の個人局コールサインでの移動"
+"運用を示す符号の付加"
 
 #: crqwiz.cpp:55
 msgid "A primary club callsign"
@@ -185,32 +187,42 @@ msgid ""
 "passphrase to protect this Callsign Certificate. However, if you are using a "
 "computer in a private residence, no passphrase need be specified."
 msgstr ""
+"パスフレーズを使用してこのコールサイン証明書を保護することができます。あなた"
+"が他の人とコンピュータシステムを共有している場合は、コールサイン証明書を保護"
+"するため、パスフレーズを指定するべきです。あなたの個人宅でコンピュータを使用"
+"している場合などは、パスフレーズを指定する必要はありません。"
 
 #: crqwiz.cpp:673 crqwiz.cpp:698
 msgid ""
 "Leave the passphrase blank and click 'Next' unless you want to use a "
 "passphrase."
 msgstr ""
+"パスフレーズを使用するのでなければ、パスフレーズ欄は空欄のままにして「次へ」"
+"をクリックしてください。"
 
 #: crqwiz.cpp:677
 msgid "Passphrase:"
-msgstr ""
+msgstr "パスフレーズ:"
 
 #: crqwiz.cpp:681
 msgid "Enter the passphrase again for verification:"
-msgstr ""
+msgstr "確認のためにもう一度パスフレーズを入力してください:"
 
 #: crqwiz.cpp:685
 msgid ""
 "DO NOT lose the passphrase you choose! You will be unable to use the "
 "Certificate without this passphrase!"
 msgstr ""
+"あなたの決めたパスフレーズを**決して**忘れないでください！このパスフレーズな"
+"しでは証明書を使用することができなくなってしまいます！"
 
 #: crqwiz.cpp:703
 msgid ""
 "Leave the passphrase blank and click 'Finish' unless you want to use a "
 "passphrase."
 msgstr ""
+"パスフレーズを使用しないならば、空のパスフレーズのまま「完了」をクリックして"
+"ください。"
 
 #: crqwiz.cpp:749
 msgid "This Callsign Certificate is for:"
@@ -234,7 +246,7 @@ msgstr ""
 #: crqwiz.cpp:871
 #, c-format
 msgid "The callsign is too long. Only %d characters are allowed."
-msgstr ""
+msgstr "コールサインが長過ぎます。%d文字だけ設定できます。"
 
 #: crqwiz.cpp:909
 msgid "You must enter a valid call sign."
@@ -391,8 +403,8 @@ msgid ""
 "sign this request."
 msgstr ""
 "あなたは1x1コールサインの証明書をリクエストすることはできません。なぜなら、こ"
-"のリクエストにあなたはサインしなければなりませんが、サインに使用可能なコール"
-"サイン証明書を持っていないからです。"
+"のリクエストにあなたは署名しなければなりませんが、署名に使用可能なコールサイ"
+"ン証明書を持っていないからです。"
 
 #: crqwiz.cpp:1224
 msgid ""
@@ -447,7 +459,7 @@ msgstr "有効なEメールアドレスを入力する必要があります"
 
 #: crqwiz.cpp:1383
 msgid "The two copies of the passphrase do not match."
-msgstr ""
+msgstr "2つのパスフレーズ入力が一致しません。"
 
 #: crqwiz.cpp:1424
 msgid "Click 'Finish' to complete this Callsign Certificate request."
@@ -468,7 +480,7 @@ msgstr ""
 #. TRANSLATORS: This is part of an deleted DXCC entity name
 #: dxcc.cpp:49
 msgid "DELETED"
-msgstr ""
+msgstr "削除済み"
 
 #: extwizard.cpp:66 getpassword.cpp:53 getpassword.cpp:126
 #: qsodatadialog.cpp:385 stationdial.cpp:212 tqsl_prefs.cpp:61
@@ -489,7 +501,7 @@ msgstr "キャンセル"
 
 #: getpassword.cpp:111
 msgid "New passphrase:"
-msgstr ""
+msgstr "新しいパスフレーズ:"
 
 #: getpassword.cpp:114
 msgid "Enter again to confirm:"
@@ -497,11 +509,11 @@ msgstr "確認のためもう一度入力してください："
 
 #: getpassword.cpp:146
 msgid "Passphrase entries do not match"
-msgstr ""
+msgstr "パスフレーズ入力が一致しません"
 
 #: getpassword.cpp:157
 msgid "Passphrase confirmed"
-msgstr ""
+msgstr "パスフレーズを確認"
 
 #: loadcertwiz.cpp:41
 msgid "Import completed successfully"
@@ -537,7 +549,7 @@ msgstr "コールサイン証明書"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a passphrase for this callsign certificate."
-msgstr ""
+msgstr "このコールサイン証明書のパスフレーズを入力してください。"
 
 #: loadcertwiz.cpp:161
 msgid ""
@@ -545,22 +557,29 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence no passphrase need be specified."
 msgstr ""
+"あなたが他の人とコンピュータシステムを共有している場合は、この証明書を保護す"
+"るため、パスフレーズを指定するべきです。あなたの個人宅でコンピュータを使用し"
+"ている場合などは、パスフレーズを指定する必要はありません。"
 
 #: loadcertwiz.cpp:163
 msgid ""
 "This passphrase will have to be entered each time you use this callsign "
 "certificate for signing or when saving the key."
 msgstr ""
+"ログに署名したり、キーを保存するときなど、コールサイン証明書を使用するたびに"
+"このパスフレーズを入力する必要があります。"
 
 #: loadcertwiz.cpp:165 tqsl.cpp:6475
 msgid ""
 "Leave the passphrase blank and click 'OK' unless you want to use a "
 "passphrase."
 msgstr ""
+"パスフレーズを使用するのでなければ、パスフレーズ欄は空欄のままにして「OK」を"
+"クリックしてください。"
 
 #: loadcertwiz.cpp:167
 msgid "New Passphrase"
-msgstr ""
+msgstr "新しいパスフレーズ"
 
 #: loadcertwiz.cpp:202
 msgid ""
@@ -602,7 +621,7 @@ msgstr "証明書ファイルを選択"
 
 #: loadcertwiz.cpp:292 loadcertwiz.cpp:367 tqsl.cpp:5744
 msgid "This file is not a valid P12 file"
-msgstr ""
+msgstr "このファイルは有効な P12 ファイルではありません。"
 
 #: loadcertwiz.cpp:308
 msgid "Loading complete"
@@ -614,11 +633,11 @@ msgstr "利用可能なステータス情報がありません"
 
 #: loadcertwiz.cpp:330
 msgid "Enter the passphrase to unlock the .p12 file:"
-msgstr ""
+msgstr ".p12 ファイルのロックを解除するためのパスフレーズを入力してください："
 
 #: loadcertwiz.cpp:364 tqsl.cpp:2155
 msgid "Passphrase error"
-msgstr ""
+msgstr "パスフレーズ　エラー"
 
 #: loctree.cpp:86 tqsl.cpp:1387 tqsl.cpp:6690
 msgid "Station Locations"
@@ -767,11 +786,11 @@ msgstr "%d 件の　QSO　レコードを　%s　に書き込み"
 
 #: qsodatadialog.cpp:739
 msgid "The file has not been saved. Should the QSOs be saved?"
-msgstr ""
+msgstr "ファイルはセーブされていません。セーブしますか？"
 
 #: qsodatadialog.cpp:739
 msgid "Confirm Close"
-msgstr ""
+msgstr "クローズの確認"
 
 #: qsodatadialog.cpp:863
 msgid "One QSO Record"
@@ -950,10 +969,14 @@ msgid ""
 "(This is the passphrase you made up when you installed the callsign "
 "certificate.)"
 msgstr ""
+"%hs -- %hs 用コールサイン証明書のロックを解除するパスフレーズを入力してくださ"
+"さい。\n"
+"（これは、コールサインの証明書をインストールしたときに設定したパスフレーズで"
+"す。）"
 
 #: tqsl.cpp:258 tqsl.cpp:7128 getpassword.h:32 getpassword.h:33
 msgid "Enter passphrase"
-msgstr ""
+msgstr "パスフレーズの入力"
 
 #: tqsl.cpp:289
 msgid "Signing QSO Data"
@@ -1126,14 +1149,14 @@ msgid ""
 "even though they would not be in this specific batch"
 msgstr ""
 "一方、いくつかのロギングシステムでは「QSO　の再アップロード」以外のオプション"
-"をクリックすると、奇妙な挙動を示すことがありますのでご注意ください。 「新し"
-"い　QSO　のみ」を選択することを推奨しますが、独自のアップロード記録を残すよう"
-"なロギングシステムでは、このようなケースにおいて不正確なステータス設定をおこ"
-"なうかもしれません。独自のアップロード記録を残さないロギングシステムでは「新"
-"しい　QSO　のみ」を選択することで影響を受けることはありません。また、そのロギ"
-"ングシステムが「QSO　が送信済か」を記録しているならば、選択された　QSO　すべ"
-"てを正しく送信済みとマークすることでしょう。それらの QSO　がこの送信バッチに"
-"含まれていなくても、あなたのアカウントには存在しているわけですから。"
+"をクリックすると、奇妙な挙動を示すことがありますのでご注意ください。 「新しい"
+"　QSO　のみ」を選択することを推奨しますが、独自のアップロード記録を残すような"
+"ロギングシステムでは、このようなケースにおいて不正確なステータス設定をおこな"
+"うかもしれません。独自のアップロード記録を残さないロギングシステムでは「新し"
+"い　QSO　のみ」を選択することで影響を受けることはありません。また、そのロギン"
+"グシステムが「QSO　が送信済か」を記録しているならば、選択された　QSO　すべて"
+"を正しく送信済みとマークすることでしょう。それらの QSO　がこの送信バッチに含"
+"まれていなくても、あなたのアカウントには存在しているわけですから。"
 
 #: tqsl.cpp:541
 msgid ""
@@ -1619,7 +1642,7 @@ msgstr "アップロード前の圧縮でエラー"
 
 #: tqsl.cpp:2681
 msgid "Unable to open ca-bundle.crt. Your TQSL installation is incomplete"
-msgstr ""
+msgstr "ca-bundle.crtが開けません。TQSLインストールは完了していません。"
 
 #: tqsl.cpp:2746
 msgid "Error: Could not upload file (CURL Init error)"
@@ -1851,8 +1874,8 @@ msgid ""
 "Unable to update - either your Internet connection is down or LoTW is "
 "unreachable."
 msgstr ""
-"更新できません - あなたのインターネット接続がダウンしているか、LoTW　に到達で"
-"きない状態です。"
+"更新できません - あなたのインターネット接続がダウンしているか、LoTW　にアクセ"
+"スできない状態です。"
 
 #: tqsl.cpp:3318 tqsl.cpp:3321 tqsl.cpp:3324 tqsl.cpp:3387 tqsl.cpp:3390
 #: tqsl.cpp:3393 tqsl.cpp:3884 tqsl.cpp:3890 tqsl.cpp:3896 tqsl.cpp:3919
@@ -1946,7 +1969,7 @@ msgid ""
 "LoTW is unreachable."
 msgstr ""
 "アップデートを確認できません - あなたのインターネット接続がダウンしているか、"
-"LoTW　に到達できない状態です。"
+"LoTW　にアクセスできない状態です。"
 
 #: tqsl.cpp:3888 tqsl.cpp:3923
 msgid ""
@@ -2188,7 +2211,7 @@ msgstr ""
 
 #: tqsl.cpp:5414
 msgid "Passphrase for the signing key"
-msgstr ""
+msgstr "署名鍵のパスフレーズ"
 
 #: tqsl.cpp:5415
 msgid "Quiet Mode - same behavior as -x"
@@ -2237,11 +2260,11 @@ msgstr "-a　パラメーター　%hs　が不明"
 #: tqsl.cpp:5662
 #, c-format
 msgid "The -f parameter %hs is not recognized"
-msgstr ""
+msgstr "-f　パラメーター　%hs　が不明"
 
 #: tqsl.cpp:5742
 msgid "Password protected P12 files cannot be imported on the command line"
-msgstr ""
+msgstr "パスワード保護されたP12ファイルをコマンドラインから読み込めません。"
 
 #: tqsl.cpp:5757
 msgid "No logfile to sign!"
@@ -2423,7 +2446,7 @@ msgstr "証明書コンテナファイル (*.p12)|*.p12|すべてのファイル
 
 #: tqsl.cpp:6469
 msgid "Enter the passphrase for the certificate container file."
-msgstr ""
+msgstr "証明書コンテナファイルのパスフレーズを入力してください。"
 
 #: tqsl.cpp:6471
 msgid ""
@@ -2431,16 +2454,21 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence, no passphrase need be specified."
 msgstr ""
+"あなたが他の人とコンピュータシステムを共有している場合は、この証明書を保護す"
+"るため、パスフレーズを指定するべきです。あなたの個人宅でコンピュータを使用し"
+"ている場合などは、パスフレーズを指定する必要はありません。"
 
 #: tqsl.cpp:6473
 msgid ""
 "You will have to enter the passphrase any time you load the file into "
 "TrustedQSL."
 msgstr ""
+"あなたが　TrustedQSL　にファイルをロードするたびに、パスフレーズを入力する必"
+"要があります。"
 
 #: tqsl.cpp:6477
 msgid "Certificate Container Passphrase"
-msgstr ""
+msgstr "証明書コンテナのパスフレーズ"
 
 #: tqsl.cpp:6508
 #, c-format
@@ -2569,7 +2597,7 @@ msgstr "QSO　終了日：　"
 
 #: tqsl.cpp:6839
 msgid "Passphrase: "
-msgstr ""
+msgstr "パスフレーズ: "
 
 #: tqsl.cpp:6931
 msgid "Missing from this computer"
@@ -2597,7 +2625,7 @@ msgstr "None"
 
 #: tqsl.cpp:6956
 msgid "Passphrase protected"
-msgstr ""
+msgstr "パスフレーズ保護"
 
 #: tqsl.cpp:6962
 msgid "Certificate Request:"
@@ -2657,7 +2685,7 @@ msgstr "Oblast：　"
 
 #: tqsl.cpp:7118
 msgid "Enter the Passphrase to unlock the callsign certificate"
-msgstr ""
+msgstr "コールサイン証明書のロックを解除するためのパスフレーズ入力"
 
 #: tqsl_prefs.cpp:50
 msgid "Preferences"
@@ -2742,7 +2770,7 @@ msgstr "別のタブにステータスメッセージを表示"
 
 #: tqsl_prefs.cpp:383
 msgid "Enable passphrases for Callsign Certificates"
-msgstr ""
+msgstr "コールサイン証明書のパスフレーズを有効にする"
 
 #: tqsl_prefs.cpp:425
 msgid ""
@@ -2968,7 +2996,7 @@ msgstr "証明書が初期化されていない"
 
 #: wxutil.cpp:143
 msgid "Passphrase not correct"
-msgstr ""
+msgstr "パスフレーズが正しくない"
 
 #: wxutil.cpp:144
 msgid "Expected name"
@@ -3121,13 +3149,15 @@ msgstr "%s '%hs' の値は '%hs' ですが、QSO データの値は '%hs' です
 
 #: wxutil.cpp:271
 msgid "This log has invalid QSO information"
-msgstr ""
+msgstr "このログには無効なQSO情報が含まれています。"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The log being signed has 'US County' set to Foobar which is not valid'
 #: wxutil.cpp:273
 #, c-format
 msgid "The log being signed has '%hs' set to value '%hs' which is not valid"
 msgstr ""
+"署名しようとしているログには、'%hs'の値として'%hs'を設定していますが、これは"
+"正しくありません。"
 
 #: wxutil.cpp:278
 #, c-format
@@ -3135,16 +3165,15 @@ msgid ""
 "There is no valid callsign certificate for %hs available. This QSO cannot be "
 "signed"
 msgstr ""
-"%hs の有効なコールサイン証明書がありません。この QSO データはサインできませ"
-"ん。"
+"%hs の有効なコールサイン証明書がありません。この QSO データは署名できません。"
 
 #: getpassword.h:51
 msgid "New passphrase"
-msgstr ""
+msgstr "新しいパスフレーズ"
 
 #: getpassword.h:52
 msgid "Enter new passphrase"
-msgstr ""
+msgstr "新しいパスフレーズを入力してください。"
 
 #: qsodatadialog.h:85
 msgid "QSO Data"
@@ -3157,378 +3186,3 @@ msgstr "日付"
 #: tqslvalidator.h:69
 msgid "Time"
 msgstr "時間"
-
-#~ msgid ""
-#~ "My former personal callsign or a portable modifier for my current callsign"
-#~ msgstr ""
-#~ "以前の個人局のコールサイン、または現行の個人局コールサインでの移動運用を示"
-#~ "す符号の付加"
-
-#~ msgid ""
-#~ "You may protect this Callsign Certificate using a password. If you are "
-#~ "using a computer system that is shared with others, you should specify a "
-#~ "password to protect this Callsign Certificate. However, if you are using "
-#~ "a computer in a private residence, no password need be specified."
-#~ msgstr ""
-#~ "パスワードを使用してこのコールサイン証明書を保護することができます。あなた"
-#~ "が他の人とコンピュータシステムを共有している場合は、コールサイン証明書を保"
-#~ "護するため、パスワードを指定するべきです。あなたの個人宅でコンピュータを使"
-#~ "用している場合などは、パスワードを指定する必要はありません。"
-
-#~ msgid ""
-#~ "Leave the password blank and click 'Next' unless you want to use a "
-#~ "password."
-#~ msgstr ""
-#~ "パスワードを使用するのでなければ、パスワード欄は空欄のままにして「次へ」を"
-#~ "クリックしてください。"
-
-#~ msgid "Password:"
-#~ msgstr "パスワード："
-
-#~ msgid "Enter the password again for verification:"
-#~ msgstr "確認のためにもう一度パスワードを入力してください:"
-
-#~ msgid ""
-#~ "DO NOT lose the password you choose! You will be unable to use the "
-#~ "Certificate without this password!"
-#~ msgstr ""
-#~ "あなたの決めたパスワードを**決して**忘れないでください！このパスワードなし"
-#~ "では証明書を使用することができなくなってしまいます！"
-
-#~ msgid ""
-#~ "Leave the password blank and click 'Finish' unless you want to use a "
-#~ "password."
-#~ msgstr ""
-#~ "パスワードを使用しないならば、空のパスワードのまま「完了」をクリックしてく"
-#~ "ださい。"
-
-#~ msgid "The two copies of the password do not match."
-#~ msgstr "2つのパスワード入力が一致しません。"
-
-#~ msgid "New password:"
-#~ msgstr "新しいパスワード："
-
-#~ msgid "Password entries do not match"
-#~ msgstr "パスワード入力が一致しません"
-
-#~ msgid "Password confirmed"
-#~ msgstr "パスワードを確認"
-
-#~ msgid "Enter a password for this callsign certificate."
-#~ msgstr "このコールサイン証明書のパスワードを入力してください。"
-
-#~ msgid ""
-#~ "If you are using a computer system that is shared with others, you should "
-#~ "specify a password to protect this certificate. However, if you are using "
-#~ "a computer in a private residence no password need be specified."
-#~ msgstr ""
-#~ "あなたが他の人とコンピュータシステムを共有している場合は、この証明書を保護"
-#~ "するため、パスワードを指定するべきです。あなたの個人宅でコンピュータを使用"
-#~ "している場合などは、パスワードを指定する必要はありません。"
-
-#~ msgid ""
-#~ "This password will have to be entered each time you use this callsign "
-#~ "certificate for signing or when saving the key."
-#~ msgstr ""
-#~ "ログに署名したり、キーを保存するときなど、コールサイン証明書を使用するたび"
-#~ "にこのパスワードを入力する必要があります。"
-
-#~ msgid ""
-#~ "Leave the password blank and click 'OK' unless you want to use a password."
-#~ msgstr ""
-#~ "パスワードを使用するのでなければ、パスワード欄は空欄のままにして「OK」をク"
-#~ "リックしてください。"
-
-#~ msgid "New Password"
-#~ msgstr "新しいパスワード"
-
-#~ msgid "Enter the password to unlock the .p12 file:"
-#~ msgstr ".p12 ファイルのロックを解除するためのパスワードを入力してください："
-
-#~ msgid "Password error"
-#~ msgstr "パスワード エラー"
-
-#, c-format
-#~ msgid ""
-#~ "Enter the password to unlock the callsign certificate for %hs -- %hs\n"
-#~ "(This is the password you made up when you installed the callsign "
-#~ "certificate.)"
-#~ msgstr ""
-#~ "%hs -- %hs 用コールサイン証明書のロックを解除するパスワードを入力してくだ"
-#~ "ささい。\n"
-#~ "（これは、コールサインの証明書をインストールしたときに設定したパスワードで"
-#~ "す。）"
-
-#~ msgid "Enter password"
-#~ msgstr "パスワードの入力"
-
-#~ msgid "Password for the signing key"
-#~ msgstr "署名鍵のパスワード"
-
-#~ msgid "Enter the password for the certificate container file."
-#~ msgstr "証明書コンテナファイルのパスワードを入力してください。"
-
-#~ msgid ""
-#~ "If you are using a computer system that is shared with others, you should "
-#~ "specify a password to protect this certificate. However, if you are using "
-#~ "a computer in a private residence, no password need be specified."
-#~ msgstr ""
-#~ "あなたが他の人とコンピュータシステムを共有している場合は、この証明書を保護"
-#~ "するため、パスワードを指定するべきです。あなたの個人宅でコンピュータを使用"
-#~ "している場合などは、パスワードを指定する必要はありません。"
-
-#~ msgid ""
-#~ "You will have to enter the password any time you load the file into "
-#~ "TrustedQSL."
-#~ msgstr ""
-#~ "あなたが　TrustedQSL　にファイルをロードする際に、パスワードを入力する必要"
-#~ "があります。"
-
-#~ msgid "Certificate Container Password"
-#~ msgstr "証明書コンテナのパスワード"
-
-#~ msgid "Password: "
-#~ msgstr "パスワード：　"
-
-#~ msgid "Password protected"
-#~ msgstr "パスワード保護"
-
-#~ msgid "Enter the password to unlock the callsign certificate"
-#~ msgstr "コールサイン証明書のロックを解除するためのパスワード入力"
-
-#~ msgid "Enable passwords for Callsign Certificates"
-#~ msgstr "コールサイン証明書のパスワードを有効にする"
-
-#~ msgid "Password not correct"
-#~ msgstr "正しくないパスワード"
-
-#~ msgid "New password"
-#~ msgstr "新しいパスワード"
-
-#~ msgid "Enter new password"
-#~ msgstr "新しいパスワードを入力してください"
-
-#~ msgid "Duplicate QSOs Detected"
-#~ msgstr "重複する　QSO　が見つかりました"
-
-#~ msgid ""
-#~ "Click 'Allow Duplicates' to re-process this log while allowing duplicate "
-#~ "QSOs."
-#~ msgstr ""
-#~ "重複する　QSO　を認めて、このログを再び処理するには「重複を許可」をクリッ"
-#~ "クしてください。"
-
-#~ msgid ""
-#~ "Click 'Exclude duplicates' to sign normally, without the duplicate QSOs "
-#~ "(Recommended)."
-#~ msgstr ""
-#~ "重複する　QSO　を除外して普段通りの署名するには「重複を除外」をクリックし"
-#~ "てください。（推奨）"
-
-#~ msgid ""
-#~ "Click 'Allow duplicates' to re-process this log while allowing duplicate "
-#~ "QSOs."
-#~ msgstr ""
-#~ "重複する　QSO　を認めて、このログを再び処理するには「重複を許可」をクリッ"
-#~ "クしてください。"
-
-#~ msgid ""
-#~ "The log file you are uploading using your QSO Logging system consists "
-#~ "entirely of previously uploaded QSOs (duplicates) that create unnecessary "
-#~ "work for LoTW. There may be a more recent version of your QSO Logging "
-#~ "system that would prevent this. Please check with your QSO Logging "
-#~ "system's vendor for an updated version."
-#~ msgstr ""
-#~ "あなたの　QSO　ロギングシステムを使用してアップロードしようとしているとこ"
-#~ "ろのログファイルは全て以前にアップロードされた（重複している）　QSO　で構"
-#~ "成されており、これは　LoTW　に不要な作業を行わせることになります。あなた"
-#~ "の　QSO　ロギングシステムのより新しいバージョンならば、このようなことを防"
-#~ "げたかもしれません。あなたの　QSO　ロギングシステムのベンダーに更新された"
-#~ "バージョンの有無を確認するようにしてください。"
-
-#~ msgid ""
-#~ "In the meantime, please note that some loggers may exhibit strange "
-#~ "behavior if an option other than 'Allow duplicates' is clicked. Choosing "
-#~ "'Cancel' is usually safe, but a defective logger not checking the status "
-#~ "messages reported by TrustedQSL may produce strange (but harmless) "
-#~ "behavior such as attempting to upload an empty file or marking all chosen "
-#~ "QSOs as 'sent'"
-#~ msgstr ""
-#~ "一方、いくつかのロギングシステムでは「重複を許可」以外のオプションをクリッ"
-#~ "クすると、奇妙な挙動を示すことがありますのでご注意ください。 「キャンセ"
-#~ "ル」を選択するのは通常なら安全ですが、TrustedQSL　によって報告されたステー"
-#~ "タスメッセージをチェックしていない不良品ロギングシステムは、空のファイルを"
-#~ "アップロードしようとしたり、選択されたすべての　QSO　を「送信済」とマーク"
-#~ "したりといった奇妙な（しかし、無害な）挙動を示したりすることがあります。"
-
-#~ msgid ""
-#~ "The log file you are uploading using your QSO Logging system includes "
-#~ "some previously uploaded QSOs (duplicates) that create unnecessary work "
-#~ "for LoTW. There may be a more recent version of your QSO Logging system "
-#~ "that would prevent this. Please check with your QSO Logging system's "
-#~ "vendor for an updated version."
-#~ msgstr ""
-#~ "あなたの　QSO　ロギングシステムを使用してアップロードしようとしているとこ"
-#~ "ろのログファイルは以前にアップロードされた（重複している）　QSO　をいくつ"
-#~ "か含んでおり、これは　LoTW　に不要な作業を行わせることになります。あなた"
-#~ "の　QSO　ロギングシステムのより新しいバージョンならば、このようなことを防"
-#~ "げたかもしれません。あなたの　QSO　ロギングシステムのベンダーに更新された"
-#~ "バージョンの有無を確認するようにしてください。"
-
-#~ msgid ""
-#~ "In the meantime, please note that some loggers may exhibit strange "
-#~ "behavior if an option other than 'Allow duplicates' is clicked. 'Exclude "
-#~ "duplicates' is recommended, but a logger that does its own duplicate "
-#~ "tracking may incorrectly set the status in this case. A logger that "
-#~ "doesn't track duplicates should be unaffected by choosing 'Exclude "
-#~ "duplicates' and if it tracks 'QSO sent' status, will correctly mark all "
-#~ "selected QSOs as sent - they are in your account even though they would "
-#~ "not be in this specific batch"
-#~ msgstr ""
-#~ "一方、いくつかのロギングシステムでは「重複を許可」以外のオプションをクリッ"
-#~ "クすると、奇妙な挙動を示すことがありますのでご注意ください。 「重複を除"
-#~ "外」を選択するのを推奨しますが、独自の重複トラッキングをおこなうロギングシ"
-#~ "ステムは、このようなケースでは不正確なステータス設定をおこなうかもしれませ"
-#~ "ん。重複のトラッキングをしないロギングシステムでは、「重複を除外」を選択す"
-#~ "ることで影響を受けることはありません。また、そのロギングシステムが「QSO　"
-#~ "は送信済か」をトラッキングしているならば、選択された　QSO　すべてを正しく"
-#~ "送信済みとマークすることでしょう。それらの QSO　がこの送信バッチに含まれて"
-#~ "いなくても、あなたのアカウントには存在しているわけですから。"
-
-#~ msgid "Exclude duplicates"
-#~ msgstr "重複を除外"
-
-#~ msgid "Allow duplicates"
-#~ msgstr "重複を許可"
-
-#~ msgid ""
-#~ "The only reason to re-sign duplicate QSOs is if a previous upload was not "
-#~ "processed by LoTW, either because it was never uploaded, or there was a "
-#~ "server failure"
-#~ msgstr ""
-#~ "重複した QSO に再度、署名するのは、以前のアップロードが　LoTW　によって処"
-#~ "理されなかった場合のみです。このようなことは、以前のアップロードが実はうま"
-#~ "くいってなかったとか、サーバーの障害が起きていたといったことが原因で生じま"
-#~ "す。"
-
-#~ msgid "Duplicates: %d"
-#~ msgstr "重複： %d"
-
-#~ msgid "All QSOs are duplicates; aborted"
-#~ msgstr "すべての　QSO　が重複している。中止"
-
-#~ msgid "%d of %d QSOs are duplicates; aborted"
-#~ msgstr "%2$d　件中、　%1$d　件の QSO が重複している。中止"
-
-#~ msgid "%s: %d QSO records were duplicates"
-#~ msgstr "%s ： %d 件の　QSO　レコードが重複"
-
-#~ msgid ""
-#~ "Resubmitting these QSOs will cause them to be reported as duplicates."
-#~ msgstr ""
-#~ "この　QSO　を再度、アップロードすると、重複 QSO として報告されることになり"
-#~ "ます。"
-
-#~ msgid "TQSL must not be run 'As Administrator'. Quitting."
-#~ msgstr "TQSLを ‘管理者として’実行してはいけません。やめて。"
-
-#~ msgid "Display details of duplicate QSOs when signing a log"
-#~ msgstr "ログに署名するとき重複 QSO の詳細を表示"
-
-#~ msgid "Duplicate QSO suppressed"
-#~ msgstr "重複 QSO を削除"
-
-#~ msgid "A special event (1x1) callsign"
-#~ msgstr "特別局のコールサイン (1x1)"
-
-#~ msgid "Callsign Certificate or Certificate Request not found"
-#~ msgstr "コールサイン証明書または証明書のリクエストが見つからない"
-
-#~ msgid ""
-#~ "Callsign Certificate or Certificate Request not found for callsign %hs "
-#~ "serial %ld"
-#~ msgstr ""
-#~ "コールサイン %hs シリアル %ld　コールサイン証明書または証明書のリクエスト"
-#~ "が見つかりません"
-
-#~ msgid "QSO begin date:"
-#~ msgstr "QSO 開始日:"
-
-#~ msgid "QSO end date:"
-#~ msgstr "QSO 終了日："
-
-#~ msgid ""
-#~ "If the requested certificate is for your personal callsign, then you "
-#~ "should select 'Signed' and choose a callsign certificate for another of "
-#~ "your personal callsigns from the list below to be used to sign this "
-#~ "request."
-#~ msgstr ""
-#~ "リクエストする証明書が個人のコールサイン用である場合は、「署名あり」を選択"
-#~ "し、以下のリストからこのリクエストに署名するためのあなたの別の個人コールサ"
-#~ "インを選んでください。"
-
-#~ msgid ""
-#~ "If you don't have a Callsign Certificate for another personal callsign, "
-#~ "or if the requested Callsign Certificate is for a club station or for use "
-#~ "by a QSL manager on behalf of another operator, select 'Unsigned'."
-#~ msgstr ""
-#~ "あなたが別の個人コールサインの証明書を持っていない場合、あるいはリクエスト"
-#~ "するコールサインの証明書がクラブ局である場合、または別のオペレータの代わり"
-#~ "にQSLマネージャーとして使用する場合は、「署名なし」を選択してください。"
-
-#~ msgid "Unsigned"
-#~ msgstr "署名なし"
-
-#~ msgid "Signed"
-#~ msgstr "署名あり"
-
-#~ msgid "Sign Request"
-#~ msgstr "署名の要求"
-
-#~ msgid ""
-#~ "Since you have no callsign certificates, you must submit an 'Unsigned' "
-#~ "certificate request. This will allow you to create your initial callsign "
-#~ "certificate for LoTW use. Click 'Finish' to complete this callsign "
-#~ "certificate request."
-#~ msgstr ""
-#~ "あなたはコールサインの証明書を持っていないので、あなたは「署名なし」の証明"
-#~ "書リクエストを提出することになります。これによりLoTWを使うための最初のコー"
-#~ "ルサイン証明書を作成することができます。このコールサイン証明書のリクエスト"
-#~ "を完了するために、「完了」をクリックしてください。"
-
-#~ msgid "This request MUST be signed since DXCC Entity is set to NONE"
-#~ msgstr ""
-#~ "DXCC エンティティが NONE に設定されているため、このリクエストは**署名あり"
-#~ "**でなければなりません"
-
-#~ msgid ""
-#~ "You have one or more callsign certificates that could be used to sign "
-#~ "this certificate request."
-#~ msgstr ""
-#~ "この証明書のリクエストに署名できる複数のコールサイン証明書をあなたは持って"
-#~ "います。"
-
-#~ msgid ""
-#~ "It is strongly recommended that you sign the request unless the callsign "
-#~ "certificates shown are not actually yours."
-#~ msgstr ""
-#~ "ここに示されたコールサイン証明書が実際にあなたのものでないということでない"
-#~ "限り、リクエストに署名されることを強くお勧めします。"
-
-#~ msgid "Do you want to sign the certificate request?"
-#~ msgstr "証明書のリクエストに署名しますか？"
-
-#~ msgid ""
-#~ "Select \"Yes\" to sign the request, \"No\" to continue without signing."
-#~ msgstr ""
-#~ "リクエストに署名するには、\"はい\"を選択してください。署名せずに継続する場"
-#~ "合は\"いいえ\"を選択してください。"
-
-#~ msgid "Can't write new configuration file %s: %hs"
-#~ msgstr "新しい設定ファイル　%s　を書き込むことができません：　%hs"
-
-#~ msgid "Checking for TQSL updates...\n"
-#~ msgstr "TQSL の更新を確認しています...\n"
-
-#~ msgid "A new TrustedQSL configuration file (V%s) is available!"
-#~ msgstr "新しい　TrustedQSL　設定ファイル (V%s) が利用可能です！"
