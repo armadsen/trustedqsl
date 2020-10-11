@@ -77,7 +77,9 @@ MOVE-TAG.sh
 apps/key-new.icns
 apps/key-new.ico
 tqsl-*.dmg
-tqsl64-2.4.4.dmg
+makeit.sh
+
+#Testing stuff
 tests/CMakeLists.txt
 tests/basictest.cpp
 tests/basicTest
