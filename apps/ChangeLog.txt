@@ -14,6 +14,10 @@ cause formerly correct command lines to be rejected (specifically passing an
 empty callsign certificate passphrase as -p "" rather than dropping the 
 password option.
 
+If a user is editing an ADIF file using the TQSL ADIF editor and closes the
+editor window, TQSL would discard the file being edited. TQSL now asks the user
+if the changes should be saved before closing the editor.
+
 2.5.5
 ----------
 When unable to find a match for a callsign certificate where the station

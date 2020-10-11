@@ -734,22 +734,31 @@ class SimpleLogFormatter : public wxLogFormatter {
 class LogList : public wxLog {
  public:
 	explicit LogList(MyFrame *frame) : wxLog(), _frame(frame) {}
+#if wxMAJOR_VERSION > 2
+	virtual void DoLogText(const wxString& msg);
+#else
 	virtual void DoLogString(const wxChar *szString, time_t t);
+#endif
  private:
 	MyFrame *_frame;
 };
 
+#if wxMAJOR_VERSION > 2
+void LogList::DoLogText(const wxString& msg) {
+	const wxChar* szString(msg);
+#else
 void LogList::DoLogString(const wxChar *szString, time_t) {
-	wxTextCtrl *_logwin = 0;
 	static wxString msg(szString);
-
+#endif
 	static const char *smsg = msg.ToUTF8();
 
 	tqslTrace(NULL, "%s", smsg);
 
-	if (wxString(szString).StartsWith(wxT("Debug:")))
+	wxTextCtrl *_logwin = 0;
+
+	if (msg.StartsWith(wxT("Debug:")))
 		return;
-	if (wxString(szString).StartsWith(wxT("Error: Unable to open requested HTML document:")))
+	if (msg.StartsWith(wxT("Error: Unable to open requested HTML document:")))
 		return;
 	if (_frame != 0)
 		_logwin = _frame->logwin;
@@ -1503,6 +1512,9 @@ MyFrame::MyFrame(const wxString& title, int x, int y, int w, int h, bool checkUp
 
 	if (checkUpdates) {
 		LogList *log = new LogList(this);
+#if wxMAJOR_VERSION > 2
+		log->SetFormatter(new SimpleLogFormatter);
+#endif
 		wxLog::SetActiveTarget(log);
 	}
 }
@@ -5133,8 +5145,13 @@ wxLog *
 QSLApp::CreateLogTarget() {
 cerr << "called" << endl;
 	MyFrame *mf = (MyFrame *)GetTopWindow();
-	if (mf)
-		return new LogList(mf);
+	if (mf) {
+		LogList *log = new LogList(this);
+#if wxMAJOR_VERSION > 2
+		log->SetFormatter(new SimpleLogFormatter);
+#endif
+		return log;
+	}
 	return 0;
 }
 */

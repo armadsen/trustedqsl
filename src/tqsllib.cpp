@@ -510,7 +510,7 @@ tqsl_getErrorString_v(int err) {
 			cert = "none";
 		}
 		snprintf(buf, sizeof buf, "%s\nThe %s '%s' has value '%s' while QSO has '%s'",
-			error_strings[adjusted_err], 
+			error_strings[adjusted_err],
 			err == TQSL_LOCATION_MISMATCH ? "Station Location" : "Callsign Certificate",
 			fld, cert, qso);
 		return buf;
