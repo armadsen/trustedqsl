@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: TQSL v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-29 20:12-0400\n"
-"PO-Revision-Date: 2020-03-14 11:16+0200\n"
+"PO-Revision-Date: 2020-10-10 14:57+0300\n"
 "Last-Translator: Juhani Tapaninen\n"
 "Language-Team: \n"
 "Language: fi_FI\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: certtree.cpp:104
@@ -55,6 +55,8 @@ msgid ""
 "My former personal callsign or a portable modifier for my current or former "
 "callsign"
 msgstr ""
+"Aiempi henkilökohtainen kutsumerkkini tai liikkuvan aseman lisämerkki "
+"nykyiseen tai aiempaan kutsumerkkiini"
 
 #: crqwiz.cpp:55
 msgid "A primary club callsign"
@@ -195,32 +197,42 @@ msgid ""
 "passphrase to protect this Callsign Certificate. However, if you are using a "
 "computer in a private residence, no passphrase need be specified."
 msgstr ""
+"Voit suojata tämän kutsumerkin varmenteen salasanalla. Jos käytät "
+"tietokonetta, jota käyttävät muutkin henkilöt, sinun on syytä antaa "
+"salalause suojataksesi tämän kutsumerkni varmenteen. Kuitenkin, jos käytät "
+"tietokonetta yksityistaloudessa, salasanaa ei ole tarvetta antaa."
 
 #: crqwiz.cpp:673 crqwiz.cpp:698
 msgid ""
 "Leave the passphrase blank and click 'Next' unless you want to use a "
 "passphrase."
 msgstr ""
+"Jätä salasanakenttä tyhjäksi ja valitse \"Seuraava\", jos et halua käyttää "
+"salasanaa."
 
 #: crqwiz.cpp:677
 msgid "Passphrase:"
-msgstr ""
+msgstr "Salalause:"
 
 #: crqwiz.cpp:681
 msgid "Enter the passphrase again for verification:"
-msgstr ""
+msgstr "Anna salalause uudelleen varmistuksen vuoksi:"
 
 #: crqwiz.cpp:685
 msgid ""
 "DO NOT lose the passphrase you choose! You will be unable to use the "
 "Certificate without this passphrase!"
 msgstr ""
+"ÄLÄ hukkaa valitsemaasi salalausetta! Et voi käyttää varmennetta ilman tätä "
+"salalausetta!"
 
 #: crqwiz.cpp:703
 msgid ""
 "Leave the passphrase blank and click 'Finish' unless you want to use a "
 "passphrase."
 msgstr ""
+"Jätä salalause tyhjäksi ja valitse \"Valmis\", jos et halua käyttää "
+"salalausetta."
 
 #: crqwiz.cpp:749
 msgid "This Callsign Certificate is for:"
@@ -244,6 +256,7 @@ msgstr "Valitse kerhosi ensisijaisen kutsun varmenne vahvistaaksesi pyyntösi."
 #, c-format
 msgid "The callsign is too long. Only %d characters are allowed."
 msgstr ""
+"Kutsumerkki on liian pitkä. Kutsumerkki voi olla enintään %d merkkiä pitkä."
 
 #: crqwiz.cpp:909
 msgid "You must enter a valid call sign."
@@ -460,7 +473,7 @@ msgstr "Voimassa oleva sähköpostiosoite on annettava"
 
 #: crqwiz.cpp:1383
 msgid "The two copies of the passphrase do not match."
-msgstr ""
+msgstr "Annetut salalauseet eivät täsmää."
 
 #: crqwiz.cpp:1424
 msgid "Click 'Finish' to complete this Callsign Certificate request."
@@ -473,7 +486,7 @@ msgid ""
 "You are saying that the requested Certificate for %s belongs to the same "
 "person as %hs and are using the selected Certificate to prove %hs's identity."
 msgstr ""
-"Sanot että pyydetty varmenne %s:lle kuuluu samalle henkilölle kuin %hs ja "
+"Imoitat että pyydetty varmenne %s:lle kuuluu samalle henkilölle kuin %hs ja "
 "käyttää valittua varmennetta todistaakseen %hs:n identiteetin."
 
 #. TRANSLATORS: This is part of an deleted DXCC entity name
@@ -500,7 +513,7 @@ msgstr "Peruuta"
 
 #: getpassword.cpp:111
 msgid "New passphrase:"
-msgstr ""
+msgstr "Uusi salalause:"
 
 #: getpassword.cpp:114
 msgid "Enter again to confirm:"
@@ -508,11 +521,11 @@ msgstr "Syötä uudelleen varmistaaksesi:"
 
 #: getpassword.cpp:146
 msgid "Passphrase entries do not match"
-msgstr ""
+msgstr "Annetut salalauseet eivät täsmää"
 
 #: getpassword.cpp:157
 msgid "Passphrase confirmed"
-msgstr ""
+msgstr "Salalause varmistettu"
 
 #: loadcertwiz.cpp:41
 msgid "Import completed successfully"
@@ -536,7 +549,7 @@ msgstr "Tämä kutsumerkin varmenne on jo asennettu"
 
 #: loadcertwiz.cpp:118
 msgid "Trusted root certificate"
-msgstr ""
+msgstr "Luotettu päävarmenne"
 
 #: loadcertwiz.cpp:121
 msgid "Certificate Authority certificate"
@@ -548,7 +561,7 @@ msgstr "Kutsumerkin varmenne"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a passphrase for this callsign certificate."
-msgstr ""
+msgstr "Syötä salalause tälle kutsumerkin varmenteelle."
 
 #: loadcertwiz.cpp:161
 msgid ""
@@ -556,22 +569,29 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence no passphrase need be specified."
 msgstr ""
+"Jos käytät tietokonetta, jota käyttävät muutkin henkilöt, sinun on syytä "
+"antaa salalause suojataksesi tämän varmenteen. Kuitenkin, jos käytät "
+"tietokonetta yksityistaloudessa, salasanaa ei ole tarvetta antaa."
 
 #: loadcertwiz.cpp:163
 msgid ""
 "This passphrase will have to be entered each time you use this callsign "
 "certificate for signing or when saving the key."
 msgstr ""
+"Tämä salalause on annettava joka kerta kun käytät tätä kutsumerkin "
+"varmennetta allekirjoitukseen tai kun tallennat avainta."
 
 #: loadcertwiz.cpp:165 tqsl.cpp:6475
 msgid ""
 "Leave the passphrase blank and click 'OK' unless you want to use a "
 "passphrase."
 msgstr ""
+"Jätä salalause tyhjäksi ja valitse \"Valmis\", jos et halua käyttää "
+"salalausetta."
 
 #: loadcertwiz.cpp:167
 msgid "New Passphrase"
-msgstr ""
+msgstr "Uusi salalause"
 
 #: loadcertwiz.cpp:202
 msgid ""
@@ -614,7 +634,7 @@ msgstr "Valitse varmennetiedosto"
 
 #: loadcertwiz.cpp:292 loadcertwiz.cpp:367 tqsl.cpp:5744
 msgid "This file is not a valid P12 file"
-msgstr ""
+msgstr "Tämä tiedosto ei ole pätevä P12-tiedosto"
 
 #: loadcertwiz.cpp:308
 msgid "Loading complete"
@@ -626,11 +646,11 @@ msgstr "Tilatietoa ei ole saatavilla"
 
 #: loadcertwiz.cpp:330
 msgid "Enter the passphrase to unlock the .p12 file:"
-msgstr ""
+msgstr "Syötä salalause avataksesi .p12-tiedoston:"
 
 #: loadcertwiz.cpp:364 tqsl.cpp:2155
 msgid "Passphrase error"
-msgstr ""
+msgstr "Virhe salalauseessa"
 
 #: loctree.cpp:86 tqsl.cpp:1387 tqsl.cpp:6690
 msgid "Station Locations"
@@ -781,11 +801,11 @@ msgstr "Kirjoitettiin %d QSO-tietoa %s:iin"
 
 #: qsodatadialog.cpp:739
 msgid "The file has not been saved. Should the QSOs be saved?"
-msgstr ""
+msgstr "Tiedostoa ei ole tallennettu. Tallennetaanko QSO:t?"
 
 #: qsodatadialog.cpp:739
 msgid "Confirm Close"
-msgstr ""
+msgstr "Vahvista sulkeminen"
 
 #: qsodatadialog.cpp:863
 msgid "One QSO Record"
@@ -967,10 +987,12 @@ msgid ""
 "(This is the passphrase you made up when you installed the callsign "
 "certificate.)"
 msgstr ""
+"Syötä salalause avataksesi varmenteen kutsumerkille %hs -- %hs\n"
+"(Tämä on salalause, jonka keksit, kun asensit kutsumerkin varmennetta.)"
 
 #: tqsl.cpp:258 tqsl.cpp:7128 getpassword.h:32 getpassword.h:33
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Syötä salalause"
 
 #: tqsl.cpp:289
 msgid "Signing QSO Data"
@@ -978,7 +1000,7 @@ msgstr "Allekirjoitan QSO-tietoja"
 
 #: tqsl.cpp:292
 msgid "Converting "
-msgstr "Muunnan"
+msgstr "Muunnetaan "
 
 #: tqsl.cpp:292
 msgid "to TQSL format"
@@ -1143,12 +1165,11 @@ msgstr ""
 "Huomaa, että jotkut lokiohjelmat voivat toimia oudosti jos et valitse "
 "vaihtoehtoa \"Lähetä QSO-tiedot uudestaan\". \"Vain uudet QSO-tiedot\" on "
 "suositeltava vaihtoehto, mutta lokiohjelma, joka itse seuraa lähetettyjä "
-"tietoja saattaa tässä tapauksesas merkitä väärin lähetettyjen tietojen "
-"tilan. Lokiohjelma, joka ei seuraa lähetettyjä tietoja, toiminee oikein "
-"valinnan \"Vain uudet QSO-tiedot\" kanssa, ja jos se seuraa \"QSO-tiedot "
-"lähetetty\" -tilaa, se merkitsee oikein kaikki valitut QSO-tiedot "
-"lähetetyiksi - ne ovat tililläsi vaikka niitä ei lähetetäkään tässä "
-"nimenomaisessa lähetyksessä."
+"tietoja saattaa tässä tapauksessa merkit lähetettyjen tietojen tilan väärin. "
+"Lokiohjelma, joka ei seuraa lähetettyjä tietoja, toiminee oikein valinnan "
+"\"Vain uudet QSO-tiedot\" kanssa, ja jos se seuraa \"QSO-tiedot lähetetty\" -"
+"tilaa, se merkitsee oikein kaikki valitut QSO-tiedot lähetetyiksi - ne ovat "
+"tililläsi vaikka niitä ei lähetetäkään tässä nimenomaisessa lähetyksessä"
 
 #: tqsl.cpp:541
 msgid ""
@@ -1633,7 +1654,7 @@ msgstr "Virhe kompressoinnissa ennen lähetystä"
 #: tqsl.cpp:2681
 msgid "Unable to open ca-bundle.crt. Your TQSL installation is incomplete"
 msgstr ""
-"Ei voitu avata tiedostoa ca-bundle.crt. TQSL-asennuksesi on epätäydellinen."
+"Ei voitu avata tiedostoa ca-bundle.crt. TQSL-asennuksesi on epätäydellinen"
 
 #: tqsl.cpp:2746
 msgid "Error: Could not upload file (CURL Init error)"
@@ -2197,12 +2218,12 @@ msgstr "Tarkista päivitykset tqsl:ään ja kokoonpanotiedostoon"
 #: tqsl.cpp:5413
 msgid "Output file name (defaults to input name minus extension plus .tq8"
 msgstr ""
-"tulostetiedoston nimi (oletusarvo syötetiedoston nimi miinus tarkenne plus ."
+"Tulostetiedoston nimi (oletusarvo syötetiedoston nimi miinus tarkenne plus ."
 "tq8"
 
 #: tqsl.cpp:5414
 msgid "Passphrase for the signing key"
-msgstr ""
+msgstr "Salalause varmennusavaimelle"
 
 #: tqsl.cpp:5415
 msgid "Quiet Mode - same behavior as -x"
@@ -2255,7 +2276,7 @@ msgstr "-f parametriä %hs ei tunnistettu"
 
 #: tqsl.cpp:5742
 msgid "Password protected P12 files cannot be imported on the command line"
-msgstr ""
+msgstr "Salasanasuojattuja P12-tiedostoja ei voi tuoda komentoriviltä"
 
 #: tqsl.cpp:5757
 msgid "No logfile to sign!"
@@ -2437,7 +2458,7 @@ msgstr "Varmenteiden säilötiedostot (*.p12)|*.p12|Kaikki tiedostot (*.*)|*.*"
 
 #: tqsl.cpp:6469
 msgid "Enter the passphrase for the certificate container file."
-msgstr ""
+msgstr "Syötä salalause varmenteen säilötiedostolle."
 
 #: tqsl.cpp:6471
 msgid ""
@@ -2445,16 +2466,20 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence, no passphrase need be specified."
 msgstr ""
+"Jos käytät tietokonetta, jota käyttävät muutkin henkilöt, sinun on syytä "
+"antaa salalause suojataksesi tämän varmenteen. Kuitenkin, jos käytät "
+"tietokonetta yksityistaloudessa, salasanaa ei ole tarvetta antaa."
 
 #: tqsl.cpp:6473
 msgid ""
 "You will have to enter the passphrase any time you load the file into "
 "TrustedQSL."
 msgstr ""
+"Sinun on annettava salalause joka kerta kun lataat tiedoston TrustedQSL:ään."
 
 #: tqsl.cpp:6477
 msgid "Certificate Container Passphrase"
-msgstr ""
+msgstr "Varmenteiden säilötiedoston salalause"
 
 #: tqsl.cpp:6508
 #, c-format
@@ -2580,7 +2605,7 @@ msgstr "Yhteyksien loppumispäivä: "
 
 #: tqsl.cpp:6839
 msgid "Passphrase: "
-msgstr ""
+msgstr "Salalause: "
 
 #: tqsl.cpp:6931
 msgid "Missing from this computer"
@@ -2608,7 +2633,7 @@ msgstr "Tyhjä"
 
 #: tqsl.cpp:6956
 msgid "Passphrase protected"
-msgstr ""
+msgstr "Suojattu salalauseella"
 
 #: tqsl.cpp:6962
 msgid "Certificate Request:"
@@ -2668,7 +2693,7 @@ msgstr "Oblast: "
 
 #: tqsl.cpp:7118
 msgid "Enter the Passphrase to unlock the callsign certificate"
-msgstr ""
+msgstr "Syötä salalause avataksesi kutsumerkin varmenteen"
 
 #: tqsl_prefs.cpp:50
 msgid "Preferences"
@@ -2755,7 +2780,7 @@ msgstr "Näytä tilaviestit erillisessä välilehdessä"
 
 #: tqsl_prefs.cpp:383
 msgid "Enable passphrases for Callsign Certificates"
-msgstr ""
+msgstr "Ota käyttöön salalauseet kutsumerkin varmenteille"
 
 #: tqsl_prefs.cpp:425
 msgid ""
@@ -2814,7 +2839,7 @@ msgstr "Käytä välityspalvelinta (proxy)"
 
 #: tqsl_prefs.cpp:682
 msgid "Proxy Address:"
-msgstr "Välityspalvelimen osoite: "
+msgstr "Välityspalvelimen osoite:"
 
 #: tqsl_prefs.cpp:690
 msgid "Port Number:"
@@ -2985,7 +3010,7 @@ msgstr "Varmennetta ei ole alustettu allekirjoitusta varten"
 
 #: wxutil.cpp:143
 msgid "Passphrase not correct"
-msgstr ""
+msgstr "Väärä salalause"
 
 #: wxutil.cpp:144
 msgid "Expected name"
@@ -3139,13 +3164,15 @@ msgstr "%s '%hs':lla on arvo '%hs' mutta QSO-tiedoissa on arvo '%hs'"
 
 #: wxutil.cpp:271
 msgid "This log has invalid QSO information"
-msgstr ""
+msgstr "Tässä lokissa on vääriä QSO-tietoja"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The log being signed has 'US County' set to Foobar which is not valid'
 #: wxutil.cpp:273
 #, c-format
 msgid "The log being signed has '%hs' set to value '%hs' which is not valid"
 msgstr ""
+"Allekirjoitettavassa lokissa on parametri '%hs' asetettu arvoon '%hs', joka "
+"ei ole sallittu"
 
 #: wxutil.cpp:278
 #, c-format
@@ -3158,11 +3185,11 @@ msgstr ""
 
 #: getpassword.h:51
 msgid "New passphrase"
-msgstr ""
+msgstr "Uusi salalause"
 
 #: getpassword.h:52
 msgid "Enter new passphrase"
-msgstr ""
+msgstr "Syötä uusi salalause"
 
 #: qsodatadialog.h:85
 msgid "QSO Data"

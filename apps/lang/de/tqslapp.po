@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: V2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-29 20:12-0400\n"
-"PO-Revision-Date: 2020-03-12 11:11+0100\n"
+"PO-Revision-Date: 2020-10-08 21:01+0200\n"
 "Last-Translator: Andreas Rehberg\n"
 "Language-Team: TQSL Developers\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: certtree.cpp:104
 msgid "tQSL Certificates"
@@ -54,6 +54,8 @@ msgid ""
 "My former personal callsign or a portable modifier for my current or former "
 "callsign"
 msgstr ""
+"Mein ehemaliges persönliches Rufzeichen oder eine /P-Angabe für mein "
+"aktuelles oder ehemaliges Rufzeichen"
 
 #: crqwiz.cpp:55
 msgid "A primary club callsign"
@@ -194,32 +196,41 @@ msgid ""
 "passphrase to protect this Callsign Certificate. However, if you are using a "
 "computer in a private residence, no passphrase need be specified."
 msgstr ""
+"Sie können dieses Rufzeichen-Zertifikat durch ein Passwort schützen. Wenn "
+"dieser Computer von weiteren Personen verwendet wird sollten Sie ein "
+"Passwort benutzen; ansonsten kann darauf verzichtet werden."
 
 #: crqwiz.cpp:673 crqwiz.cpp:698
 msgid ""
 "Leave the passphrase blank and click 'Next' unless you want to use a "
 "passphrase."
 msgstr ""
+"Lassen Sie das Kennwort leer und klicken Sie auf 'Weiter', ausser wenn Sie "
+"ein Kennwort verwenden möchten."
 
 #: crqwiz.cpp:677
 msgid "Passphrase:"
-msgstr ""
+msgstr "Passwort:"
 
 #: crqwiz.cpp:681
 msgid "Enter the passphrase again for verification:"
-msgstr ""
+msgstr "Passwort zur Bestätigung wiederholen:"
 
 #: crqwiz.cpp:685
 msgid ""
 "DO NOT lose the passphrase you choose! You will be unable to use the "
 "Certificate without this passphrase!"
 msgstr ""
+"Verlieren Sie das Passwort nicht. Das Zertifikat kann ohne dieses Passwort "
+"nicht benutzt werden."
 
 #: crqwiz.cpp:703
 msgid ""
 "Leave the passphrase blank and click 'Finish' unless you want to use a "
 "passphrase."
 msgstr ""
+"Wenn Sie kein Passwort benutzen wollen, lassen Sie das Feld leer und klicken "
+"auf 'Finish'."
 
 #: crqwiz.cpp:749
 msgid "This Callsign Certificate is for:"
@@ -244,7 +255,7 @@ msgstr ""
 #: crqwiz.cpp:871
 #, c-format
 msgid "The callsign is too long. Only %d characters are allowed."
-msgstr ""
+msgstr "Rufzeichen zu lang. Es sind nur %d Zeichen erlaubt."
 
 #: crqwiz.cpp:909
 msgid "You must enter a valid call sign."
@@ -459,7 +470,7 @@ msgstr "Sie müssen eine gültige E-Mail-Adresse eingeben"
 
 #: crqwiz.cpp:1383
 msgid "The two copies of the passphrase do not match."
-msgstr ""
+msgstr "Die beiden Passwörter stimmen nicht überein."
 
 #: crqwiz.cpp:1424
 msgid "Click 'Finish' to complete this Callsign Certificate request."
@@ -501,7 +512,7 @@ msgstr "Abbrechen"
 
 #: getpassword.cpp:111
 msgid "New passphrase:"
-msgstr ""
+msgstr "Neues Passwort:"
 
 #: getpassword.cpp:114
 msgid "Enter again to confirm:"
@@ -509,11 +520,11 @@ msgstr "Zur Bestätigung wiederholen:"
 
 #: getpassword.cpp:146
 msgid "Passphrase entries do not match"
-msgstr ""
+msgstr "Passwörter stimmen nicht überein"
 
 #: getpassword.cpp:157
 msgid "Passphrase confirmed"
-msgstr ""
+msgstr "Passwort bestätigt"
 
 #: loadcertwiz.cpp:41
 msgid "Import completed successfully"
@@ -549,7 +560,7 @@ msgstr "Rufzeichen-Zertifikat"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a passphrase for this callsign certificate."
-msgstr ""
+msgstr "Passwort für dieses Rufzeichen-Zertifikat eingeben."
 
 #: loadcertwiz.cpp:161
 msgid ""
@@ -557,22 +568,29 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence no passphrase need be specified."
 msgstr ""
+"Wenn dieser Computer von weiteren Personen verwendet wird sollten Sie ein "
+"Passwort benutzen; ansonsten kann darauf verzichtet werden."
 
 #: loadcertwiz.cpp:163
 msgid ""
 "This passphrase will have to be entered each time you use this callsign "
 "certificate for signing or when saving the key."
 msgstr ""
+"Dieses Passwort muss jedes Mal eingegeben werden, wenn Sie dieses "
+"Spielerzeichenzertifikat zum Signieren oder beim Speichern des Schlüssels "
+"verwenden."
 
 #: loadcertwiz.cpp:165 tqsl.cpp:6475
 msgid ""
 "Leave the passphrase blank and click 'OK' unless you want to use a "
 "passphrase."
 msgstr ""
+"Wenn Sie kein Passwort benutzen wollen, lassen Sie das Feld leer und klicken "
+"auf 'OK'."
 
 #: loadcertwiz.cpp:167
 msgid "New Passphrase"
-msgstr ""
+msgstr "Neues Passwort"
 
 #: loadcertwiz.cpp:202
 msgid ""
@@ -614,7 +632,7 @@ msgstr "Wählen Sie eine Zertifikatsdatei"
 
 #: loadcertwiz.cpp:292 loadcertwiz.cpp:367 tqsl.cpp:5744
 msgid "This file is not a valid P12 file"
-msgstr ""
+msgstr "Dies ist keine gültige P12 Datei"
 
 #: loadcertwiz.cpp:308
 msgid "Loading complete"
@@ -626,11 +644,11 @@ msgstr "Keine Statusinformationen verfügbar"
 
 #: loadcertwiz.cpp:330
 msgid "Enter the passphrase to unlock the .p12 file:"
-msgstr ""
+msgstr "Passwort zum Entsperren der .p12-Datei eingeben:"
 
 #: loadcertwiz.cpp:364 tqsl.cpp:2155
 msgid "Passphrase error"
-msgstr ""
+msgstr "Passwort Fehler"
 
 #: loctree.cpp:86 tqsl.cpp:1387 tqsl.cpp:6690
 msgid "Station Locations"
@@ -782,11 +800,11 @@ msgstr "%d QSO-Einträge in %s geschrieben"
 
 #: qsodatadialog.cpp:739
 msgid "The file has not been saved. Should the QSOs be saved?"
-msgstr ""
+msgstr "Die Datei wurde nicht gespeichert. Sollen die QSOs gespeichert werden?"
 
 #: qsodatadialog.cpp:739
 msgid "Confirm Close"
-msgstr ""
+msgstr "Schliessen bestätigen"
 
 #: qsodatadialog.cpp:863
 msgid "One QSO Record"
@@ -909,7 +927,7 @@ msgstr "Vom Benutzer abgebrochen"
 
 #: tqsl.cpp:180
 msgid "Upload Rejected"
-msgstr "Upload wurde abgelehnt!"
+msgstr "Upload wurde abgelehnt"
 
 #: tqsl.cpp:181
 msgid "Unexpected LoTW Response"
@@ -964,10 +982,14 @@ msgid ""
 "(This is the passphrase you made up when you installed the callsign "
 "certificate.)"
 msgstr ""
+"Geben Sie das Passwort zum entsperren des Rufzeichen-Zertifikats ein für %hs "
+"-- %hs\n"
+"(das ist das Passwort, das Sie bei der Installation des Rufzeichen-"
+"Zertifikats angegeben haben.)"
 
 #: tqsl.cpp:258 tqsl.cpp:7128 getpassword.h:32 getpassword.h:33
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Passwort eingeben"
 
 #: tqsl.cpp:289
 msgid "Signing QSO Data"
@@ -1144,7 +1166,7 @@ msgstr ""
 "anders als erwartet verhalten, wenn eine andere Option als 'Duplikate "
 "zulassen' angeklickt wird. 'Nur neue QSOs' wird empfohlen. Manche Log-"
 "Programme mit eigener 'Hochgeladen-Markierung' könnten den Status der "
-"hochgeladenen QSOs aber ggf. falsch speichern. "
+"hochgeladenen QSOs aber ggf. falsch speichern."
 
 #: tqsl.cpp:541
 msgid ""
@@ -1635,8 +1657,7 @@ msgstr "Fehler beim Komprimieren vor dem Hochladen"
 #: tqsl.cpp:2681
 msgid "Unable to open ca-bundle.crt. Your TQSL installation is incomplete"
 msgstr ""
-"Kann ca-bundle.crt nicht öffnen. Ihre TQSL-Installation ist nicht "
-"vollständig."
+"Kann ca-bundle.crt nicht öffnen. Ihre TQSL-Installation ist unvollständig."
 
 #: tqsl.cpp:2746
 msgid "Error: Could not upload file (CURL Init error)"
@@ -1901,11 +1922,11 @@ msgstr "Aktualisierung"
 #: tqsl.cpp:3352
 #, c-format
 msgid "Can't open TQSL update file %s: %hs"
-msgstr "TQSL-Update-Datei kann nicht geöffnet werden %s: %hs."
+msgstr "TQSL-Update-Datei kann nicht geöffnet werden %s: %hs"
 
 #: tqsl.cpp:3395
 msgid "Error downloading new file:"
-msgstr "Fehler beim Herunterladen der Datei."
+msgstr "Fehler beim Herunterladen der Datei:"
 
 #: tqsl.cpp:3635
 msgid "Error checking for expired callsign certificates:"
@@ -2207,7 +2228,7 @@ msgstr ""
 
 #: tqsl.cpp:5414
 msgid "Passphrase for the signing key"
-msgstr ""
+msgstr "Passwort für die Signierung"
 
 #: tqsl.cpp:5415
 msgid "Quiet Mode - same behavior as -x"
@@ -2261,6 +2282,8 @@ msgstr "Der Parameter -f %hs wird nicht erkannt"
 #: tqsl.cpp:5742
 msgid "Password protected P12 files cannot be imported on the command line"
 msgstr ""
+"Über die Kommandozeile können keine passwortgeschützten P12-Dateien "
+"importiert werden"
 
 #: tqsl.cpp:5757
 msgid "No logfile to sign!"
@@ -2444,7 +2467,7 @@ msgstr "Zertifikats-Container-Dateien (*.p12)|*.p12|Alle Dateien (*.*)|*.*"
 
 #: tqsl.cpp:6469
 msgid "Enter the passphrase for the certificate container file."
-msgstr ""
+msgstr "Passwort für die Zertifikats-Container-Datei eingeben."
 
 #: tqsl.cpp:6471
 msgid ""
@@ -2452,16 +2475,20 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence, no passphrase need be specified."
 msgstr ""
+"Wenn dieser Computer von weiteren Personen verwendet wird sollten Sie ein "
+"Passwort benutzen; ansonsten kann darauf verzichtet werden."
 
 #: tqsl.cpp:6473
 msgid ""
 "You will have to enter the passphrase any time you load the file into "
 "TrustedQSL."
 msgstr ""
+"Sie müssen das Passwort jedes Mal eingeben wenn Sie die Datei in TrustedQSL "
+"hochladen."
 
 #: tqsl.cpp:6477
 msgid "Certificate Container Passphrase"
-msgstr ""
+msgstr "Zertifikats-Container-Passwort"
 
 #: tqsl.cpp:6508
 #, c-format
@@ -2589,7 +2616,7 @@ msgstr "QSO-Enddatum: "
 
 #: tqsl.cpp:6839
 msgid "Passphrase: "
-msgstr ""
+msgstr "Passwort: "
 
 #: tqsl.cpp:6931
 msgid "Missing from this computer"
@@ -2617,11 +2644,11 @@ msgstr "Keines"
 
 #: tqsl.cpp:6956
 msgid "Passphrase protected"
-msgstr ""
+msgstr "Passwortgeschützt"
 
 #: tqsl.cpp:6962
 msgid "Certificate Request:"
-msgstr "Zertifikatsanforderung: "
+msgstr "Zertifikatsanforderung:"
 
 #: tqsl.cpp:6964
 msgid "Awaiting response from ARRL"
@@ -2677,7 +2704,7 @@ msgstr "Oblast: "
 
 #: tqsl.cpp:7118
 msgid "Enter the Passphrase to unlock the callsign certificate"
-msgstr ""
+msgstr "Passwort zum Entsperren des Rufzeichen-Zertifikats eingeben"
 
 #: tqsl_prefs.cpp:50
 msgid "Preferences"
@@ -2763,7 +2790,7 @@ msgstr "Statusmeldungen in separater Registerkarte anzeigen"
 
 #: tqsl_prefs.cpp:383
 msgid "Enable passphrases for Callsign Certificates"
-msgstr ""
+msgstr "Passwort für Rufzeichen-Zertifikate eingeben"
 
 #: tqsl_prefs.cpp:425
 msgid ""
@@ -2993,7 +3020,7 @@ msgstr "Zertifikat zum Signieren nicht initialisiert"
 
 #: wxutil.cpp:143
 msgid "Passphrase not correct"
-msgstr ""
+msgstr "Passwort falsch"
 
 #: wxutil.cpp:144
 msgid "Expected name"
@@ -3035,7 +3062,7 @@ msgid ""
 "computer; you can obtain it by loading a .tbk or .p12 file"
 msgstr ""
 "Der private Schlüssel für dieses Rufzeichen-Zertifikat befindet sich nicht "
-"auf diesem Computer; laden Sie eine .tbk oder .p12 Datei."
+"auf diesem Computer; laden Sie eine .tbk oder .p12 Datei"
 
 #: wxutil.cpp:153
 msgid "PKCS#12 file not TQSL compatible"
@@ -3087,7 +3114,7 @@ msgstr "Rufzeichen-Zertifikat stimmt nicht mit QSO-Details überein"
 
 #: wxutil.cpp:165
 msgid "Station Location does not match QSO details"
-msgstr "Standort stimmt nicht mit den QSO-Details überein."
+msgstr "Standort stimmt nicht mit den QSO-Details überein"
 
 #: wxutil.cpp:174
 msgid "NO ERROR"
@@ -3128,7 +3155,7 @@ msgid ""
 "you can obtain it by loading a .tbk or .p12 file"
 msgstr ""
 "Der private Schlüssel für das Rufzeichen %hs Nr. %ld befindet sich nicht auf "
-"diesem Computer; laden Sie eine .tbk oder .p12 Datei."
+"diesem Computer; laden Sie eine .tbk oder .p12 Datei"
 
 #: wxutil.cpp:247
 #, c-format
@@ -3147,13 +3174,13 @@ msgstr "%s '%hs' hat den Wert '%hs' das QSO jedoch '%hs'"
 
 #: wxutil.cpp:271
 msgid "This log has invalid QSO information"
-msgstr ""
+msgstr "Log enthält ungültige QSO-Informationen"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The log being signed has 'US County' set to Foobar which is not valid'
 #: wxutil.cpp:273
 #, c-format
 msgid "The log being signed has '%hs' set to value '%hs' which is not valid"
-msgstr ""
+msgstr "Im Log steht '%hs' auf '%hs'. Dies ist ungültig."
 
 #: wxutil.cpp:278
 #, c-format
@@ -3166,11 +3193,11 @@ msgstr ""
 
 #: getpassword.h:51
 msgid "New passphrase"
-msgstr ""
+msgstr "Neues Passwort"
 
 #: getpassword.h:52
 msgid "Enter new passphrase"
-msgstr ""
+msgstr "Neues Passwort eingeben"
 
 #: qsodatadialog.h:85
 msgid "QSO Data"

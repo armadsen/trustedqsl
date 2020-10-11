@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: TQSL v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-29 20:12-0400\n"
-"PO-Revision-Date: 2020-03-15 18:34+0300\n"
+"PO-Revision-Date: 2020-10-08 09:57+0300\n"
 "Last-Translator: Oguzhan Kayhan\n"
 "Language-Team: \n"
 "Language: tr_TR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: certtree.cpp:104
@@ -52,7 +52,7 @@ msgstr "Yeni Çağrı Adım (Önceki çağrı adım için sertifikam mevcut)"
 msgid ""
 "My former personal callsign or a portable modifier for my current or former "
 "callsign"
-msgstr ""
+msgstr "Eski kişisel çağrı işareti ya da mevcut çağrı işareti mobil kesmesi"
 
 #: crqwiz.cpp:55
 msgid "A primary club callsign"
@@ -184,32 +184,39 @@ msgid ""
 "passphrase to protect this Callsign Certificate. However, if you are using a "
 "computer in a private residence, no passphrase need be specified."
 msgstr ""
+"Bu çağrı işareti sertifikasını bir parola ile koruyabilirsiniz. Eğer bu "
+"bilgisayarı başkaları ile ortak kullanıyorsanız, parola kullanmanız tavsiye "
+"edilir. Eğer kişisel bilgisayarınız ise, parola kullanmanıza gerek yoktur."
 
 #: crqwiz.cpp:673 crqwiz.cpp:698
 msgid ""
 "Leave the passphrase blank and click 'Next' unless you want to use a "
 "passphrase."
 msgstr ""
+"Eğer parola kullanmak istemiyorsanız, alanı boş bırakıp 'Devam' a basın."
 
 #: crqwiz.cpp:677
 msgid "Passphrase:"
-msgstr ""
+msgstr "Parola:"
 
 #: crqwiz.cpp:681
 msgid "Enter the passphrase again for verification:"
-msgstr ""
+msgstr "Doğrulamak için parolayı tekrar giriniz:"
 
 #: crqwiz.cpp:685
 msgid ""
 "DO NOT lose the passphrase you choose! You will be unable to use the "
 "Certificate without this passphrase!"
 msgstr ""
+"Parolanızı unutmayın. Parolayı unutmanız durumunda bu sertifikayı "
+"kullanamazsınız!"
 
 #: crqwiz.cpp:703
 msgid ""
 "Leave the passphrase blank and click 'Finish' unless you want to use a "
 "passphrase."
 msgstr ""
+"Şifre kullanmak istemiyorsanız, şifre kısmını boş bırakıp 'Bitir' e basın."
 
 #: crqwiz.cpp:749
 msgid "This Callsign Certificate is for:"
@@ -233,7 +240,7 @@ msgstr ""
 #: crqwiz.cpp:871
 #, c-format
 msgid "The callsign is too long. Only %d characters are allowed."
-msgstr ""
+msgstr "Çağrı İşareti çok uzun. Sadece %d karaktere izin verilmektedir."
 
 #: crqwiz.cpp:909
 msgid "You must enter a valid call sign."
@@ -440,7 +447,7 @@ msgstr "Geçerli bir e-posta adresi girmelisiniz"
 
 #: crqwiz.cpp:1383
 msgid "The two copies of the passphrase do not match."
-msgstr ""
+msgstr "İki şifre birbirine uymamaktadır."
 
 #: crqwiz.cpp:1424
 msgid "Click 'Finish' to complete this Callsign Certificate request."
@@ -479,7 +486,7 @@ msgstr "İptal"
 
 #: getpassword.cpp:111
 msgid "New passphrase:"
-msgstr ""
+msgstr "Yeni şifre:"
 
 #: getpassword.cpp:114
 msgid "Enter again to confirm:"
@@ -487,11 +494,11 @@ msgstr "Onay için tekrar girin:"
 
 #: getpassword.cpp:146
 msgid "Passphrase entries do not match"
-msgstr ""
+msgstr "Parolalar uyuşmamaktadır"
 
 #: getpassword.cpp:157
 msgid "Passphrase confirmed"
-msgstr ""
+msgstr "Parola onaylandı"
 
 #: loadcertwiz.cpp:41
 msgid "Import completed successfully"
@@ -527,7 +534,7 @@ msgstr "Çağrı adı sertifikası"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a passphrase for this callsign certificate."
-msgstr ""
+msgstr "Bu sertifika için bir parola giriniz."
 
 #: loadcertwiz.cpp:161
 msgid ""
@@ -535,22 +542,26 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence no passphrase need be specified."
 msgstr ""
+"Bu çağrı işareti sertifikasını bir parola ile koruyabilirsiniz. Eğer bu "
+"bilgisayarı başkaları ile ortak kullanıyorsanız, parola kullanmanız tavsiye "
+"edilir. Eğer kişisel bilgisayarınız ise, parola kullanmanıza gerek yoktur."
 
 #: loadcertwiz.cpp:163
 msgid ""
 "This passphrase will have to be entered each time you use this callsign "
 "certificate for signing or when saving the key."
-msgstr ""
+msgstr "Bu şifre her log imzalama işlemi sırasında kullanılacaktır."
 
 #: loadcertwiz.cpp:165 tqsl.cpp:6475
 msgid ""
 "Leave the passphrase blank and click 'OK' unless you want to use a "
 "passphrase."
 msgstr ""
+"Eğer parola kullanmak istemiyorsanız, alanı boş bırakıp 'Devam' a basın."
 
 #: loadcertwiz.cpp:167
 msgid "New Passphrase"
-msgstr ""
+msgstr "Yeni şifre"
 
 #: loadcertwiz.cpp:202
 msgid ""
@@ -592,7 +603,7 @@ msgstr "Sertifika dosyasını seçiniz"
 
 #: loadcertwiz.cpp:292 loadcertwiz.cpp:367 tqsl.cpp:5744
 msgid "This file is not a valid P12 file"
-msgstr ""
+msgstr "Bu dosya geçerli bir p12 dosyası değildir"
 
 #: loadcertwiz.cpp:308
 msgid "Loading complete"
@@ -604,11 +615,11 @@ msgstr "Durum bilgisi mevcut değil"
 
 #: loadcertwiz.cpp:330
 msgid "Enter the passphrase to unlock the .p12 file:"
-msgstr ""
+msgstr "P12 dosyasını açmak için şifre girin:"
 
 #: loadcertwiz.cpp:364 tqsl.cpp:2155
 msgid "Passphrase error"
-msgstr ""
+msgstr "Şifre hatası"
 
 #: loctree.cpp:86 tqsl.cpp:1387 tqsl.cpp:6690
 msgid "Station Locations"
@@ -760,11 +771,11 @@ msgstr "%d QSO kaydı %s  'a yazıldı"
 
 #: qsodatadialog.cpp:739
 msgid "The file has not been saved. Should the QSOs be saved?"
-msgstr ""
+msgstr "Bu dosya kaydedilmedi.  QSO'lar kaydedilsin mi?"
 
 #: qsodatadialog.cpp:739
 msgid "Confirm Close"
-msgstr ""
+msgstr "Kapatmayı onaylayın"
 
 #: qsodatadialog.cpp:863
 msgid "One QSO Record"
@@ -943,10 +954,12 @@ msgid ""
 "(This is the passphrase you made up when you installed the callsign "
 "certificate.)"
 msgstr ""
+"Sertifikayı açmak için şifreyi giriniz. %hs -- %hs\n"
+"(Bu şifre sertifikayı kurarken kullandığınız şifredir.)"
 
 #: tqsl.cpp:258 tqsl.cpp:7128 getpassword.h:32 getpassword.h:33
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Şifre girin"
 
 #: tqsl.cpp:289
 msgid "Signing QSO Data"
@@ -1586,7 +1599,7 @@ msgstr "Yükleme öncesi sıkıştırma başarısız"
 
 #: tqsl.cpp:2681
 msgid "Unable to open ca-bundle.crt. Your TQSL installation is incomplete"
-msgstr "ca-bundle.crt dosyası açılamadı. TQSL kurulumu tamamlanamadı"
+msgstr "Ca-bundle.crt dosyası açılamadı. TQSL kurulumu tamamlanamadı"
 
 #: tqsl.cpp:2746
 msgid "Error: Could not upload file (CURL Init error)"
@@ -2146,7 +2159,7 @@ msgstr "Çıktı dosya adı"
 
 #: tqsl.cpp:5414
 msgid "Passphrase for the signing key"
-msgstr ""
+msgstr "İmzalamak anahtarı için şifre"
 
 #: tqsl.cpp:5415
 msgid "Quiet Mode - same behavior as -x"
@@ -2199,7 +2212,7 @@ msgstr "%hs için  -f parametresi tanınmıyor"
 
 #: tqsl.cpp:5742
 msgid "Password protected P12 files cannot be imported on the command line"
-msgstr ""
+msgstr "Şifre korumalı p12 dosyaları komut satırı üzerinden aktarılamaz"
 
 #: tqsl.cpp:5757
 msgid "No logfile to sign!"
@@ -2378,7 +2391,7 @@ msgstr "Sertifika Saklama Dosyası (*.p12)|*.p12|All files (*.*)|*.*"
 
 #: tqsl.cpp:6469
 msgid "Enter the passphrase for the certificate container file."
-msgstr ""
+msgstr "Yeni sertifika saklama depo dosyası şifresi girin."
 
 #: tqsl.cpp:6471
 msgid ""
@@ -2386,16 +2399,20 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence, no passphrase need be specified."
 msgstr ""
+"Bu çağrı işareti sertifikasını bir parola ile koruyabilirsiniz. Eğer bu "
+"bilgisayarı başkaları ile ortak kullanıyorsanız, parola kullanmanız tavsiye "
+"edilir. Eğer kişisel bilgisayarınız ise, parola kullanmanıza gerek yoktur."
 
 #: tqsl.cpp:6473
 msgid ""
 "You will have to enter the passphrase any time you load the file into "
 "TrustedQSL."
 msgstr ""
+"TrustedQSL'e dosyayı her yükleyişinizde bu şifreyi girmeniz gerekmektedir."
 
 #: tqsl.cpp:6477
 msgid "Certificate Container Passphrase"
-msgstr ""
+msgstr "Sertifika saklama depo dosyası şifresi"
 
 #: tqsl.cpp:6508
 #, c-format
@@ -2521,7 +2538,7 @@ msgstr "QSO Bitiş Tarihi: "
 
 #: tqsl.cpp:6839
 msgid "Passphrase: "
-msgstr ""
+msgstr "Şifre: "
 
 #: tqsl.cpp:6931
 msgid "Missing from this computer"
@@ -2549,7 +2566,7 @@ msgstr "Hiçbiri"
 
 #: tqsl.cpp:6956
 msgid "Passphrase protected"
-msgstr ""
+msgstr "Şifre korumalı"
 
 #: tqsl.cpp:6962
 msgid "Certificate Request:"
@@ -2609,7 +2626,7 @@ msgstr "Oblast: "
 
 #: tqsl.cpp:7118
 msgid "Enter the Passphrase to unlock the callsign certificate"
-msgstr ""
+msgstr "Sertifikayı açmak için şifre giriniz"
 
 #: tqsl_prefs.cpp:50
 msgid "Preferences"
@@ -2694,7 +2711,7 @@ msgstr "Durum mesajlarını ayrı bir tab'ta göster"
 
 #: tqsl_prefs.cpp:383
 msgid "Enable passphrases for Callsign Certificates"
-msgstr ""
+msgstr "Çağrı adı sertifikaları için şifreleri aktive et"
 
 #: tqsl_prefs.cpp:425
 msgid ""
@@ -2921,7 +2938,7 @@ msgstr "Sertifika aktifleştirilemedi"
 
 #: wxutil.cpp:143
 msgid "Passphrase not correct"
-msgstr ""
+msgstr "Şifre yanlış"
 
 #: wxutil.cpp:144
 msgid "Expected name"
@@ -3074,13 +3091,14 @@ msgstr "%s '%hs' değeri '%hs' iken, QSO'da  '%hs' bilgisi var."
 
 #: wxutil.cpp:271
 msgid "This log has invalid QSO information"
-msgstr ""
+msgstr "Kayıtlarda geçersiz QSO bilgisi mevcut"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The log being signed has 'US County' set to Foobar which is not valid'
 #: wxutil.cpp:273
 #, c-format
 msgid "The log being signed has '%hs' set to value '%hs' which is not valid"
 msgstr ""
+"İmzalanan kayıtlarda %hs değeri %hs olarak ayarlanmış. Bu değer geçerli değil"
 
 #: wxutil.cpp:278
 #, c-format
@@ -3088,16 +3106,16 @@ msgid ""
 "There is no valid callsign certificate for %hs available. This QSO cannot be "
 "signed"
 msgstr ""
-" %hs için geçerli bir çağrı işareti sertifikası bulunamadı. Bu QSO "
+"%hs için geçerli bir çağrı işareti sertifikası bulunamadı. Bu QSO "
 "imzalanmayacak"
 
 #: getpassword.h:51
 msgid "New passphrase"
-msgstr ""
+msgstr "Yeni şifre"
 
 #: getpassword.h:52
 msgid "Enter new passphrase"
-msgstr ""
+msgstr "Yeni Şifre Girin"
 
 #: qsodatadialog.h:85
 msgid "QSO Data"

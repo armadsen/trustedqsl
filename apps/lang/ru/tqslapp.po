@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: TQSL v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-29 20:12-0400\n"
-"PO-Revision-Date: 2020-03-12 11:07+0200\n"
+"PO-Revision-Date: 2020-09-30 15:42+0300\n"
 "Last-Translator: Vic Goncharsky\n"
 "Language-Team: \n"
 "Language: ru\n"
@@ -52,6 +52,8 @@ msgid ""
 "My former personal callsign or a portable modifier for my current or former "
 "callsign"
 msgstr ""
+"Мой бывший личный позывной или портативный идентификатор моего текущего или "
+"бывшего позывного"
 
 #: crqwiz.cpp:55
 msgid "A primary club callsign"
@@ -188,32 +190,42 @@ msgid ""
 "passphrase to protect this Callsign Certificate. However, if you are using a "
 "computer in a private residence, no passphrase need be specified."
 msgstr ""
+"Для защиты этого Сертификата Позывного можно использовать ключевое слово. "
+"Если вы пользуетесь компьютером совместно с другими, вам нужно выбрать "
+"ключевое слово, чтобы защитить этот Сертификат Позывного. Если этот "
+"компьютер используете только вы, ключевое слово не нужно. "
 
 #: crqwiz.cpp:673 crqwiz.cpp:698
 msgid ""
 "Leave the passphrase blank and click 'Next' unless you want to use a "
 "passphrase."
 msgstr ""
+"Оставьте поле ключевого слова пустым и нажмите \"Next\", если не хотите "
+"использовать ключевое слово."
 
 #: crqwiz.cpp:677
 msgid "Passphrase:"
-msgstr ""
+msgstr "Ключевое слово:"
 
 #: crqwiz.cpp:681
 msgid "Enter the passphrase again for verification:"
-msgstr ""
+msgstr "Введите ключевое слово еще раз для верификации:"
 
 #: crqwiz.cpp:685
 msgid ""
 "DO NOT lose the passphrase you choose! You will be unable to use the "
 "Certificate without this passphrase!"
 msgstr ""
+"Не потеряйте выбранное ключевое слово! Без него вы не сможете пользоваться "
+"сертификатом!"
 
 #: crqwiz.cpp:703
 msgid ""
 "Leave the passphrase blank and click 'Finish' unless you want to use a "
 "passphrase."
 msgstr ""
+"Оставьте поле ключевого слова пустым и нажмите \"Finish\", если не хотите "
+"использовать ключевое слово."
 
 #: crqwiz.cpp:749
 msgid "This Callsign Certificate is for:"
@@ -238,7 +250,7 @@ msgstr ""
 #: crqwiz.cpp:871
 #, c-format
 msgid "The callsign is too long. Only %d characters are allowed."
-msgstr ""
+msgstr "Позывной слишком длинный. Допускаются %d символов"
 
 #: crqwiz.cpp:909
 msgid "You must enter a valid call sign."
@@ -449,7 +461,7 @@ msgstr "Вы должны ввести ваш действующий Е-мейл
 
 #: crqwiz.cpp:1383
 msgid "The two copies of the passphrase do not match."
-msgstr ""
+msgstr "Ключевые слова не совпадают"
 
 #: crqwiz.cpp:1424
 msgid "Click 'Finish' to complete this Callsign Certificate request."
@@ -490,7 +502,7 @@ msgstr "Отмена"
 
 #: getpassword.cpp:111
 msgid "New passphrase:"
-msgstr ""
+msgstr "Новое ключевое слово:"
 
 #: getpassword.cpp:114
 msgid "Enter again to confirm:"
@@ -498,11 +510,11 @@ msgstr "Введите снова для подтверждения:"
 
 #: getpassword.cpp:146
 msgid "Passphrase entries do not match"
-msgstr ""
+msgstr "Ключевые слова не совпадают"
 
 #: getpassword.cpp:157
 msgid "Passphrase confirmed"
-msgstr ""
+msgstr "Ключевое слово подтверждено"
 
 #: loadcertwiz.cpp:41
 msgid "Import completed successfully"
@@ -538,7 +550,7 @@ msgstr "Сертификат позывного"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a passphrase for this callsign certificate."
-msgstr ""
+msgstr "Введите ключевое слово для этого сертификата позывного"
 
 #: loadcertwiz.cpp:161
 msgid ""
@@ -546,22 +558,29 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence no passphrase need be specified."
 msgstr ""
+"Если вы пользуетесь компьютером совместно с другими, вам нужно выбрать "
+"ключевое слово, чтобы защитить этот Сертификат Позывного. Если этот "
+"компьютер используете только вы, ключевое слово не нужно. "
 
 #: loadcertwiz.cpp:163
 msgid ""
 "This passphrase will have to be entered each time you use this callsign "
 "certificate for signing or when saving the key."
 msgstr ""
+"Это ключевое слово должно вводиться каждый раз при использовании сертификата "
+"позывного для подписи или при сохранении ключа."
 
 #: loadcertwiz.cpp:165 tqsl.cpp:6475
 msgid ""
 "Leave the passphrase blank and click 'OK' unless you want to use a "
 "passphrase."
 msgstr ""
+"Оставьте поле ключевого слова пустым и нажмите \"ОК\", если не хотите "
+"использовать ключевое слово."
 
 #: loadcertwiz.cpp:167
 msgid "New Passphrase"
-msgstr ""
+msgstr "Новое ключевое слово"
 
 #: loadcertwiz.cpp:202
 msgid ""
@@ -602,7 +621,7 @@ msgstr "Выберите файл сертификата"
 
 #: loadcertwiz.cpp:292 loadcertwiz.cpp:367 tqsl.cpp:5744
 msgid "This file is not a valid P12 file"
-msgstr ""
+msgstr "Это не Р12 файл "
 
 #: loadcertwiz.cpp:308
 msgid "Loading complete"
@@ -614,11 +633,11 @@ msgstr "Информация о статусе отсутствует"
 
 #: loadcertwiz.cpp:330
 msgid "Enter the passphrase to unlock the .p12 file:"
-msgstr ""
+msgstr "Введите ключевое слово для разблокирования файла .р12:"
 
 #: loadcertwiz.cpp:364 tqsl.cpp:2155
 msgid "Passphrase error"
-msgstr ""
+msgstr "Ошибка ключевого слова"
 
 #: loctree.cpp:86 tqsl.cpp:1387 tqsl.cpp:6690
 msgid "Station Locations"
@@ -770,11 +789,11 @@ msgstr " %d QSO записаны в %s"
 
 #: qsodatadialog.cpp:739
 msgid "The file has not been saved. Should the QSOs be saved?"
-msgstr ""
+msgstr "Файл не сохранен. Сохранить QSO?"
 
 #: qsodatadialog.cpp:739
 msgid "Confirm Close"
-msgstr ""
+msgstr "Подтвердить закрытие"
 
 #: qsodatadialog.cpp:863
 msgid "One QSO Record"
@@ -955,10 +974,15 @@ msgid ""
 "(This is the passphrase you made up when you installed the callsign "
 "certificate.)"
 msgstr ""
+"Введите ключевое слово для разблокирования сертификата позывного  %hs -- "
+"%hs\n"
+" \n"
+"( Это ключевое слово, которое вы выбрали  при установке сертификата "
+"позывного.)"
 
 #: tqsl.cpp:258 tqsl.cpp:7128 getpassword.h:32 getpassword.h:33
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Введите ключевое слово "
 
 #: tqsl.cpp:289
 msgid "Signing QSO Data"
@@ -2183,7 +2207,7 @@ msgstr ""
 
 #: tqsl.cpp:5414
 msgid "Passphrase for the signing key"
-msgstr ""
+msgstr "Ключевое слово для ключа подписи"
 
 #: tqsl.cpp:5415
 msgid "Quiet Mode - same behavior as -x"
@@ -2238,6 +2262,7 @@ msgstr "Параметр -f %hs не распознан"
 #: tqsl.cpp:5742
 msgid "Password protected P12 files cannot be imported on the command line"
 msgstr ""
+"Файлы Р12, защищенные паролем, не могут импортироваться из командной строки"
 
 #: tqsl.cpp:5757
 msgid "No logfile to sign!"
@@ -2422,7 +2447,7 @@ msgstr ""
 
 #: tqsl.cpp:6469
 msgid "Enter the passphrase for the certificate container file."
-msgstr ""
+msgstr "Введите имя файла для нового файла-контейнера Сертификата "
 
 #: tqsl.cpp:6471
 msgid ""
@@ -2430,16 +2455,21 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence, no passphrase need be specified."
 msgstr ""
+"Если вы пользуетесь компьютером совместно с другими, вам нужно выбрать "
+"ключевое слово, чтобы защитить этот Сертификат Позывного. Если этот "
+"компьютер используете только вы, ключевое слово не нужно. "
 
 #: tqsl.cpp:6473
 msgid ""
 "You will have to enter the passphrase any time you load the file into "
 "TrustedQSL."
 msgstr ""
+"Вам необходимо ввести ключевое слово при загрузке файла в  TrustedQSL в "
+"любое время "
 
 #: tqsl.cpp:6477
 msgid "Certificate Container Passphrase"
-msgstr ""
+msgstr "Ключевое слово для файла-контейнера Сертификата "
 
 #: tqsl.cpp:6508
 #, c-format
@@ -2565,7 +2595,7 @@ msgstr "Дата последнего QSO: "
 
 #: tqsl.cpp:6839
 msgid "Passphrase: "
-msgstr ""
+msgstr "Ключевое слово:"
 
 #: tqsl.cpp:6931
 msgid "Missing from this computer"
@@ -2593,7 +2623,7 @@ msgstr "None"
 
 #: tqsl.cpp:6956
 msgid "Passphrase protected"
-msgstr ""
+msgstr "Ключевое слово защищено"
 
 #: tqsl.cpp:6962
 msgid "Certificate Request:"
@@ -2653,7 +2683,7 @@ msgstr "Область:"
 
 #: tqsl.cpp:7118
 msgid "Enter the Passphrase to unlock the callsign certificate"
-msgstr ""
+msgstr "Введите ключевое слово для разблокирования сертификата позывного "
 
 #: tqsl_prefs.cpp:50
 msgid "Preferences"
@@ -2740,7 +2770,7 @@ msgstr "Показывать сообщения о состоянии в отд�
 
 #: tqsl_prefs.cpp:383
 msgid "Enable passphrases for Callsign Certificates"
-msgstr ""
+msgstr "Введите ключевые слова для Сертификатов позывных"
 
 #: tqsl_prefs.cpp:425
 msgid ""
@@ -2971,7 +3001,7 @@ msgstr "Сертификат не инициализирован для подп
 
 #: wxutil.cpp:143
 msgid "Passphrase not correct"
-msgstr ""
+msgstr "Ключевое слово не правильное"
 
 #: wxutil.cpp:144
 msgid "Expected name"
@@ -3126,13 +3156,14 @@ msgstr "%s '%hs' имеет значение '%hs' в то время, как QS
 
 #: wxutil.cpp:271
 msgid "This log has invalid QSO information"
-msgstr ""
+msgstr "Лог содержит неправильную информацию о QSO"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The log being signed has 'US County' set to Foobar which is not valid'
 #: wxutil.cpp:273
 #, c-format
 msgid "The log being signed has '%hs' set to value '%hs' which is not valid"
 msgstr ""
+"Подписывамый лог имеет  '%hs' установку значения '%hs' которое неправильно"
 
 #: wxutil.cpp:278
 #, c-format
@@ -3145,11 +3176,11 @@ msgstr ""
 
 #: getpassword.h:51
 msgid "New passphrase"
-msgstr ""
+msgstr "Новое ключевое слово"
 
 #: getpassword.h:52
 msgid "Enter new passphrase"
-msgstr ""
+msgstr "Введите новое ключевое слово "
 
 #: qsodatadialog.h:85
 msgid "QSO Data"
@@ -3251,7 +3282,6 @@ msgstr "Время"
 #~ msgid "Password error"
 #~ msgstr "Ошибка пароля"
 
-#, c-format
 #~ msgid ""
 #~ "Enter the password to unlock the callsign certificate for %hs -- %hs\n"
 #~ "(This is the password you made up when you installed the callsign "

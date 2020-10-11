@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: V2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-29 20:12-0400\n"
-"PO-Revision-Date: 2020-03-22 12:53+0800\n"
+"PO-Revision-Date: 2020-10-04 01:05+0800\n"
 "Last-Translator: caros <bh4txn@gmail.com>\n"
 "Language-Team: TQSL Developers\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #: certtree.cpp:104
 msgid "tQSL Certificates"
@@ -51,7 +51,7 @@ msgstr "我的新个人呼号（我有一个原来呼号的证书）"
 msgid ""
 "My former personal callsign or a portable modifier for my current or former "
 "callsign"
-msgstr ""
+msgstr "我以前的个人呼号或者我的当前或以前呼号的便携式修改器"
 
 #: crqwiz.cpp:55
 msgid "A primary club callsign"
@@ -109,11 +109,11 @@ msgstr "错误"
 
 #: crqwiz.cpp:214
 msgid "Email: "
-msgstr "E-Mail："
+msgstr "E-Mail： "
 
 #: crqwiz.cpp:216
 msgid "URL: "
-msgstr "URL："
+msgstr "URL： "
 
 #: crqwiz.cpp:252
 msgid "DXCC entity:"
@@ -141,7 +141,7 @@ msgstr "请选择一份呼号证书来签名你的申请。"
 
 #: crqwiz.cpp:430
 msgid "Zip/Postal"
-msgstr "邮政编码："
+msgstr "邮政编码"
 
 #: crqwiz.cpp:435 stationdial.cpp:70
 msgid "Name"
@@ -171,7 +171,7 @@ msgstr "你的E-Mail地址"
 msgid ""
 "Note: The e-mail address you provide here is the address to which the issued "
 "Certificate will be sent. Make sure it's the correct address!"
-msgstr "注意：这里提供的Email地址将用来接收发送的证书，确认此地址正确。"
+msgstr "注意：这里提供的Email地址将用来接收发送的证书，确认此地址正确！"
 
 #: crqwiz.cpp:668
 msgid ""
@@ -180,36 +180,38 @@ msgid ""
 "passphrase to protect this Callsign Certificate. However, if you are using a "
 "computer in a private residence, no passphrase need be specified."
 msgstr ""
+"您可以使用密码保护此呼号证书。 如果使用与他人共享的计算机系统，则应指定密码来"
+"保护此呼号证书。 但是，如果您在私人住宅中使用计算机，则无需指定密码。"
 
 #: crqwiz.cpp:673 crqwiz.cpp:698
 msgid ""
 "Leave the passphrase blank and click 'Next' unless you want to use a "
 "passphrase."
-msgstr ""
+msgstr "将密密码留空，然后单击“下一步”，除非您要使用密码。"
 
 #: crqwiz.cpp:677
 msgid "Passphrase:"
-msgstr ""
+msgstr "密码："
 
 #: crqwiz.cpp:681
 msgid "Enter the passphrase again for verification:"
-msgstr ""
+msgstr "再次输入密码以进行验证："
 
 #: crqwiz.cpp:685
 msgid ""
 "DO NOT lose the passphrase you choose! You will be unable to use the "
 "Certificate without this passphrase!"
-msgstr ""
+msgstr "不要丢失你选择的密码！如果没有此密码，您将无法使用证书！"
 
 #: crqwiz.cpp:703
 msgid ""
 "Leave the passphrase blank and click 'Finish' unless you want to use a "
 "passphrase."
-msgstr ""
+msgstr "将密码保留为空，然后单击\"完成\"，除非您想要使用密码。"
 
 #: crqwiz.cpp:749
 msgid "This Callsign Certificate is for:"
-msgstr "此呼号证书为: "
+msgstr "此呼号证书为:"
 
 #: crqwiz.cpp:766 crqwiz.cpp:767 crqwiz.cpp:772
 msgid ""
@@ -226,7 +228,7 @@ msgstr "请选择你俱乐部的主要呼号证书来签名你的申请。"
 #: crqwiz.cpp:871
 #, c-format
 msgid "The callsign is too long. Only %d characters are allowed."
-msgstr ""
+msgstr "呼号太长。 仅允许使用 ％d 个字符。"
 
 #: crqwiz.cpp:909
 msgid "You must enter a valid call sign."
@@ -287,12 +289,12 @@ msgstr ""
 #, c-format
 msgid ""
 "You have an overlapping Certificate for %s (DXCC=%hs) having QSO dates: "
-msgstr "你有一份呼号为 %s (DXCC=%hs)QSO日期交叠的证书："
+msgstr "你有一份呼号为 %s (DXCC=%hs)QSO日期交叠的证书： "
 
 #. TRANSLATORS: here "to" separates two dates in a date range
 #: crqwiz.cpp:1062
 msgid " to "
-msgstr "到"
+msgstr " 到 "
 
 #: crqwiz.cpp:1071
 #, c-format
@@ -419,7 +421,7 @@ msgstr "你必须输入一个有效的Email地址"
 
 #: crqwiz.cpp:1383
 msgid "The two copies of the passphrase do not match."
-msgstr ""
+msgstr "两个密码副本不一致。"
 
 #: crqwiz.cpp:1424
 msgid "Click 'Finish' to complete this Callsign Certificate request."
@@ -458,7 +460,7 @@ msgstr "取消"
 
 #: getpassword.cpp:111
 msgid "New passphrase:"
-msgstr ""
+msgstr "新密码："
 
 #: getpassword.cpp:114
 msgid "Enter again to confirm:"
@@ -466,11 +468,11 @@ msgstr "再输一遍以确认："
 
 #: getpassword.cpp:146
 msgid "Passphrase entries do not match"
-msgstr ""
+msgstr "两次输入的密码不一致"
 
 #: getpassword.cpp:157
 msgid "Passphrase confirmed"
-msgstr ""
+msgstr "密码已确认"
 
 #: loadcertwiz.cpp:41
 msgid "Import completed successfully"
@@ -478,7 +480,7 @@ msgstr "成功完成输入"
 
 #: loadcertwiz.cpp:75
 msgid "OK to install "
-msgstr "确定装入"
+msgstr "确定装入 "
 
 #: loadcertwiz.cpp:76
 msgid "certificate?"
@@ -506,7 +508,7 @@ msgstr "呼号证书"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a passphrase for this callsign certificate."
-msgstr ""
+msgstr "输入此呼号证书的密码。"
 
 #: loadcertwiz.cpp:161
 msgid ""
@@ -514,22 +516,24 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence no passphrase need be specified."
 msgstr ""
+"您可以使用密码保护此呼号证书。 如果使用与他人共享的计算机系统，则应指定密码来"
+"保护此呼号证书。 但是，如果您在私人住宅中使用计算机，则无需指定密码。"
 
 #: loadcertwiz.cpp:163
 msgid ""
 "This passphrase will have to be entered each time you use this callsign "
 "certificate for signing or when saving the key."
-msgstr ""
+msgstr "每次使用此呼号证书进行签名或保存密钥时，都必须输入此密码。"
 
 #: loadcertwiz.cpp:165 tqsl.cpp:6475
 msgid ""
 "Leave the passphrase blank and click 'OK' unless you want to use a "
 "passphrase."
-msgstr ""
+msgstr "将密密码留空，然后单击“下一步”，除非您要使用密码。"
 
 #: loadcertwiz.cpp:167
 msgid "New Passphrase"
-msgstr ""
+msgstr "新密码"
 
 #: loadcertwiz.cpp:202
 msgid ""
@@ -568,7 +572,7 @@ msgstr "选择证书文件"
 
 #: loadcertwiz.cpp:292 loadcertwiz.cpp:367 tqsl.cpp:5744
 msgid "This file is not a valid P12 file"
-msgstr ""
+msgstr "该文件不是有效的P12文件"
 
 #: loadcertwiz.cpp:308
 msgid "Loading complete"
@@ -580,11 +584,11 @@ msgstr "无有效的状态信息"
 
 #: loadcertwiz.cpp:330
 msgid "Enter the passphrase to unlock the .p12 file:"
-msgstr ""
+msgstr "输入密码来解锁.p12文件："
 
 #: loadcertwiz.cpp:364 tqsl.cpp:2155
 msgid "Passphrase error"
-msgstr ""
+msgstr "密码错误"
 
 #: loctree.cpp:86 tqsl.cpp:1387 tqsl.cpp:6690
 msgid "Station Locations"
@@ -724,7 +728,7 @@ msgstr ""
 
 #: qsodatadialog.cpp:610 tqsl.cpp:1865
 msgid "ADIF files (*.adi;*.adif)|*.adi;*.adif|All files (*.*)|*.*"
-msgstr "ADIF 文件 (*.adi;*.adif)|*.adi;*.adif|所有文件 (*.*)|*.*."
+msgstr "ADIF 文件 (*.adi;*.adif)|*.adi;*.adif|所有文件 (*.*)|*.*"
 
 #: qsodatadialog.cpp:686
 #, c-format
@@ -733,11 +737,11 @@ msgstr "共写入 %d 个QSO记录到 %s 中"
 
 #: qsodatadialog.cpp:739
 msgid "The file has not been saved. Should the QSOs be saved?"
-msgstr ""
+msgstr "该文件尚未保存。 是否应保存QSO？"
 
 #: qsodatadialog.cpp:739
 msgid "Confirm Close"
-msgstr ""
+msgstr "确认关闭"
 
 #: qsodatadialog.cpp:863
 msgid "One QSO Record"
@@ -915,10 +919,12 @@ msgid ""
 "(This is the passphrase you made up when you installed the callsign "
 "certificate.)"
 msgstr ""
+"输入密码来解锁 ％hs-％hs 的呼号证书 \n"
+"（这是您安装呼号证书时设定的密码。）"
 
 #: tqsl.cpp:258 tqsl.cpp:7128 getpassword.h:32 getpassword.h:33
 msgid "Enter passphrase"
-msgstr ""
+msgstr "输入密码"
 
 #: tqsl.cpp:289
 msgid "Signing QSO Data"
@@ -926,7 +932,7 @@ msgstr "QSO签名中"
 
 #: tqsl.cpp:292
 msgid "Converting "
-msgstr "转换中"
+msgstr "转换中 "
 
 #: tqsl.cpp:292
 msgid "to TQSL format"
@@ -1137,15 +1143,15 @@ msgstr "签名并上传 ADIF 或 Cabrillo 文件..."
 
 #: tqsl.cpp:1111
 msgid "&Sign and save ADIF or Cabrillo file..."
-msgstr "签名并保存ADIF或Cabrillo文件"
+msgstr "签名并保存ADIF或Cabrillo文件..."
 
 #: tqsl.cpp:1113
 msgid "&Backup Station Locations, Certificates, and Preferences..."
-msgstr "备份台站位置，证书和参数"
+msgstr "备份台站位置，证书和参数..."
 
 #: tqsl.cpp:1114
 msgid "&Restore Station Locations, Certificates, and Preferences..."
-msgstr "恢复台站位置，证书和参数"
+msgstr "恢复台站位置，证书和参数..."
 
 #: tqsl.cpp:1116
 msgid "Create &New ADIF file..."
@@ -1153,11 +1159,11 @@ msgstr "创建新的ADIF文件..."
 
 #: tqsl.cpp:1117
 msgid "&Edit existing ADIF file..."
-msgstr "编辑已有的ADIF文件"
+msgstr "编辑已有的ADIF文件..."
 
 #: tqsl.cpp:1120
 msgid "&Preferences..."
-msgstr "参数"
+msgstr "参数..."
 
 #: tqsl.cpp:1122
 msgid "Display or Modify &Preferences..."
@@ -1249,7 +1255,7 @@ msgstr "登录LoTW网站"
 
 #: tqsl.cpp:1304
 msgid "Select a Station Location to process      "
-msgstr "选择一个台站位置进行处理"
+msgstr "选择一个台站位置进行处理 "
 
 #: tqsl.cpp:1335
 msgid "Create a new Station Location"
@@ -1820,12 +1826,12 @@ msgstr "证书即将到期"
 #: tqsl.cpp:3690
 #, c-format
 msgid "A new TQSL release (V%s) is available."
-msgstr "一个可用的新TQSL版本(V%s)发布了！"
+msgstr "一个可用的新TQSL版本(V%s)发布了。"
 
 #: tqsl.cpp:3707
 #, c-format
 msgid "A new TrustedQSL configuration file (V%s) is available."
-msgstr "有一个可用的新TrustedQSL设置文件(V%s)！"
+msgstr "有一个可用的新TrustedQSL设置文件(V%s)。"
 
 #: tqsl.cpp:3720
 msgid "Your system is up to date"
@@ -2083,7 +2089,7 @@ msgstr "输出文件名 (默认输入名字加后缀 .tq8)"
 
 #: tqsl.cpp:5414
 msgid "Passphrase for the signing key"
-msgstr ""
+msgstr "签名密钥的密码"
 
 #: tqsl.cpp:5415
 msgid "Quiet Mode - same behavior as -x"
@@ -2126,7 +2132,7 @@ msgstr "%s 的结束日期无效"
 #: tqsl.cpp:5641
 #, c-format
 msgid "The -a parameter %hs is not recognized"
-msgstr " -a 参数 '%hs' 不认识"
+msgstr "-a 参数 '%hs' 不认识"
 
 #. TRANSLATORS: -f is the command line switch for log QTH handling
 #: tqsl.cpp:5662
@@ -2136,7 +2142,7 @@ msgstr "无法识别 -f 参数 %hs"
 
 #: tqsl.cpp:5742
 msgid "Password protected P12 files cannot be imported on the command line"
-msgstr ""
+msgstr "受密码保护的P12文件无法在命令行导入"
 
 #: tqsl.cpp:5757
 msgid "No logfile to sign!"
@@ -2151,7 +2157,7 @@ msgid ""
 msgstr ""
 "警告：TQSL ADIF编辑器只能处理有限的ADIF字段。\n"
 "\n"
-"在ADIF文件使用编辑器可能丢失QSO细节。"
+"在ADIF文件使用编辑器可能丢失QSO细节！"
 
 #: tqsl.cpp:5874
 msgid "Please review the introductory documentation before using this program."
@@ -2185,7 +2191,7 @@ msgstr "从文件导入呼号证书"
 
 #: tqsl.cpp:6003
 msgid "&Save Callsign Certificate to File..."
-msgstr "保存呼号证书到文件"
+msgstr "保存呼号证书到文件..."
 
 #: tqsl.cpp:6007
 msgid "Request &New Callsign Certificate..."
@@ -2267,7 +2273,7 @@ msgstr "证书申请"
 
 #: tqsl.cpp:6315
 msgid "Your certificate request did not upload properly"
-msgstr "你的证书申请没有正确上传。"
+msgstr "你的证书申请没有正确上传"
 
 #: tqsl.cpp:6316
 msgid "Please try again."
@@ -2283,7 +2289,7 @@ msgstr "给："
 
 #: tqsl.cpp:6333
 msgid "or "
-msgstr "或"
+msgstr "或 "
 
 #: tqsl.cpp:6334
 msgid "see:"
@@ -2315,7 +2321,7 @@ msgstr "证书保留文件 (*.p12)|*.p12|所有文件 (*.*)|*.*"
 
 #: tqsl.cpp:6469
 msgid "Enter the passphrase for the certificate container file."
-msgstr ""
+msgstr "输入证书容器文件的密码。"
 
 #: tqsl.cpp:6471
 msgid ""
@@ -2323,16 +2329,18 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence, no passphrase need be specified."
 msgstr ""
+"如果使用与他人共享的计算机系统，则应指定密码来保护此呼号证书。 但是，如果您在"
+"私人住宅中使用计算机，则无需指定密码。"
 
 #: tqsl.cpp:6473
 msgid ""
 "You will have to enter the passphrase any time you load the file into "
 "TrustedQSL."
-msgstr ""
+msgstr "每当您将文件加载到TrustedQSL时，都必须输入密码。"
 
 #: tqsl.cpp:6477
 msgid "Certificate Container Passphrase"
-msgstr ""
+msgstr "证书容器文件的密码"
 
 #: tqsl.cpp:6508
 #, c-format
@@ -2354,7 +2362,7 @@ msgstr "导入一个.TQ6文件不能覆盖它。"
 
 #: tqsl.cpp:6525
 msgid "You WILL be able to recover it from a container (.p12) file,"
-msgstr "你可以从保留的（.p12）文件覆盖。"
+msgstr "你可以从保留的（.p12）文件覆盖,"
 
 #: tqsl.cpp:6527
 msgid "if you have created one via the Callsign Certificate menu's"
@@ -2386,15 +2394,15 @@ msgstr "选择一个台站位置进行处理"
 
 #: tqsl.cpp:6629 tqsl.cpp:6631
 msgid "Edit Station Location "
-msgstr "编辑台站位置"
+msgstr "编辑台站位置 "
 
 #: tqsl.cpp:6632 tqsl.cpp:6634
 msgid "Delete Station Location "
-msgstr "删除台站位置"
+msgstr "删除台站位置 "
 
 #: tqsl.cpp:6635 tqsl.cpp:6637
 msgid "Display Station Location Properties for "
-msgstr "显示以下呼号的台站位置属性"
+msgstr "显示以下呼号的台站位置属性 "
 
 #: tqsl.cpp:6657
 msgid "This will remove this station location from your system."
@@ -2422,7 +2430,7 @@ msgstr "证书属性"
 
 #: tqsl.cpp:6829
 msgid "Begins: "
-msgstr "开始于："
+msgstr "开始于： "
 
 #: tqsl.cpp:6830
 msgid "Expires: "
@@ -2430,23 +2438,23 @@ msgstr "过期: "
 
 #: tqsl.cpp:6831
 msgid "Organization: "
-msgstr "组织："
+msgstr "组织： "
 
 #: tqsl.cpp:6833
 msgid "Serial: "
-msgstr "系列："
+msgstr "系列： "
 
 #: tqsl.cpp:6834
 msgid "Operator: "
-msgstr "操作员："
+msgstr "操作员： "
 
 #: tqsl.cpp:6835 tqsl.cpp:7025
 msgid "Call sign: "
-msgstr "呼号："
+msgstr "呼号： "
 
 #: tqsl.cpp:6836 tqsl.cpp:7026
 msgid "DXCC Entity: "
-msgstr "DXCC实体："
+msgstr "DXCC实体： "
 
 #: tqsl.cpp:6837
 msgid "QSO Start Date: "
@@ -2454,11 +2462,11 @@ msgstr "QSO起始日期： "
 
 #: tqsl.cpp:6838
 msgid "QSO End Date: "
-msgstr "QSO结束日期："
+msgstr "QSO结束日期： "
 
 #: tqsl.cpp:6839
 msgid "Passphrase: "
-msgstr ""
+msgstr "密码： "
 
 #: tqsl.cpp:6931
 msgid "Missing from this computer"
@@ -2486,7 +2494,7 @@ msgstr "无"
 
 #: tqsl.cpp:6956
 msgid "Passphrase protected"
-msgstr ""
+msgstr "密码保护的"
 
 #: tqsl.cpp:6962
 msgid "Certificate Request:"
@@ -2510,11 +2518,11 @@ msgstr "台站位置属性"
 
 #: tqsl.cpp:7027
 msgid "Grid Square: "
-msgstr "网格："
+msgstr "网格： "
 
 #: tqsl.cpp:7028
 msgid "ITU Zone: "
-msgstr "ITU分区："
+msgstr "ITU分区： "
 
 #: tqsl.cpp:7029
 msgid "CQ Zone: "
@@ -2530,7 +2538,7 @@ msgstr "州： "
 
 #: tqsl.cpp:7032
 msgid "County: "
-msgstr "县："
+msgstr "县： "
 
 #: tqsl.cpp:7033 tqsl.cpp:7035 tqsl.cpp:7039
 msgid "Park: "
@@ -2538,15 +2546,15 @@ msgstr "Park: "
 
 #: tqsl.cpp:7034 tqsl.cpp:7037
 msgid "Province: "
-msgstr "省："
+msgstr "省： "
 
 #: tqsl.cpp:7036
 msgid "Oblast: "
-msgstr "州："
+msgstr "州： "
 
 #: tqsl.cpp:7118
 msgid "Enter the Passphrase to unlock the callsign certificate"
-msgstr ""
+msgstr "输入密码来解锁呼号证书"
 
 #: tqsl_prefs.cpp:50
 msgid "Preferences"
@@ -2574,7 +2582,7 @@ msgstr "网络代理"
 
 #: tqsl_prefs.cpp:166
 msgid "Custom ADIF mode mappings:"
-msgstr "自定义ADIF模式对照"
+msgstr "自定义ADIF模式对照："
 
 #: tqsl_prefs.cpp:175 tqsl_prefs.cpp:799
 msgid "Add..."
@@ -2599,7 +2607,7 @@ msgstr "最终TQSL模式："
 #: tqsl_prefs.cpp:318
 #, c-format
 msgid "This mode definition conflicts with a standard mode definition for %s"
-msgstr "这个模式定义与标准模式 %s 冲突。"
+msgstr "这个模式定义与标准模式 %s 冲突"
 
 #: tqsl_prefs.cpp:319
 msgid "Mode Conflict"
@@ -2631,7 +2639,7 @@ msgstr "在分开的标签里显示状态信息"
 
 #: tqsl_prefs.cpp:383
 msgid "Enable passphrases for Callsign Certificates"
-msgstr ""
+msgstr "输入呼号证书的密码"
 
 #: tqsl_prefs.cpp:425
 msgid ""
@@ -2758,7 +2766,7 @@ msgstr "[无]"
 
 #: tqslwiz.cpp:450
 msgid "Allow 'None' for "
-msgstr "允许“无”"
+msgstr "允许“无” "
 
 #: tqslwiz.cpp:487
 #, c-format
@@ -2804,7 +2812,7 @@ msgstr "DXCC实体的分区无效"
 
 #: tqslwiz.cpp:655
 msgid "Station Data input complete"
-msgstr " 台站数据输入完毕"
+msgstr "台站数据输入完毕"
 
 #: tqslwiz.cpp:659
 msgid "Select or enter name of this station location"
@@ -2852,7 +2860,7 @@ msgstr "证书没为签名初始化"
 
 #: wxutil.cpp:143
 msgid "Passphrase not correct"
-msgstr ""
+msgstr "密码不正确"
 
 #: wxutil.cpp:144
 msgid "Expected name"
@@ -3002,13 +3010,13 @@ msgstr "%s '%hs' 的值 '%hs' 与 QSO 中的 '%hs' 不匹配"
 
 #: wxutil.cpp:271
 msgid "This log has invalid QSO information"
-msgstr ""
+msgstr "此日志包含无效的QSO信息"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The log being signed has 'US County' set to Foobar which is not valid'
 #: wxutil.cpp:273
 #, c-format
 msgid "The log being signed has '%hs' set to value '%hs' which is not valid"
-msgstr ""
+msgstr "正在签名的日志的 '％hs' 设置为无效的值 '％hs' "
 
 #: wxutil.cpp:278
 #, c-format
@@ -3019,11 +3027,11 @@ msgstr "%hs没有有效的呼号证书。此QSO无法签名"
 
 #: getpassword.h:51
 msgid "New passphrase"
-msgstr ""
+msgstr "新密码"
 
 #: getpassword.h:52
 msgid "Enter new passphrase"
-msgstr ""
+msgstr "输入新密码"
 
 #: qsodatadialog.h:85
 msgid "QSO Data"
