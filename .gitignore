@@ -77,6 +77,7 @@ MOVE-TAG.sh
 apps/key-new.icns
 apps/key-new.ico
 tqsl-*.dmg
+tqsl-*.pkg
 makeit.sh
 
 #Testing stuff
