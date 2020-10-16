@@ -2,6 +2,9 @@ TQSL changes
 ============
 2.5.6
 ----------
+When importing a .p12 on the command line (-i call.p12), allow passing
+the related passphrase on the command line as wel (-p "passphrase").
+
 Use 'passphrase' versus 'password' when discussing protecting Callsign
 Certificates. Change help from 'Postcard Password' to 'Postcard Validation
 Code'. The only place password should appear is with reference to the Logbook

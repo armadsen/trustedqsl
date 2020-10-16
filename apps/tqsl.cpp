@@ -5756,7 +5756,9 @@ QSLApp::OnInit() {
 			if (!tqsl_importPKCS12File(infile.ToUTF8(), "", 0, NULL, notifyImport, &nd) || tQSL_Error == TQSL_CERT_ERROR) {
 				if (tQSL_Error != 0) wxLogError(getLocalizedErrorString());
 			} else if (tQSL_Error == TQSL_PASSWORD_ERROR) {
-				wxLogError(_("Password protected P12 files cannot be imported on the command line"));
+
+				if ((password == NULL) || !tqsl_importPKCS12File(infile.ToUTF8(), password, 0, NULL, notifyImport, &nd))
+					wxLogError(_("To import this passphrase protected P12 file, you must pass the passphrase on the command line"));
 			} else if (tQSL_Error == TQSL_OPENSSL_ERROR) {
 				wxLogError(_("This file is not a valid P12 file"));
 			}
