@@ -5,6 +5,7 @@ TQSLLIBPATH=`pwd`/src/libtqsllib.dylib
 WORKDIR=`mktemp -d /tmp/tqsl.XXXXX` || exit 1
 WINHELPFILE=$WORKDIR/TrustedQSL/$app.app/Contents/Resources/Help/tqslapp.chm
 IMGNAME="tqsl"
+KEYCHAIN="/Library/Keychains/System.keychain"
 
 file apps/tqsl.app/Contents/MacOS/tqsl | grep -q x86_64 || IMGNAME="tqsl-legacy"
 
@@ -53,12 +54,13 @@ cp -r apps/help/tqslapp $WORKDIR/TrustedQSL/tqsl.app/Contents/Resources/Help
 hdiutil create -ov -srcfolder $WORKDIR -volname "TrustedQSL v$TQSLVER" "$IMGNAME-$TQSLVER.dmg"
 
 if [ "x$1" != "x" ]; then
-	codesign -s "$1" -v $WORKDIR/TrustedQSL/tqsl.app
+	echo "Codesigning as $1"
+	codesign --deep -v -s "$1" -v --keychain $KEYCHAIN $WORKDIR/TrustedQSL/tqsl.app
 fi
 /bin/echo "Creating a package..."
 pkgbuild --analyze --root $WORKDIR/TrustedQSL ${WORKDIR}/tqslapp.plist
-if [ "x$1" != "x" ]; then
-	pkgbuild --root ${WORKDIR}//TrustedQSL --component-plist ${WORKDIR}/tqslapp.plist --install-location /Applications/TrustedQSL `pwd`/${IMGNAME}-${TQSLVER}.pkg --sign "$1"
+if [ "x$2" != "x" ]; then
+	pkgbuild --root ${WORKDIR}//TrustedQSL --component-plist ${WORKDIR}/tqslapp.plist --install-location /Applications/TrustedQSL `pwd`/${IMGNAME}-${TQSLVER}.pkg --keychain $KEYCHAIN --sign "$2"
 else
 	pkgbuild --root ${WORKDIR}//TrustedQSL --component-plist ${WORKDIR}/tqslapp.plist --install-location /Applications/TrustedQSL `pwd`/${IMGNAME}-${TQSLVER}.pkg
 fi
