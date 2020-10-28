@@ -52,10 +52,16 @@ cp -r apps/help/tqslapp $WORKDIR/TrustedQSL/tqsl.app/Contents/Resources/Help
 #hdiutil uses dots to show progress
 hdiutil create -ov -srcfolder $WORKDIR -volname "TrustedQSL v$TQSLVER" "$IMGNAME-$TQSLVER.dmg"
 
+if [ "x$1" != "x" ]; then
+	codesign -s "$1" -v $WORKDIR/TrustedQSL/tqsl.app
+fi
 /bin/echo "Creating a package..."
 pkgbuild --analyze --root $WORKDIR/TrustedQSL ${WORKDIR}/tqslapp.plist
-pkgbuild --root ${WORKDIR}//TrustedQSL --component-plist ${WORKDIR}/tqslapp.plist --install-location /Applications/TrustedQSL `pwd`/${IMGNAME}-${TQSLVER}.pkg
-
+if [ "x$1" != "x" ]; then
+	pkgbuild --root ${WORKDIR}//TrustedQSL --component-plist ${WORKDIR}/tqslapp.plist --install-location /Applications/TrustedQSL `pwd`/${IMGNAME}-${TQSLVER}.pkg --sign "$1"
+else
+	pkgbuild --root ${WORKDIR}//TrustedQSL --component-plist ${WORKDIR}/tqslapp.plist --install-location /Applications/TrustedQSL `pwd`/${IMGNAME}-${TQSLVER}.pkg
+fi
 /bin/echo -n "Cleaning up temporary files.. "
 rm -r $WORKDIR
 /bin/echo "Finished!"
