@@ -5,17 +5,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: V2.5 - Update\n"
+"Project-Id-Version: V2.5.6\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-09-29 20:12-0400\n"
-"PO-Revision-Date: 2020-03-15 12:28+0100\n"
+"PO-Revision-Date: 2020-09-30 14:05+0200\n"
 "Last-Translator: Rick Murphy <k1mu@arrl.net>\n"
 "Language-Team: I4FYV Salvatore Besso <salvatore.besso@outlook.it>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.3\n"
+"X-Generator: Poedit 2.4.1\n"
 
 #: certtree.cpp:104
 msgid "tQSL Certificates"
@@ -54,6 +54,8 @@ msgid ""
 "My former personal callsign or a portable modifier for my current or former "
 "callsign"
 msgstr ""
+"Il mio precedente nominativo personale o un modificatore portatile per il "
+"mio nominativo attuale o precedente"
 
 #: crqwiz.cpp:55
 msgid "A primary club callsign"
@@ -64,8 +66,8 @@ msgid ""
 "A secondary club callsign (I have a Callsign Certificate for the primary "
 "club callsign)"
 msgstr ""
-"Un nominativo secondario di club (posseggo un certificato del nominativo "
-"primario di club)"
+"Un nominativo secondario di club (posseggo un certificato del nominativo per "
+"il nominativo primario del club)"
 
 #: crqwiz.cpp:57
 msgid "A DXpedition, Portable, or holiday operation with multiple operators"
@@ -192,32 +194,43 @@ msgid ""
 "passphrase to protect this Callsign Certificate. However, if you are using a "
 "computer in a private residence, no passphrase need be specified."
 msgstr ""
+"Puoi proteggere questo certificato del nominativo usando una frase "
+"d'accesso. Se stai usando un computer condiviso con altri, dovresti "
+"specificare una frase d'accesso per proteggere questo certificato del "
+"nominativo. Tuttavia, se stai usando un computer in una residenza privata, "
+"non è necessario specificare alcuna frase d'accesso."
 
 #: crqwiz.cpp:673 crqwiz.cpp:698
 msgid ""
 "Leave the passphrase blank and click 'Next' unless you want to use a "
 "passphrase."
 msgstr ""
+"Lascia vuota la frase d'accesso e fai clic su 'Successivo' a meno che tu non "
+"voglia usare una frase d'accesso."
 
 #: crqwiz.cpp:677
 msgid "Passphrase:"
-msgstr ""
+msgstr "Frase d'accesso:"
 
 #: crqwiz.cpp:681
 msgid "Enter the passphrase again for verification:"
-msgstr ""
+msgstr "Immetti nuovamente la frase d'accesso per verifica:"
 
 #: crqwiz.cpp:685
 msgid ""
 "DO NOT lose the passphrase you choose! You will be unable to use the "
 "Certificate without this passphrase!"
 msgstr ""
+"NON perdere la frase d'accesso che hai scelto! Non potrai usare il "
+"certificato senza questa frase d'accesso!"
 
 #: crqwiz.cpp:703
 msgid ""
 "Leave the passphrase blank and click 'Finish' unless you want to use a "
 "passphrase."
 msgstr ""
+"Lascia vuota la frase d'accesso e fai clic su 'Fine' a meno che tu non "
+"voglia usare una frase d'accesso."
 
 #: crqwiz.cpp:749
 msgid "This Callsign Certificate is for:"
@@ -242,7 +255,7 @@ msgstr ""
 #: crqwiz.cpp:871
 #, c-format
 msgid "The callsign is too long. Only %d characters are allowed."
-msgstr ""
+msgstr "Il nominativo è troppo lungo. Sono ammessi solo %d caratteri."
 
 #: crqwiz.cpp:909
 msgid "You must enter a valid call sign."
@@ -460,7 +473,7 @@ msgstr "Devi inserire un indirizzo email valido"
 
 #: crqwiz.cpp:1383
 msgid "The two copies of the passphrase do not match."
-msgstr ""
+msgstr "Le due copie della frase d'accesso non corrispondono."
 
 #: crqwiz.cpp:1424
 msgid "Click 'Finish' to complete this Callsign Certificate request."
@@ -502,7 +515,7 @@ msgstr "Annulla"
 
 #: getpassword.cpp:111
 msgid "New passphrase:"
-msgstr ""
+msgstr "Nuova frase d'accesso:"
 
 #: getpassword.cpp:114
 msgid "Enter again to confirm:"
@@ -510,11 +523,11 @@ msgstr "Immettila di nuovo per confermare:"
 
 #: getpassword.cpp:146
 msgid "Passphrase entries do not match"
-msgstr ""
+msgstr "Le frasi d'accesso non corrispondono"
 
 #: getpassword.cpp:157
 msgid "Passphrase confirmed"
-msgstr ""
+msgstr "Frase d'accesso confermata"
 
 #: loadcertwiz.cpp:41
 msgid "Import completed successfully"
@@ -550,7 +563,7 @@ msgstr "Certificato del nominativo"
 
 #: loadcertwiz.cpp:159
 msgid "Enter a passphrase for this callsign certificate."
-msgstr ""
+msgstr "Immetti una frase d'accesso per questo certificato del nominativo."
 
 #: loadcertwiz.cpp:161
 msgid ""
@@ -558,22 +571,31 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence no passphrase need be specified."
 msgstr ""
+"Se stai usando un computer condiviso con altri, dovresti specificare una "
+"frase d'accesso per proteggere questo certificato. Tuttavia, se stai usando "
+"un computer in una residenza privata non è necessario specificare alcuna "
+"frase d'accesso."
 
 #: loadcertwiz.cpp:163
 msgid ""
 "This passphrase will have to be entered each time you use this callsign "
 "certificate for signing or when saving the key."
 msgstr ""
+"Questa frase d'accesso dovrà essere immessa ogni volta che questo "
+"certificato del nominativo verrà usato per firmare o quando si salva la "
+"chiave."
 
 #: loadcertwiz.cpp:165 tqsl.cpp:6475
 msgid ""
 "Leave the passphrase blank and click 'OK' unless you want to use a "
 "passphrase."
 msgstr ""
+"Lascia vuota la frase d'accesso e fai clic su 'OK' a meno che tu non voglia "
+"usare una frase d'accesso."
 
 #: loadcertwiz.cpp:167
 msgid "New Passphrase"
-msgstr ""
+msgstr "Nuova frase d'accesso"
 
 #: loadcertwiz.cpp:202
 msgid ""
@@ -616,7 +638,7 @@ msgstr "Seleziona il file di certificato"
 
 #: loadcertwiz.cpp:292 loadcertwiz.cpp:367 tqsl.cpp:5744
 msgid "This file is not a valid P12 file"
-msgstr ""
+msgstr "Questo file non è un file P12 valido"
 
 #: loadcertwiz.cpp:308
 msgid "Loading complete"
@@ -628,11 +650,11 @@ msgstr "Nessuna informazione di stato disponibile"
 
 #: loadcertwiz.cpp:330
 msgid "Enter the passphrase to unlock the .p12 file:"
-msgstr ""
+msgstr "Immetti la frase d'accesso per sbloccare il file .p12:"
 
 #: loadcertwiz.cpp:364 tqsl.cpp:2155
 msgid "Passphrase error"
-msgstr ""
+msgstr "Errore nella frase d'accesso"
 
 #: loctree.cpp:86 tqsl.cpp:1387 tqsl.cpp:6690
 msgid "Station Locations"
@@ -784,11 +806,11 @@ msgstr "Ha scritto %d registrazioni di QSO su %s"
 
 #: qsodatadialog.cpp:739
 msgid "The file has not been saved. Should the QSOs be saved?"
-msgstr ""
+msgstr "Il file non è stato salvato. I QSO devono essere salvati?"
 
 #: qsodatadialog.cpp:739
 msgid "Confirm Close"
-msgstr ""
+msgstr "Conferma la chiusura"
 
 #: qsodatadialog.cpp:863
 msgid "One QSO Record"
@@ -970,10 +992,14 @@ msgid ""
 "(This is the passphrase you made up when you installed the callsign "
 "certificate.)"
 msgstr ""
+"Immetti la frase d'accesso per sbloccare il certificato del nominativo per "
+"%hs -- %hs\n"
+"(Questa è la frase d'accesso che hai creato quando hai installato il "
+"certificato del nominativo.)"
 
 #: tqsl.cpp:258 tqsl.cpp:7128 getpassword.h:32 getpassword.h:33
 msgid "Enter passphrase"
-msgstr ""
+msgstr "Immetti la frase d'accesso"
 
 #: tqsl.cpp:289
 msgid "Signing QSO Data"
@@ -2153,7 +2179,7 @@ msgstr "Consenti sempre di avviare come amministratore."
 
 #: tqsl.cpp:5275
 msgid "TQSL must not be run 'As Administrator'"
-msgstr "tQSL deve essere avviato con privilegi di amministratore"
+msgstr "TQSL non deve essere avviato con privilegi di amministratore"
 
 #: tqsl.cpp:5275
 msgid "Administrator Error"
@@ -2208,11 +2234,11 @@ msgstr ""
 
 #: tqsl.cpp:5414
 msgid "Passphrase for the signing key"
-msgstr ""
+msgstr "Frase d'accesso per la chiave di firma"
 
 #: tqsl.cpp:5415
 msgid "Quiet Mode - same behavior as -x"
-msgstr "Modalità tranquilla - stesso comportamento come -x"
+msgstr "Modalità silenziosa - stesso comportamento come -x"
 
 #: tqsl.cpp:5418
 msgid "Edit (if used with -l) or create Station Location"
@@ -2262,10 +2288,12 @@ msgstr "Il parametro -f %hs non è riconosciuto"
 #: tqsl.cpp:5742
 msgid "Password protected P12 files cannot be imported on the command line"
 msgstr ""
+"I file protetti con frase d'accesso non possono essere importati dalla linea "
+"di comando"
 
 #: tqsl.cpp:5757
 msgid "No logfile to sign!"
-msgstr "Nessun file di log di firmare!"
+msgstr "Nessun file log da firmare!"
 
 #: tqsl.cpp:5773
 msgid ""
@@ -2274,11 +2302,10 @@ msgid ""
 "\n"
 "Using the editor on an ADIF file can cause QSO details to be lost!"
 msgstr ""
-"Attenzione:. L'editor ADIF di TQSL elabora solo un numero limitato di campi "
-"ADIF\n"
+"Attenzione: L'editor ADIF di tQSL elabora solo un numero limitato di campi "
+"ADIF.\n"
 "\n"
-"Usando l'editor su un file ADIF può causare la perdita di alcuni dettagli "
-"dei QSO!"
+"Usare l'editor su un file ADIF può causare la perdita dei dettagli dei QSO!"
 
 #: tqsl.cpp:5874
 msgid "Please review the introductory documentation before using this program."
@@ -2364,7 +2391,7 @@ msgstr "Carica"
 
 #: tqsl.cpp:6221
 msgid "tQSL Cert Request files (*."
-msgstr "File di richiesta di tQSLCert (*."
+msgstr "File di richiesta del certificato di tQSL (*."
 
 #: tqsl.cpp:6223
 msgid "|All files ("
@@ -2450,7 +2477,7 @@ msgstr "File contenitore del certificato (*.p12)|*.p12|Tutti i file (*.*)|*.*"
 
 #: tqsl.cpp:6469
 msgid "Enter the passphrase for the certificate container file."
-msgstr ""
+msgstr "Immetti la frase d'accesso per il file contenitore del certificato."
 
 #: tqsl.cpp:6471
 msgid ""
@@ -2458,16 +2485,22 @@ msgid ""
 "specify a passphrase to protect this certificate. However, if you are using "
 "a computer in a private residence, no passphrase need be specified."
 msgstr ""
+"Se stai usando un computer condiviso con altri, dovresti specificare una "
+"frase d'accesso per proteggere questo certificato. Tuttavia, se stai usando "
+"un computer in una residenza privata, non è necessario specificare alcuna "
+"frase d'accesso."
 
 #: tqsl.cpp:6473
 msgid ""
 "You will have to enter the passphrase any time you load the file into "
 "TrustedQSL."
 msgstr ""
+"Dovrai immettere la frase d'accesso ogni volta che caricherai il file in "
+"TrustedQSL."
 
 #: tqsl.cpp:6477
 msgid "Certificate Container Passphrase"
-msgstr ""
+msgstr "Frase d'accesso del contenitore del certificato"
 
 #: tqsl.cpp:6508
 #, c-format
@@ -2594,7 +2627,7 @@ msgstr "Data fine dei QSO: "
 
 #: tqsl.cpp:6839
 msgid "Passphrase: "
-msgstr ""
+msgstr "Frase d'accesso: "
 
 #: tqsl.cpp:6931
 msgid "Missing from this computer"
@@ -2622,7 +2655,7 @@ msgstr "Nessuno"
 
 #: tqsl.cpp:6956
 msgid "Passphrase protected"
-msgstr ""
+msgstr "Protetto mediante frase d'accesso"
 
 #: tqsl.cpp:6962
 msgid "Certificate Request:"
@@ -2682,7 +2715,7 @@ msgstr "Oblast: "
 
 #: tqsl.cpp:7118
 msgid "Enter the Passphrase to unlock the callsign certificate"
-msgstr ""
+msgstr "Immetti la frase d'accesso per sbloccare il certificato del nominativo"
 
 #: tqsl_prefs.cpp:50
 msgid "Preferences"
@@ -2769,7 +2802,7 @@ msgstr "Visualizza i messaggi di stato in una scheda separata"
 
 #: tqsl_prefs.cpp:383
 msgid "Enable passphrases for Callsign Certificates"
-msgstr ""
+msgstr "Abilita le frasi d'accesso per i certificati del nominativo"
 
 #: tqsl_prefs.cpp:425
 msgid ""
@@ -3000,7 +3033,7 @@ msgstr "Certificato non inizializzato per la firma"
 
 #: wxutil.cpp:143
 msgid "Passphrase not correct"
-msgstr ""
+msgstr "Frase d'accesso non corretta"
 
 #: wxutil.cpp:144
 msgid "Expected name"
@@ -3155,13 +3188,14 @@ msgstr "Il %s '%hs' ha un valore '%hs' mentre il QSO ha '%hs'"
 
 #: wxutil.cpp:271
 msgid "This log has invalid QSO information"
-msgstr ""
+msgstr "Questo log contiene informazioni non valide sui QSO"
 
 #. TRANSLATORS: This message is for QSO details. For example, 'The log being signed has 'US County' set to Foobar which is not valid'
 #: wxutil.cpp:273
 #, c-format
 msgid "The log being signed has '%hs' set to value '%hs' which is not valid"
 msgstr ""
+"Il log in fase di firma ha '%hs' impostato al valore '%hs' che non è valido"
 
 #: wxutil.cpp:278
 #, c-format
@@ -3174,11 +3208,11 @@ msgstr ""
 
 #: getpassword.h:51
 msgid "New passphrase"
-msgstr ""
+msgstr "Nuova frase d'accesso"
 
 #: getpassword.h:52
 msgid "Enter new passphrase"
-msgstr ""
+msgstr "Immetti la nuova frase d'accesso"
 
 #: qsodatadialog.h:85
 msgid "QSO Data"
