@@ -21,6 +21,7 @@ adding-tags
 apps/INSTALL
 apps/lang/getpo.sh
 apps/lang/putpo.sh
+apps/lang/getmo.sh
 apps/makepo.sh
 apps/tqsl.po
 apps/tqslapp.pot
