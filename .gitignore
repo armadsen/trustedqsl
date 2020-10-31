@@ -12,6 +12,7 @@ tests.txt
 linter
 cmake-notes
 cmake.sh
+cmake31.sh
 diff.ok
 gen-qsos.py
 lotw-upload.py
@@ -79,6 +80,9 @@ apps/key-new.ico
 tqsl-*.dmg
 tqsl-*.pkg
 makeit.sh
+check-notarization.sh
+staple.sh
+upload-for-notary.sh
 
 #Testing stuff
 tests/CMakeLists.txt
