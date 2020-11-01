@@ -18,10 +18,10 @@ file apps/tqsl.app/Contents/MacOS/tqsl | grep -q x86_64 || IMGNAME="tqsl-legacy"
 
 /bin/echo -n "Copying files to image directory... "
 
-cp apps/ChangeLog.txt $WORKDIR/ChangeLog.txt
-cp LICENSE.txt $WORKDIR/
-cp apps/quick "$WORKDIR/Quick Start.txt"
 mkdir $WORKDIR/TrustedQSL
+cp apps/ChangeLog.txt $WORKDIR/TrustedQSL/ChangeLog.txt
+cp LICENSE.txt $WORKDIR/TrustedQSL/
+cp apps/quick "$WORKDIR/TrustedQSL/Quick Start.txt"
 cp -r apps/tqsl.app $WORKDIR/TrustedQSL
 
 /bin/echo "done"
