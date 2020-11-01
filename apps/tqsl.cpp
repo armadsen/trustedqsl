@@ -5456,31 +5456,29 @@ QSLApp::OnInit() {
 #endif
 	myArgc = 1;
 	for (int i = 1; i < argc; i++) {
-		if ((const wxChar *)argv[i].mb_str().data()) {
-			if ((i + 1) < argc) {
-				wxString av1 = argv[i+1];
+		if ((i + 1) < argc) {
+			wxString av1 = argv[i+1];
 #if wxMAJOR_VERSION == 2
-				av = argv[i];
-				if (av == wxT("-p")  && av1.IsEmpty()) {		// -p with blank password
+			av = argv[i];
+			if (av == wxT("-p")  && av1.IsEmpty()) {		// -p with blank password
 #else
-				if (argv[i] == "-p" && av1.IsEmpty()) {			// -p with blank password
+			if (argv[i] == "-p" && av1.IsEmpty()) {			// -p with blank password
 #endif
-					i++;						// skip -p and password
-					continue;
-				}
+				i++;						// skip -p and password
+				continue;
 			}
-			origCommandLine += wxT(" ");
+		}
+		origCommandLine += wxT(" ");
 #if wxMAJOR_VERSION == 2
-			myArgv[myArgc] = strdup(wxString(argv[i]).ToUTF8());
+		myArgv[myArgc] = strdup(wxString(argv[i]).ToUTF8());
 #else
-			myArgv[myArgc] = strdup(argv[i].ToUTF8());
+		myArgv[myArgc] = strdup(argv[i].ToUTF8());
 #endif
 #ifdef _WIN32
-			if (myArgv[myArgc][0] == '-' || myArgv[myArgc][0] == '/')
-				if (wxIsalpha(myArgv[myArgc][1]) && wxIsupper(myArgv[myArgc][1]))
-					myArgv[myArgc][1] = wxTolower(myArgv[myArgc][1]);
+		if (myArgv[myArgc][0] == '-' || myArgv[myArgc][0] == '/')
+			if (wxIsalpha(myArgv[myArgc][1]) && wxIsupper(myArgv[myArgc][1]))
+				myArgv[myArgc][1] = wxTolower(myArgv[myArgc][1]);
 #endif
-		}
 #if wxMAJOR_VERSION == 2
 		origCommandLine += wxString::FromUTF8(myArgv[myArgc]);
 #else
