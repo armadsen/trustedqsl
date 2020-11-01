@@ -6,15 +6,22 @@ WORKDIR=`mktemp -d /tmp/tqsl.XXXXX` || exit 1
 WINHELPFILE=$WORKDIR/TrustedQSL/$app.app/Contents/Resources/Help/tqslapp.chm
 IMGNAME="tqsl"
 KEYCHAIN="/Library/Keychains/System.keychain"
+KEYCHAIN="$HOME/Library/Keychains/Login.keychain-db"
+SIGNOPTS="--options runtime --timestamp"
+
+if [ "x$1" == "x-legacy" ]; then
+	SIGNOPTS=""			# Legacy can't have the hardened runtime
+	shift
+fi
 
 file apps/tqsl.app/Contents/MacOS/tqsl | grep -q x86_64 || IMGNAME="tqsl-legacy"
 
 /bin/echo -n "Copying files to image directory... "
 
-cp apps/ChangeLog.txt $WORKDIR/ChangeLog.txt
-cp LICENSE.txt $WORKDIR/
-cp apps/quick "$WORKDIR/Quick Start.txt"
 mkdir $WORKDIR/TrustedQSL
+cp apps/ChangeLog.txt $WORKDIR/TrustedQSL/ChangeLog.txt
+cp LICENSE.txt $WORKDIR/TrustedQSL/
+cp apps/quick "$WORKDIR/TrustedQSL/Quick Start.txt"
 cp -r apps/tqsl.app $WORKDIR/TrustedQSL
 
 /bin/echo "done"
@@ -55,15 +62,21 @@ hdiutil create -ov -srcfolder $WORKDIR -volname "TrustedQSL v$TQSLVER" "$IMGNAME
 
 if [ "x$1" != "x" ]; then
 	echo "Codesigning as $1"
-	codesign --deep -v -s "$1" -v --keychain $KEYCHAIN $WORKDIR/TrustedQSL/tqsl.app
+	codesign --deep --options runtime --timestamp --verbose --sign "$1" --keychain $KEYCHAIN $WORKDIR/TrustedQSL/tqsl.app
+#	echo "Codesign display"
+#	codesign --display --verbose $WORKDIR/TrustedQSL/tqsl.app
 fi
 /bin/echo "Creating a package..."
 pkgbuild --analyze --root $WORKDIR/TrustedQSL ${WORKDIR}/tqslapp.plist
+
 if [ "x$2" != "x" ]; then
+	pkgbuild --root ${WORKDIR}//TrustedQSL --component-plist ${WORKDIR}/tqslapp.plist --install-location /Applications/TrustedQSL `pwd`/${IMGNAME}-unsigned-${TQSLVER}.pkg
 	pkgbuild --root ${WORKDIR}//TrustedQSL --component-plist ${WORKDIR}/tqslapp.plist --install-location /Applications/TrustedQSL `pwd`/${IMGNAME}-${TQSLVER}.pkg --keychain $KEYCHAIN --sign "$2"
+#	productsign --sign "$2" `pwd`/${IMGNAME}-unsigned-${TQSLVER}.pkg `pwd`/${IMGNAME}-${TQSLVER}.pkg
 else
 	pkgbuild --root ${WORKDIR}//TrustedQSL --component-plist ${WORKDIR}/tqslapp.plist --install-location /Applications/TrustedQSL `pwd`/${IMGNAME}-${TQSLVER}.pkg
 fi
+
 /bin/echo -n "Cleaning up temporary files.. "
 rm -r $WORKDIR
 /bin/echo "Finished!"
