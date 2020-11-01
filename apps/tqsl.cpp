@@ -745,7 +745,7 @@ class LogList : public wxLog {
 
 #if wxMAJOR_VERSION > 2
 void LogList::DoLogText(const wxString& msg) {
-	const wxChar* szString(msg);
+	const wxChar* szString = msg.wc_str();
 #else
 void LogList::DoLogString(const wxChar *szString, time_t) {
 	static wxString msg(szString);
@@ -789,7 +789,7 @@ class LogStderr : public wxLog {
 
 #if wxMAJOR_VERSION > 2
 void LogStderr::DoLogText(const wxString& msg) {
-	const wxChar* szString(msg);
+	const wxChar* szString = msg.wc_str();
 #else
 void LogStderr::DoLogString(const wxChar *szString, time_t) {
 	static wxString msg(szString);
@@ -5452,11 +5452,11 @@ QSLApp::OnInit() {
 	wxString av = argv[0];
 	myArgv[0] = strdup(av.ToUTF8());
 #else
-	myArgv[0] = strdup(argv[0]);
+	myArgv[0] = strdup(argv[0].ToUTF8());
 #endif
 	myArgc = 1;
 	for (int i = 1; i < argc; i++) {
-		if ((const wxChar *)argv[i]) {
+		if ((const wxChar *)argv[i].mb_str().data()) {
 			if ((i + 1) < argc) {
 				wxString av1 = argv[i+1];
 #if wxMAJOR_VERSION == 2
@@ -5471,9 +5471,9 @@ QSLApp::OnInit() {
 			}
 			origCommandLine += wxT(" ");
 #if wxMAJOR_VERSION == 2
-			myArgv[myArgc] = strdup(wxString(argv[i]).ToUTF8());;
+			myArgv[myArgc] = strdup(wxString(argv[i]).ToUTF8());
 #else
-			myArgv[myArgc] = strdup(argv[i]);
+			myArgv[myArgc] = strdup(argv[i].ToUTF8());
 #endif
 #ifdef _WIN32
 			if (myArgv[myArgc][0] == '-' || myArgv[myArgc][0] == '/')
