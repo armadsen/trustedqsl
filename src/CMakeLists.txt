@@ -8,6 +8,10 @@ if(WIN32)
   add_definitions(-DXML_STATIC)
 endif()
 
+if(APPLE)
+  set(CMAKE_MACOSX_RPATH 1)
+endif()
+
 find_package(EXPAT REQUIRED)
 find_package(ZLIB REQUIRED)
 
