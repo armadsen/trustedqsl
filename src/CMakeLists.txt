@@ -9,7 +9,7 @@ if(WIN32)
 endif()
 
 if(APPLE)
-  set(CMAKE_MACOSX_RPATH 1)
+  set(CMAKE_MACOSX_RPATH 0)
 endif()
 
 find_package(EXPAT REQUIRED)
