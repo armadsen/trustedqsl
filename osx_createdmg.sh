@@ -63,16 +63,14 @@ hdiutil create -ov -srcfolder $WORKDIR -volname "TrustedQSL v$TQSLVER" "$IMGNAME
 if [ "x$1" != "x" ]; then
 	echo "Codesigning as $1"
 	codesign --deep --options runtime --timestamp --verbose --sign "$1" --keychain $KEYCHAIN $WORKDIR/TrustedQSL/tqsl.app
-#	echo "Codesign display"
-#	codesign --display --verbose $WORKDIR/TrustedQSL/tqsl.app
+# Check that it signed OK
+	codesign --verify $WORKDIR/TrustedQSL/tqsl.app || exit 1
 fi
 /bin/echo "Creating a package..."
 pkgbuild --analyze --root $WORKDIR/TrustedQSL ${WORKDIR}/tqslapp.plist
 
 if [ "x$2" != "x" ]; then
-	pkgbuild --root ${WORKDIR}//TrustedQSL --component-plist ${WORKDIR}/tqslapp.plist --install-location /Applications/TrustedQSL `pwd`/${IMGNAME}-unsigned-${TQSLVER}.pkg
 	pkgbuild --root ${WORKDIR}//TrustedQSL --component-plist ${WORKDIR}/tqslapp.plist --install-location /Applications/TrustedQSL `pwd`/${IMGNAME}-${TQSLVER}.pkg --keychain $KEYCHAIN --sign "$2"
-#	productsign --sign "$2" `pwd`/${IMGNAME}-unsigned-${TQSLVER}.pkg `pwd`/${IMGNAME}-${TQSLVER}.pkg
 else
 	pkgbuild --root ${WORKDIR}//TrustedQSL --component-plist ${WORKDIR}/tqslapp.plist --install-location /Applications/TrustedQSL `pwd`/${IMGNAME}-${TQSLVER}.pkg
 fi
