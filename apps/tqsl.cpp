@@ -1497,7 +1497,7 @@ MyFrame::MyFrame(const wxString& title, int x, int y, int w, int h, bool checkUp
 	notebook->AddPage(certtab, _("Callsign Certificates"));
 
 	// Status Log tab (if enabled)
-	 if (logTab) {
+	if (logTab) {
 		wxPanel* logtab = new wxPanel(notebook, -1);
 		wxBoxSizer* ltsizer = new wxBoxSizer(wxHORIZONTAL);
 		logtab->SetSizer(ltsizer);
@@ -3342,7 +3342,7 @@ void MyFrame::UpdateConfigFile() {
 	}
 }
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__APPLE__)
 void MyFrame::UpdateTQSL(wxString& url) {
 	tqslTrace("MyFrame::UpdateTQSL", "url=%s", S(url));
  retry:
@@ -3355,10 +3355,15 @@ void MyFrame::UpdateTQSL(wxString& url) {
 	}
 
 	wxString filename = wxString::FromUTF8(tQSL_BaseDir);
+#ifdef _WIN32
 	filename = filename + wxT("\\tqslupdate.msi");
 	wchar_t* lfn = utf8_to_wchar(filename.ToUTF8());
 	FILE *updateFile = _wfopen(lfn, L"wb");
 	free_wchar(lfn);
+#else
+	filename = filename + wxT("/tqslupdate.pkg");
+	FILE *updateFile = fopen(filename.ToUTF8(), "wb");
+#endif
 	if (!updateFile) {
 		tqslTrace("UpdateTQSL", "Can't open new file %s: %s", static_cast<const char *>(filename.ToUTF8()), strerror(errno));
 		wxMessageBox(wxString::Format(_("Can't open TQSL update file %s: %hs"), filename.c_str(), strerror(errno)), _("Error"), wxOK | wxICON_ERROR, this);
@@ -3379,8 +3384,13 @@ void MyFrame::UpdateTQSL(wxString& url) {
 			wxMessageBox(wxString::Format(_("Error writing new configuration file %s: %hs"), filename.c_str(), strerror(errno)), _("Error"), wxOK | wxICON_ERROR, this);
 			return;
 		}
+#ifdef _WIN32
 		tqslTrace("MyFrame::UpdateTQSL", "Executing msiexec \"%s\"", filename.ToUTF8());
 		wxExecute(wxString::Format(wxT("msiexec /i \"%s\""), filename), wxEXEC_ASYNC);
+#else
+		tqslTrace("MyFrame::UpdateTQSL", "Executing installer");
+		wxExecute(wxString::Format(wxT("open \"%s\""), filename), wxEXEC_ASYNC);
+#endif
 		tqslTrace("MyFrame::UpdateTQSL", "GUI Destroy");
 		wxExit();
 		exit(0);
@@ -3414,7 +3424,7 @@ void MyFrame::UpdateTQSL(wxString& url) {
 		curlReq = NULL;
 	}
 }
-#endif /* _WIN32 */
+#endif /* _WIN32  || __APPLE__ */
 
 // Check if a certificate is still valid and current at LoTW
 bool MyFrame::CheckCertStatus(long serial, wxString& result) {
@@ -3705,7 +3715,7 @@ MyFrame::OnUpdateCheckDone(wxCommandEvent& event) {
 			UpdateDialogMsgBox msg(this, true, false, ri->programRev, ri->newProgramRev,
 					ri->configRev, ri->newConfigRev, ri->url, ri->homepage);
 
-#ifdef _WIN32
+#if defined(_WIN32) || defined(__APPLE__)
 			if (msg.ShowModal() == wxID_OK) {
 				UpdateTQSL(ri->url);
 			}
@@ -4324,6 +4334,7 @@ MyFrame::ProcessQSODataFile(bool upload, bool compressed) {
 		check_tqsl_error(tqsl_getNumStationLocations(loc, &n));
 		if (n != 1) {
 			check_tqsl_error(tqsl_endStationLocationCapture(&loc));
+			frame->Show(true);
 			loc = SelectStationLocation(_("Select Station Location for Signing"));
 		} else {
 			// There's only one station location. Use that and don't prompt.
@@ -5804,6 +5815,7 @@ QSLApp::OnInit() {
 			check_tqsl_error(tqsl_getNumStationLocations(loc, &n));
 			if (n != 1) {
 				check_tqsl_error(tqsl_endStationLocationCapture(&loc));
+				frame->Show(true);
 				loc = frame->SelectStationLocation(_("Select Station Location for Signing"));
 			} else {
 				// There's only one station location. Use that and don't prompt.
