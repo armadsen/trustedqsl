@@ -3389,7 +3389,7 @@ void MyFrame::UpdateTQSL(wxString& url) {
 		wxExecute(wxString::Format(wxT("msiexec /i \"%s\""), filename), wxEXEC_ASYNC);
 #else
 		tqslTrace("MyFrame::UpdateTQSL", "Executing installer");
-		wxExecute(wxString::Format(wxT("open \"%s\""), filename), wxEXEC_ASYNC);
+		wxExecute(wxString::Format(wxT("open \"%s\""), filename.c_str()), wxEXEC_ASYNC);
 #endif
 		tqslTrace("MyFrame::UpdateTQSL", "GUI Destroy");
 		wxExit();
