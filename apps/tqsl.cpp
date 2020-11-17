@@ -367,7 +367,9 @@ int UploadDialog::doUpdateProgress(double dltotal, double dlnow, double ultotal,
 		lastDlnow = dlnow;
 	}
 #endif
+#ifdef __APPLE__
 	wxSafeYield();
+#endif
 	if (cancelled) return 1;
 	// Avoid ultotal at zero.
 	if (ultotal > 0.0000001) progress->SetValue(static_cast<int>((100*(ulnow/ultotal))));
