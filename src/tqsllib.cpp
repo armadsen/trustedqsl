@@ -960,9 +960,9 @@ tqsl_initTime(tQSL_Time *time, const char *str) {
 DLLEXPORT int CALLCONVENTION
 tqsl_getVersion(int *major, int *minor) {
 	if (major)
-		*major = TQSLLIB_VERSION_MAJOR;
+		*major = TQSL_VERSION_MAJOR;
 	if (minor)
-		*minor = TQSLLIB_VERSION_MINOR;
+		*minor = TQSL_VERSION_MINOR;
 	return 0;
 }
 #ifdef _WIN32
